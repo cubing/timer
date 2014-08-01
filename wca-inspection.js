@@ -14,7 +14,8 @@ var states = {
 }
 
 function set() {
-  $("#main").html("-");
+  $("#sec").html("0");
+  $("#milli").html("000");
 }
 
 var startTime;
@@ -35,8 +36,10 @@ function stopTimer() {
 
 function animFrame() {
   if (counting) {
-    var time = Math.floor((Date.now() - startTime) / 1000);
-    $("#main").html(time);
+    var now = Date.now();
+    var time = Math.floor((now - startTime) / 1000);
+    $("#sec").html(time);
+    $("#milli").html(("000" + ((now - startTime) % 1000)).substr(-3));
 
     if (lastTime < 7 && time === 7) {
       $("#main").animate({"background-color": "#ff0"}, 1000);

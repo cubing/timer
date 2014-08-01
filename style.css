@@ -24,16 +24,8 @@
   user-select: none;
 }
 
-/* Awesome hack to make numbers in the teens look centered. */
-/* Using the regular (non-monospace) font for everything doesn't work for 11. */
-#main::first-letter {
-  font-family: digital-7;
-}
-
 #main {
   text-align: center;
-  font-size: 10em;
-  font-size: 70vh;
 
   display: -webkit-box;
   -webkit-box-align: center;
@@ -52,4 +44,24 @@
   box-pack: center;
 
   background-color: white;
+}
+
+#main #sec {
+  height: 50%;
+  margin-top: 5%;
+  font-size: 10em;
+  font-size: 70vh;
+}
+
+#main #milli {
+  font-size: 10em;
+  font-size: 20vh;
+  height: 25%;
+  opacity: 0.15;
+}
+
+/* Awesome hack to make numbers in the teens look centered. */
+/* Using the regular (non-monospace) font for everything doesn't work for 11. */
+#main::first-letter {
+  font-family: digital-7;
 }
