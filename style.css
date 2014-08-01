@@ -1,0 +1,55 @@
+
+@font-face {
+  font-family: digital-7-mono;
+  src: url("lib/digital-7-mono.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: digital-7;
+  src: url("lib/digital-7.ttf") format("truetype");
+}
+
+* {
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  font-family: digital-7-mono, Helvetica, Tahoma, sans-serif;
+
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Awesome hack to make numbers in the teens look centered. */
+/* Using the regular (non-monospace) font for everything doesn't work for 11. */
+#main::first-letter {
+  font-family: digital-7;
+}
+
+#main {
+  text-align: center;
+  font-size: 10em;
+  font-size: 70vh;
+
+  display: -webkit-box;
+  -webkit-box-align: center;
+  -webkit-box-pack: center;
+
+  display: -moz-box;
+  -moz-box-align: center;
+  -moz-box-pack: center;
+
+  display: -ms-flexbox;
+  -ms-flex-align: center;
+  -ms-flex-pack: center;
+
+  display: box;
+  box-align: center;
+  box-pack: center;
+
+  background-color: white;
+}
