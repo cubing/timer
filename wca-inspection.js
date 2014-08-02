@@ -10,7 +10,7 @@ var states = {
   "ready": {"function": null,       "background": [null, null, null, null, null],                  "down": "set",   "up": "ready"},
   "set":   {"function": set,        "background": ["#987", "#987", "#987", "#987", "#987"],        "down": "set",   "up": "go"   },
   "go":    {"function": startTimer, "background": ["green", "green", "green", "green", "green"],   "down": "stop",  "up": "stop" },
-  "stop":  {"function": stopTimer,  "background": ["0f0", "#ff0", "#f80", "#f00", "#800"],         "down": "stop",  "up": "ready" }
+  "stop":  {"function": stopTimer,  "background": ["green", "#ff0", "#f80", "#f00", "#800"],         "down": "stop",  "up": "ready" }
 }
 console.log(states["stop"].background[2]);
 
