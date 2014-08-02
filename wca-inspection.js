@@ -14,7 +14,7 @@ var states = {
 }
 
 function set() {
-  $("#sec").html("0");
+  $("#sec").html("-");
   $("#milli").html("000");
 }
 
@@ -62,7 +62,7 @@ function animFrame() {
   }
 }
 
-function trigger(dir, event) {
+function trigger(dir) {
   console.log(dir);
   try {
     state = states[state][dir];
@@ -86,10 +86,13 @@ function keyboardHandler(dir, ev) {
   }
 }
 
+function touchHandler(dir) {
+  trigger(dir);
+}
+
 $(document.body).ready(function() {
-  FastClick.attach(document.body);
   $(document.body).on("keypress",   keyboardHandler.bind(this, "down"));
   $(document.body).on("keyup",      keyboardHandler.bind(this, "up"));
-  $(document.body).on("touchstart", trigger.bind(this, "down"));
-  $(document.body).on("touchend",   trigger.bind(this, "up"));
+  $(document.body).on("touchstart", touchHandler.bind(this, "down"));
+  $(document.body).on("touchend",   touchHandler.bind(this, "up"));
 })
