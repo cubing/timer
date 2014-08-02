@@ -106,6 +106,7 @@ function touchHandler(dir) {
 }
 
 $(document.body).ready(function() {
+  FastClick.attach(document.body);
   $(document.body).on("keypress",   keyboardHandler.bind(this, "down"));
   $(document.body).on("keyup",      keyboardHandler.bind(this, "up"));
   $(document.body).on("touchstart", touchHandler.bind(this, "down"));
