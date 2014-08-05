@@ -24,6 +24,10 @@
   user-select: none;
 }
 
+html {
+  background: black;
+}
+
 #main {
   text-align: center;
 
