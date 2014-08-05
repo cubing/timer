@@ -33,7 +33,7 @@ function startTimer() {
 }
 
 function stopTimer() {
-  $("#main").stop().fadeOut(0).fadeIn(500);
+  $("#main").stop().fadeOut(0).fadeIn(250);
   counting = false;
 }
 
@@ -49,6 +49,7 @@ function animFrame() {
     }
     if (lastTime < 8 && time === 8) {
       penalty = 1;
+      $("#main").fadeOut(0).fadeIn(250);
     }
 
     if (lastTime < 11 && time === 11) {
@@ -56,6 +57,7 @@ function animFrame() {
     }
     if (lastTime < 12 && time === 12) {
       penalty = 2;
+      $("#main").fadeOut(0).fadeIn(250);
     }
 
     if (lastTime < 14 && time === 14) {
@@ -63,6 +65,7 @@ function animFrame() {
     }
     if (lastTime < 15 && time === 15) {
       penalty = 3;
+      $("#main").fadeOut(0).fadeIn(250);
     }
 
     if (lastTime < 16 && time === 16) {
@@ -70,6 +73,7 @@ function animFrame() {
     }
     if (lastTime < 17 && time === 17) {
       penalty = 4;
+      $("#main").fadeOut(0).fadeIn(250);
     }
 
     lastTime = time;
