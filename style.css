@@ -58,6 +58,7 @@ html {
 }
 
 #main #milli {
+  display: inline-block;
   font-size: 10em;
   font-size: 20vh;
   height: 25%;
