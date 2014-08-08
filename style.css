@@ -58,7 +58,6 @@ html {
 }
 
 #main #milli {
-  display: inline-block;
   font-size: 10em;
   font-size: 20vh;
   height: 25%;
@@ -69,4 +68,8 @@ html {
 /* Using the regular (non-monospace) font for everything doesn't work for 11. */
 #main::first-letter {
   font-family: digital-7;
+}
+
+img.splash {
+  height: 80%;
 }

@@ -1,7 +1,7 @@
 
 document.ontouchmove = function (event) {
     event.preventDefault();
-}
+};
 
 var state = "set";
 
@@ -42,6 +42,9 @@ function animFrame() {
     var now = Date.now();
     var time = Math.floor((now - startTime) / 1000);
     $("#sec").html(time);
+    // We don't want #milli to take up any space until we're ready to show it,
+    // which is right after we hid the splash image (on the previous line).
+    $("#milli").css("display", "inline-block");
     $("#milli").html(("000" + ((now - startTime) % 1000)).substr(-3));
 
     if (lastTime < 7 && time === 7) {
