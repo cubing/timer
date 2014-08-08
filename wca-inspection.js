@@ -100,7 +100,7 @@ function trigger(dir) {
 
 function keyboardHandler(dir, ev) {
   // Only trigger on spacebar.
-  if (ev.keyCode === 32) {
+  if (ev.which === 32) {
     trigger(dir);
   }
 }
