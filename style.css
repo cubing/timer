@@ -15,6 +15,7 @@
   padding: 0;
   margin: 0;
   font-family: digital-7-mono, Helvetica, Tahoma, sans-serif;
+  color: black;
 
   -webkit-touch-callout: none;
   -webkit-user-select: none;
@@ -68,4 +69,8 @@ html {
 /* Using the regular (non-monospace) font for everything doesn't work for 11. */
 #main::first-letter {
   font-family: digital-7;
+}
+
+img.splash {
+  height: 80%;
 }
