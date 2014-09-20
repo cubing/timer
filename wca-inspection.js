@@ -1,4 +1,20 @@
 
+// These two listeners will reload the page if the manifest has changed.
+// This code should be used on any page that should refresh itself immediately if it is stale.
+if (typeof window.applicationCache !== "undefined") {
+  window.applicationCache.addEventListener('updateready', function() {
+    window.applicationCache.swapCache();
+    setTimeout(function() {location.reload(true)}, 1000);
+  }, false);
+
+  window.applicationCache.addEventListener('downloading', function() {
+    document.body.innerHTML="<center><br><br><h1>Fetching latest version...<br><br>Page will reload in a moment.</h1><br></center>";
+    document.body.style.setProperty("background", "#987");
+  }, false);
+}
+
+
+
 document.ontouchmove = function (event) {
     event.preventDefault();
 };
@@ -12,7 +28,6 @@ var states = {
   "go":    {"function": startTimer, "background": ["green", "green", "green", "green", "green"],   "down": "stop",  "up": "stop" },
   "stop":  {"function": stopTimer,  "background": ["green", "#ff0", "#f80", "#f00", "#800"],         "down": "stop",  "up": "ready" }
 }
-console.log(states["stop"].background[2]);
 
 function set() {
   $("#sec").html("0");
@@ -82,14 +97,14 @@ function animFrame() {
 }
 
 function trigger(dir) {
-  console.log(dir);
+  // console.log(dir);
   try {
     state = states[state][dir];
   }
   catch (e) {
     state = "ready";
   }
-  console.log("state", state);
+  // console.log("state", state);
   if (states[state].background) {
     $("#main").css("background", states[state].background[penalty]);
   }
