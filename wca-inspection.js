@@ -29,13 +29,21 @@ var states = {
   "stop":  {"function": stopTimer,  "background": ["green", "#ff0", "#f80", "#f00", "#800"],         "down": "stop",  "up": "ready" }
 }
 
+var fading = {
+   8: {color: "#ff0", penalty: 1},
+  12: {color: "#f80", penalty: 2},
+  15: {color: "#f00", penalty: 3},
+  17: {color: "#800", penalty: 4}
+}
+
 function set() {
   $("#sec").html("0");
   $("#milli").html("000");
 }
 
 var startTime;
-var lastTime;
+var currentSecond;
+var lastSecond;
 var counting = false;
 var penalty = 0;
 
@@ -43,7 +51,7 @@ var penalty = 0;
 function startTimer() {
   counting = true;
   penalty = 0;
-  lastTime = startTime = Date.now();
+  lastSecond = startTime = Date.now();
   animFrame();
 }
 
@@ -52,46 +60,29 @@ function stopTimer() {
   counting = false;
 }
 
+function justPassed(threshold) {
+  return lastSecond < threshold && currentSecond === threshold;
+}
+
 function animFrame() {
   if (counting) {
     var now = Date.now();
-    var time = Math.floor((now - startTime) / 1000);
-    $("#sec").html(time);
+    currentSecond = Math.floor((now - startTime) / 1000);
+    $("#sec").html(currentSecond);
     $("#milli").html(("000" + ((now - startTime) % 1000)).substr(-3));
 
-    if (lastTime < 7 && time === 7) {
-      $("#main").animate({"background-color": "#ff0"}, 1000);
-    }
-    if (lastTime < 8 && time === 8) {
-      penalty = 1;
-      $("#main").fadeOut(0).fadeIn(250);
-    }
-
-    if (lastTime < 11 && time === 11) {
-      $("#main").animate({"background-color": "#f80"}, 1000);
-    }
-    if (lastTime < 12 && time === 12) {
-      penalty = 2;
-      $("#main").fadeOut(0).fadeIn(250);
+    for (time in fading) {
+      if (justPassed(time-1)) {
+        var color = fading[time].color;
+        $("#main").animate({"background-color": color}, 1000);
+      }
+      if (justPassed(time)) {
+        penalty = fading[time].penalty;
+        $("#main").fadeOut(0).fadeIn(250);
+      }
     }
 
-    if (lastTime < 14 && time === 14) {
-      $("#main").animate({"background-color": "#f00"}, 1000);
-    }
-    if (lastTime < 15 && time === 15) {
-      penalty = 3;
-      $("#main").fadeOut(0).fadeIn(250);
-    }
-
-    if (lastTime < 16 && time === 16) {
-      $("#main").animate({"background-color": "#800"}, 1000);
-    }
-    if (lastTime < 17 && time === 17) {
-      penalty = 4;
-      $("#main").fadeOut(0).fadeIn(250);
-    }
-
-    lastTime = time;
+    lastSecond = currentSecond;
     requestAnimationFrame(animFrame);
   }
 }
