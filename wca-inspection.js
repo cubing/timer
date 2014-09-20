@@ -15,7 +15,7 @@ var states = {
 console.log(states["stop"].background[2]);
 
 function set() {
-  $("#sec").html("-");
+  $("#sec").html("0");
   $("#milli").html("000");
 }
 
@@ -42,9 +42,6 @@ function animFrame() {
     var now = Date.now();
     var time = Math.floor((now - startTime) / 1000);
     $("#sec").html(time);
-    // We don't want #milli to take up any space until we're ready to show it,
-    // which is right after we hid the splash image (on the previous line).
-    $("#milli").css("display", "inline-block");
     $("#milli").html(("000" + ((now - startTime) % 1000)).substr(-3));
 
     if (lastTime < 7 && time === 7) {
@@ -113,6 +110,11 @@ function touchHandler(dir) {
 }
 
 $(document.body).ready(function() {
+
+  // If we do this now, we can avoid flickering later.
+  $("#sec").html("-");
+  $("#milli").html("---");
+
   FastClick.attach(document.body);
   $(document.body).on("keypress",   keyboardHandler.bind(this, "down"));
   $(document.body).on("keyup",      keyboardHandler.bind(this, "up"));
