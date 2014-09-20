@@ -19,65 +19,66 @@ document.ontouchmove = function (event) {
     event.preventDefault();
 };
 
-var state = "set";
+var state = "ready";
+var running = false;
+var startTime;
+var lastSecond;
+var stopColor;
 
 var states = {
-  "none":  {"function": null,       "background": ["white", "white", "white", "white", "white"],   "down": "ready", "up": "ready"},
-  "ready": {"function": null,       "background": [null, null, null, null, null],                  "down": "set",   "up": "ready"},
-  "set":   {"function": set,        "background": ["#987", "#987", "#987", "#987", "#987"],        "down": "set",   "up": "go"   },
-  "go":    {"function": startTimer, "background": ["green", "green", "green", "green", "green"],   "down": "stop",  "up": "stop" },
-  "stop":  {"function": stopTimer,  "background": ["green", "#ff0", "#f80", "#f00", "#800"],         "down": "stop",  "up": "ready" }
+  "ready": {"function": null,       "down": "set",   "up": "set"  },
+  "set":   {"function": set,        "down": "set",   "up": "go"   },
+  "go":    {"function": startTimer, "down": "stop",  "up": "stop" },
+  "stop":  {"function": stopTimer,  "down": "ready", "up": "ready"}
 }
 
-var fading = {
-   8: {color: "#ff0", penalty: 1},
-  12: {color: "#f80", penalty: 2},
-  15: {color: "#f00", penalty: 3},
-  17: {color: "#800", penalty: 4}
-}
+var fading = [
+  {time: 8, color: "#ff0"},
+  {time: 12, color: "#f80"},
+  {time: 15, color: "#f00"},
+  {time: 17, color: "#800"}
+]
 
 function set() {
   $("#sec").html("0");
   $("#milli").html("000");
+  $("#main").css("background-color", "#987");
 }
 
-var startTime;
-var currentSecond;
-var lastSecond;
-var counting = false;
-var penalty = 0;
-
-
 function startTimer() {
-  counting = true;
-  penalty = 0;
+  running = true;
   lastSecond = startTime = Date.now();
   animFrame();
+  stopColor = "green";
+  $("#main").css("background-color", "green");
 }
 
 function stopTimer() {
-  $("#main").stop().fadeOut(0).fadeIn(250);
-  counting = false;
-}
-
-function justPassed(threshold) {
-  return lastSecond < threshold && currentSecond === threshold;
+  $("#main").stop().fadeOut(0).css("background-color", stopColor).fadeIn(250);
+  running = false;
 }
 
 function animFrame() {
-  if (counting) {
+  if (running) {
     var now = Date.now();
-    currentSecond = Math.floor((now - startTime) / 1000);
+    var currentSecond = Math.floor((now - startTime) / 1000);
     $("#sec").html(currentSecond);
     $("#milli").html(("000" + ((now - startTime) % 1000)).substr(-3));
 
-    for (time in fading) {
-      if (justPassed(time-1)) {
-        var color = fading[time].color;
+    for (i in fading) {
+
+      var time = fading[i].time;
+      var color = fading[i].color;
+
+      function justPassed(threshold) {
+        return lastSecond < threshold && currentSecond === threshold;
+      }
+
+      if (justPassed(time - 1)) {
         $("#main").animate({"background-color": color}, 1000);
       }
       if (justPassed(time)) {
-        penalty = fading[time].penalty;
+        stopColor = color;
         $("#main").fadeOut(0).fadeIn(250);
       }
     }
@@ -87,32 +88,21 @@ function animFrame() {
   }
 }
 
-function trigger(dir) {
-  // console.log(dir);
-  try {
-    state = states[state][dir];
-  }
-  catch (e) {
-    state = "ready";
-  }
+function touchHandler(direction) {
+
+  state = states[state][direction];
+
   // console.log("state", state);
-  if (states[state].background) {
-    $("#main").css("background", states[state].background[penalty]);
-  }
   if (states[state]["function"]) {
     (states[state]["function"])();
   }
 }
 
-function keyboardHandler(dir, ev) {
+function keyboardHandler(direction, ev) {
   // Only trigger on spacebar.
   if (ev.which === 32) {
-    trigger(dir);
+    touchHandler(direction);
   }
-}
-
-function touchHandler(dir) {
-  trigger(dir);
 }
 
 $(document.body).ready(function() {
