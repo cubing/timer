@@ -39,8 +39,14 @@ var fading = [
   {time: 17, color: "#800"}
 ]
 
+function setSec(value) {
+  var strValue = "" + value;
+  $("#sec-first").html(strValue.charAt(0));
+  $("#sec-rest").html(strValue.substr(1));
+}
+
 function set() {
-  $("#sec").html("0");
+  setSec(0);
   $("#milli").html("000");
   $("#main").css("background-color", "#987");
 }
@@ -62,7 +68,7 @@ function animFrame() {
   if (running) {
     var now = Date.now();
     var currentSecond = Math.floor((now - startTime) / 1000);
-    $("#sec").html(currentSecond);
+    setSec(currentSecond);
     $("#milli").html(("000" + ((now - startTime) % 1000)).substr(-3));
 
     for (i in fading) {
@@ -108,7 +114,7 @@ function keyboardHandler(direction, ev) {
 $(document.body).ready(function() {
 
   // If we do this now, we can avoid flickering later.
-  $("#sec").html("-");
+  setSec("-");
   $("#milli").html("---");
 
   FastClick.attach(document.body);

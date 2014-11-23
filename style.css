@@ -64,8 +64,7 @@ html {
   display: inline-block;
 }
 
-/* Awesome hack to make numbers in the teens look centered. */
 /* Using the regular (non-monospace) font for everything doesn't work for 11. */
-#main::first-letter {
+#sec-first {
   font-family: digital-7;
 }
