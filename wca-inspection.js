@@ -29,7 +29,7 @@ var states = {
   "ready": {"function": null,       "down": "set",   "up": "set"  },
   "set":   {"function": set,        "down": "set",   "up": "go"   },
   "go":    {"function": startTimer, "down": "stop",  "up": "stop" },
-  "stop":  {"function": stopTimer,  "down": "ready", "up": "ready"}
+  "stop":  {"function": stopTimer,  "down": "stop",  "up": "stop"}
 }
 
 var fading = [
@@ -48,20 +48,22 @@ function setSec(value) {
 function set() {
   setSec(0);
   $("#milli").html("000");
-  $("#main").css("background-color", "#987");
+  // document.title = "0";
+  document.getElementById("main").classList.add("set");
 }
 
 function startTimer() {
   running = true;
   lastSecond = startTime = Date.now();
+  // document.title = "0";
   animFrame();
   stopColor = "green";
-  $("#main").css("background-color", "green");
+  document.getElementById("main").classList.remove("set");
 }
 
 function stopTimer() {
-  $("#main").stop().fadeOut(0).css("background-color", stopColor).fadeIn(250);
-  running = false;
+  // $("#main").stop().fadeOut(0).css("background-color", stopColor).fadeIn(250);
+  // running = false;
 }
 
 function animFrame() {
@@ -71,22 +73,8 @@ function animFrame() {
     setSec(currentSecond);
     $("#milli").html(("000" + ((now - startTime) % 1000)).substr(-3));
 
-    for (i in fading) {
-
-      var time = fading[i].time;
-      var color = fading[i].color;
-
-      function justPassed(threshold) {
-        return lastSecond < threshold && currentSecond === threshold;
-      }
-
-      if (justPassed(time - 1)) {
-        $("#main").animate({"background-color": color}, 1000);
-      }
-      if (justPassed(time)) {
-        stopColor = color;
-        $("#main").fadeOut(0).fadeIn(250);
-      }
+    if (lastSecond < currentSecond) {
+      // document.title = "" + currentSecond;
     }
 
     lastSecond = currentSecond;

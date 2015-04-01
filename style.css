@@ -15,7 +15,6 @@
   padding: 0;
   margin: 0;
   font-family: digital-7-mono, Helvetica, Tahoma, sans-serif;
-  color: black;
 
   -webkit-touch-callout: none;
   -webkit-user-select: none;
@@ -48,7 +47,11 @@ html {
   box-align: center;
   box-pack: center;
 
-  background-color: #987;
+  background-color: white;
+}
+
+#main.set {
+  background-color: green;
 }
 
 #main #sec {

@@ -6,11 +6,8 @@ all: deploy open
 
 MANIFEST_FILE  = "cache.manifest"
 
-SFTP_PATH      = "cubing.net:~/cubing.net/inspection/"
-URL            = "http://cubing.net/inspection"
-
-SFTP_TEST_PATH = "cubing.net:~/cubing.net/inspection-test/"
-TEST_URL       = "http://cubing.net/inspection-test/"
+SFTP_PATH      = "garron.net:~/garron.net/timer/"
+URL            = "http://garron.net/timer"
 
 
 .PHONY: deploy
