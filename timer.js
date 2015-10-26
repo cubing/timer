@@ -344,21 +344,36 @@ TimerApp.TimerView.prototype = {
    * @param {!TimerApp.Timer.Milliseconds} time
    */
   displayTime: function(time) {
-    this._secElement.textContent = Math.floor(time / 1000);
-    this._milliElement.textContent = this._padIntegerToString(time % 1000, 3);
-  },
+    // Each entry is [minimum number of digits if not first, separator before, value]
+    var hours   = Math.floor(time / (60 * 60 * 1000));
+    var minutes = Math.floor(time / (     60 * 1000)) % 60;
+    var seconds = Math.floor(time / (          1000)) % 60;
 
-  /**
-   * @param {integer} number
-   * @param {integer} numDigitsAfterPadding
-   */
-  _padIntegerToString: function(number, numDigitsAfterPadding) {
-    var output = "" + number;
-    while (output.length < numDigitsAfterPadding) {
-      output = "0" + output;
+    /**
+     * @param {integer} number
+     * @param {integer} numDigitsAfterPadding
+     */
+    function pad(number, numDigitsAfterPadding) {
+      var output = "" + number;
+      while (output.length < numDigitsAfterPadding) {
+        output = "0" + output;
+      }
+      return output;
     }
-    return output;
-  }
+
+    var secString;
+    if (hours > 0) {
+      secString = hours + ":" + pad(minutes, 2) + ":" + pad(seconds, 2);
+    } else if (minutes > 0) {
+      secString =                   minutes     + ":" + pad(seconds, 2);
+    } else {
+      secString =                                           seconds    ;
+    }
+    this._secElement.textContent = secString;
+
+    var milliseconds = time % 1000;
+    this._milliElement.textContent = pad(milliseconds, 3);
+  },
 }
 
 
