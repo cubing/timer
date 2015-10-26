@@ -1,11 +1,12 @@
-# WCA Inspection Tool
+# timer.cubing.net
 
-![3 seconds](./readme-img/inspection-3.png)
-![7 seconds](./readme-img/inspection-7.png)
-![9 seconds](./readme-img/inspection-9.png)
-![11 seconds](./readme-img/inspection-11.png)
+Minmalist, cross-platform responsive HTML5. Did I mention minimalist?
 
-![13 seconds](./readme-img/inspection-13.png)
-![14 seconds](./readme-img/inspection-14.png)
-![16 seconds](./readme-img/inspection-16.png)
-![18 seconds](./readme-img/inspection-18.png)
+Still missing some features and layout for v1.
+
+![timer.cubing.net screenshot](./social-media-image.png)
+
+## Minimalist?
+
+Yes, minimalist.
+Sorry, [Ben Pang](http://molarmanful.github.io/minimalistimer/). :-P
