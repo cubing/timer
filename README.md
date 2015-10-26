@@ -10,3 +10,7 @@ Still missing some features and layout for v1.
 
 Yes, minimalist.
 Sorry, [Ben Pang](http://molarmanful.github.io/minimalistimer/). :-P
+
+## License
+
+MIT
