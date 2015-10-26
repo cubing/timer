@@ -116,6 +116,7 @@ TimerApp.prototype = {
       }
     }
 
+    this._scrambleView.clearScramble();
     Cubing.prototype.getNewScramble(this._currentEvent, this._awaitedScrambleId, scrambleCallback.bind(this, this._awaitedScrambleId));
   },
 
@@ -183,6 +184,11 @@ TimerApp.ScrambleView.prototype = {
   setScramble: function(scramble) {
     this._scrambleText.href = Cubing.prototype.urlForScramble(scramble);
     this._scrambleText.textContent = scramble.scrambleString;
+  },
+
+  clearScramble: function() {
+    this._scrambleText.href = "";
+    this._scrambleText.textContent = "(generating scramble...)"; //UIString
   },
 
   setRandomBackgroundColor: function() {
