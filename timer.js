@@ -8,11 +8,11 @@ Cubing.prototype = {
    * @param {!Cubing.EventName} eventName
    * @param {function(!Cubing.Scramble)} callback
    */
-  getNewScramble: function(eventName, callback) {
-    console.log("scramble", eventName);
+  getNewScramble: function(eventName, scrambleId, callback) {
+    console.log("Scramble sent", eventName, scrambleId);
     // TODO(lgarron): change JSSS to use web workers with an async callback;
     setTimeout(function () {
-      console.log("scramble2", eventName);
+      console.log("Scramble received", eventName, scrambleId);
       callback({
         eventName: eventName,
         scrambleString: scramblers[eventName].getRandomScramble().scramble_string
@@ -91,8 +91,8 @@ Cubing.Scramble;
 var TimerApp = function()
 {
   this._scrambleView = new TimerApp.ScrambleView(this);
+  // This should trigger a new attempt for us.
   this.setEvent(this.DEFAULT_EVENT);
-  this._startNewAttempt();
 }
 
 TimerApp.prototype = {
@@ -100,15 +100,23 @@ TimerApp.prototype = {
 
   _startNewAttempt: function ()
   {
+    this._awaitedScrambleId = (typeof this._awaitedScrambleId !== "undefined") ? this._awaitedScrambleId + 1 : 0;
+
     /**
+     * @param {integer} scrambledId
      * @param {!Cubing.Scramble} scramble
      */
-    function scrambleCallback(scramble) {
-      this._currentScramble = scramble;
-      this._scrambleView.setScramble(this._currentScramble);
+    function scrambleCallback(scrambledId, scramble) {
+      if (scrambledId === this._awaitedScrambleId) {
+        this._currentScramble = scramble;
+        this._scrambleView.setScramble(this._currentScramble);
+      } else {
+        var logInfo = console.info ? console.info.bind(console) : console.log;
+        logInfo("Scramble came back out of order late (received: ", scrambledId, ", current expected: ", this._awaitedScrambleId, "):", scramble)
+      }
     }
 
-    Cubing.prototype.getNewScramble(this._currentEvent, scrambleCallback.bind(this));
+    Cubing.prototype.getNewScramble(this._currentEvent, this._awaitedScrambleId, scrambleCallback.bind(this, this._awaitedScrambleId));
   },
 
   /**
