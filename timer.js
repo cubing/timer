@@ -193,9 +193,9 @@ TimerApp.ScrambleView.prototype = {
 
   setRandomBackgroundColor: function() {
     var colors = [
-      "#F95B2A", // orange
+      "#f95b2a", // orange
       "#0d904f", // green
-      "#db4437", // red
+      "#ce2e20", // red
       "#4285f4" // blue
       // "#ffb003" // yellow
     ]
