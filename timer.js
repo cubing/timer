@@ -93,6 +93,7 @@ Cubing.Scramble;
 var TimerApp = function()
 {
   this._scrambleView = new TimerApp.ScrambleView(this);
+  this._timerController = new TimerApp.TimerController(document.getElementById("timer"));
   // This should trigger a new attempt for us.
   this.setEvent(this.DEFAULT_EVENT);
 }
@@ -211,29 +212,180 @@ TimerApp.ScrambleView.prototype = {
 }
 
 
-TimerApp.Timer = function() {};
+/**
+ * @param {!Element} domElement
+ */
+TimerApp.TimerController = function(domElement) {
+  this._timeTextElement = domElement;
+
+  this._timer = new TimerApp.Timer(this._displayTime.bind(this));
+
+  document.body.addEventListener("keypress", this._keyDown.bind(this));
+  document.body.addEventListener("keyup", this._keyUp.bind(this));
+
+  FastClick.attach(domElement);
+
+  domElement.addEventListener("touchstart", this._down.bind(this));
+  domElement.addEventListener("touchend", this._up.bind(this));
+
+  domElement.addEventListener("mousedown", this._down.bind(this));
+  domElement.addEventListener("mouseup", this._up.bind(this));
+
+  this._setState(TimerApp.TimerController.State.Ready);
+}
+
+TimerApp.TimerController.prototype = {
+  /**
+   * @param {!Event} e
+   */
+  _keyDown: function(e)
+  {
+    console.log("keyDown", e);
+    if (this._isTimerKey(e)) {
+      this._down();
+    }
+  },
+
+  /**
+   * @param {!Event} e
+   */
+  _keyUp: function(e)
+  {
+    console.log("keyUp", e);
+    if (this._isTimerKey(e)) {
+      this._up();
+    }
+  },
+
+  /**
+   * @param {!Event} e
+   */
+  _isTimerKey: function(e) {
+    // Only allow spacebar for now.
+    return e.which === 32;
+  },
+
+  _down: function()
+  {
+    console.log("down");
+    var State = TimerApp.TimerController.State;
+    var transitionMap = {
+      "Ready":       State.HandOnTimer,
+      "HandOnTimer": State.Ignore,
+      "Running":     State.Stopped,
+      "Stopped":     State.Ignore
+    }
+    console.log("aaaaa", transitionMap[this._state]);
+    this._setState(transitionMap[this._state]);
+  },
+
+  _up: function(e)
+  {
+    console.log("up");
+    var State = TimerApp.TimerController.State;
+    var transitionMap = {
+      "Ready":       State.Ignore,
+      "HandOnTimer": State.Running,
+      "Running":     State.Ignore,
+      "Stopped":     State.Ready
+    }
+    this._setState(transitionMap[this._state]);
+  },
+
+  /**
+   * @param {!TimerApp.TimerController.State} state
+   */
+  _setState: function(state) {
+    var State = TimerApp.TimerController.State;
+    console.log("Setting state:", state);
+    switch (state) {
+      case State.Ready:
+        break;
+      case State.HandOnTimer:
+        this._timer.reset();
+        break;
+      case State.Running:
+        this._timer.start();
+        break;
+      case State.Stopped:
+        this._timer.stop();
+        break;
+      case State.Ignore:
+        return;
+      default:
+        console.error("Tried to set invalid state in controller:", state);
+        break;
+    }
+    this._state = state;
+  },
+
+  /**
+   * @param {!TimerApp.Timer.Milliseconds} time
+   */
+  _displayTime: function(time) {
+    this._timeTextElement.textContent = "" + time;
+  }
+}
+
+TimerApp.TimerController.State = {
+  Ready: "Ready",
+  HandOnTimer: "HandOnTimer",
+  Running: "Running",
+  Stopped: "Stopped",
+  Ignore: "Ignore"
+}
+
+
+/**
+ * @param {function(!TimerApp.Timer.Milliseconds)} currentTimeCallback
+ */
+TimerApp.Timer = function(currentTimeCallback) {
+  this._currentTimeCallback = currentTimeCallback;
+  this._running = false;
+
+  this._animFrameBound = this._animFrame.bind(this);
+};
 
 TimerApp.Timer.prototype = {
   start: function()
   {
     this._startTime = Date.now();
+    this._currentTimeCallback(0);
+    this._running = true;
+    requestAnimationFrame(this._animFrameBound);
+  },
+
+  stop: function()
+  {
+    this._running = false;
+    cancelAnimationFrame(this._animFrameBound);
+    this._currentTimeCallback(this._elapsed());
+  },
+
+  reset: function()
+  {
+    this._currentTimeCallback(0);
+  },
+
+  _animFrame: function() {
+    if (!this._running) {
+      return;
+    }
+    this._currentTimeCallback(this._elapsed());
+    requestAnimationFrame(this._animFrameBound);
   },
 
   /**
-   * @returns {TimerApp.Timer.Time}
+   * @returns {TimerApp.Timer.Milliseconds}
    */
-  elapsed: function()
-  {
-    if (!this._startTime) {
-      console.error("Warning: tried to calculate elapsed time without starting timer.");
-    }
+  _elapsed: function() {
     return Date.now() - this._startTime;
   }
 }
 
 // Time in milliseconds
 /** @typedef {integer} */
-TimerApp.Timer.Time;
+TimerApp.Timer.Milliseconds;
 
 
 TimerApp.Util = function() {};
