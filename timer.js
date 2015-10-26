@@ -10,10 +10,8 @@ Cubing.prototype = {
    */
   getNewScramble: function(eventName, scrambleId, callback)
   {
-    console.log("Scramble sent", eventName, scrambleId);
     // TODO(lgarron): change JSSS to use web workers with an async callback;
     setTimeout(function () {
-      console.log("Scramble received", eventName, scrambleId);
       callback({
         eventName: eventName,
         scrambleString: scramblers[eventName].getRandomScramble().scramble_string
@@ -264,7 +262,6 @@ TimerApp.TimerController.prototype = {
    */
   _keyDown: function(e)
   {
-    console.log("keyDown", e);
     if (this._isTimerKey(e)) {
       this._down();
     }
@@ -275,7 +272,6 @@ TimerApp.TimerController.prototype = {
    */
   _keyUp: function(e)
   {
-    console.log("keyUp", e);
     if (this._isTimerKey(e)) {
       this._up();
     }
@@ -291,7 +287,6 @@ TimerApp.TimerController.prototype = {
 
   _down: function()
   {
-    console.log("down");
     var State = TimerApp.TimerController.State;
     var transitionMap = {
       "Ready":       State.HandOnTimer,
@@ -299,13 +294,11 @@ TimerApp.TimerController.prototype = {
       "Running":     State.Stopped,
       "Stopped":     State.Ignore
     }
-    console.log("aaaaa", transitionMap[this._state]);
     this._setState(transitionMap[this._state]);
   },
 
   _up: function(e)
   {
-    console.log("up");
     var State = TimerApp.TimerController.State;
     var transitionMap = {
       "Ready":       State.Ignore,
@@ -321,7 +314,6 @@ TimerApp.TimerController.prototype = {
    */
   _setState: function(state) {
     var State = TimerApp.TimerController.State;
-    console.log("Setting state:", state);
     switch (state) {
       case State.Ready:
         break;
