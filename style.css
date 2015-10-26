@@ -127,14 +127,18 @@ a.scramble-text:hover {
 }
 
 .time {
-  font-size: 20vh;
+    font-size: 25vw;
   font-family: digital-7-mono, monospace;
 }
 
-@media (max-width: 1000px) {
+@media (min-aspect-ratio: 2/1) {
   .time {
-    font-size: calc(15vw);
+    font-size: 50vh;
   }
+}
+
+.invisible {
+  opacity: 0;
 }
 
 .time .sec-first {
@@ -143,4 +147,5 @@ a.scramble-text:hover {
 
 .time .milli {
   font-size: 0.5em;
+  color: rgba(0, 0, 0, 0.25);
 }

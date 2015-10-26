@@ -335,8 +335,9 @@ TimerApp.TimerController.State = {
  */
 TimerApp.TimerView = function(domElement)
 {
-  this._secElement = domElement.getElementsByClassName("sec")[0];
-  this._milliElement = domElement.getElementsByClassName("milli")[0];
+  this._secFirstElement = domElement.getElementsByClassName("sec-first")[0];
+  this._secRestElement = domElement.getElementsByClassName("sec-rest")[0];
+  this._milliElement = domElement.getElementsByClassName("milli-digits")[0];
 }
 
 TimerApp.TimerView.prototype = {
@@ -361,18 +362,24 @@ TimerApp.TimerView.prototype = {
       return output;
     }
 
-    var secString;
+    var secFirstString = "";
+    var secRestString;
     if (hours > 0) {
-      secString = hours + ":" + pad(minutes, 2) + ":" + pad(seconds, 2);
+      secRestString = "" + pad(hours, 2) + ":" + pad(minutes, 2) + ":" + pad(seconds, 2);
     } else if (minutes > 0) {
-      secString =                   minutes     + ":" + pad(seconds, 2);
+      secRestString = "" +                           minutes     + ":" + pad(seconds, 2);
     } else {
-      secString =                                           seconds    ;
+      secRestString = "" +                                                   seconds    ;
+      if (secRestString[0] === "1") {
+        secFirstString = "1";
+        secRestString = secRestString.substr(1);
+      }
     }
-    this._secElement.textContent = secString;
+    this._secFirstElement.textContent = secFirstString;
+    this._secRestElement.textContent = secRestString;
 
     var milliseconds = time % 1000;
-    this._milliElement.textContent = pad(milliseconds, 3);
+    this._milliElement.textContent = "" + pad(milliseconds, 3);
   },
 }
 
