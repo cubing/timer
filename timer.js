@@ -8,7 +8,8 @@ Cubing.prototype = {
    * @param {!Cubing.EventName} eventName
    * @param {function(!Cubing.Scramble)} callback
    */
-  getNewScramble: function(eventName, scrambleId, callback) {
+  getNewScramble: function(eventName, scrambleId, callback)
+  {
     console.log("Scramble sent", eventName, scrambleId);
     // TODO(lgarron): change JSSS to use web workers with an async callback;
     setTimeout(function () {
@@ -24,7 +25,8 @@ Cubing.prototype = {
    * Returns an empty string if unavailable.
    * @param {!Cubing.Scramble} scramble
    */
-  urlForScramble: function(scramble) {
+  urlForScramble: function(scramble)
+  {
     var acn_puzzle_name = Cubing.EventMetadata[scramble.eventName].acn_puzzle_name;
     if (!acn_puzzle_name) {
       return "";
@@ -153,7 +155,8 @@ TimerApp.ScrambleView = function(timerApp)
 }
 
 TimerApp.ScrambleView.prototype = {
-  initializeSelectDropdown: function() {
+  initializeSelectDropdown: function()
+  {
     this._eventSelectDropdown.optionElementsByEventName = {};
     for (var i in Cubing.EventName) {
       var eventName = Cubing.EventName[i];
@@ -170,7 +173,8 @@ TimerApp.ScrambleView.prototype = {
   /**
    * @param {!Cubing.EventName} eventName
    */
-  setEvent: function(eventName) {
+  setEvent: function(eventName)
+  {
     TimerApp.Util.removeClassesStartingWith(this._cubingIcon, "icon-");
     this._cubingIcon.classList.add("icon-" + eventName);
     if (this._eventSelectDropdown.value != eventName) {
@@ -181,17 +185,20 @@ TimerApp.ScrambleView.prototype = {
   /**
    * @param {!Cubing.ScrambleString} scramble
    */
-  setScramble: function(scramble) {
+  setScramble: function(scramble)
+  {
     this._scrambleText.href = Cubing.prototype.urlForScramble(scramble);
     this._scrambleText.textContent = scramble.scrambleString;
   },
 
-  clearScramble: function() {
+  clearScramble: function()
+  {
     this._scrambleText.href = "";
     this._scrambleText.textContent = "(generating scramble...)"; //UIString
   },
 
-  setRandomBackgroundColor: function() {
+  setRandomBackgroundColor: function()
+  {
     var colors = [
       "#f95b2a", // orange
       "#0d904f", // green
@@ -203,17 +210,20 @@ TimerApp.ScrambleView.prototype = {
   }
 }
 
+
 TimerApp.Timer = function() {};
 
 TimerApp.Timer.prototype = {
-  start: function() {
+  start: function()
+  {
     this._startTime = Date.now();
   },
 
   /**
    * @returns {TimerApp.Timer.Time}
    */
-  elapsed: function() {
+  elapsed: function()
+  {
     if (!this._startTime) {
       console.error("Warning: tried to calculate elapsed time without starting timer.");
     }
