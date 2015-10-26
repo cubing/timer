@@ -236,7 +236,7 @@ TimerApp.ScrambleView.prototype = {
  * @param {function(!TimerApp.Timer.Milliseconds)} solveDoneCallback
  */
 TimerApp.TimerController = function(domElement, solveDoneCallback) {
-  this._timeTextElement = domElement;
+  this._domElement = domElement;
   this._solveDoneCallback = solveDoneCallback;
 
   var timerView = new TimerApp.TimerView(domElement);
@@ -333,7 +333,9 @@ TimerApp.TimerController.prototype = {
         console.error("Tried to set invalid state in controller:", state);
         break;
     }
+    this._domElement.classList.remove(this._state);
     this._state = state;
+    this._domElement.classList.add(this._state);
   }
 }
 

@@ -156,5 +156,17 @@ a.scramble-text:hover {
 
 .time .milli {
   font-size: 0.5em;
-  color: rgba(0, 0, 0, 0.25);
+  opacity: 0.25;
 }
+
+.timer.HandOnTimer {
+  -webkit-animation: ready-pulse 1s ease-in-out 0s infinite alternate;
+  -moz-animation:    ready-pulse 1s ease-in-out 0s infinite alternate;
+  -o-animation:      ready-pulse 1s ease-in-out 0s infinite alternate;
+  animation:         ready-pulse 1s ease-in-out 0s infinite alternate;
+}
+
+@-webkit-keyframes ready-pulse { from { color: #080; } to { color: #000; } }
+@-moz-keyframes    ready-pulse { from { color: #080; } to { color: #000; } }
+@-o-keyframes      ready-pulse { from { color: #080; } to { color: #000; } }
+@keyframes         ready-pulse { from { color: #080; } to { color: #000; } }
