@@ -93,7 +93,7 @@ Cubing.Scramble;
 var TimerApp = function()
 {
   this._scrambleView = new TimerApp.ScrambleView(this);
-  this._timerController = new TimerApp.TimerController(document.getElementById("timer"));
+  this._timerController = new TimerApp.TimerController(document.getElementById("timer"), this._solveDone.bind(this));
   // This should trigger a new attempt for us.
   this.setEvent(this.DEFAULT_EVENT);
 }
@@ -130,6 +130,13 @@ TimerApp.prototype = {
   {
     this._currentEvent = eventName;
     this._scrambleView.setEvent(this._currentEvent);
+    this._startNewAttempt();
+  },
+
+  /**
+   * @param {!TimerApp.Timer.Milliseconds} time
+   */
+  _solveDone: function(time) {
     this._startNewAttempt();
   }
 }
@@ -214,9 +221,11 @@ TimerApp.ScrambleView.prototype = {
 
 /**
  * @param {!Element} domElement
+ * @param {function(!TimerApp.Timer.Milliseconds)} solveDoneCallback
  */
-TimerApp.TimerController = function(domElement) {
+TimerApp.TimerController = function(domElement, solveDoneCallback) {
   this._timeTextElement = domElement;
+  this._solveDoneCallback = solveDoneCallback;
 
   var timerView = new TimerApp.TimerView(domElement);
   this._timer = new TimerApp.Timer(timerView.displayTime.bind(timerView));
@@ -309,7 +318,8 @@ TimerApp.TimerController.prototype = {
         this._timer.start();
         break;
       case State.Stopped:
-        this._timer.stop();
+        var time = this._timer.stop();
+        this._solveDoneCallback(time);
         break;
       case State.Ignore:
         return;
@@ -403,11 +413,16 @@ TimerApp.Timer.prototype = {
     requestAnimationFrame(this._animFrameBound);
   },
 
+  /**
+   * @returns {!TimerApp.Timer.Milliseconds}
+   */
   stop: function()
   {
     this._running = false;
     cancelAnimationFrame(this._animFrameBound);
-    this._currentTimeCallback(this._elapsed());
+    var time = this._elapsed();
+    this._currentTimeCallback(time);
+    return time;
   },
 
   reset: function()
