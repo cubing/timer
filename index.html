@@ -3,30 +3,36 @@
   <meta charset="UTF-8">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="viewport" content="minimal-ui" />
-  <link rel="apple-touch-icon" href="img/icon.png" />
-  <link rel="shortcut icon" href="favicon.ico" type="image/-icon" />
   <meta name="apple-mobile-web-app-title" content="Timer Test">
 
   <title>timer.cubing.net</title>
 
   <script src="lib/fastclick.js"></script>
+
   <link href="style.css" rel="stylesheet"/>
   <link href="lib/cubing-icons/cubing-icons.css" rel="stylesheet"/>
 
-  <script src="timer.js"></script>
+  <script src="lib/jsss/scramble_222.js"></script>
+  <script src="lib/jsss/scramble_333.js"></script>
+  <script src="lib/jsss/scramble_clock.js"></script>
+  <script src="lib/jsss/scramble_minx.js"></script>
+  <script src="lib/jsss/scramble_NNN.js"></script>
+  <script src="lib/jsss/scramble_pyram.js"></script>
+  <script src="lib/jsss/scramble_sq1.js"></script>
 
+  <script src="timer.js" async></script>
 </head>
 <body>
 <div class="main">
-  <div class="scramble">
+  <div class="scramble" id="scramble">
     <div class="event-select">
       <span class="cubing-icon" id="cubing-icon"></span>
       <select id="event-select-dropdown">
-        <option value="333">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3x3x3</option>
-        <option value="555bf">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;5x5x5 Blindfolded</option>
+        <option value="333">3x3x3</option>
+        <option value="555bf">5x5x5 Blindfolded</option>
       </select>
     </div>
-    <div class="scramble-text"><a href="https://alg.cubing.net/?setup=R2_F-_R2_B-_U2_B2_L2_F-_L2_D2_L_F-_R2_D_L-_R-_B_L2_B-" target="_blank">R2 F' R2 B' U2 B2 L2 F' L2 D2 L F' R2 D L' R' B L2 B'</a></div>
+    <div class="scramble-text"><a href="" target="_blank" id="scramble-link">(scramble)</a></div>
   </div>
   <div class="timer">
     <div class="time">
