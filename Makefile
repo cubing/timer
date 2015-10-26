@@ -6,10 +6,10 @@ all: deploy open
 
 MANIFEST_FILE  = "cache.manifest"
 
-SFTP_PATH      = "cubing.net:~/cubing.net/timer/"
+SFTP_PATH      = "towns.dreamhost.com:~/cubing.net/timer/"
 URL            = "http://cubing.net/timer"
 
-SFTP_TEST_PATH = "cubing.net:~/cubing.net/timer-test/"
+SFTP_TEST_PATH = "towns.dreamhost.com:~/cubing.net/timer-test/"
 TEST_URL       = "http://cubing.net/timer-test/"
 
 
