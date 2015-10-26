@@ -6,11 +6,11 @@ all: deploy open
 
 MANIFEST_FILE  = "cache.manifest"
 
-SFTP_PATH      = "cubing.net:~/cubing.net/inspection/"
-URL            = "http://cubing.net/inspection"
+SFTP_PATH      = "cubing.net:~/cubing.net/timer/"
+URL            = "http://cubing.net/timer"
 
-SFTP_TEST_PATH = "cubing.net:~/cubing.net/inspection-test/"
-TEST_URL       = "http://cubing.net/inspection-test/"
+SFTP_TEST_PATH = "cubing.net:~/cubing.net/timer-test/"
+TEST_URL       = "http://cubing.net/timer-test/"
 
 
 .PHONY: deploy

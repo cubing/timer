@@ -1,23 +1,68 @@
 <html manifest="cache.manifest">
 <head>
+  <meta charset="UTF-8">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="viewport" content="minimal-ui" />
   <link rel="apple-touch-icon" href="img/icon.png" />
-  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
-  <meta name="apple-mobile-web-app-title" content="Inspection">
+  <link rel="shortcut icon" href="favicon.ico" type="image/-icon" />
+  <meta name="apple-mobile-web-app-title" content="Timer Test">
 
-  <title>WCA Inspection Tool</title>
+  <title>timer.cubing.net</title>
 
-  <link href="style.css" rel="stylesheet" media="screen" type="text/css" />
-
-  <script src="lib/jquery-1.11.0.min.js"></script>
-  <script src="lib/jquery-ui.js"></script>
   <script src="lib/fastclick.js"></script>
-  <script src="wca-inspection.js"></script>
+  <link href="style.css" rel="stylesheet"/>
+  <link href="lib/cubing-icons/cubing-icons.css" rel="stylesheet"/>
+
+  <script src="timer.js"></script>
+
 </head>
 <body>
-<div id="main">
-<span id="sec"><span id="sec-first">-</span><span id="sec-rest"></span></span><br><span id="milli">---</span>
+<div class="main">
+  <div class="scramble">
+    <div class="event-select">
+      <span class="cubing-icon" id="cubing-icon"></span>
+      <select id="event-select-dropdown">
+        <option value="333">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3x3x3</option>
+        <option value="555bf">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;5x5x5 Blindfolded</option>
+      </select>
+    </div>
+    <div class="scramble-text"><a href="https://alg.cubing.net/?setup=R2_F-_R2_B-_U2_B2_L2_F-_L2_D2_L_F-_R2_D_L-_R-_B_L2_B-" target="_blank">R2 F' R2 B' U2 B2 L2 F' L2 D2 L F' R2 D L' R' B L2 B'</a></div>
+  </div>
+  <div class="timer">
+    <div class="time">
+      <div class="sec">
+        <span class="sec-first">1</span><span class="sec-rest">:02:27</span>
+      </div>
+      <div class="milli">.345</div>
+    </div>
+  </div>
 </div>
+</div>
+<div class="results">
+  <!-- <div class="result">Results: (scrollable)</div> -->
+  <div class="result">11.28 <span class="event">[3]</span></div>
+  <div class="result">1:17.54 <span class="event">[4]</span></div>
+  <div class="result">1:05:13.27 <span class="event">[?]</span></div>
+  <div class="result">11.11 <span class="event">[3]</span></div>
+  <div class="result">5:11.29 <span class="event">[6]</span></div>
+  <div class="result">7.87 <span class="event">[3]</span></div>
+  <div class="result">11.20 <span class="event">[3]</span></div>
+  <div class="result">11.03 <span class="event">[3]</span></div>
+  <div class="result">10.79 <span class="event">[3]</span></div>
+  <div class="result">7.88 <span class="event">[3]</span></div>
+  <div class="result">11.20 <span class="event">[3]</span></div>
+  <div class="result">13.21 <span class="event">[3]</span></div>
+  <div class="result">13.23 <span class="event">[3]</span></div>
+  <div class="result">10.53 <span class="event">[3]</span></div>
+  <div class="result">14.35 <span class="event">[3]</span></div>
+  <div class="result">10.15 <span class="event">[3]</span></div>
+  <div class="result">12.81 <span class="event">[3]</span></div>
+  <div class="result">10.62 <span class="event">[3]</span></div>
+  <div class="result">15.03 <span class="event">[3]</span></div>
+  <div class="result">11.80 <span class="event">[3]</span></div>
+  </div>
 </body>
 </html>
+
+
+
