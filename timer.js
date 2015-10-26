@@ -203,6 +203,28 @@ TimerApp.ScrambleView.prototype = {
   }
 }
 
+TimerApp.Timer = function() {};
+
+TimerApp.Timer.prototype = {
+  start: function() {
+    this._startTime = Date.now();
+  },
+
+  /**
+   * @returns {TimerApp.Timer.Time}
+   */
+  elapsed: function() {
+    if (!this._startTime) {
+      console.error("Warning: tried to calculate elapsed time without starting timer.");
+    }
+    return Date.now() - this._startTime;
+  }
+}
+
+// Time in milliseconds
+/** @typedef {integer} */
+TimerApp.Timer.Time;
+
 
 TimerApp.Util = function() {};
 
