@@ -218,7 +218,8 @@ TimerApp.ScrambleView.prototype = {
 TimerApp.TimerController = function(domElement) {
   this._timeTextElement = domElement;
 
-  this._timer = new TimerApp.Timer(this._displayTime.bind(this));
+  var timerView = new TimerApp.TimerView(domElement);
+  this._timer = new TimerApp.Timer(timerView.displayTime.bind(timerView));
 
   document.body.addEventListener("keypress", this._keyDown.bind(this));
   document.body.addEventListener("keyup", this._keyUp.bind(this));
@@ -317,13 +318,6 @@ TimerApp.TimerController.prototype = {
         break;
     }
     this._state = state;
-  },
-
-  /**
-   * @param {!TimerApp.Timer.Milliseconds} time
-   */
-  _displayTime: function(time) {
-    this._timeTextElement.textContent = "" + time;
   }
 }
 
@@ -333,6 +327,38 @@ TimerApp.TimerController.State = {
   Running: "Running",
   Stopped: "Stopped",
   Ignore: "Ignore"
+}
+
+
+/**
+ * @param {!Element} domElement
+ */
+TimerApp.TimerView = function(domElement)
+{
+  this._secElement = domElement.getElementsByClassName("sec")[0];
+  this._milliElement = domElement.getElementsByClassName("milli")[0];
+}
+
+TimerApp.TimerView.prototype = {
+  /**
+   * @param {!TimerApp.Timer.Milliseconds} time
+   */
+  displayTime: function(time) {
+    this._secElement.textContent = Math.floor(time / 1000);
+    this._milliElement.textContent = this._padIntegerToString(time % 1000, 3);
+  },
+
+  /**
+   * @param {integer} number
+   * @param {integer} numDigitsAfterPadding
+   */
+  _padIntegerToString: function(number, numDigitsAfterPadding) {
+    var output = "" + number;
+    while (output.length < numDigitsAfterPadding) {
+      output = "0" + output;
+    }
+    return output;
+  }
 }
 
 
