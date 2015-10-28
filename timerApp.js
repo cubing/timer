@@ -163,9 +163,6 @@ TimerApp.TimerController = function(domElement, solveDoneCallback) {
   domElement.addEventListener("touchstart", this._down.bind(this));
   domElement.addEventListener("touchend", this._up.bind(this));
 
-  domElement.addEventListener("mousedown", this._down.bind(this));
-  domElement.addEventListener("mouseup", this._up.bind(this));
-
   this._setState(TimerApp.TimerController.State.Ready);
 }
 
