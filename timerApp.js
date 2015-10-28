@@ -73,7 +73,7 @@ TimerApp.ScrambleView = function(timerApp)
 {
   this._timerApp = timerApp;
 
-  this._scrambleElement = document.getElementById("scramble");
+  this._scrambleElement = document.getElementById("scramble-bar");
   this._eventSelectDropdown = document.getElementById("event-select-dropdown");
   this._cubingIcon = document.getElementById("cubing-icon");
   this._scrambleText = document.getElementById("scramble-text");

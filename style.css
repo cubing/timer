@@ -42,13 +42,13 @@ body {
 }
 
 
-.scramble, .event-select select {
+.scramble-bar, .event-select select {
   font-size: 5vh;
   font-family: Helvetica, "Tahoma", sans-serif;
   color: white;
 }
 
-.scramble {
+.scramble-bar {
   flex: 0 0 auto;
   width: 100%;
   padding: 0.25em 0;
@@ -109,7 +109,7 @@ a.scramble-text:hover {
 }
 
 @media (max-aspect-ratio: 1/1) {
-  .scramble, .event-select select {
+  .scramble-bar, .event-select select {
     font-size: 3vh;
   }
 }
