@@ -7,7 +7,7 @@ TimerApp.TimerController.prototype = {
    */
   _keyDown: function(e)
   {
-    if (this._isTimerKey(e)) {
+    if (this._isTimerKey(e) || this._state === TimerApp.TimerController.State.Running) {
       this._down();
     }
   },
@@ -17,7 +17,7 @@ TimerApp.TimerController.prototype = {
    */
   _keyUp: function(e)
   {
-    if (this._isTimerKey(e)) {
+    if (this._isTimerKey(e) || this._state === TimerApp.TimerController.State.Stopped) {
       this._up();
     }
   },
