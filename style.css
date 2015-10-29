@@ -185,7 +185,7 @@ a.scramble-text:hover {
 }
 
 .timer-app.theme-red > .scramble-bar,
-.timer-app.theme-red > .timer.HandOnTimer
+.timer-app.theme-red > .timer.HandOnTimer,
 .timer-app.theme-red > .timer.Stopped {
   background-color: #ce2e20;
 }
