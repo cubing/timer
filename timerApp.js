@@ -103,6 +103,7 @@ TimerApp.ScrambleView = function(timerApp)
   this._scrambleText = document.getElementById("scramble-text");
 
   this._eventSelectDropdown.addEventListener("change", function() {
+    this._eventSelectDropdown.blur()
     this._timerApp.setEvent(this._eventSelectDropdown.value);
   }.bind(this));
 
