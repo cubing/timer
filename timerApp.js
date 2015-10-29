@@ -151,6 +151,7 @@ TimerApp.ScrambleView.prototype = {
    */
   setScramble: function(scramble)
   {
+    this._scrambleText.classList.remove("stale");
     this._scrambleText.href = Cubing.prototype.urlForScramble(scramble);
     this._scrambleText.textContent = scramble.scrambleString;
   },
@@ -158,7 +159,7 @@ TimerApp.ScrambleView.prototype = {
   clearScramble: function()
   {
     this._scrambleText.href = "";
-    this._scrambleText.textContent = "(generating scramble...)"; //UIString
+    this._scrambleText.classList.add("stale");
   }
 }
 

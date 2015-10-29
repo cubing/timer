@@ -102,6 +102,10 @@ a.scramble-text:hover {
   text-decoration: underline;
 }
 
+.scramble-text.stale {
+  opacity: 0.25;
+}
+
 .timer {
   flex: 1;
   width: 100%;
