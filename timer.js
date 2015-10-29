@@ -25,7 +25,8 @@ TimerApp.TimerController.prototype = {
   /**
    * @param {!Event} e
    */
-  _isTimerKey: function(e) {
+  _isTimerKey: function(e)
+  {
     // Only allow spacebar for now.
     return e.which === 32;
   },
@@ -57,7 +58,8 @@ TimerApp.TimerController.prototype = {
   /**
    * @param {!TimerApp.TimerController.State} state
    */
-  _setState: function(state) {
+  _setState: function(state)
+  {
     var State = TimerApp.TimerController.State;
     switch (state) {
       case State.Ready:
@@ -110,7 +112,8 @@ TimerApp.TimerView.prototype = {
   /**
    * @param {!TimerApp.Timer.Milliseconds} time
    */
-  displayTime: function(time) {
+  displayTime: function(time)
+  {
     // Each entry is [minimum number of digits if not first, separator before, value]
     var hours   = Math.floor(time / (60 * 60 * 1000));
     var minutes = Math.floor(time / (     60 * 1000)) % 60;
@@ -120,7 +123,8 @@ TimerApp.TimerView.prototype = {
      * @param {integer} number
      * @param {integer} numDigitsAfterPadding
      */
-    function pad(number, numDigitsAfterPadding) {
+    function pad(number, numDigitsAfterPadding)
+    {
       var output = "" + number;
       while (output.length < numDigitsAfterPadding) {
         output = "0" + output;
@@ -153,7 +157,8 @@ TimerApp.TimerView.prototype = {
 /**
  * @param {function(!TimerApp.Timer.Milliseconds)} currentTimeCallback
  */
-TimerApp.Timer = function(currentTimeCallback) {
+TimerApp.Timer = function(currentTimeCallback)
+{
   this._currentTimeCallback = currentTimeCallback;
   this._running = false;
 
@@ -186,7 +191,8 @@ TimerApp.Timer.prototype = {
     this._currentTimeCallback(0);
   },
 
-  _animFrame: function() {
+  _animFrame: function()
+  {
     if (!this._running) {
       return;
     }
@@ -197,7 +203,8 @@ TimerApp.Timer.prototype = {
   /**
    * @returns {TimerApp.Timer.Milliseconds}
    */
-  _elapsed: function() {
+  _elapsed: function()
+  {
     return Date.now() - this._startTime;
   }
 }

@@ -20,7 +20,8 @@ Cubing.prototype = {
      * From alg.cubing.net
      * @param {!Cubing.AlgString} algString
      */
-    function escape_alg(algString) {
+    function escape_alg(algString)
+    {
       var escaped = algString;
       escaped = escaped.replace(/_/g, "&#95;").replace(/ /g, "_");
       escaped = escaped.replace(/\+/g, "&#2b;");
@@ -74,7 +75,8 @@ Cubing.ScrambleString;
 Cubing.Scramble;
 
 
-Cubing.Scramblers = function() {
+Cubing.Scramblers = function()
+{
   this._worker = new Worker(this.WORKER_PATH);
   this._commandId = 0;
   this._commandIdToCallback = [];
@@ -89,7 +91,8 @@ Cubing.Scramblers.prototype = {
    * @param {!Object} eventName
    * @param {function(!Cubing.ScrambleString)} callback
    */
-  getRandomScramble: function(eventName, callback) {
+  getRandomScramble: function(eventName, callback)
+  {
     var commandId = this._commandScrambleId;
     this._commandId += 1;
     this._commandIdToCallback[commandId] = callback;
@@ -103,7 +106,8 @@ Cubing.Scramblers.prototype = {
   /**
    * @param {!Event} e
    */
-  _workerCallback: function(e) {
+  _workerCallback: function(e)
+  {
     var callback = this._commandIdToCallback[e.data.commandId];
     delete this._commandIdToCallback[e.data.commandId];
     callback(e.data.scramble)

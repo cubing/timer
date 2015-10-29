@@ -7,7 +7,8 @@ var TimerApp = function()
   this._domElement = document.getElementById("timer-app");
 
   // Prevent a timer tap from scrolling the whole page on touch screens.
-  this._domElement.ontouchmove = function (event) {
+  this._domElement.ontouchmove = function (event)
+  {
     event.preventDefault();
   };
 
@@ -34,7 +35,8 @@ TimerApp.prototype = {
      * @param {integer} scrambledId
      * @param {!Cubing.Scramble} scramble
      */
-    function scrambleCallback(scrambledId, scramble) {
+    function scrambleCallback(scrambledId, scramble)
+    {
       if (scrambledId === this._awaitedScrambleId) {
         this._currentScramble = scramble;
         this._scrambleView.setScramble(this._currentScramble);
@@ -67,21 +69,24 @@ TimerApp.prototype = {
   /**
    * @param {!TimerApp.Timer.Milliseconds} time
    */
-  _solveDone: function(time) {
+  _solveDone: function(time)
+  {
     this._persistResult(time);
   },
 
   /**
    * @param {!TimerApp.Timer.Milliseconds} time
    */
-  _attemptDone: function(time) {
+  _attemptDone: function(time)
+  {
     this._startNewAttempt();
   },
 
   /**
    * @param {!TimerApp.Timer.Milliseconds} time
    */
-  _persistResult: function(time) {
+  _persistResult: function(time)
+  {
     var today = new Date();
     var dateString = today.getFullYear() + "-" + today.getMonth() + "-" + today.getDate();
 
@@ -104,7 +109,8 @@ TimerApp.ScrambleView = function(timerApp)
   this._cubingIcon = document.getElementById("cubing-icon");
   this._scrambleText = document.getElementById("scramble-text");
 
-  this._eventSelectDropdown.addEventListener("change", function() {
+  this._eventSelectDropdown.addEventListener("change", function()
+  {
     this._eventSelectDropdown.blur()
     this._timerApp.setEvent(this._eventSelectDropdown.value);
   }.bind(this));
@@ -162,7 +168,8 @@ TimerApp.ScrambleView.prototype = {
  * @param {function(!TimerApp.Timer.Milliseconds)} solveDoneCallback
  * @param {function(!TimerApp.Timer.Milliseconds)} attemptDoneCallback
  */
-TimerApp.TimerController = function(domElement, solveDoneCallback, attemptDoneCallback) {
+TimerApp.TimerController = function(domElement, solveDoneCallback, attemptDoneCallback)
+{
   this._domElement = domElement;
   this._solveDoneCallback = solveDoneCallback;
   this._attemptDoneCallback = attemptDoneCallback;
@@ -182,7 +189,8 @@ TimerApp.TimerController = function(domElement, solveDoneCallback, attemptDoneCa
 }
 
 
-TimerApp.Util = function() {};
+TimerApp.Util = function()
+{};
 
 /**
  * @param {!Element} element
@@ -200,11 +208,13 @@ TimerApp.Util.removeClassesStartingWith = function(element, prefix)
 /**
  * @param {Array} list
  */
-TimerApp.Util.randomChoice =  function(list) {
+TimerApp.Util.randomChoice =  function(list)
+{
   return list[Math.floor(Math.random() * list.length)];
 }
 
 
-window.addEventListener("load", function() {
+window.addEventListener("load", function()
+{
   window.timerApp = new TimerApp();
 });
