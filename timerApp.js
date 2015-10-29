@@ -43,7 +43,7 @@ TimerApp.prototype = {
     }
 
     this._scrambleView.clearScramble();
-    Cubing.prototype.getNewScramble(this._currentEvent, this._awaitedScrambleId, scrambleCallback.bind(this, this._awaitedScrambleId));
+    Cubing.prototype.getNewScramble(this._currentEvent, scrambleCallback.bind(this, this._awaitedScrambleId));
   },
 
   /**

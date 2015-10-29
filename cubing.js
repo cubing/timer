@@ -8,7 +8,7 @@ Cubing.prototype = {
    * @param {!Cubing.EventName} eventName
    * @param {function(!Cubing.Scramble)} callback
    */
-  getNewScramble: function(eventName, scrambleId, callback)
+  getNewScramble: function(eventName, callback)
   {
     // TODO(lgarron): change JSSS to use web workers with an async callback;
     setTimeout(function () {
