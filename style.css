@@ -140,19 +140,30 @@ a.scramble-text:hover {
   font-family: digital-7-mono, monospace;
 }
 
+.invisible {
+  opacity: 0;
+}
+
 @media (max-aspect-ratio: 1/1) {
   .time {
     font-size: 30vh;
   }
 }
+
+@media (min-aspect-ratio: 1/1) {
+  .time {
+    flex-direction: row;
+    align-items: baseline;
+  }
+  .invisible {
+    display: none;
+  }
+}
+
 @media (min-aspect-ratio: 2/1) {
   .time {
     font-size: 50vh;
   }
-}
-
-.invisible {
-  opacity: 0;
 }
 
 .time .sec-first {
