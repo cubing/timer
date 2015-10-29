@@ -7,10 +7,10 @@ var TimerApp = function()
   this._domElement = document.getElementById("timer-app");
 
   // Prevent a timer tap from scrolling the whole page on touch screens.
-  this._domElement.ontouchmove = function (event)
+  this._domElement.addEventListener("touchmove", function(event)
   {
     event.preventDefault();
-  };
+  });
 
   this._timerController = new TimerApp.TimerController(
                                   document.getElementById("timer"),
