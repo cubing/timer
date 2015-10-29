@@ -48,6 +48,10 @@ body {
   color: white;
 }
 
+.event-select select {
+  color: rgba(220, 220, 220, 0.9);
+}
+
 .scramble-bar {
   flex: 0 0 auto;
   width: 100%;
