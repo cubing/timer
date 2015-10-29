@@ -5,6 +5,12 @@ var TimerApp = function()
 {
   this._scrambleView = new TimerApp.ScrambleView(this);
   this._domElement = document.getElementById("timer-app");
+
+  // Prevent a timer tap from scrolling the whole page on touch screens.
+  this._domElement.ontouchmove = function (event) {
+    event.preventDefault();
+  };
+
   this._timerController = new TimerApp.TimerController(
                                   document.getElementById("timer"),
                                   this._solveDone.bind(this),
