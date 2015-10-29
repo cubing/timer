@@ -148,6 +148,7 @@ a.scramble-text:hover {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  line-height: 0.75em;
 }
 
 .time > div {
