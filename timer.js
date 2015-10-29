@@ -1,6 +1,31 @@
 "use strict";
 
 
+/**
+ * @param {!Element} domElement
+ * @param {function(!TimerApp.Timer.Milliseconds)} solveDoneCallback
+ * @param {function(!TimerApp.Timer.Milliseconds)} attemptDoneCallback
+ */
+TimerApp.TimerController = function(domElement, solveDoneCallback, attemptDoneCallback)
+{
+  this._domElement = domElement;
+  this._solveDoneCallback = solveDoneCallback;
+  this._attemptDoneCallback = attemptDoneCallback;
+
+  var timerView = new TimerApp.TimerView(domElement);
+  this._timer = new TimerApp.Timer(timerView.displayTime.bind(timerView));
+
+  document.body.addEventListener("keypress", this._keyDown.bind(this));
+  document.body.addEventListener("keyup", this._keyUp.bind(this));
+
+  FastClick.attach(domElement);
+
+  domElement.addEventListener("touchstart", this._down.bind(this));
+  domElement.addEventListener("touchend", this._up.bind(this));
+
+  this._setState(TimerApp.TimerController.State.Ready);
+}
+
 TimerApp.TimerController.prototype = {
   /**
    * @param {!Event} e
