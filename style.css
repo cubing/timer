@@ -170,7 +170,7 @@ a.scramble-text:hover {
   font-family: digital-7;
 }
 
-.time .milli {
+.time .decimals {
   font-size: 0.5em;
   opacity: 0.25;
 }

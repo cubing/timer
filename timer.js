@@ -105,7 +105,7 @@ TimerApp.TimerView = function(domElement)
 {
   this._secFirstElement = domElement.getElementsByClassName("sec-first")[0];
   this._secRestElement = domElement.getElementsByClassName("sec-rest")[0];
-  this._milliElement = domElement.getElementsByClassName("milli-digits")[0];
+  this._decimalDigitsElement = domElement.getElementsByClassName("decimal-digits")[0];
 }
 
 TimerApp.TimerView.prototype = {
@@ -148,8 +148,8 @@ TimerApp.TimerView.prototype = {
     this._secFirstElement.textContent = secFirstString;
     this._secRestElement.textContent = secRestString;
 
-    var milliseconds = time % 1000;
-    this._milliElement.textContent = "" + pad(milliseconds, 3);
+    var centiseconds = Math.floor((time % 1000) / 10);
+    this._decimalDigitsElement.textContent = "" + pad(centiseconds, 2);
   },
 }
 
