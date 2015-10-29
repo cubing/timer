@@ -48,10 +48,6 @@ body {
   color: white;
 }
 
-.event-select select {
-  color: rgba(220, 220, 220, 0.9);
-}
-
 .scramble-bar {
   flex: 0 0 auto;
   width: 100%;
@@ -217,4 +213,20 @@ a.scramble-text:hover {
 .timer-app.theme-blue > .timer.HandOnTimer,
 .timer-app.theme-blue > .timer.Stopped {
   background-color: #4285f4;
+}
+
+.timer-app.theme-orange .event-select select {
+  color: #FEE0D7;
+}
+
+.timer-app.theme-green .event-select select {
+  color: #D1EADE;
+}
+
+.timer-app.theme-red .event-select select {
+  color: #F6D7D5;
+}
+
+.timer-app.theme-blue .event-select select {
+  color: #DBE8FD;
 }
