@@ -4,7 +4,13 @@
 var TimerApp = function()
 {
   this._scrambleView = new TimerApp.ScrambleView(this);
-  this._timerController = new TimerApp.TimerController(document.getElementById("timer"), this._solveDone.bind(this));
+  this._domElement = document.getElementById("timer-app");
+  this._timerController = new TimerApp.TimerController(
+                                  document.getElementById("timer"),
+                                  this._solveDone.bind(this),
+                                  this._attemptDone.bind(this));
+  this._setRandomBackgroundColor();
+
   // This should trigger a new attempt for us.
   this.setEvent(this.DEFAULT_EVENT);
 }
@@ -44,11 +50,23 @@ TimerApp.prototype = {
     this._startNewAttempt();
   },
 
+  _setRandomBackgroundColor: function()
+  {
+    var themeColors = ["orange", "green", "red", "blue"];
+    this._domElement.classList.add("theme-" + TimerApp.Util.randomChoice(themeColors))
+  },
+
   /**
    * @param {!TimerApp.Timer.Milliseconds} time
    */
   _solveDone: function(time) {
     this._persistResult(time);
+  },
+
+  /**
+   * @param {!TimerApp.Timer.Milliseconds} time
+   */
+  _attemptDone: function(time) {
     this._startNewAttempt();
   },
 
@@ -77,8 +95,6 @@ TimerApp.ScrambleView = function(timerApp)
   this._eventSelectDropdown = document.getElementById("event-select-dropdown");
   this._cubingIcon = document.getElementById("cubing-icon");
   this._scrambleText = document.getElementById("scramble-text");
-
-  this.setRandomBackgroundColor();
 
   this._eventSelectDropdown.addEventListener("change", function() {
     this._timerApp.setEvent(this._eventSelectDropdown.value);
@@ -128,18 +144,6 @@ TimerApp.ScrambleView.prototype = {
   {
     this._scrambleText.href = "";
     this._scrambleText.textContent = "(generating scramble...)"; //UIString
-  },
-
-  setRandomBackgroundColor: function()
-  {
-    var colors = [
-      "#f95b2a", // orange
-      "#0d904f", // green
-      "#ce2e20", // red
-      "#4285f4" // blue
-      // "#ffb003" // yellow
-    ]
-    this._scrambleElement.style.backgroundColor = TimerApp.Util.randomChoice(colors);
   }
 }
 
@@ -147,10 +151,12 @@ TimerApp.ScrambleView.prototype = {
 /**
  * @param {!Element} domElement
  * @param {function(!TimerApp.Timer.Milliseconds)} solveDoneCallback
+ * @param {function(!TimerApp.Timer.Milliseconds)} attemptDoneCallback
  */
-TimerApp.TimerController = function(domElement, solveDoneCallback) {
+TimerApp.TimerController = function(domElement, solveDoneCallback, attemptDoneCallback) {
   this._domElement = domElement;
   this._solveDoneCallback = solveDoneCallback;
+  this._attemptDoneCallback = attemptDoneCallback;
 
   var timerView = new TimerApp.TimerView(domElement);
   this._timer = new TimerApp.Timer(timerView.displayTime.bind(timerView));

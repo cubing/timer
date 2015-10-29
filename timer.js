@@ -61,6 +61,9 @@ TimerApp.TimerController.prototype = {
     var State = TimerApp.TimerController.State;
     switch (state) {
       case State.Ready:
+        if (this._state == State.Stopped) {
+          this._attemptDoneCallback(time);
+        }
         break;
       case State.HandOnTimer:
         this._timer.reset();
