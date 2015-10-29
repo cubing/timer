@@ -17,6 +17,8 @@ var TimerApp = function()
                                   this._attemptDone.bind(this));
   this._setRandomBackgroundColor();
 
+  this._scramblers = new Cubing.Scramblers();
+
   // This should trigger a new attempt for us.
   this.setEvent(this.DEFAULT_EVENT);
 }
@@ -43,7 +45,7 @@ TimerApp.prototype = {
     }
 
     this._scrambleView.clearScramble();
-    Cubing.prototype.getNewScramble(this._currentEvent, scrambleCallback.bind(this, this._awaitedScrambleId));
+    this._scramblers.getRandomScramble(this._currentEvent, scrambleCallback.bind(this, this._awaitedScrambleId));
   },
 
   /**
@@ -139,7 +141,7 @@ TimerApp.ScrambleView.prototype = {
   },
 
   /**
-   * @param {!Cubing.ScrambleString} scramble
+   * @param {!Cubing.Scramble} scramble
    */
   setScramble: function(scramble)
   {

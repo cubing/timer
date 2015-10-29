@@ -5,21 +5,6 @@ var Cubing = function() {};
 
 Cubing.prototype = {
   /**
-   * @param {!Cubing.EventName} eventName
-   * @param {function(!Cubing.Scramble)} callback
-   */
-  getNewScramble: function(eventName, callback)
-  {
-    // TODO(lgarron): change JSSS to use web workers with an async callback;
-    setTimeout(function () {
-      callback({
-        eventName: eventName,
-        scrambleString: scramblers[eventName].getRandomScramble().scramble_string
-      });
-    }, 100);
-  },
-
-  /**
    * Returns an empty string if unavailable.
    * @param {!Cubing.Scramble} scramble
    */
@@ -33,7 +18,7 @@ Cubing.prototype = {
 
     /**
      * From alg.cubing.net
-     * @param {!Cubing.Scramble} scramble
+     * @param {!Cubing.AlgString} algString
      */
     function escape_alg(algString) {
       var escaped = algString;
@@ -86,3 +71,40 @@ Cubing.ScrambleString;
  * @property {!Cubing.ScrambleString} scrambleString
  */
 Cubing.Scramble;
+
+
+Cubing.Scramblers = function() {
+  this._worker = new Worker(this.WORKER_PATH);
+  this._commandId = 0;
+  this._commandIdToCallback = [];
+
+  this._worker.addEventListener("message", this._workerCallback.bind(this), false);
+}
+
+Cubing.Scramblers.prototype = {
+  WORKER_PATH: "lib/scramble-worker.js",
+
+  /**
+   * @param {!Object} eventName
+   * @param {function(!Cubing.ScrambleString)} callback
+   */
+  getRandomScramble: function(eventName, callback) {
+    var commandId = this._commandScrambleId;
+    this._commandId += 1;
+    this._commandIdToCallback[commandId] = callback;
+    this._worker.postMessage({
+      command: "getRandomScramble",
+      commandId: commandId,
+      eventName: eventName
+    })
+  },
+
+  /**
+   * @param {!Event} e
+   */
+  _workerCallback: function(e) {
+    var callback = this._commandIdToCallback[e.data.commandId];
+    delete this._commandIdToCallback[e.data.commandId];
+    callback(e.data.scramble)
+  }
+}
