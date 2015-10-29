@@ -102,19 +102,6 @@ a.scramble-text:hover {
   text-decoration: underline;
 }
 
-@media (max-width: 600px) {
-  .scramble, .event-select select {
-    font-size: 6vw;
-  }
-}
-
-@media (max-aspect-ratio: 1/1) {
-  .scramble-bar, .event-select select {
-    font-size: 3vh;
-  }
-}
-
-
 .timer {
   flex: 1;
   width: 100%;
@@ -149,10 +136,15 @@ a.scramble-text:hover {
 }
 
 .time {
-    font-size: 25vw;
+  font-size: 30vw;
   font-family: digital-7-mono, monospace;
 }
 
+@media (max-aspect-ratio: 1/1) {
+  .time {
+    font-size: 30vh;
+  }
+}
 @media (min-aspect-ratio: 2/1) {
   .time {
     font-size: 50vh;
