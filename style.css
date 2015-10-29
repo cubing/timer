@@ -106,6 +106,17 @@ a.scramble-text:hover {
   opacity: 0.25;
 }
 
+.scramble-text.event-555,
+.scramble-text.event-clock {
+  font-size: 3.5vh;
+}
+
+.scramble-text.event-666,
+.scramble-text.event-777,
+.scramble-text.event-minx {
+  font-size: 2.5vh;
+}
+
 .timer {
   flex: 1;
   width: 100%;

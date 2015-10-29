@@ -139,6 +139,8 @@ TimerApp.ScrambleView.prototype = {
    */
   setEvent: function(eventName)
   {
+    TimerApp.Util.removeClassesStartingWith(this._scrambleText, "event-");
+    this._scrambleText.classList.add("event-" + eventName);
     TimerApp.Util.removeClassesStartingWith(this._cubingIcon, "icon-");
     this._cubingIcon.classList.add("icon-" + eventName);
     if (this._eventSelectDropdown.value != eventName) {
