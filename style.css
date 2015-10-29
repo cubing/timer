@@ -129,13 +129,13 @@ a.scramble-text:hover {
 }
 
 /* Slow down transitions into some states. */
-.timer.HandOnTimer,
-.timer.Ready {
+.timer.handOnTimer,
+.timer.ready {
   transition: background-color 0.1s, color 0.1s;
 }
 
-.timer.HandOnTimer,
-.timer.Stopped {
+.timer.handOnTimer,
+.timer.stopped {
   color: white;
 }
 
@@ -192,26 +192,26 @@ a.scramble-text:hover {
 }
 
 .timer-app.theme-orange > .scramble-bar,
-.timer-app.theme-orange > .timer.HandOnTimer,
-.timer-app.theme-orange > .timer.Stopped {
+.timer-app.theme-orange > .timer.handOnTimer,
+.timer-app.theme-orange > .timer.stopped {
   background-color: #f95b2a;
 }
 
 .timer-app.theme-green > .scramble-bar,
-.timer-app.theme-green > .timer.HandOnTimer,
-.timer-app.theme-green > .timer.Stopped {
+.timer-app.theme-green > .timer.handOnTimer,
+.timer-app.theme-green > .timer.stopped {
   background-color: #0d904f;
 }
 
 .timer-app.theme-red > .scramble-bar,
-.timer-app.theme-red > .timer.HandOnTimer,
-.timer-app.theme-red > .timer.Stopped {
+.timer-app.theme-red > .timer.handOnTimer,
+.timer-app.theme-red > .timer.stopped {
   background-color: #ce2e20;
 }
 
 .timer-app.theme-blue > .scramble-bar,
-.timer-app.theme-blue > .timer.HandOnTimer,
-.timer-app.theme-blue > .timer.Stopped {
+.timer-app.theme-blue > .timer.handOnTimer,
+.timer-app.theme-blue > .timer.stopped {
   background-color: #4285f4;
 }
 

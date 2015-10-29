@@ -60,10 +60,10 @@ TimerApp.TimerController.prototype = {
   {
     var State = TimerApp.TimerController.State;
     var transitionMap = {
-      "Ready":       State.HandOnTimer,
-      "HandOnTimer": State.Ignore,
-      "Running":     State.Stopped,
-      "Stopped":     State.Ignore
+      "ready":       State.HandOnTimer,
+      "handOnTimer": State.Ignore,
+      "running":     State.Stopped,
+      "stopped":     State.Ignore
     }
     this._setState(transitionMap[this._state]);
   },
@@ -72,10 +72,10 @@ TimerApp.TimerController.prototype = {
   {
     var State = TimerApp.TimerController.State;
     var transitionMap = {
-      "Ready":       State.Ignore,
-      "HandOnTimer": State.Running,
-      "Running":     State.Ignore,
-      "Stopped":     State.Ready
+      "ready":       State.Ignore,
+      "handOnTimer": State.Running,
+      "running":     State.Ignore,
+      "stopped":     State.Ready
     }
     this._setState(transitionMap[this._state]);
   },
@@ -115,11 +115,11 @@ TimerApp.TimerController.prototype = {
 }
 
 TimerApp.TimerController.State = {
-  Ready: "Ready",
-  HandOnTimer: "HandOnTimer",
-  Running: "Running",
-  Stopped: "Stopped",
-  Ignore: "Ignore"
+  Ready: "ready",
+  HandOnTimer: "handOnTimer",
+  Running: "running",
+  Stopped: "stopped",
+  Ignore: "ignore"
 }
 
 
