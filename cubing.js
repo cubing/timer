@@ -34,7 +34,8 @@ Cubing.prototype = {
 
 }
 
-Cubing.EventName = ["222", "333", "333bf", "333fm", "333ft", "333mbf", "333oh", "444", "444bf", "555", "555bf", "666", "777", "clock", "minx", "pyram", "sq1"];
+// Matches the order on the WCA website.
+Cubing.EventName = ["333", "444", "555", "222", "333bf", "333oh", "333fm", "333ft", "minx", "pyram", "sq1", "clock", /*"skewb",*/ "666", "777", "444bf", "555bf", "333mbf"];
 
 // From cubing/scrambler-interface:
 // https://github.com/cubing/scrambler-interface/blob/181a875a1/js/ui.js#L342
