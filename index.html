@@ -5,6 +5,17 @@
   <meta name="viewport" content="minimal-ui" />
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-title" content="timer.cubing.net">
+  <script>
+    var themeColors = ["orange", "green", "red", "blue"];
+    var themes = {
+      "orange": "#f95b2a",
+      "green": "#0d904f",
+      "red": "#ce2e20",
+      "blue": "#4285f4"
+    };
+    window.themeColor = themeColors[Math.floor(Math.random() * themeColors.length)];
+    document.write('<meta name="theme-color" content="' + themes[themeColor] + '">');
+  </script>
   <link rel="apple-touch-icon" href="touch-icon.png"/>
   <meta property="og:image" content="http://timer.cubing.net/screenshot.png" />
   <link rel="shortcut icon" href="favicon.ico"/>

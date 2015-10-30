@@ -63,7 +63,12 @@ TimerApp.prototype = {
   _setRandomBackgroundColor: function()
   {
     var themeColors = ["orange", "green", "red", "blue"];
-    this._domElement.classList.add("theme-" + TimerApp.Util.randomChoice(themeColors))
+    this._domElement.classList.add("theme-" + window.themeColor);
+
+    // var meta = document.createElement("meta");
+    // meta.name = "theme-color";
+    // meta.content = "#0C5093";
+    // document.getElementsByTagName('head')[0].appendChild(meta);
   },
 
   /**
