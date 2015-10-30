@@ -25,7 +25,7 @@ var TimerApp = function()
 }
 
 TimerApp.prototype = {
-  DEFAULT_EVENT: "333", // Currently using 222 for testing on slow devices
+  DEFAULT_EVENT: "333",
 
   _startNewAttempt: function ()
   {
