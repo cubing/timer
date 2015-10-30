@@ -146,6 +146,17 @@ TimerApp.ScrambleView.prototype = {
     if (this._eventSelectDropdown.value != eventName) {
       this._eventSelectDropdown.optionElementsByEventName[eventName].selected = true;
     }
+    this._setScramblePlaceholder(eventName);
+  },
+
+  /**
+   * @param {!Cubing.EventName} eventName
+   */
+  _setScramblePlaceholder: function(eventName) {
+    this.setScramble({
+      eventName: eventName,
+      scrambleString: "(generating scramble...)"
+    });
   },
 
   /**
