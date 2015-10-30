@@ -173,7 +173,7 @@ TimerApp.ScrambleView.prototype = {
       this._scrambleText.innerHTML = scramble.scrambleString;
     }
     else if (scramble.eventName === "sq1") {
-      this._scrambleText.innerHTML = scramble.scrambleString.replace(", ", ",&nbsp;").replace(") /", ")&nbsp;/");
+      this._scrambleText.innerHTML = scramble.scrambleString.replace(/, /g, ",&nbsp;").replace(/\) \//g, ")&nbsp;/");
     }
   },
 
