@@ -167,6 +167,14 @@ TimerApp.ScrambleView.prototype = {
     this._scrambleText.classList.remove("stale");
     this._scrambleText.href = Cubing.prototype.urlForScramble(scramble);
     this._scrambleText.textContent = scramble.scrambleString;
+
+    // TODO(lgarron): Use proper layout code. https://github.com/cubing/timer/issues/20
+    if (scramble.eventName === "minx") {
+      this._scrambleText.innerHTML = scramble.scrambleString;
+    }
+    else if (scramble.eventName === "sq1") {
+      this._scrambleText.innerHTML = scramble.scrambleString.replace(", ", ",&nbsp;").replace(") /", ")&nbsp;/");
+    }
   },
 
   clearScramble: function()
