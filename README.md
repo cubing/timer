@@ -1,15 +1,14 @@
 # timer.cubing.net
 
-Minmalist, cross-platform responsive HTML5. Did I mention minimalist?
+A simple cubing timer.
 
-Still missing some features and layout for v1.
+- Simple, clean design.
+- Works on all major browsers on any size screen or smartphone.
+  - Try "Add to Home Screen" from your phone's browser to use it like an app!
+- Random-state scrambles for most puzzles (using [JSSS](https://github.com/cubing/jsss).
+- Works offline.
 
 ![timer.cubing.net screenshot](./screenshot.png)
-
-## Minimalist?
-
-Yes, minimalist.
-Sorry, [Ben Pang](http://molarmanful.github.io/minimalistimer/). :-P
 
 ## License
 
