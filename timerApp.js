@@ -174,7 +174,9 @@ TimerApp.Util = function()
  */
 TimerApp.Util.removeClassesStartingWith = function(element, prefix)
 {
-  for (var className of Array.prototype.slice.call(element.classList)) {
+  var classes = Array.prototype.slice.call(element.classList);
+  for (var i in classes) {
+    var className = classes[i];
     if (className.startsWith(prefix)) {
       element.classList.remove(className);
     }
