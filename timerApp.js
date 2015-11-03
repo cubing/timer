@@ -188,6 +188,15 @@ TimerApp.ScrambleView.prototype = {
 TimerApp.Util = function()
 {};
 
+// startsWith polyfill for iOS < 9
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/startsWith
+if (!String.prototype.startsWith) {
+  String.prototype.startsWith = function(searchString, position) {
+    position = position || 0;
+    return this.indexOf(searchString, position) === position;
+  };
+}
+
 /**
  * @param {!Element} element
  * @param {string} prefix
