@@ -23,6 +23,11 @@ TimerApp.TimerController = function(domElement, solveDoneCallback, attemptDoneCa
   domElement.addEventListener("touchstart", this._down.bind(this));
   domElement.addEventListener("touchend", this._up.bind(this));
 
+  if(navigator.maxTouchPoints > 0){
+    domElement.addEventListener("pointerdown", this._down.bind(this));
+    domElement.addEventListener("pointerup", this._up.bind(this));
+  }
+
   this._setState(TimerApp.TimerController.State.Ready);
 }
 
