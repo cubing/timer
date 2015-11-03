@@ -88,9 +88,10 @@ TimerApp.prototype = {
   _persistResult: function(time)
   {
     var today = new Date();
-    var dateString = today.getFullYear() + "-" + today.getMonth() + "-" + today.getDate();
+    var dateString = today.getFullYear() + "-" + (today.getMonth() + 1) + "-" + today.getDate();
 
-    var result = "[" + this._currentEvent + "][" + new Date() + "] " + (time / 1000) + " (" + this._currentScramble.scrambleString + ")";
+    var serializationFormat = "v0.1";
+    var result = "[" + serializationFormat + "][" + this._currentEvent + "][" + new Date() + "] " + (time / 1000) + " (" + this._currentScramble.scrambleString + ")";
 
     var store = (dateString in localStorage) ? localStorage[dateString] + "\n" : "";
     localStorage[dateString] = store + result;
