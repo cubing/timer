@@ -15,7 +15,8 @@ TEST_URL       = "http://timer.cubing.net/test/"
 
 .PHONY: deploy
 deploy:
-	manifest --update ${MANIFEST_FILE}
+	echo ""
+	manifest --concise --update ${MANIFEST_FILE}
 	rsync -avz \
 		--exclude .DS_Store \
 		--exclude .git \
@@ -23,12 +24,12 @@ deploy:
 		--exclude .gitmodules \
 		./ \
 		${SFTP_PATH}
-	manifest --revert ${MANIFEST_FILE}
+	manifest --concise --revert ${MANIFEST_FILE}
 	echo "\nDone deploying. Go to ${URL}\n"
 
 .PHONY: deploy-test
 deploy-test:
-	manifest --update ${MANIFEST_FILE}
+	manifest --concise --update ${MANIFEST_FILE}
 	rsync -avz \
 		--exclude .DS_Store \
 		--exclude .git \
@@ -36,7 +37,7 @@ deploy-test:
 		--exclude .gitmodules \
 		./ \
 		${SFTP_TEST_PATH}
-	manifest --revert ${MANIFEST_FILE}
+	manifest --concise --revert ${MANIFEST_FILE}
 	echo "\nDone deploying. Go to ${TEST_URL}\n"
 
 
