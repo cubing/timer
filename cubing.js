@@ -36,7 +36,7 @@ Cubing.prototype = {
 }
 
 // Matches the order on the WCA website.
-Cubing.EventName = ["333", "444", "555", "222", "333bf", "333oh", "333fm", "333ft", "minx", "pyram", "sq1", "clock", /*"skewb",*/ "666", "777", "444bf", "555bf", "333mbf"];
+Cubing.EventName = ["333", "444", "555", "222", "333bf", "333oh", "333fm", "333ft", "minx", "pyram", "sq1", "clock", "skewb", "666", "777", "444bf", "555bf", "333mbf"];
 
 // From cubing/scrambler-interface:
 // https://github.com/cubing/scrambler-interface/blob/181a875a1/js/ui.js#L342
@@ -54,6 +54,7 @@ Cubing.EventMetadata = {
   "pyram":  {name: "Pyraminx",         acn_puzzle_name: null, default_round: {type: "avg", num_scrambles: 5}},
   "sq1":    {name: "Square-1",         acn_puzzle_name: null, default_round: {type: "avg", num_scrambles: 5}},
   "clock":  {name: "Clock",    acn_puzzle_name: null, default_round: {type: "avg", num_scrambles: 5}},
+  "skewb":  {name: "Skewb",    acn_puzzle_name: null, default_round: {type: "avg", num_scrambles: 5}},
   "666":    {name: "6x6x6",         acn_puzzle_name: "6x6x6", default_round: {type: "mean", num_scrambles: 3}},
   "777":    {name: "7x7x7",         acn_puzzle_name: "7x7x7", default_round: {type: "mean", num_scrambles: 3}},
   "444bf":  {name: "4x4x4 BLD",  acn_puzzle_name: "4x4x4", default_round: {type: "best", num_scrambles: 3}},
