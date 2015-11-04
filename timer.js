@@ -1,19 +1,20 @@
 "use strict";
 
+var Timer = {};
 
 /**
  * @param {!Element} domElement
- * @param {function(!TimerApp.Timer.Milliseconds)} solveDoneCallback
- * @param {function(!TimerApp.Timer.Milliseconds)} attemptDoneCallback
+ * @param {function(!Timer.Timer.Milliseconds)} solveDoneCallback
+ * @param {function(!Timer.Timer.Milliseconds)} attemptDoneCallback
  */
-TimerApp.TimerController = function(domElement, solveDoneCallback, attemptDoneCallback)
+Timer.Controller = function(domElement, solveDoneCallback, attemptDoneCallback)
 {
   this._domElement = domElement;
   this._solveDoneCallback = solveDoneCallback;
   this._attemptDoneCallback = attemptDoneCallback;
 
-  var timerView = new TimerApp.TimerView(domElement);
-  this._timer = new TimerApp.Timer(timerView.displayTime.bind(timerView));
+  var timerView = new Timer.View(domElement);
+  this._timer = new Timer.Timer(timerView.displayTime.bind(timerView));
 
   document.body.addEventListener("keypress", this._keyDown.bind(this));
   document.body.addEventListener("keyup", this._keyUp.bind(this));
@@ -28,16 +29,16 @@ TimerApp.TimerController = function(domElement, solveDoneCallback, attemptDoneCa
     domElement.addEventListener("pointerup", this._up.bind(this));
   }
 
-  this._setState(TimerApp.TimerController.State.Ready);
+  this._setState(Timer.Controller.State.Ready);
 }
 
-TimerApp.TimerController.prototype = {
+Timer.Controller.prototype = {
   /**
    * @param {!Event} e
    */
   _keyDown: function(e)
   {
-    if (this._isTimerKey(e) || this._state === TimerApp.TimerController.State.Running) {
+    if (this._isTimerKey(e) || this._state === Timer.Controller.State.Running) {
       this._down();
     }
   },
@@ -47,7 +48,7 @@ TimerApp.TimerController.prototype = {
    */
   _keyUp: function(e)
   {
-    if (this._isTimerKey(e) || this._state === TimerApp.TimerController.State.Stopped) {
+    if (this._isTimerKey(e) || this._state === Timer.Controller.State.Stopped) {
       this._up();
     }
   },
@@ -63,7 +64,7 @@ TimerApp.TimerController.prototype = {
 
   _down: function()
   {
-    var State = TimerApp.TimerController.State;
+    var State = Timer.Controller.State;
     var transitionMap = {
       "ready":       State.HandOnTimer,
       "handOnTimer": State.Ignore,
@@ -75,7 +76,7 @@ TimerApp.TimerController.prototype = {
 
   _up: function(e)
   {
-    var State = TimerApp.TimerController.State;
+    var State = Timer.Controller.State;
     var transitionMap = {
       "ready":       State.Ignore,
       "handOnTimer": State.Running,
@@ -86,11 +87,11 @@ TimerApp.TimerController.prototype = {
   },
 
   /**
-   * @param {!TimerApp.TimerController.State} state
+   * @param {!Timer.Controller.State} state
    */
   _setState: function(state)
   {
-    var State = TimerApp.TimerController.State;
+    var State = Timer.Controller.State;
     switch (state) {
       case State.Ready:
         if (this._state == State.Stopped) {
@@ -119,7 +120,7 @@ TimerApp.TimerController.prototype = {
   }
 }
 
-TimerApp.TimerController.State = {
+Timer.Controller.State = {
   Ready: "ready",
   HandOnTimer: "handOnTimer",
   Running: "running",
@@ -131,16 +132,16 @@ TimerApp.TimerController.State = {
 /**
  * @param {!Element} domElement
  */
-TimerApp.TimerView = function(domElement)
+Timer.View = function(domElement)
 {
   this._secFirstElement = domElement.getElementsByClassName("sec-first")[0];
   this._secRestElement = domElement.getElementsByClassName("sec-rest")[0];
   this._decimalDigitsElement = domElement.getElementsByClassName("decimal-digits")[0];
 }
 
-TimerApp.TimerView.prototype = {
+Timer.View.prototype = {
   /**
-   * @param {!TimerApp.Timer.Milliseconds} time
+   * @param {!Timer.Timer.Milliseconds} time
    */
   displayTime: function(time)
   {
@@ -185,9 +186,9 @@ TimerApp.TimerView.prototype = {
 
 
 /**
- * @param {function(!TimerApp.Timer.Milliseconds)} currentTimeCallback
+ * @param {function(!Timer.Timer.Milliseconds)} currentTimeCallback
  */
-TimerApp.Timer = function(currentTimeCallback)
+Timer.Timer = function(currentTimeCallback)
 {
   this._currentTimeCallback = currentTimeCallback;
   this._running = false;
@@ -195,7 +196,7 @@ TimerApp.Timer = function(currentTimeCallback)
   this._animFrameBound = this._animFrame.bind(this);
 };
 
-TimerApp.Timer.prototype = {
+Timer.Timer.prototype = {
   start: function()
   {
     this._startTime = Date.now();
@@ -205,7 +206,7 @@ TimerApp.Timer.prototype = {
   },
 
   /**
-   * @returns {!TimerApp.Timer.Milliseconds}
+   * @returns {!Timer.Timer.Milliseconds}
    */
   stop: function()
   {
@@ -231,7 +232,7 @@ TimerApp.Timer.prototype = {
   },
 
   /**
-   * @returns {TimerApp.Timer.Milliseconds}
+   * @returns {Timer.Timer.Milliseconds}
    */
   _elapsed: function()
   {
@@ -241,4 +242,4 @@ TimerApp.Timer.prototype = {
 
 // Time in milliseconds
 /** @typedef {integer} */
-TimerApp.Timer.Milliseconds;
+Timer.Timer.Milliseconds;

@@ -12,7 +12,7 @@ var TimerApp = function()
     event.preventDefault();
   });
 
-  this._timerController = new TimerApp.TimerController(
+  this._timerController = new Timer.Controller(
                                   document.getElementById("timer"),
                                   this._solveDone.bind(this),
                                   this._attemptDone.bind(this));
