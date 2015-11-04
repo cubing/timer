@@ -21,7 +21,7 @@ var TimerApp = function()
   this._scramblers = new Cubing.Scramblers();
 
   // This should trigger a new attempt for us.
-  this.setEvent(this.DEFAULT_EVENT);
+  this.setEvent(localStorage["current-puzzle"] || this.DEFAULT_EVENT);
 }
 
 TimerApp.prototype = {
@@ -55,6 +55,7 @@ TimerApp.prototype = {
    */
   setEvent: function(eventName)
   {
+    localStorage["current-puzzle"] = eventName;
     this._currentEvent = eventName;
     this._scrambleView.setEvent(this._currentEvent);
     this._startNewAttempt();
