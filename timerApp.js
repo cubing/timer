@@ -26,10 +26,18 @@ var TimerApp = function()
 
 TimerApp.prototype = {
   DEFAULT_EVENT: "333",
+  STORED_EVENT_TIMEOUT_MS: 15 * 60 * 1000, // 15 min
 
   _setInitialEvent: function() {
     var storedEvent = localStorage["current-event"];
-    if (storedEvent in Cubing.EventMetadata) {
+    var lastAttemptDate = new Date(localStorage["last-attempt-date"]);
+
+    var currentDate = new Date();
+
+    if (storedEvent in Cubing.EventMetadata &&
+        !isNaN(lastAttemptDate) &&
+        (currentDate.getTime() - lastAttemptDate.getTime() < this.STORED_EVENT_TIMEOUT_MS)
+    ) {
       this.setEvent(storedEvent);
     } else {
       this.setEvent(this.DEFAULT_EVENT);
@@ -105,6 +113,8 @@ TimerApp.prototype = {
 
     var store = (dateString in localStorage) ? localStorage[dateString] + "\n" : "";
     localStorage[dateString] = store + result;
+
+    localStorage["last-attempt-date"] = today.toString();
   }
 }
 
