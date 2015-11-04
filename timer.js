@@ -13,8 +13,8 @@ Timer.Controller = function(domElement, solveDoneCallback, attemptDoneCallback)
   this._solveDoneCallback = solveDoneCallback;
   this._attemptDoneCallback = attemptDoneCallback;
 
-  var timerView = new Timer.View(domElement);
-  this._timer = new Timer.Timer(timerView.displayTime.bind(timerView));
+  this._view = new Timer.View(domElement);
+  this._timer = new Timer.Timer(this._view.displayTime.bind(this._view));
 
   document.body.addEventListener("keypress", this._keyDown.bind(this));
   document.body.addEventListener("keyup", this._keyUp.bind(this));
@@ -68,6 +68,7 @@ Timer.Controller.prototype = {
     var transitionMap = {
       "ready":       State.HandOnTimer,
       "handOnTimer": State.Ignore,
+      "timerGreen":  State.TimerGreen,
       "running":     State.Stopped,
       "stopped":     State.Ignore
     }
@@ -79,7 +80,8 @@ Timer.Controller.prototype = {
     var State = Timer.Controller.State;
     var transitionMap = {
       "ready":       State.Ignore,
-      "handOnTimer": State.Running,
+      "handOnTimer": State.Ready,
+      "timerGreen":  State.Running,
       "running":     State.Ignore,
       "stopped":     State.Ready
     }
@@ -96,10 +98,23 @@ Timer.Controller.prototype = {
       case State.Ready:
         if (this._state == State.Stopped) {
           this._attemptDoneCallback(time);
+        } else if (this._state == State.HandOnTimer) {
+          this._view.displayPreviousTime();
         }
         break;
       case State.HandOnTimer:
-        this._timer.reset();
+        this._view.displayDashes();
+
+        var reference = {}
+        this._handOnTimerReference = reference;
+        setTimeout(function() {
+          if (this._state === State.HandOnTimer && this._handOnTimerReference === reference) {
+            this._setState(State.TimerGreen);
+          }
+        }.bind(this), 600);
+        break;
+      case State.TimerGreen:
+        this._view.displayTime(0);
         break;
       case State.Running:
         this._timer.start();
@@ -123,6 +138,7 @@ Timer.Controller.prototype = {
 Timer.Controller.State = {
   Ready: "ready",
   HandOnTimer: "handOnTimer",
+  TimerGreen: "timerGreen",
   Running: "running",
   Stopped: "stopped",
   Ignore: "ignore"
@@ -134,17 +150,34 @@ Timer.Controller.State = {
  */
 Timer.View = function(domElement)
 {
+  this._domElement = domElement;
   this._secFirstElement = domElement.getElementsByClassName("sec-first")[0];
   this._secRestElement = domElement.getElementsByClassName("sec-rest")[0];
   this._decimalDigitsElement = domElement.getElementsByClassName("decimal-digits")[0];
+
+  this._previousTime = 0;
 }
 
 Timer.View.prototype = {
+  displayDashes: function() {
+    this._domElement.classList.add("dashes");
+    this._secFirstElement.textContent = "";
+    this._secRestElement.textContent = "-";
+    this._decimalDigitsElement.textContent = "--";
+  },
+
+  displayPreviousTime: function() {
+    this.displayTime(this._previousTime);
+  },
+
   /**
    * @param {!Timer.Timer.Milliseconds} time
    */
   displayTime: function(time)
   {
+    this._previousTime = time;
+    this._domElement.classList.remove("dashes");
+
     // Each entry is [minimum number of digits if not first, separator before, value]
     var hours   = Math.floor(time / (60 * 60 * 1000));
     var minutes = Math.floor(time / (     60 * 1000)) % 60;
@@ -215,11 +248,6 @@ Timer.Timer.prototype = {
     var time = this._elapsed();
     this._currentTimeCallback(time);
     return time;
-  },
-
-  reset: function()
-  {
-    this._currentTimeCallback(0);
   },
 
   _animFrame: function()
