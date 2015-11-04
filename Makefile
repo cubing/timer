@@ -12,6 +12,9 @@ URL            = "http://timer.cubing.net/"
 SFTP_TEST_PATH = "towns.dreamhost.com:~/timer.cubing.net/test/"
 TEST_URL       = "http://timer.cubing.net/test/"
 
+SFTP_SESSION_TEST_PATH = "towns.dreamhost.com:~/timer.cubing.net/session-test/"
+SESSION_TEST_URL       = "http://timer.cubing.net/session-test/"
+
 
 .PHONY: deploy
 deploy:
@@ -39,6 +42,19 @@ deploy-test:
 		${SFTP_TEST_PATH}
 	manifest --concise --revert ${MANIFEST_FILE}
 	echo "\nDone deploying. Go to ${TEST_URL}\n"
+
+.PHONY: deploy-session-test
+deploy-session-test:
+	manifest --concise --update ${MANIFEST_FILE}
+	rsync -avz \
+		--exclude .DS_Store \
+		--exclude .git \
+		--exclude .gitignore \
+		--exclude .gitmodules \
+		./ \
+		${SFTP_SESSION_TEST_PATH}
+	manifest --concise --revert ${MANIFEST_FILE}
+	echo "\nDone deploying. Go to ${SESSION_TEST_URL}\n"
 
 
 .PHONY: open
