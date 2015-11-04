@@ -19,7 +19,7 @@ html, body {
 
 body {
   display: flex;
-  background: #f2f2f2;
+  background: white;
 }
 
 * {
@@ -33,6 +33,7 @@ body {
 
 .timer-app {
   height: 100%;
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -41,35 +42,70 @@ body {
 }
 
 .session {
-  flex: 1;
-  background: #4285f4;
+  font-family: Helvetica, Tahoma, sans-serif;
+  flex: 1 1 64px;
+  /* background: #FFFFFF; */
   width: 100%;
   height: 100%;
-  overflow-y: scroll;
   border-top: 1px solid rgba(0, 0, 0, 0.25);
+  display: flex;
+  flex-direction: column;
 }
 
 @media (min-aspect-ratio: 1/1) {
   .timer-app {
     flex-direction: row;
+  }
+  .session {
     border-top: none;
     border-left: 1px solid rgba(0, 0, 0, 0.25);
   }
 }
 
+.stats {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.25);
+  padding: 1em;
+  box-shadow: 0 0 4px rgba(0,0,0,.14), 0px 4px 8px rgba(0,0,0,.14);
+}
+
+.stats table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.stats table tbody:not(:first-child) tr:first-child td {
+  padding-top: 0.5em;
+  /*border-top: 1px solid rgba(0, 0, 0, 0.25);*/
+}
+
+.stats table td:first-child {
+  text-align: right;
+  color: rgb(140, 140, 140);
+}
+.stats table td:last-child {
+  padding-left: 0.5em;
+  text-align: left;
+}
+
 .results {
-  margin: 0.75em 1em;
-  color: white;
+  /*margin: 0.75em 1em;*/
+  /* color: white; */
   line-height: 2em;
   text-align: justify;
+  overflow-y: scroll;
 }
 
 .session a {
-  font-family: Helvetica, Tahoma, sans-serif;
-  color: white;
-  background: rgba(255, 255, 255, 0.25);
-  padding: 0.25em 0.5em;
-  border-radius: 0.25em;
+  /* color: white; */
+  padding: 0em 0.5em;
+  box-sizing: border-box;
+  text-align: right;
+  /* background: rgba(255, 255, 255, 0.25); */
+  border-bottom: 1px solid rgba(0, 0, 0, 0.25);
+  /*padding: 0.25em 0.5em;*/
+  /*border-radius: 0.25em;*/
+  width: 100%;
+  display: block;
 }
 
 .current-solve {
@@ -80,6 +116,8 @@ body {
   align-items: flex-start;
   justify-content: center;
   text-align: center;
+  box-shadow: 0 0 4px rgba(0,0,0,.14), 4px 0px 8px rgba(0,0,0,.28);
+  background: #f2f2f2;
 }
 
 
