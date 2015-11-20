@@ -16,7 +16,7 @@ Timer.Controller = function(domElement, solveDoneCallback, attemptDoneCallback)
   var timerView = new Timer.View(domElement);
   this._timer = new Timer.Timer(timerView.displayTime.bind(timerView));
 
-  document.body.addEventListener("keypress", this._keyDown.bind(this));
+  document.body.addEventListener("keydown", this._keyDown.bind(this));
   document.body.addEventListener("keyup", this._keyUp.bind(this));
 
   FastClick.attach(domElement);
