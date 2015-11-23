@@ -1,0 +1,19 @@
+
+.session {
+  flex: 1 0 15em;
+
+  background: rgba(0, 0, 0, 0.75);
+  color: white;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.session a {
+  color: white;
+  text-decoration: none;
+}
+
+.session a:hover {
+  text-decoration: underline;
+}

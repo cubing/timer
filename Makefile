@@ -9,8 +9,8 @@ MANIFEST_FILE  = "offline/cache.manifest"
 SFTP_PATH      = "towns.dreamhost.com:~/timer.cubing.net/"
 URL            = "http://timer.cubing.net/"
 
-SFTP_TEST_PATH = "towns.dreamhost.com:~/timer.cubing.net/test/"
-TEST_URL       = "http://timer.cubing.net/test/"
+SFTP_TEST_PATH = "towns.dreamhost.com:~/timer.cubing.net/test8/"
+TEST_URL       = "http://timer.cubing.net/test8/"
 
 
 .PHONY: deploy

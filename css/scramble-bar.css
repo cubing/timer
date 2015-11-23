@@ -1,0 +1,81 @@
+
+.scramble-bar {
+  flex: 0 0 auto;
+  width: 100%;
+
+  padding: 0.25em 0;
+  background: #4285f4;
+  box-shadow: 0 0 4px rgba(0,0,0,.14),0 4px 8px rgba(0,0,0,.28);
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+
+  flex-wrap: wrap;
+}
+
+.scramble-bar, .event-select select {
+  font-size: 5vh;
+  font-family: Helvetica, "Tahoma", sans-serif;
+
+  /**
+    * Some platforms require explicitly setting the text color.
+    * https://github.com/cubing/timer/issues/33
+    */
+  color: white;
+}
+
+.event-select {
+  flex: 0 0 auto;
+  border: 1px solid rgba(0, 0, 0, 0.25);
+  padding: 0 0.3em;
+  margin: 0.25em 1em;
+  background: rgba(255, 255, 255, .25);
+}
+
+.event-select .cubing-icon {
+  vertical-align: middle;
+}
+
+.event-select select {
+  height: 1.5em;
+
+  cursor: pointer;
+  vertical-align: middle;
+
+  background: none;
+  border: none;
+  -webkit-appearance: none;
+  -moz-appearance:    none;
+  appearance:         none;
+}
+
+.scramble-text {
+  margin: 0.25em 1em;
+  text-align: center;
+}
+
+a.scramble-text {
+  color: inherit;
+  text-decoration: none;
+}
+
+a.scramble-text:hover {
+  text-decoration: underline;
+}
+
+.scramble-text.stale {
+  opacity: 0.25;
+}
+
+.scramble-text.event-555,
+.scramble-text.event-clock {
+  font-size: 3.5vh;
+}
+
+.scramble-text.event-666,
+.scramble-text.event-777,
+.scramble-text.event-minx {
+  font-size: 2.5vh;
+}

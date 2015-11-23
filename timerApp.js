@@ -13,7 +13,7 @@ var TimerApp = function()
   });
 
   this._timerController = new Timer.Controller(
-                                  document.getElementById("timer"),
+                                  document.getElementById("face"),
                                   this._solveDone.bind(this),
                                   this._attemptDone.bind(this));
   this._setRandomBackgroundColor();

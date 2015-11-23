@@ -10,37 +10,135 @@
 
   <title>timer.cubing.net</title>
 
-  <script src="lib/fastclick.js" defer></script>
-
-  <link href="style.css" rel="stylesheet"/>
+  <!-- CSS libraries -->
   <link href="lib/cubing-icons/cubing-icons.css" rel="stylesheet"/>
 
+  <!-- App CSS -->
+  <link href="css/timer-app.css" rel="stylesheet"/>
+    <link href="css/current-attempt.css" rel="stylesheet"/>
+      <link href="css/scramble-bar.css" rel="stylesheet"/>
+      <link href="css/face.css" rel="stylesheet"/>
+    <link href="css/session.css" rel="stylesheet"/>
+      <link href="css/stats.css" rel="stylesheet"/>
+      <link href="css/results.css" rel="stylesheet"/>
+    <link href="css/theme.css" rel="stylesheet"/>
+
+  <!-- Javascript libraries -->
+  <script src="lib/fastclick.js" defer></script>
   <script src="lib/MagicWorker.js" defer></script>
   <script src="lib/scramble-worker.js" defer></script>
 
+  <!-- App Javascript -->
   <script src="cubing.js" defer></script>
   <script src="timer.js" defer></script>
   <script src="timerApp.js" defer></script>
 </head>
 <body>
+
 <div class="timer-app" id="timer-app">
-  <div class="scramble-bar" id="scramble-bar">
-    <div class="event-select">
-      <span class="cubing-icon" id="cubing-icon"></span>
-      <select id="event-select-dropdown">
-      </select>
-    </div>
-    <a class="scramble-text" id="scramble-text" href="" target="_blank">(generating scramble...)</a>
-  </div>
-  <div class="timer" id="timer">
-    <div class="time">
-      <div class="sec">
-        <span class="sec-first"></span><span class="sec-rest">0</span>
+
+  <div class="current-attempt">
+
+    <div class="scramble-bar" id="scramble-bar">
+      <div class="event-select">
+        <span class="cubing-icon" id="cubing-icon"></span>
+        <select id="event-select-dropdown">
+        </select>
       </div>
-      <div class="decimals">.<span class="decimal-digits">00</span><span class="invisible">.</span></div>
+      <a class="scramble-text" id="scramble-text" href="" target="_blank">(generating scramble...)</a>
     </div>
-  </div>
-</div>
+
+    <div class="face" id="face">
+      <div class="time">
+        <div class="sec">
+          <span class="sec-first"></span><span class="sec-rest">0</span>
+        </div>
+        <div class="decimals">.<span class="decimal-digits">00</span><span class="invisible">.</span></div>
+      </div>
+    </div>
+
+  </div><!-- .curent-attempt -->
+
+  <div class="session">
+
+    <div class="stats">
+      <table>
+        <tbody>
+          <tr>
+            <td>Show more stats:</td>
+            <td>
+              <a href="javascript:document.getElementsByClassName('stats')[0].classList.toggle('show-more');" class="toggle-more">&nbsp;&bull;&bull;&bull;&nbsp;</a>
+            </td>
+          </tr>
+          <tr><td>Number of times:</td><td>70/70</td></tr>
+        </tbody>
+        <tbody>
+          <tr><td>Current avg5:</td><td>10.32</td></tr>
+          <tr><td>Current avg12:</td><td>12.85</td></tr>
+        </tbody>
+        <tbody class="more">
+          <tr><td>Best avg5:</td><td>9.70</td></tr>
+          <tr><td>Best avg12:</td><td>11.85</td></tr>
+        </tbody>
+        <tbody class="more">
+          <tr><td>session avg:</td><td>12.63</td></tr>
+        </tbody>
+        <tbody class="more">
+          <tr><td>best time:</td><td>0.88</td></tr>
+          <tr><td>worst time:</td><td>20.07</td></tr>
+        </tbody>
+        <tbody>
+        </tbody>
+      </table>
+    </div><!-- .stats -->
+
+    <div class="results">
+      <div class="group">
+        <div class="description">
+          <span class="cubing-icon icon-333"></span>
+          3x3x3 (current)
+        </div>
+        <div class="values">
+          <a href="javascript:this.classList.add('selected')">10.16</a>&#65279;, <a href="javascript:this.classList.add('selected')">12.83</a>&#65279;, <a href="javascript:this.classList.add('selected')">10.99</a>&#65279;, <a href="javascript:this.classList.add('selected')">12.71</a>&#65279;, <a href="javascript:this.classList.add('selected')">12.79</a>&#65279;, <a href="javascript:this.classList.add('selected')">9.53</a>&#65279;, <a href="javascript:this.classList.add('selected')">9.01</a>&#65279;, <a href="javascript:this.classList.add('selected')">12.43</a>&#65279;, <a href="javascript:this.classList.add('selected')">12.41</a>&#65279;, <a href="javascript:this.classList.add('selected')">12.85</a>
+        </div>
+      </div><div class="group">
+        <div class="description">
+          <span class="cubing-icon icon-333oh"></span>
+          3x3x3 One-Handed (today)
+        </div>
+        <div class="values">
+          <a href="javascript:this.classList.add('selected')">11.27</a>&#65279;, <a href="javascript:this.classList.add('selected')">13.24</a>&#65279;, <a href="javascript:this.classList.add('selected')">11.60</a>&#65279;, <a href="javascript:this.classList.add('selected')">11.12</a>&#65279;, <a href="javascript:this.classList.add('selected')">12.31</a>&#65279;, <a href="javascript:this.classList.add('selected')">12.38</a>&#65279;, <a href="javascript:this.classList.add('selected')">10.16</a>&#65279;, <a href="javascript:this.classList.add('selected')">10.73</a>&#65279;, <a href="javascript:this.classList.add('selected')">11.35</a>&#65279;, <a href="javascript:this.classList.add('selected')">11.15</a>,
+          <a href="javascript:this.classList.add('selected')">10.58</a>&#65279;, <a href="javascript:this.classList.add('selected')">10.12</a>&#65279;, <a href="javascript:this.classList.add('selected')">11.86</a>&#65279;, <a href="javascript:this.classList.add('selected')">10.02</a>&#65279;, <a href="javascript:this.classList.add('selected')">12.06</a>&#65279;, <a href="javascript:this.classList.add('selected')">10.58</a>&#65279;, <a href="javascript:this.classList.add('selected')">10.39</a>&#65279;, <a href="javascript:this.classList.add('selected')">10.24</a>&#65279;, <a href="javascript:this.classList.add('selected')">10.24</a>&#65279;, <a href="javascript:this.classList.add('selected')">11.28</a>,
+          <a href="javascript:this.classList.add('selected')">(17.54)</a>&#65279;, <a href="javascript:this.classList.add('selected')">13.27</a>&#65279;, <a href="javascript:this.classList.add('selected')">11.11</a>&#65279;, <a href="javascript:this.classList.add('selected')">11.29</a>&#65279;, <a href="javascript:this.classList.add('selected')">(7.87)</a>&#65279;, <a href="javascript:this.classList.add('selected')">11.20</a>&#65279;, <a href="javascript:this.classList.add('selected')">11.03</a>&#65279;, <a href="javascript:this.classList.add('selected')">10.79</a>&#65279;, <a href="javascript:this.classList.add('selected')">(7.88)</a>&#65279;, <a href="javascript:this.classList.add('selected')">11.20</a>,
+          <a href="javascript:this.classList.add('selected')">13.21</a>&#65279;, <a href="javascript:this.classList.add('selected')">13.23</a>&#65279;, <a href="javascript:this.classList.add('selected')">10.53</a>&#65279;, <a href="javascript:this.classList.add('selected')">14.35</a>&#65279;, <a href="javascript:this.classList.add('selected')">10.15</a>&#65279;, <a href="javascript:this.classList.add('selected')">12.81</a>&#65279;, <a href="javascript:this.classList.add('selected')">10.62</a>&#65279;, <a href="javascript:this.classList.add('selected')">(15.03)</a>&#65279;, <a href="javascript:this.classList.add('selected')">11.80</a>&#65279;, <a href="javascript:this.classList.add('selected')">14.67</a>
+        </div>
+      </div><div class="group">
+        <div class="description">
+          <span class="cubing-icon icon-555"></span>
+          5x5x5 (yesterday)
+        </div>
+        <div class="values">
+          <a href="javascript:this.classList.add('selected')">(8.80)</a>&#65279;, <a href="javascript:this.classList.add('selected')">13.79</a>&#65279;, <a href="javascript:this.classList.add('selected')">10.93</a>&#65279;, <a href="javascript:this.classList.add('selected')">11.41</a>&#65279;, <a href="javascript:this.classList.add('selected')">14.81</a>&#65279;, <a href="javascript:this.classList.add('selected')">13.56</a>&#65279;, <a href="javascript:this.classList.add('selected')">12.33</a>&#65279;, <a href="javascript:this.classList.add('selected')">11.61</a>&#65279;, <a href="javascript:this.classList.add('selected')">10.84</a>&#65279;, <a href="javascript:this.classList.add('selected')">9.92</a>,
+          <a href="javascript:this.classList.add('selected')">(17.14)</a>&#65279;, <a href="javascript:this.classList.add('selected')">(8.27)</a>&#65279;, <a href="javascript:this.classList.add('selected')">(15.30)</a>&#65279;, <a href="javascript:this.classList.add('selected')">10.72</a>&#65279;, <a href="javascript:this.classList.add('selected')">12.98</a>&#65279;, <a href="javascript:this.classList.add('selected')">14.33</a>&#65279;, <a href="javascript:this.classList.add('selected')">11.98</a>&#65279;, <a href="javascript:this.classList.add('selected')">11.30</a>&#65279;, <a href="javascript:this.classList.add('selected')">11.94</a>&#65279;, <a href="javascript:this.classList.add('selected')">12.26</a>,
+          <a href="javascript:this.classList.add('selected')">10.65</a>&#65279;, <a href="javascript:this.classList.add('selected')">9.76</a>&#65279;, <a href="javascript:this.classList.add('selected')">9.72</a>&#65279;, <a href="javascript:this.classList.add('selected')">13.76</a>&#65279;, <a href="javascript:this.classList.add('selected')">12.45</a>&#65279;, <a href="javascript:this.classList.add('selected')">10.72</a>&#65279;, <a href="javascript:this.classList.add('selected')">10.94</a>&#65279;, <a href="javascript:this.classList.add('selected')">11.45</a>&#65279;, <a href="javascript:this.classList.add('selected')">9.89</a>&#65279;, <a href="javascript:this.classList.add('selected')">11.31</a>,
+          <a href="javascript:this.classList.add('selected')">(8.76)</a>&#65279;, <a href="javascript:this.classList.add('selected')">(16.41)</a>&#65279;, <a href="javascript:this.classList.add('selected')">10.40</a>&#65279;, <a href="javascript:this.classList.add('selected')">10.07</a>&#65279;, <a href="javascript:this.classList.add('selected')">14.48</a>&#65279;, <a href="javascript:this.classList.add('selected')">9.71</a>&#65279;, <a href="javascript:this.classList.add('selected')">11.76</a>&#65279;, <a href="javascript:this.classList.add('selected')">10.98</a>&#65279;, <a href="javascript:this.classList.add('selected')">10.55</a>&#65279;, <a href="javascript:this.classList.add('selected')">11.82</a>,
+          <a href="javascript:this.classList.add('selected')">12.96</a>&#65279;, <a href="javascript:this.classList.add('selected')">12.86</a>&#65279;, <a href="javascript:this.classList.add('selected')">11.57</a>&#65279;, <a href="javascript:this.classList.add('selected')">12.19</a>&#65279;, <a href="javascript:this.classList.add('selected')">10.97</a>&#65279;, <a href="javascript:this.classList.add('selected')">12.74</a>&#65279;, <a href="javascript:this.classList.add('selected')">10.76</a>&#65279;, <a href="javascript:this.classList.add('selected')">12.85</a>&#65279;, <a href="javascript:this.classList.add('selected')">10.57</a>&#65279;, <a href="javascript:this.classList.add('selected')">9.59</a>
+        </div>
+      </div><div class="group">
+        <div class="description">
+          <span class="cubing-icon icon-clock"></span>
+          Clock (Nov 22, 2015)
+        </div>
+        <div class="values">
+          <a href="javascript:this.classList.add('selected')">(8.80)</a>&#65279;, <a href="javascript:this.classList.add('selected')">13.79</a>&#65279;, <a href="javascript:this.classList.add('selected')">10.93</a>&#65279;, <a href="javascript:this.classList.add('selected')">11.41</a>&#65279;, <a href="javascript:this.classList.add('selected')">14.81</a>&#65279;, <a href="javascript:this.classList.add('selected')">13.56</a>&#65279;, <a href="javascript:this.classList.add('selected')">12.33</a>&#65279;, <a href="javascript:this.classList.add('selected')">11.61</a>&#65279;, <a href="javascript:this.classList.add('selected')">10.84</a>&#65279;, <a href="javascript:this.classList.add('selected')">9.92</a>,
+        </div>
+      </div>
+    </div><!-- .results -->
+
+  </div><!-- .session -->
+
+</div><!-- .timer-app -->
+
 </body>
 </html>
 

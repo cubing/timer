@@ -1,0 +1,28 @@
+
+.timer-app.theme-orange .scramble-bar,
+.timer-app.theme-orange .event-select select option,
+.timer-app.theme-orange .face.handOnTimer,
+.timer-app.theme-orange .face.stopped {
+  background-color: #f95b2a;
+}
+
+.timer-app.theme-green .scramble-bar,
+.timer-app.theme-green .event-select select option,
+.timer-app.theme-green .face.handOnTimer,
+.timer-app.theme-green .face.stopped {
+  background-color: #0d904f;
+}
+
+.timer-app.theme-red .scramble-bar,
+.timer-app.theme-red .event-select select option,
+.timer-app.theme-red .face.handOnTimer,
+.timer-app.theme-red .face.stopped {
+  background-color: #ce2e20;
+}
+
+.timer-app.theme-blue .scramble-bar,
+.timer-app.theme-blue .event-select select option,
+.timer-app.theme-blue .face.handOnTimer,
+.timer-app.theme-blue .face.stopped {
+  background-color: #4285f4;
+}

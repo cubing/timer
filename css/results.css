@@ -1,0 +1,26 @@
+
+.results {
+  flex: 1 0 120px;
+
+  background: rgba(0, 0, 0, 0.15);
+  overflow-y: auto;
+}
+
+.results .group {
+  border-bottom: 2px solid rgba(0, 0, 0, 0.25);
+  padding: 1em 1.5em;
+}
+
+.results .group .description {
+  display: block;
+  color: rgba(255, 255, 255, 0.5);
+  margin-bottom: 0.5em;
+}
+
+.results .group .description .cubing-icon {
+  vertical-align: -10%;
+}
+
+.results .group .values {
+  line-height: 1.25em;
+}

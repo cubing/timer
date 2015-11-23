@@ -1,0 +1,44 @@
+
+.stats {
+  flex: 0 0 auto;
+
+  border-bottom: 1px solid rgba(0, 0, 0, 0.25);
+  padding: 1em;
+  box-shadow: 0 0 4px rgba(0,0,0,.25), 0px 4px 8px rgba(0,0,0,.25);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.stats table {
+  border-collapse: collapse;
+}
+
+.stats table tbody:not(:first-child) tr:first-child td {
+  padding-top: 0.5em;
+}
+
+.stats table td:first-child {
+  text-align: right;
+  color: rgb(150, 150, 150);
+}
+
+.stats table td:last-child {
+  padding-left: 0.5em;
+  text-align: left;
+}
+
+.stats .toggle-more {
+  /*color: rgb(150, 150, 150);*/
+  text-decoration: underline;
+}
+
+.stats .toggle-more:hover {
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.stats:not(.show-more) .more {
+  display: none;
+}
+
