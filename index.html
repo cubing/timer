@@ -25,11 +25,13 @@
 
   <!-- Javascript libraries -->
   <script src="lib/fastclick.js" defer></script>
+  <script src="lib/localforage.min.js" defer></script>
   <script src="lib/MagicWorker.js" defer></script>
   <script src="lib/scramble-worker.js" defer></script>
 
   <!-- App Javascript -->
   <script src="cubing.js" defer></script>
+  <script src="results.js" defer></script>
   <script src="timer.js" defer></script>
   <script src="timerApp.js" defer></script>
 </head>
@@ -70,22 +72,22 @@
               <a href="javascript:document.getElementsByClassName('stats')[0].classList.toggle('show-more');" class="toggle-more">&nbsp;&bull;&bull;&bull;&nbsp;</a>
             </td>
           </tr>
-          <tr><td>Number of times:</td><td>70/70</td></tr>
+          <tr><td>Number of times:</td><td id="stats-num-times">-</td></tr>
         </tbody>
         <tbody>
-          <tr><td>Current avg5:</td><td>10.32</td></tr>
-          <tr><td>Current avg12:</td><td>12.85</td></tr>
+          <tr><td>Current avg5:</td><td id="stats-current-avg5">-</td></tr>
+          <tr><td>Current avg12:</td><td id="stats-current-avg12">-</td></tr>
         </tbody>
         <tbody class="more">
-          <tr><td>Best avg5:</td><td>9.70</td></tr>
-          <tr><td>Best avg12:</td><td>11.85</td></tr>
+          <tr><td>Best avg5:</td><td id="stats-best-avg5">-</td></tr>
+          <tr><td>Best avg12:</td><td id="stats-best-avg12">-</td></tr>
         </tbody>
         <tbody class="more">
-          <tr><td>session avg:</td><td>12.63</td></tr>
+          <tr><td>session avg:</td><td id="stats-session-avg">-</td></tr>
         </tbody>
         <tbody class="more">
-          <tr><td>best time:</td><td>0.88</td></tr>
-          <tr><td>worst time:</td><td>20.07</td></tr>
+          <tr><td>best time:</td><td id="stats-best-time">-</td></tr>
+          <tr><td>worst time:</td><td id="stats-worst-time">-</td></tr>
         </tbody>
         <tbody>
         </tbody>

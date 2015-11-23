@@ -18,6 +18,7 @@ var TimerApp = function()
                                   this._attemptDone.bind(this));
   this._setRandomBackgroundColor();
 
+  this._results = new Results();
   this._scramblers = new Cubing.Scramblers();
 
   // This should trigger a new attempt for us.
@@ -89,7 +90,12 @@ TimerApp.prototype = {
    */
   _solveDone: function(time)
   {
-    this._persistResult(time);
+    this._results.addResult({
+      "event": this._currentEvent,
+      "scrambleString": this._currentScramble.scrambleString,
+      "time": time,
+      "date": (new Date()).toString()
+    });
   },
 
   /**
@@ -98,23 +104,6 @@ TimerApp.prototype = {
   _attemptDone: function(time)
   {
     this._startNewAttempt();
-  },
-
-  /**
-   * @param {!TimerApp.Timer.Milliseconds} time
-   */
-  _persistResult: function(time)
-  {
-    var today = new Date();
-    var dateString = today.getFullYear() + "-" + (today.getMonth() + 1) + "-" + today.getDate();
-
-    var serializationFormat = "v0.1";
-    var result = "[" + serializationFormat + "][" + this._currentEvent + "][" + new Date() + "] " + (time / 1000) + " (" + this._currentScramble.scrambleString + ")";
-
-    var store = (dateString in localStorage) ? localStorage[dateString] + "\n" : "";
-    localStorage[dateString] = store + result;
-
-    localStorage["last-attempt-date"] = today.toString();
   }
 }
 
