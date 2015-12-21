@@ -129,9 +129,8 @@ a.scramble-text:hover {
 }
 
 /* Slow down transitions into some states. */
-.timer.handOnTimer,
 .timer.ready {
-  transition: background-color 0.1s, color 0.1s;
+  transition: background-color 0.5s, color 0.5s;
 }
 
 .timer.handOnTimer,
