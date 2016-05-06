@@ -8,7 +8,10 @@ A simple cubing timer.
 - Supports all official WCA puzzles with random-state scrambles for most puzzles (using [JSSS](https://github.com/cubing/jsss)).
 - Works offline.
 
-![timer.cubing.net screenshot](./screenshot.png)
+<img width="512" src="./screenshots/desktop.png" alt="timer.cubing.net screenshot: Desktop">
+
+<img width="256" src="./screenshots/iOS.png" alt="timer.cubing.net screenshot: iOS">
+<img width="256" src="./screenshots/android.png" alt="timer.cubing.net screenshot: Android">
 
 ## License
 
