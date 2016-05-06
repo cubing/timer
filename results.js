@@ -1,4 +1,4 @@
-
+  
 var Results = function (domElement) {
   this._domElements = {
     "num-times": document.getElementById("stats-num-times"),
@@ -39,7 +39,13 @@ Results.prototype = {
     }
     this._domElements["num-times"].textContent = resultList.length;
     console.log(resultList);
-    this._domElements["current-avg5"].textContent = (Results.Stats.avg(resultList, resultList.length - 5, resultList.length)/1000) || "-";
+    this._domElements["current-avg5"].textContent = (Results.Stats.avg(resultList.slice(resultList.length - 5))/1000) || "-";
+    this._domElements["current-avg12"].textContent = (Results.Stats.avg(resultList.slice(resultList.length - 12))/1000) || "-";
+    this._domElements["session-avg"].textContent = (Results.Stats.avg(resultList)/1000) || "-";
+
+    var bestAndWorst = Results.Stats.bestAndWorst(resultList);
+    this._domElements["best-time"].textContent = (bestAndWorst.best/1000) || "-";
+    this._domElements["worst-time"].textContent = (bestAndWorst.worst/1000) || "-";
   }
 }
 
@@ -60,11 +66,12 @@ Results.ResultList;
 
 Results.Stats = function() {}
 
-  /**
-   * @param {!Results.ResultList} resultList
-   * @param {integer=} startIndex
-   * @param {integer=} endIndex
-   */
+/**
+ * @param {!Results.ResultList} resultList
+ * @param {integer=} startIndex
+ * @param {integer=} endIndex
+ * @returns {!TimerApp.Timer.Milliseconds}
+ */
 Results.Stats.avg = function(resultList, startIndex, endIndex) {
   startIndex = startIndex || 0;
   endIndex = endIndex || resultList.length;
@@ -90,4 +97,27 @@ Results.Stats.avg = function(resultList, startIndex, endIndex) {
   };
   console.log(sortedSlice);
   return Math.round(totalMs / sortedSlice.length);
+}
+
+/**
+ * @param {!Results.ResultList} resultList
+ */
+Results.Stats.bestAndWorst = function (resultList) {
+  if (resultList.length === 0) {
+    return null;
+  }
+  var best = resultList[0].time;
+  var worst = resultList[0].time;
+  for (var i = 0; i < resultList.length; i++) {
+    if (resultList[i].time < best) {
+      best = resultList[i].time
+    }
+    if (resultList[i].time > worst) {
+      worst = resultList[i].time
+    }
+  }
+  return {
+    "best": best,
+    "worst": worst
+  };
 }
