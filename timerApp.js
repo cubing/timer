@@ -16,7 +16,7 @@ var TimerApp = function()
                                   document.getElementById("timer"),
                                   this._solveDone.bind(this),
                                   this._attemptDone.bind(this));
-  this._setRandomBackgroundColor();
+  this._setRandomThemeColor();
 
   this._scramblers = new Cubing.Scramblers();
 
@@ -78,7 +78,7 @@ TimerApp.prototype = {
     this._startNewAttempt();
   },
 
-  _setRandomBackgroundColor: function()
+  _setRandomThemeColor: function()
   {
     var themeColors = ["orange", "green", "red", "blue"];
     var randomChoice = TimerApp.Util.randomChoice(themeColors);
