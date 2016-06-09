@@ -81,7 +81,20 @@ TimerApp.prototype = {
   _setRandomBackgroundColor: function()
   {
     var themeColors = ["orange", "green", "red", "blue"];
-    this._domElement.classList.add("theme-" + TimerApp.Util.randomChoice(themeColors))
+    var randomChoice = TimerApp.Util.randomChoice(themeColors);
+    this._domElement.classList.add("theme-" + randomChoice);
+
+    document.head || (document.head = document.getElementsByTagName('head')[0]);
+
+    var favicon = document.createElement('link');
+    var currentFavicon = document.getElementById('favicon');
+    favicon.id = 'favicon';
+    favicon.rel = 'shortcut icon';
+    favicon.href = 'lib/favicons/favicon_' + randomChoice + '.ico';
+    if (currentFavicon) {
+      document.head.removeChild(currentFavicon);
+    }
+    document.head.appendChild(favicon);
   },
 
   /**
