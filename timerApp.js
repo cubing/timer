@@ -186,7 +186,6 @@ TimerApp.ScrambleView.prototype = {
   setScramble: function(scramble)
   {
     this._scrambleText.classList.remove("stale");
-    this._scrambleText.href = Cubing.prototype.urlForScramble(scramble);
     this._scrambleText.textContent = scramble.scrambleString;
 
     // TODO(lgarron): Use proper layout code. https://github.com/cubing/timer/issues/20

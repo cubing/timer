@@ -93,15 +93,6 @@ body {
   margin: 0.25em 1em;
 }
 
-a.scramble-text {
-  color: inherit;
-  text-decoration: none;
-}
-
-a.scramble-text:hover {
-  text-decoration: underline;
-}
-
 .scramble-text.stale {
   opacity: 0.25;
 }
