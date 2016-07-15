@@ -106,7 +106,8 @@ TimerApp.prototype = {
     var dateString = today.getFullYear() + "-" + (today.getMonth() + 1) + "-" + today.getDate();
 
     var serializationFormat = "v0.1";
-    var result = "[" + serializationFormat + "][" + this._currentEvent + "][" + new Date() + "] " + (time / 1000) + " (" + this._currentScramble.scrambleString + ")";
+    var scrambleString = this._currentScramble ? this._currentScramble.scrambleString : "/* no scramble */";
+    var result = "[" + serializationFormat + "][" + this._currentEvent + "][" + new Date() + "] " + (time / 1000) + " (" + scrambleString + ")";
 
     var store = (dateString in localStorage) ? localStorage[dateString] + "\n" : "";
     localStorage[dateString] = store + result;

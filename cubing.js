@@ -111,6 +111,9 @@ Cubing.Scramblers.prototype = {
   {
     var callback = this._commandIdToCallback[e.data.commandId];
     delete this._commandIdToCallback[e.data.commandId];
+    // TODO: Handle race conditions if the first attempt is done before the
+    // first scramble returns (possibly don't allow starting the timer without
+    // a valid scramble?).
     callback(e.data.scramble)
   }
 }
