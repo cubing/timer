@@ -117,7 +117,7 @@ Timer.Controller.prototype = {
     switch (state) {
       case State.Ready:
         if (this._state == State.Stopped) {
-          this._attemptDoneCallback(time);
+          this._attemptDoneCallback();
         }
         break;
       case State.HandOnTimer:

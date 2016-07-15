@@ -92,10 +92,7 @@ TimerApp.prototype = {
     this._persistResult(time);
   },
 
-  /**
-   * @param {!TimerApp.Timer.Milliseconds} time
-   */
-  _attemptDone: function(time)
+  _attemptDone: function()
   {
     this._startNewAttempt();
   },
