@@ -24,9 +24,15 @@ Timer.Controller = function(domElement, solveDoneCallback, attemptDoneCallback)
   domElement.addEventListener("touchstart", this._down.bind(this));
   domElement.addEventListener("touchend", this._up.bind(this));
 
+  document.body.addEventListener("touchstart", this._downIfRunning.bind(this));
+  document.body.addEventListener("touchend", this._upIfStopped.bind(this));
+
   if(navigator.maxTouchPoints > 0){
     domElement.addEventListener("pointerdown", this._down.bind(this));
     domElement.addEventListener("pointerup", this._up.bind(this));
+
+    document.body.addEventListener("pointerdown", this._downIfRunning.bind(this));
+    document.body.addEventListener("pointerup", this._upIfStopped.bind(this));
   }
 
   this._setState(Timer.Controller.State.Ready);
@@ -84,6 +90,22 @@ Timer.Controller.prototype = {
       "stopped":     State.Ready
     }
     this._setState(transitionMap[this._state]);
+  },
+
+  _downIfRunning: function(e)
+  {
+    if (this._state === "running") {
+      this._down(e);
+      e.preventDefault();
+    }
+  },
+
+  _upIfStopped: function(e)
+  {
+    if (this._state === "stopped") {
+      this._up(e);
+      e.preventDefault();
+    }
   },
 
   /**
