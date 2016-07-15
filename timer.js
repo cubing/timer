@@ -167,42 +167,10 @@ Timer.View.prototype = {
    */
   displayTime: function(time)
   {
-    // Each entry is [minimum number of digits if not first, separator before, value]
-    var hours   = Math.floor(time / (60 * 60 * 1000));
-    var minutes = Math.floor(time / (     60 * 1000)) % 60;
-    var seconds = Math.floor(time / (          1000)) % 60;
-
-    /**
-     * @param {integer} number
-     * @param {integer} numDigitsAfterPadding
-     */
-    function pad(number, numDigitsAfterPadding)
-    {
-      var output = "" + number;
-      while (output.length < numDigitsAfterPadding) {
-        output = "0" + output;
-      }
-      return output;
-    }
-
-    var secFirstString = "";
-    var secRestString;
-    if (hours > 0) {
-      secRestString = "" + pad(hours, 2) + ":" + pad(minutes, 2) + ":" + pad(seconds, 2);
-    } else if (minutes > 0) {
-      secRestString = "" +                           minutes     + ":" + pad(seconds, 2);
-    } else {
-      secRestString = "" +                                                   seconds    ;
-      if (secRestString[0] === "1") {
-        secFirstString = "1";
-        secRestString = secRestString.substr(1);
-      }
-    }
-    this._secFirstElement.textContent = secFirstString;
-    this._secRestElement.textContent = secRestString;
-
-    var centiseconds = Math.floor((time % 1000) / 10);
-    this._decimalDigitsElement.textContent = "" + pad(centiseconds, 2);
+    var parts = Stats.prototype.timeParts(time);
+    this._secFirstElement.textContent = parts.secFirst;
+    this._secRestElement.textContent = parts.secRest;
+    this._decimalDigitsElement.textContent = parts.decimals;
   },
 }
 

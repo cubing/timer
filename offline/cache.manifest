@@ -2,6 +2,7 @@ CACHE MANIFEST
 # Uploaded on [DATE]
 ../
 ../cubing.js
+../results.js
 ../timer.js
 ../timerApp.js
 ../style.css

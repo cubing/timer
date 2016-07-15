@@ -4,6 +4,7 @@
 var TimerApp = function()
 {
   this._scrambleView = new TimerApp.ScrambleView(this);
+  this._statsView = new TimerApp.StatsView(this);
   this._domElement = document.getElementById("timer-app");
 
   // Prevent a timer tap from scrolling the whole page on touch screens.
@@ -19,6 +20,7 @@ var TimerApp = function()
   this._setRandomBackgroundColor();
 
   this._scramblers = new Cubing.Scramblers();
+  this._startSession();
 
   // This should trigger a new attempt for us.
   this._setInitialEvent();
@@ -75,6 +77,7 @@ TimerApp.prototype = {
     localStorage["current-event"] = eventName;
     this._currentEvent = eventName;
     this._scrambleView.setEvent(this._currentEvent);
+    this._startSession();
     this._startNewAttempt();
   },
 
@@ -90,11 +93,23 @@ TimerApp.prototype = {
   _solveDone: function(time)
   {
     this._persistResult(time);
+    this._currentSessionTimes.push(time);
+    this._statsView.setStats({
+      "avg5": Stats.prototype.formatTime(Stats.prototype.trimmedAverage(Stats.prototype.lastN(this._currentSessionTimes, 5))),
+      "avg12": Stats.prototype.formatTime(Stats.prototype.trimmedAverage(Stats.prototype.lastN(this._currentSessionTimes, 12))),
+      "mean3": Stats.prototype.formatTime(Stats.prototype.mean(Stats.prototype.lastN(this._currentSessionTimes, 3))),
+      "numSolves": this._currentSessionTimes.length
+    });
   },
 
   _attemptDone: function()
   {
     this._startNewAttempt();
+  },
+
+  _startSession: function() 
+  {
+    this._currentSessionTimes = [];
   },
 
   /**
@@ -199,6 +214,40 @@ TimerApp.ScrambleView.prototype = {
   {
     this._scrambleText.href = "";
     this._scrambleText.classList.add("stale");
+  }
+}
+
+TimerApp.StatsView = function() {
+  this._statsDropdown = document.getElementById("stats-dropdown");
+  this._elems = {
+    "avg5":       document.getElementById("avg5"),
+    "avg12":      document.getElementById("avg12"),
+    "mean3":      document.getElementById("mean3"),
+    "num-solves": document.getElementById("num-solves"),
+  };
+
+  this._initializeDropdown();
+}
+
+TimerApp.StatsView.prototype = {
+  _initializeDropdown: function() {
+    var storedCurrentStat = localStorage["current-stat"];
+
+    if (storedCurrentStat in this._elems) {
+      this._elems[storedCurrentStat].selected = true;
+    }
+
+    this._statsDropdown.addEventListener("change", function() {
+      localStorage["current-stat"] = this._statsDropdown.value;
+      this._statsDropdown.blur();
+    }.bind(this));
+  },
+
+  setStats: function(stats) {
+    this._elems["avg5"].textContent = "avg5: " + stats.avg5;
+    this._elems["avg12"].textContent = "avg12: " + stats.avg12;
+    this._elems["mean3"].textContent = "mean3: " + stats.mean3;
+    this._elems["num-solves"].textContent = "#solves: " + stats.numSolves;
   }
 }
 

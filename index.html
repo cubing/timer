@@ -19,6 +19,7 @@
   <script src="lib/scramble-worker.js" defer></script>
 
   <script src="cubing.js" defer></script>
+  <script src="results.js" defer></script>
   <script src="timer.js" defer></script>
   <script src="timerApp.js" defer></script>
 </head>
@@ -40,6 +41,14 @@
       <div class="decimals">.<span class="decimal-digits">00</span><span class="invisible">.</span></div>
     </div>
   </div>
+  <span class="stats">
+    <select id="stats-dropdown">
+      <option id="avg5" value="avg5">avg5: ---</option>
+      <option id="avg12" value="avg12">avg12: ---</option>
+      <option id="mean3" value="mean3">mean3: ---</option>
+      <option id="num-solves" value="num-solves">#solves: 0</option>
+    </select>
+  </span>
 </div>
 </body>
 </html>
