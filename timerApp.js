@@ -191,7 +191,7 @@ TimerApp.ScrambleView.prototype = {
   _setScramblePlaceholder: function(eventName) {
     this.setScramble({
       eventName: eventName,
-      scrambleString: "(generating scramble...)"
+      scrambleString: "generating..."
     });
   },
 
