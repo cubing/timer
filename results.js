@@ -57,6 +57,22 @@ Stats.prototype = {
   },
 
   /*
+   * @param {Array<!TimerApp.Timer.Milliseconds>|null} l
+   * @returns {Number}
+   */
+  best: function(l) {
+    return Math.min.apply(this, l);
+  },
+
+  /*
+   * @param {Array<!TimerApp.Timer.Milliseconds>|null} l
+   * @returns {Number}
+   */
+  worst: function(l) {
+    return Math.max.apply(this, l);
+  },
+
+  /*
    * @param {!TimerApp.Timer.Milliseconds} time
    */
   timeParts: function(time) {

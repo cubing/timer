@@ -98,6 +98,8 @@ TimerApp.prototype = {
       "avg5": Stats.prototype.formatTime(Stats.prototype.trimmedAverage(Stats.prototype.lastN(this._currentSessionTimes, 5))),
       "avg12": Stats.prototype.formatTime(Stats.prototype.trimmedAverage(Stats.prototype.lastN(this._currentSessionTimes, 12))),
       "mean3": Stats.prototype.formatTime(Stats.prototype.mean(Stats.prototype.lastN(this._currentSessionTimes, 3))),
+      "best": Stats.prototype.formatTime(Stats.prototype.best(this._currentSessionTimes)),
+      "worst": Stats.prototype.formatTime(Stats.prototype.worst(this._currentSessionTimes)),
       "numSolves": this._currentSessionTimes.length
     });
   },
@@ -223,6 +225,8 @@ TimerApp.StatsView = function() {
     "avg5":       document.getElementById("avg5"),
     "avg12":      document.getElementById("avg12"),
     "mean3":      document.getElementById("mean3"),
+    "best":      document.getElementById("best"),
+    "worst":      document.getElementById("worst"),
     "num-solves": document.getElementById("num-solves"),
   };
 
@@ -247,6 +251,8 @@ TimerApp.StatsView.prototype = {
     this._elems["avg5"].textContent = "avg5: " + stats.avg5;
     this._elems["avg12"].textContent = "avg12: " + stats.avg12;
     this._elems["mean3"].textContent = "mean3: " + stats.mean3;
+    this._elems["best"].textContent = "best: " + stats.best;
+    this._elems["worst"].textContent = "worst: " + stats.worst;
     this._elems["num-solves"].textContent = "#solves: " + stats.numSolves;
   }
 }
