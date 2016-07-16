@@ -58,17 +58,23 @@ Stats.prototype = {
 
   /*
    * @param {Array<!TimerApp.Timer.Milliseconds>|null} l
-   * @returns {Number}
+   * @returns {Number|null}
    */
   best: function(l) {
+    if (l.length === 0) {
+      return null;
+    }
     return Math.min.apply(this, l);
   },
 
   /*
    * @param {Array<!TimerApp.Timer.Milliseconds>|null} l
-   * @returns {Number}
+   * @returns {Number|null}
    */
   worst: function(l) {
+    if (l.length === 0) {
+      return null;
+    }
     return Math.max.apply(this, l);
   },
 
@@ -128,5 +134,63 @@ Stats.prototype = {
 
     var parts = this.timeParts(time);
     return parts.secFirst + parts.secRest + "." + parts.decimals;
+  }
+}
+
+ShortTermSession = function() {
+    this.sessionInstanceId = Math.floor(Math.random() * (4294967296 /* 2^32 */));
+}
+
+ShortTermSession.prototype = {
+  SESSION_RESUMPTION_TIMEOUT_MS: 2 * 60 * 1000, // 2 min
+
+  restart: function() 
+  {
+    this._persistShortTermSession([]);
+  },
+
+  /*
+   * @param {!TimerApp.Timer.Milliseconds} time
+   * @returns {Array<!TimerApp.Timer.Milliseconds>} // Updated times.
+   */
+  addTime: function(time) {
+    // Update short-term session.
+    var times = this.getTimes();
+    times.push(time);
+    this._persistShortTermSession(times);
+    return times;
+  },
+
+  /*
+   * @returns {Array<!TimerApp.Timer.Milliseconds>}
+   */
+  getTimes() {
+    try {
+      if (!localStorage["short-term-session"]) {
+        return [];
+      }
+
+      var session = JSON.parse(localStorage["short-term-session"])
+      var timely = Date.now() - session.date < this.SESSION_RESUMPTION_TIMEOUT_MS;
+      console.log(Date.now() - session.date);
+      if (!timely && this.sessionInstanceId != session.id) {
+        return [];
+      }
+
+      return session.times;
+    } catch(e) {
+      return [];
+    }
+  },
+
+  /*
+   * @param {Array<!TimerApp.Timer.Milliseconds>} times
+   */
+  _persistShortTermSession: function(times) {
+    localStorage["short-term-session"] = JSON.stringify({
+      "id": this.sessionInstanceId,
+      "date": Date.now(),
+      "times": times
+    });
   }
 }

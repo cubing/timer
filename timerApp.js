@@ -20,7 +20,8 @@ var TimerApp = function()
   this._setRandomBackgroundColor();
 
   this._scramblers = new Cubing.Scramblers();
-  this._startSession();
+  this._shortTermSession = new ShortTermSession();
+  this._updateDisplayStats(this._shortTermSession.getTimes());
 
   // This should trigger a new attempt for us.
   this._setInitialEvent();
@@ -77,8 +78,8 @@ TimerApp.prototype = {
     localStorage["current-event"] = eventName;
     this._currentEvent = eventName;
     this._scrambleView.setEvent(this._currentEvent);
-    this._startSession();
     this._startNewAttempt();
+    this._shortTermSession.restart();
   },
 
   _setRandomBackgroundColor: function()
@@ -93,25 +94,8 @@ TimerApp.prototype = {
   _solveDone: function(time)
   {
     this._persistResult(time);
-    this._currentSessionTimes.push(time);
-    this._statsView.setStats({
-      "avg5": Stats.prototype.formatTime(Stats.prototype.trimmedAverage(Stats.prototype.lastN(this._currentSessionTimes, 5))),
-      "avg12": Stats.prototype.formatTime(Stats.prototype.trimmedAverage(Stats.prototype.lastN(this._currentSessionTimes, 12))),
-      "mean3": Stats.prototype.formatTime(Stats.prototype.mean(Stats.prototype.lastN(this._currentSessionTimes, 3))),
-      "best": Stats.prototype.formatTime(Stats.prototype.best(this._currentSessionTimes)),
-      "worst": Stats.prototype.formatTime(Stats.prototype.worst(this._currentSessionTimes)),
-      "numSolves": this._currentSessionTimes.length
-    });
-  },
-
-  _attemptDone: function()
-  {
-    this._startNewAttempt();
-  },
-
-  _startSession: function() 
-  {
-    this._currentSessionTimes = [];
+    var times = this._shortTermSession.addTime(time);
+    this._updateDisplayStats(times);
   },
 
   /**
@@ -130,6 +114,25 @@ TimerApp.prototype = {
     localStorage[dateString] = store + result;
 
     localStorage["last-attempt-date"] = today.toString();
+  },
+
+  /*
+   * @param {Array<!TimerApp.Timer.Milliseconds>} times
+   */
+  _updateDisplayStats: function(times) {
+    this._statsView.setStats({
+      "avg5": Stats.prototype.formatTime(Stats.prototype.trimmedAverage(Stats.prototype.lastN(times, 5))),
+      "avg12": Stats.prototype.formatTime(Stats.prototype.trimmedAverage(Stats.prototype.lastN(times, 12))),
+      "mean3": Stats.prototype.formatTime(Stats.prototype.mean(Stats.prototype.lastN(times, 3))),
+      "best": Stats.prototype.formatTime(Stats.prototype.best(times)),
+      "worst": Stats.prototype.formatTime(Stats.prototype.worst(times)),
+      "numSolves": times.length
+    });
+  },
+
+  _attemptDone: function()
+  {
+    this._startNewAttempt();
   }
 }
 
@@ -159,6 +162,7 @@ TimerApp.ScrambleView.prototype = {
   {
     this._eventSelectDropdown.optionElementsByEventName = {};
     for (var i in Cubing.EventName) {
+
       var eventName = Cubing.EventName[i];
 
       var optionElement = document.createElement("option");
