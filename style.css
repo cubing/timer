@@ -92,6 +92,8 @@ body {
   flex: 1 0 65vw;
   white-space: normal;
   margin: 0.25em 1em;
+  text-align: justify;
+  text-align-last: center;
 }
 
 .scramble-text.stale {
