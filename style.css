@@ -98,9 +98,16 @@ body {
   opacity: 0.25;
 }
 
+.scramble-text.event-sq1,
+.scramble-text.event-444,
+.scramble-text.event-444bf {
+  font-size: 4vh;
+}
+
 .scramble-text.event-555,
+.scramble-text.event-555bf,
 .scramble-text.event-clock {
-  font-size: 3.5vh;
+  font-size: 3vh;
 }
 
 .scramble-text.event-666,
