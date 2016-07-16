@@ -190,6 +190,7 @@ body {
 
 .time .decimals {
   font-size: 0.5em;
+  line-height: 1em;
   opacity: 0.25;
 }
 
