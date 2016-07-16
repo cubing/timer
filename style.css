@@ -94,6 +94,7 @@ body {
   margin: 0.25em 1em;
   text-align: justify;
   text-align-last: center;
+  -moz-text-align-last: center;
 }
 
 .scramble-text.stale {
