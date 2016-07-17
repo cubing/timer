@@ -108,6 +108,10 @@ Timer.Controller.prototype = {
     }
   },
 
+  reset: function() {
+    this._timer.reset();
+  },
+
   /**
    * @param {!Timer.Controller.State} state
    */
@@ -121,7 +125,7 @@ Timer.Controller.prototype = {
         }
         break;
       case State.HandOnTimer:
-        this._timer.reset();
+        this.reset();
         break;
       case State.Running:
         this._timer.start();

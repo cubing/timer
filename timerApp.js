@@ -88,6 +88,11 @@ TimerApp.prototype = {
     this._currentEvent = eventName;
     this._scrambleView.setEvent(this._currentEvent);
     this._startNewAttempt();
+    this._timerController.reset();
+    if (restartShortTermSession) {
+      this._shortTermSession.restart();
+      this._updateDisplayStats([]);
+    }
   },
 
   _setRandomBackgroundColor: function()
