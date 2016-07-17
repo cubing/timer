@@ -41,9 +41,9 @@ TimerApp.prototype = {
         !isNaN(lastAttemptDate) &&
         (currentDate.getTime() - lastAttemptDate.getTime() < this.STORED_EVENT_TIMEOUT_MS)
     ) {
-      this.setEvent(storedEvent);
+      this.setEvent(storedEvent, false);
     } else {
-      this.setEvent(this.DEFAULT_EVENT);
+      this.setEvent(this.DEFAULT_EVENT, false);
     }
   },
 
@@ -72,14 +72,14 @@ TimerApp.prototype = {
 
   /**
    * @param {!Cubing.EventName} eventName
+   * @param {bool} restartShortTermSession
    */
-  setEvent: function(eventName)
+  setEvent: function(eventName, restartShortTermSession)
   {
     localStorage["current-event"] = eventName;
     this._currentEvent = eventName;
     this._scrambleView.setEvent(this._currentEvent);
     this._startNewAttempt();
-    this._shortTermSession.restart();
   },
 
   _setRandomBackgroundColor: function()
@@ -151,7 +151,7 @@ TimerApp.ScrambleView = function(timerApp)
   this._eventSelectDropdown.addEventListener("change", function()
   {
     this._eventSelectDropdown.blur()
-    this._timerApp.setEvent(this._eventSelectDropdown.value);
+    this._timerApp.setEvent(this._eventSelectDropdown.value, true);
   }.bind(this));
 
   this.initializeSelectDropdown();
