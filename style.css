@@ -116,9 +116,15 @@ a#update-bar.hidden {
   flex: 1 0 65vw;
   white-space: normal;
   margin: 0.25em 1em;
-  text-align: justify;
-  text-align-last: center;
-  -moz-text-align-last: center;
+  text-align: center;
+}
+
+@supports ( (text-align-last: center) or (-moz-text-align-last: center) ) {
+  .scramble-text {
+    text-align: justify;
+    text-align-last: center;
+    -moz-text-align-last: center;
+  }
 }
 
 .scramble-text.stale {
