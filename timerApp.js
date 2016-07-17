@@ -7,6 +7,14 @@ var TimerApp = function()
   this._statsView = new TimerApp.StatsView(this);
   this._domElement = document.getElementById("timer-app");
 
+  applicationCache.addEventListener("updateready", function() {
+    var infoBar = document.getElementById("update-bar");
+    infoBar.addEventListener("click", function() {
+      location.reload();
+    })
+    infoBar.classList.remove("hidden");
+  });
+
   // Prevent a timer tap from scrolling the whole page on touch screens.
   this._domElement.addEventListener("touchmove", function(event)
   {

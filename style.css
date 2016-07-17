@@ -41,6 +41,30 @@ body {
   text-align: center
 }
 
+a#update-bar {
+  background: rgba(0, 0, 0, 0.8);
+  color: rgba(255, 255, 255, 0.75);
+  width: 100%;
+  font-size: 5vh;
+  font-family: Helvetica, "Tahoma", sans-serif;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  padding: 0 2vh;
+  box-sizing: border-box;
+
+  height: 10vh;
+  transition: height 0.25s;
+}
+
+a#update-bar:hover {
+  color: rgba(255, 255, 255, 0.75);
+}
+
+a#update-bar.hidden {
+  height: 0;
+}
 
 .scramble-bar, .event-select select {
   font-size: 5vh;
@@ -168,6 +192,9 @@ body {
   }
   .dot {
     display: none;
+  }
+  a#update-bar {
+    font-size: 5vw;
   }
 }
 
