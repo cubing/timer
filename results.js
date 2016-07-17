@@ -172,7 +172,6 @@ ShortTermSession.prototype = {
 
       var session = JSON.parse(localStorage["short-term-session"])
       var timely = Date.now() - session.date < this.SESSION_RESUMPTION_TIMEOUT_MS;
-      console.log(Date.now() - session.date);
       if (!timely && this.sessionInstanceId != session.id) {
         return [];
       }
