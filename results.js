@@ -139,6 +139,10 @@ Stats.prototype = {
 
 ShortTermSession = function() {
     this.sessionInstanceId = Math.floor(Math.random() * (4294967296 /* 2^32 */));
+
+    // Update the stored instance ID. This allows the first solve to be longer
+    // than SESSION_RESUMPTION_TIMEOUT_MS without starting a new session.
+    this._persistShortTermSession(this.getTimes());
 }
 
 ShortTermSession.prototype = {
