@@ -97,9 +97,14 @@ TimerApp.prototype = {
 
   _setRandomThemeColor: function()
   {
-    var themeColors = ["orange", "green", "red", "blue"];
+    var themeColors = [
+      {name: "orange", value: "#f95b2a"},
+      {name: "green", value: "#0d904f"},
+      {name: "red", value: "#ce2e20"},
+      {name: "blue", value: "#4285f4"}
+    ];
     var randomChoice = TimerApp.Util.randomChoice(themeColors);
-    this._domElement.classList.add("theme-" + randomChoice);
+    this._domElement.classList.add("theme-" + randomChoice.name);
 
     document.head || (document.head = document.getElementsByTagName('head')[0]);
 
@@ -107,11 +112,17 @@ TimerApp.prototype = {
     var currentFavicon = document.getElementById('favicon');
     favicon.id = 'favicon';
     favicon.rel = 'shortcut icon';
-    favicon.href = 'lib/favicons/favicon_' + randomChoice + '.ico';
+    favicon.href = 'lib/favicons/favicon_' + randomChoice.name + '.ico';
     if (currentFavicon) {
       document.head.removeChild(currentFavicon);
     }
     document.head.appendChild(favicon);
+
+    var meta = document.createElement("meta");
+    meta.name = "theme-color";
+    meta.id = "theme-color";
+    meta.content = randomChoice.value;
+    document.head.appendChild(meta);
   },
 
   /**
