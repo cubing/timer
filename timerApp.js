@@ -7,13 +7,7 @@ var TimerApp = function()
   this._statsView = new TimerApp.StatsView(this);
   this._domElement = document.getElementById("timer-app");
 
-  applicationCache.addEventListener("updateready", function() {
-    var infoBar = document.getElementById("update-bar");
-    infoBar.addEventListener("click", function() {
-      location.reload();
-    })
-    infoBar.classList.remove("hidden");
-  });
+  this._enableOffline();
 
   // Prevent a timer tap from scrolling the whole page on touch screens.
   this._domElement.addEventListener("touchmove", function(event)
@@ -38,6 +32,24 @@ var TimerApp = function()
 TimerApp.prototype = {
   DEFAULT_EVENT: "333",
   STORED_EVENT_TIMEOUT_MS: 15 * 60 * 1000, // 15 min
+
+  _enableOffline: function() {
+    applicationCache.addEventListener("updateready", function() {
+      var infoBar = document.getElementById("update-bar");
+      infoBar.addEventListener("click", function() {
+        location.reload();
+      })
+      infoBar.classList.remove("hidden");
+    });
+
+    if ("serviceWorker" in navigator) {
+        navigator.serviceWorker.register("/service-worker.js").then(function(registration) {
+          console.log("Registered service worker with scope: ", registration.scope);
+        }, function(err) {
+          console.error(err);
+        });
+    }
+  },
 
   _setInitialEvent: function() {
     var storedEvent = localStorage["current-event"];
