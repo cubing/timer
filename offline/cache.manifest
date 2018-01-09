@@ -1,6 +1,7 @@
 CACHE MANIFEST
 # Uploaded on [DATE]
 ../
+../manifest.json
 ../cubing.js
 ../results.js
 ../timer.js
