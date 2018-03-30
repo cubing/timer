@@ -34,20 +34,23 @@ TimerApp.prototype = {
   STORED_EVENT_TIMEOUT_MS: 15 * 60 * 1000, // 15 min
 
   _enableOffline: function() {
-    applicationCache.addEventListener("updateready", function() {
-      var infoBar = document.getElementById("update-bar");
-      infoBar.addEventListener("click", function() {
-        location.reload();
-      })
-      infoBar.classList.remove("hidden");
-    });
+    var infoBar = document.getElementById("update-bar");
 
     if ("serviceWorker" in navigator) {
-        navigator.serviceWorker.register("/service-worker.js").then(function(registration) {
-          console.log("Registered service worker with scope: ", registration.scope);
-        }, function(err) {
-          console.error(err);
-        });
+      navigator.serviceWorker.getRegistration().then(function(r) {
+        console.log(r);
+        if (!r) {
+          navigator.serviceWorker.register("./service-worker.js").then(function(registration) {
+            console.log("Registered service worker with scope: ", registration.scope);
+          }, function(err) {
+            console.error(err);
+          });
+        } else {
+          console.log("Service worker already registered.");
+        }
+      }, function(err) {
+        console.error("Could not enable offline support.");
+      });
     }
   },
 
