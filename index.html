@@ -15,7 +15,6 @@
   <script src="lib/fastclick.js" defer></script>
 
   <link rel="stylesheet" href="style.css"/>
-  <link rel="stylesheet" href="lib/cubing-icons/cubing-icons.css"/>
 
   <script src="lib/MagicWorker.js" defer></script>
   <script src="lib/scramble-worker.js" defer></script>
@@ -24,6 +23,18 @@
   <script src="results.js" defer></script>
   <script src="timer.js" defer></script>
   <script src="timerApp.js" defer></script>
+  
+  <script>
+    function deferCSS(url) {
+      window.addEventListener("load", function() {
+        var l = document.createElement("link");
+        l.rel = "stylesheet";
+        l.href = url;
+        document.head.appendChild(l);
+      });
+    }
+    deferCSS("lib/cubing-icons/cubing-icons.css");
+  </script>
 </head>
 <body>
 <div class="timer-app" id="timer-app">
