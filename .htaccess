@@ -1,3 +1,11 @@
+# If on HTTPS, sent the HSTS header.
+Header always set Strict-Transport-Security "max-age=63072000; includeSubDomains; preload" env=HTTPS
+
+# Redirect to HTTPS first.
+RewriteEngine on
+RewriteCond %{HTTPS} off
+RewriteRule ^/?(.*) https://%{SERVER_NAME}/$1 [R,L]
+
 # Compression
 # Per https://kinsta.com/knowledgebase/enable-gzip-compression/
 <IfModule mod_deflate.c>
