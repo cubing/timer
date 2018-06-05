@@ -40,7 +40,7 @@ function precache() {
       "./lib/cubing-icons/fonts/cubing-icons.svg",
       "./lib/cubing-icons/fonts/cubing-icons.ttf",
       "./lib/cubing-icons/fonts/cubing-icons.woff",
-      "./touch-icon.png",
+      "./lib/favicons/touch-icon.png",
       "./lib/favicons/favicon_blue.ico",
       "./lib/favicons/favicon_green.ico",
       "./lib/favicons/favicon_orange.ico",
