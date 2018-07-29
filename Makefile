@@ -1,10 +1,10 @@
 all: deploy open
 
 SFTP_PATH      = "towns.dreamhost.com:~/timer.cubing.net/"
-URL            = "http://timer.cubing.net/"
+URL            = "https://timer.cubing.net/"
 
 SFTP_TEST_PATH = "towns.dreamhost.com:~/timer.cubing.net/test/"
-TEST_URL       = "http://timer.cubing.net/test/"
+TEST_URL       = "https://timer.cubing.net/test/"
 
 
 .PHONY: deploy
