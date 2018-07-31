@@ -1,0 +1,44 @@
+<html>
+  <title>libTemplate.js Test</title>
+  <!-- We have to include `alg.js` here separately, since `alg` is defined in `externals` in `webpack.config.js` -->
+  <script src="../../node_modules/alg/dist/alg.js"></script>
+  <script src="../../dist/libTemplate.js"></script>
+<body>
+
+This shows a quick-n-dirty way to use <code>libTemplate.js</code> from the browser directly. For an actual app, you'd probably want to use a bundle with all the dependencies included. Note that you have to build the library (e.g. using <code>make dist</code>) in this project before this file will work.
+
+<br><br>
+
+<input id="alg-input" placeholder="Enter an alg"></input>
+<button onclick="set()">Set alg</button>
+<br>
+<pre id="error"></pre>
+<br>
+Current alg: <span id="alg" style="border: 1px solid #AAA; padding: 0.25em"></span> <button onclick="invert()">Invert!</button>
+<script>
+const {SwappableInverter} = libTemplate;
+
+var inverter = new SwappableInverter("R U R'");
+function displayAlg() {
+  document.getElementById("alg").textContent = inverter.getAlg();
+}
+
+function invert() {
+  inverter.invert();
+  displayAlg();
+}
+
+function set() {
+  try {
+    inverter.swap(document.getElementById("alg-input").value);
+    document.getElementById("error").textContent = "";
+    displayAlg();
+  } catch (e) {
+    document.getElementById("error").textContent = e;
+  }
+}
+
+displayAlg();
+</script>
+<body>
+</html>

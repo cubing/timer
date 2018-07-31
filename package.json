@@ -1,0 +1,32 @@
+{
+  "name": "timerApp",
+  "version": "0.0.1",
+  "description": "Template for interacting with cubing JS libraries.",
+  "author": "Lucas Garron <code@garron.net> (https://garron.net/)",
+  "license": "MIT",
+  "repository": "github:cubing/libTemplate.js",
+  "bugs": {"url" : "https://github.com/cubing/libTemplate.js/issues"},
+  "main": "./dist/timerApp.js",
+  "types": "./dist/index.d.ts",
+  "dependencies": {
+    "alg": "^0.9.8"
+  },
+  "externalsForWebpack": [
+    "alg"
+  ],
+  "devDependencies": {
+    "@types/chai": "^4.1.4",
+    "@types/mocha": "^5.2.3",
+    "chai": "^4.1.2",
+    "mocha": "^5.2.0",
+    "ts-loader": "^4.4.2",
+    "ts-node": "^7.0.0",
+    "typescript": "^2.9.2",
+    "webpack": "^4.12.2",
+    "webpack-cli": "^3.0.8",
+    "webpack-notifier": "^1.6.0"
+  },
+  "scripts": {
+    "prepublishOnly": "make dist"
+  }
+}
