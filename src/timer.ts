@@ -1,4 +1,6 @@
-// "use strict";
+import {Stats} from "./results"
+
+export type Milliseconds = number;
 
 // var Timer = {};
 
@@ -7,13 +9,13 @@
 //  * @param {function(!Timer.Timer.Milliseconds)} solveDoneCallback
 //  * @param {function(!Timer.Timer.Milliseconds)} attemptDoneCallback
 //  */
-// Timer.Controller = function(domElement, solveDoneCallback, attemptDoneCallback)
-// {
-//   this._domElement = domElement;
-//   this._solveDoneCallback = solveDoneCallback;
-//   this._attemptDoneCallback = attemptDoneCallback;
+export class Controller {
+  // TODO: Callback types
+  constructor(private domElement: HTMLElement,
+              private solveDoneCallback: () => number,
+              private attemptDoneCallback: () => void) {
 
-//   var timerView = new Timer.View(domElement);
+  var timerView = new View(domElement);
 //   this._timer = new Timer.Timer(timerView.displayTime.bind(timerView));
 
 //   document.body.addEventListener("keydown", this._keyDown.bind(this));
@@ -37,6 +39,7 @@
 
 //   this._setState(Timer.Controller.State.Ready);
 // }
+  }
 
 // Timer.Controller.prototype = {
 //   /**
@@ -140,11 +143,12 @@
 //         console.error("Tried to set invalid state in controller:", state);
 //         break;
 //     }
-//     this._domElement.classList.remove(this._state);
+//     this.domElement.classList.remove(this._state);
 //     this._state = state;
-//     this._domElement.classList.add(this._state);
+//     this.domElement.classList.add(this._state);
 //   }
 // }
+}
 
 // Timer.Controller.State = {
 //   Ready: "ready",
@@ -158,82 +162,61 @@
 // /**
 //  * @param {!Element} domElement
 //  */
-// Timer.View = function(domElement)
-// {
-//   this._secFirstElement = domElement.getElementsByClassName("sec-first")[0];
-//   this._secRestElement = domElement.getElementsByClassName("sec-rest")[0];
-//   this._decimalDigitsElement = domElement.getElementsByClassName("decimal-digits")[0];
-// }
+class View {
+  private secFirstElement: HTMLElement;
+  private secRestElement: HTMLElement;
+  private decimalDigitsElement: HTMLElement;
+  constructor(domElement: HTMLElement) {
+    this.secFirstElement = <HTMLElement>domElement.getElementsByClassName("sec-first")[0];
+    this.secRestElement = <HTMLElement>domElement.getElementsByClassName("sec-rest")[0];
+    this.decimalDigitsElement = <HTMLElement>domElement.getElementsByClassName("decimal-digits")[0];
+  }
 
-// Timer.View.prototype = {
-//   /**
-//    * @param {!Timer.Timer.Milliseconds} time
-//    */
-//   displayTime: function(time)
-//   {
-//     var parts = Stats.prototype.timeParts(time);
-//     this._secFirstElement.textContent = parts.secFirst;
-//     this._secRestElement.textContent = parts.secRest;
-//     this._decimalDigitsElement.textContent = parts.decimals;
-//   },
-// }
+  displayTime(time: number) {
+    var parts = Stats.timeParts(time);
+    this.secFirstElement.textContent = parts.secFirst;
+    this.secRestElement.textContent = parts.secRest;
+    this.decimalDigitsElement.textContent = parts.decimals;
+  }
+}
 
+class Time {
+  private running: boolean = false;
+  private animFrameBound: () => void;
+  private startTime: number;
+  constructor(private currentTimeCallback: (t: Milliseconds) => void) {
+    this.animFrameBound = this.animFrame.bind(this);
+  };
 
-// /**
-//  * @param {function(!Timer.Timer.Milliseconds)} currentTimeCallback
-//  */
-// Timer.Timer = function(currentTimeCallback)
-// {
-//   this._currentTimeCallback = currentTimeCallback;
-//   this._running = false;
+  start()
+  {
+    this.startTime = Date.now();
+    this.currentTimeCallback(0);
+    this.running = true;
+    requestAnimationFrame(this.animFrameBound);
+  }
 
-//   this._animFrameBound = this._animFrame.bind(this);
-// };
+  stop() {
+    this.running = false;
+    // cancelAnimationFrame(this.animFrameBound); // TODO: BUG
+    var time = this.elapsed();
+    this.currentTimeCallback(time);
+    return time;
+  }
 
-// Timer.Timer.prototype = {
-//   start: function()
-//   {
-//     this._startTime = Date.now();
-//     this._currentTimeCallback(0);
-//     this._running = true;
-//     requestAnimationFrame(this._animFrameBound);
-//   },
+  reset() {
+    this.currentTimeCallback(0);
+  }
 
-//   /**
-//    * @returns {!Timer.Timer.Milliseconds}
-//    */
-//   stop: function()
-//   {
-//     this._running = false;
-//     cancelAnimationFrame(this._animFrameBound);
-//     var time = this._elapsed();
-//     this._currentTimeCallback(time);
-//     return time;
-//   },
+  private animFrame() {
+    if (!this.running) {
+      return;
+    }
+    this.currentTimeCallback(this.elapsed());
+    requestAnimationFrame(this.animFrameBound);
+  }
 
-//   reset: function()
-//   {
-//     this._currentTimeCallback(0);
-//   },
-
-//   _animFrame: function()
-//   {
-//     if (!this._running) {
-//       return;
-//     }
-//     this._currentTimeCallback(this._elapsed());
-//     requestAnimationFrame(this._animFrameBound);
-//   },
-
-//   /**
-//    * @returns {Timer.Timer.Milliseconds}
-//    */
-//   _elapsed: function()
-//   {
-//     return Date.now() - this._startTime;
-//   }
-// }
-
-// // Time in milliseconds
-// /** @typedef {integer} */
-// Timer.Timer.Milliseconds;
+  private elapsed() {
+    return Date.now() - this.startTime;
+  }
+}

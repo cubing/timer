@@ -1,61 +1,70 @@
-export class TimerApp {
-  constructor() {
-    console.log("hi");
-  }
+import {EventName, eventOrder, eventMetadata} from "./cubing"
+import {Controller} from "./timer"
+import {Milliseconds} from "./timer"
+
+// const DEFAULT_EVENT = "333";
+// const STORED_EVENT_TIMEOUT_MS = 15 * 60 * 1000;
+
+type Scramble = {
+  eventName: EventName
+  scrambleString: string
 }
 
-// var TimerApp = function()
-// {
-//   this._scrambleView = new TimerApp.ScrambleView(this);
-//   this._statsView = new TimerApp.StatsView(this);
-//   this._domElement = document.getElementById("timer-app");
+export class TimerApp {
+  private scrambleView: ScrambleView;
+  private statsView: StatsView;
+  private domElement: HTMLElement;
+  private currentEvent: EventName;
+  private timerController: Controller;
+  constructor() {
+    this.scrambleView = new ScrambleView(this);
+    this.statsView = new StatsView();
+    this.domElement = <HTMLElement>document.getElementById("timer-app");
 
-//   this._enableOffline();
+    this.enableOffline();
 
-//   // Prevent a timer tap from scrolling the whole page on touch screens.
-//   this._domElement.addEventListener("touchmove", function(event)
-//   {
-//     event.preventDefault();
-//   });
+    // // Prevent a timer tap from scrolling the whole page on touch screens.
+    this.domElement.addEventListener("touchmove", function(event)
+    {
+      event.preventDefault();
+    });
 
-//   this._timerController = new Timer.Controller(
-//                                   document.getElementById("timer"),
-//                                   this._solveDone.bind(this),
-//                                   this._attemptDone.bind(this));
-//   this._setRandomThemeColor();
+    this.timerController = new Controller(
+                                    <HTMLElement>document.getElementById("timer"),
+                                    this.solveDone.bind(this),
+                                    this.attemptDone.bind(this));
+    // this._setRandomThemeColor();
 
-//   this._scramblers = new Cubing.Scramblers();
-//   this._shortTermSession = new ShortTermSession();
-//   this._updateDisplayStats(this._shortTermSession.getTimes());
+    // this._scramblers = new Cubing.Scramblers();
+    // this._shortTermSession = new ShortTermSession();
+    // this._updateDisplayStats(this._shortTermSession.getTimes());
 
-//   // This should trigger a new attempt for us.
-//   this._setInitialEvent();
-// }
+    // // This should trigger a new attempt for us.
+    // this._setInitialEvent();
 
-// TimerApp.prototype = {
-//   DEFAULT_EVENT: "333",
-//   STORED_EVENT_TIMEOUT_MS: 15 * 60 * 1000, // 15 min
+    // TODO: Remove:
+  }
 
-//   _enableOffline: function() {
-//     var infoBar = document.getElementById("update-bar");
+  private enableOffline() {
+    const infoBar = document.getElementById("update-bar");
 
-//     if ("serviceWorker" in navigator) {
-//       navigator.serviceWorker.getRegistration().then(function(r) {
-//         console.log(r);
-//         if (!r) {
-//           navigator.serviceWorker.register("./service-worker.js").then(function(registration) {
-//             console.log("Registered service worker with scope: ", registration.scope);
-//           }, function(err) {
-//             console.error(err);
-//           });
-//         } else {
-//           console.log("Service worker already registered.");
-//         }
-//       }, function(err) {
-//         console.error("Could not enable offline support.");
-//       });
-//     }
-//   },
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.getRegistration().then(function(r) {
+        console.log(r);
+        if (!r) {
+          navigator.serviceWorker.register("./service-worker.js").then(function(registration) {
+            console.log("Registered service worker with scope: ", registration.scope);
+          }, function(err) {
+            console.error(err);
+          });
+        } else {
+          console.log("Service worker already registered.");
+        }
+      }, function(err) {
+        console.error("Could not enable offline support.");
+      });
+    }
+  }
 
 //   _setInitialEvent: function() {
 //     var storedEvent = localStorage["current-event"];
@@ -96,22 +105,16 @@ export class TimerApp {
 //     this._scramblers.getRandomScramble(this._currentEvent, scrambleCallback.bind(this, this._awaitedScrambleId));
 //   },
 
-//   /**
-//    * @param {!Cubing.EventName} eventName
-//    * @param {bool} restartShortTermSession
-//    */
-//   setEvent: function(eventName, restartShortTermSession)
-//   {
-//     localStorage["current-event"] = eventName;
-//     this._currentEvent = eventName;
-//     this._scrambleView.setEvent(this._currentEvent);
-//     this._startNewAttempt();
-//     this._timerController.reset();
-//     if (restartShortTermSession) {
-//       this._shortTermSession.restart();
-//       this._updateDisplayStats([]);
-//     }
-//   },
+  setEvent(eventName: EventName, restartShortTermSession: boolean) {
+    localStorage.setItem("current-event", eventName);
+    this.scrambleView.setEvent(this.currentEvent);
+    // this._startNewAttempt();
+    // this._timerController.reset();
+    // if (restartShortTermSession) {
+    //   this._shortTermSession.restart();
+    //   this._updateDisplayStats([]);
+    // }
+  }
 
 //   _setRandomThemeColor: function()
 //   {
@@ -122,7 +125,7 @@ export class TimerApp {
 //       {name: "blue", value: "#4285f4"}
 //     ];
 //     var randomChoice = TimerApp.Util.randomChoice(themeColors);
-//     this._domElement.classList.add("theme-" + randomChoice.name);
+//     this.domElement.classList.add("theme-" + randomChoice.name);
 
 //     document.head || (document.head = document.getElementsByTagName('head')[0]);
 
@@ -146,12 +149,13 @@ export class TimerApp {
 //   /**
 //    * @param {!TimerApp.Timer.Milliseconds} time
 //    */
-//   _solveDone: function(time)
-//   {
-//     this._persistResult(time);
-//     var times = this._shortTermSession.addTime(time);
-//     this._updateDisplayStats(times);
-//   },
+  private solveDone(time: Milliseconds): void
+  {
+    // TODO
+    // this._persistResult(time);
+    // var times = this._shortTermSession.addTime(time);
+    // this._updateDisplayStats(times);
+  }
 
 //   /**
 //    * @param {!TimerApp.Timer.Milliseconds} time
@@ -174,183 +178,155 @@ export class TimerApp {
   
 //    * @param {Array<!TimerApp.Timer.Milliseconds>} times
    
-//   _updateDisplayStats: function(times) {
-//     this._statsView.setStats({
-//       "avg5": Stats.prototype.formatTime(Stats.prototype.trimmedAverage(Stats.prototype.lastN(times, 5))),
-//       "avg12": Stats.prototype.formatTime(Stats.prototype.trimmedAverage(Stats.prototype.lastN(times, 12))),
-//       "mean3": Stats.prototype.formatTime(Stats.prototype.mean(Stats.prototype.lastN(times, 3))),
-//       "best": Stats.prototype.formatTime(Stats.prototype.best(times)),
-//       "worst": Stats.prototype.formatTime(Stats.prototype.worst(times)),
-//       "numSolves": times.length
-//     });
-//   },
+  // Type: TODO
+  // updateDisplayStats(times: any) {
+  //   this.statsView.setStats({
+  //     "avg5": Stats.prototype.formatTime(Stats.prototype.trimmedAverage(Stats.prototype.lastN(times, 5))),
+  //     "avg12": .prototype.formatTime(Stats.prototype.trimmedAverage(Stats.prototype.lastN(times, 12))),
+  //     "mean3": Stats.prototype.formatTime(Stats.prototype.mean(Stats.prototype.lastN(times, 3))),
+  //     "best": Stats.prototype.formatTime(Stats.prototype.best(times)),
+  //     "worst": Stats.prototype.formatTime(Stats.prototype.worst(times)),
+  //     "numSolves": times.length
+  //   });
+  // }
 
-//   _attemptDone: function()
-//   {
-//     this._startNewAttempt();
-//   }
-// }
+  private attemptDone(): void {
+    // TODO
+    // this.startNewAttempt();
+  }
+}
 
 // /**
 //  * @param {!TimerApp} timerApp
 //  */
-// TimerApp.ScrambleView = function(timerApp)
-// {
-//   this._timerApp = timerApp;
 
-//   this._scrambleElement = document.getElementById("scramble-bar");
-//   this._eventSelectDropdown = document.getElementById("event-select-dropdown");
-//   this._cubingIcon = document.getElementById("cubing-icon");
-//   this._scrambleText = document.getElementById("scramble-text");
+class ScrambleView {
+  private scrambleElement: HTMLElement;
+  private eventSelectDropdown: HTMLSelectElement;
+  private cubingIcon: HTMLElement;
+  private scrambleText: HTMLElement;
+  private optionElementsByEventName: {[s: string]: HTMLOptionElement};
+  constructor(private timerApp: TimerApp) {
+    this.scrambleElement = <HTMLElement>document.getElementById("scramble-bar");
+    this.eventSelectDropdown = <HTMLSelectElement>document.getElementById("event-select-dropdown");
+    this.cubingIcon = <HTMLElement>document.getElementById("cubing-icon");
+    this.scrambleText = <HTMLAnchorElement>document.getElementById("scramble-text");
 
-//   this._eventSelectDropdown.addEventListener("change", function()
-//   {
-//     this._eventSelectDropdown.blur()
-//     this._timerApp.setEvent(this._eventSelectDropdown.value, true);
-//   }.bind(this));
+    this.eventSelectDropdown.addEventListener("change", () => {
+      this.eventSelectDropdown.blur()
+      this.timerApp.setEvent(this.eventSelectDropdown.value, true);
+    });
 
-//   this.initializeSelectDropdown();
-// }
+    this.initializeSelectDropdown();
 
-// TimerApp.ScrambleView.prototype = {
-//   initializeSelectDropdown: function()
-//   {
-//     this._eventSelectDropdown.optionElementsByEventName = {};
-//     for (var i in Cubing.EventName) {
+  }
 
-//       var eventName = Cubing.EventName[i];
 
-//       var optionElement = document.createElement("option");
-//       optionElement.value = eventName;
-//       optionElement.textContent = Cubing.EventMetadata[eventName].name;
+  initializeSelectDropdown() {
+    this.optionElementsByEventName = {};
+    for (var eventName of eventOrder) {
+      var optionElement = document.createElement("option");
+      optionElement.value = eventName;
+      optionElement.textContent = eventMetadata[eventName].name;
 
-//       this._eventSelectDropdown.optionElementsByEventName[eventName] = optionElement;
-//       this._eventSelectDropdown.appendChild(optionElement);
-//     }
-//   },
+      this.optionElementsByEventName[eventName] = optionElement;
+      this.eventSelectDropdown.appendChild(optionElement);
+    }
+  }
 
-//   /**
-//    * @param {!Cubing.EventName} eventName
-//    */
-//   setEvent: function(eventName)
-//   {
-//     TimerApp.Util.removeClassesStartingWith(this._scrambleText, "event-");
-//     this._scrambleText.classList.add("event-" + eventName);
-//     TimerApp.Util.removeClassesStartingWith(this._cubingIcon, "icon-");
-//     this._cubingIcon.classList.add("icon-" + eventName);
-//     if (this._eventSelectDropdown.value != eventName) {
-//       this._eventSelectDropdown.optionElementsByEventName[eventName].selected = true;
-//     }
-//     this._setScramblePlaceholder(eventName);
-//   },
+  setEvent(eventName: string) {
+    Util.removeClassesStartingWith(this.scrambleText, "event-");
+    this.scrambleText.classList.add("event-" + eventName);
+    Util.removeClassesStartingWith(this.cubingIcon, "icon-");
+    this.cubingIcon.classList.add("icon-" + eventName);
+    if (this.eventSelectDropdown.value != eventName) {
+      this.optionElementsByEventName[eventName].selected = true;
+    }
+    this.setScramblePlaceholder(eventName);
+  }
 
-//   /**
-//    * @param {!Cubing.EventName} eventName
-//    */
-//   _setScramblePlaceholder: function(eventName) {
-//     this.setScramble({
-//       eventName: eventName,
-//       scrambleString: "generating..."
-//     });
-//   },
+  setScramblePlaceholder(eventName: EventName) {
+    this.setScramble({
+      eventName: eventName,
+      scrambleString: "generating..."
+    });
+  }
 
-//   /**
-//    * @param {!Cubing.Scramble} scramble
-//    */
-//   setScramble: function(scramble)
-//   {
-//     this._scrambleText.classList.remove("stale");
-//     this._scrambleText.textContent = scramble.scrambleString;
+  setScramble(scramble: Scramble) {
+    this.scrambleText.classList.remove("stale");
+    this.scrambleText.textContent = scramble.scrambleString;
 
-//     // TODO(lgarron): Use proper layout code. https://github.com/cubing/timer/issues/20
-//     if (scramble.eventName === "minx") {
-//       this._scrambleText.innerHTML = scramble.scrambleString;
-//     }
-//     else if (scramble.eventName === "sq1") {
-//       this._scrambleText.innerHTML = scramble.scrambleString.replace(/, /g, ",&nbsp;").replace(/\) \//g, ")&nbsp;/");
-//     }
-//   },
+    // TODO(lgarron): Use proper layout code. https://github.com/cubing/timer/issues/20
+    if (scramble.eventName === "minx") {
+      this.scrambleText.innerHTML = scramble.scrambleString;
+    }
+    else if (scramble.eventName === "sq1") {
+      this.scrambleText.innerHTML = scramble.scrambleString.replace(/, /g, ",&nbsp;").replace(/\) \//g, ")&nbsp;/");
+    }
+  }
 
-//   clearScramble: function()
-//   {
-//     this._scrambleText.href = "";
-//     this._scrambleText.classList.add("stale");
-//   }
-// }
+  clearScramble() {
+    // this.scrambleText.href = ""; // TODO
+    this.scrambleText.classList.add("stale");
+  }
+}
 
-// TimerApp.StatsView = function() {
-//   this._statsDropdown = document.getElementById("stats-dropdown");
-//   this._elems = {
-//     "avg5":       document.getElementById("avg5"),
-//     "avg12":      document.getElementById("avg12"),
-//     "mean3":      document.getElementById("mean3"),
-//     "best":      document.getElementById("best"),
-//     "worst":      document.getElementById("worst"),
-//     "num-solves": document.getElementById("num-solves"),
-//   };
+class StatsView {
+  private _statsDropdown: HTMLElement; // TODO: Type
+  private _elems: any; // TODO: Type
+  constructor() {
+    this._statsDropdown = <HTMLElement>document.getElementById("stats-dropdown");
+    this._elems = {
+      "avg5":       document.getElementById("avg5"),
+      "avg12":      document.getElementById("avg12"),
+      "mean3":      document.getElementById("mean3"),
+      "best":       document.getElementById("best"),
+      "worst":      document.getElementById("worst"),
+      "num-solves": document.getElementById("num-solves"),
+    };
 
-//   this._initializeDropdown();
-// }
+    this.initializeDropdown();
+  }
 
-// TimerApp.StatsView.prototype = {
-//   _initializeDropdown: function() {
-//     var storedCurrentStat = localStorage["current-stat"];
+  initializeDropdown() {
+    var storedCurrentStat = localStorage.getItem("current-stat");
 
-//     if (storedCurrentStat in this._elems) {
-//       this._elems[storedCurrentStat].selected = true;
-//     }
+    if (storedCurrentStat && storedCurrentStat in this._elems) {
+      this._elems[storedCurrentStat].selected = true;
+    }
 
-//     this._statsDropdown.addEventListener("change", function() {
-//       localStorage["current-stat"] = this._statsDropdown.value;
-//       this._statsDropdown.blur();
-//     }.bind(this));
-//   },
+    this._statsDropdown.addEventListener("change", function() {
+      localStorage.setItem("current-stat", this._statsDropdown.value);
+      this._statsDropdown.blur();
+    }.bind(this));
+  }
 
-//   setStats: function(stats) {
-//     this._elems["avg5"].textContent = "avg5: " + stats.avg5;
-//     this._elems["avg12"].textContent = "avg12: " + stats.avg12;
-//     this._elems["mean3"].textContent = "mean3: " + stats.mean3;
-//     this._elems["best"].textContent = "best: " + stats.best;
-//     this._elems["worst"].textContent = "worst: " + stats.worst;
-//     this._elems["num-solves"].textContent = "#solves: " + stats.numSolves;
-//   }
-// }
+  // TODO: Type of stats.
+  setStats(stats: any) {
+    this._elems["avg5"].textContent = "avg5: " + stats.avg5;
+    this._elems["avg12"].textContent = "avg12: " + stats.avg12;
+    this._elems["mean3"].textContent = "mean3: " + stats.mean3;
+    this._elems["best"].textContent = "best: " + stats.best;
+    this._elems["worst"].textContent = "worst: " + stats.worst;
+    this._elems["num-solves"].textContent = "#solves: " + stats.numSolves;
+  }
+}
 
-// TimerApp.Util = function()
-// {};
+class Util {
+  static removeClassesStartingWith(element: HTMLElement, prefix: string): void {
+    var classes = Array.prototype.slice.call(element.classList);
+    for (var i in classes) {
+      var className = classes[i];
+      if (className.startsWith(prefix)) {
+        element.classList.remove(className);
+      }
+    }
+  }
 
-// // startsWith polyfill for iOS < 9
-// // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/startsWith
-// if (!String.prototype.startsWith) {
-//   String.prototype.startsWith = function(searchString, position) {
-//     position = position || 0;
-//     return this.indexOf(searchString, position) === position;
-//   };
-// }
-
-// /**
-//  * @param {!Element} element
-//  * @param {string} prefix
-//  */
-// TimerApp.Util.removeClassesStartingWith = function(element, prefix)
-// {
-//   var classes = Array.prototype.slice.call(element.classList);
-//   for (var i in classes) {
-//     var className = classes[i];
-//     if (className.startsWith(prefix)) {
-//       element.classList.remove(className);
-//     }
-//   }
-// }
-
-// /**
-//  * @param {Array} list
-//  */
-// TimerApp.Util.randomChoice =  function(list)
-// {
-//   return list[Math.floor(Math.random() * list.length)];
-// }
-
+  randomChoice(list: string[]): string {
+    return list[Math.floor(Math.random() * list.length)];
+  }
+}
 
 // window.addEventListener("load", function()
 // {
