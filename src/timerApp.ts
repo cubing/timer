@@ -1,9 +1,15 @@
 import {EventName, eventOrder, eventMetadata} from "./cubing"
 import {Controller} from "./timer"
 import {Milliseconds} from "./timer"
+// import {ScrambleID} from "./scramble-worker"
+import {Scramblers, ScrambleString} from "./cubing"
+import {ShortTermSession, Stats} from "./results"
 
-// const DEFAULT_EVENT = "333";
-// const STORED_EVENT_TIMEOUT_MS = 15 * 60 * 1000;
+// TODO: Import this from "./scramble-worker"
+export type ScrambleID = number;
+
+const DEFAULT_EVENT = "333";
+const STORED_EVENT_TIMEOUT_MS = 15 * 60 * 1000;
 
 type Scramble = {
   eventName: EventName
@@ -15,7 +21,11 @@ export class TimerApp {
   private statsView: StatsView;
   private domElement: HTMLElement;
   private currentEvent: EventName;
-  private timerController: Controller;
+  private controller: Controller;
+  private awaitedScrambleID: ScrambleID;
+  private scramblers: Scramblers = new Scramblers();
+  private shortTermSession: ShortTermSession = new ShortTermSession();
+  private currentScramble: Scramble;
   constructor() {
     this.scrambleView = new ScrambleView(this);
     this.statsView = new StatsView();
@@ -29,20 +39,15 @@ export class TimerApp {
       event.preventDefault();
     });
 
-    this.timerController = new Controller(
+    this.controller = new Controller(
                                     <HTMLElement>document.getElementById("timer"),
                                     this.solveDone.bind(this),
                                     this.attemptDone.bind(this));
-    // this._setRandomThemeColor();
+    this.setRandomThemeColor();
 
-    // this._scramblers = new Cubing.Scramblers();
-    // this._shortTermSession = new ShortTermSession();
-    // this._updateDisplayStats(this._shortTermSession.getTimes());
-
+    this.updateDisplayStats(this.shortTermSession.getTimes());
     // // This should trigger a new attempt for us.
-    // this._setInitialEvent();
-
-    // TODO: Remove:
+    this.setInitialEvent();
   }
 
   private enableOffline() {
@@ -66,139 +71,125 @@ export class TimerApp {
     }
   }
 
-//   _setInitialEvent: function() {
-//     var storedEvent = localStorage["current-event"];
-//     var lastAttemptDate = new Date(localStorage["last-attempt-date"]);
+  private setInitialEvent() {
+    var storedEvent = localStorage.getItem("current-event");
+    var lastAttemptDateStr = localStorage.getItem("last-attempt-date");
 
-//     var currentDate = new Date();
+    var currentDate = new Date();
 
-//     if (storedEvent in Cubing.EventMetadata &&
-//         !isNaN(lastAttemptDate) &&
-//         (currentDate.getTime() - lastAttemptDate.getTime() < this.STORED_EVENT_TIMEOUT_MS)
-//     ) {
-//       this.setEvent(storedEvent, false);
-//     } else {
-//       this.setEvent(this.DEFAULT_EVENT, false);
-//     }
-//   },
+    if (storedEvent && storedEvent in eventMetadata &&
+        lastAttemptDateStr &&
+        (currentDate.getTime() - new Date(lastAttemptDateStr).getTime() < STORED_EVENT_TIMEOUT_MS)
+    ) {
+      this.setEvent(storedEvent, false);
+    } else {
+      this.setEvent(DEFAULT_EVENT, false);
+    }
+  }
 
-//   _startNewAttempt: function ()
-//   {
-//     this._awaitedScrambleId = (typeof this._awaitedScrambleId !== "undefined") ? this._awaitedScrambleId + 1 : 0;
+  private startNewAttempt() {
+    this.awaitedScrambleID = (typeof this.awaitedScrambleID !== "undefined") ? this.awaitedScrambleID + 1 : 0;
 
-//     /**
-//      * @param {integer} scrambledId
-//      * @param {!Cubing.Scramble} scramble
-//      */
-//     function scrambleCallback(scrambledId, scramble)
-//     {
-//       if (scrambledId === this._awaitedScrambleId) {
-//         this._currentScramble = scramble;
-//         this._scrambleView.setScramble(this._currentScramble);
-//       } else {
-//         var logInfo = console.info ? console.info.bind(console) : console.log;
-//         logInfo("Scramble came back out of order late (received: ", scrambledId, ", current expected: ", this._awaitedScrambleId, "):", scramble)
-//       }
-//     }
+    function scrambleCallback(scrambledId: ScrambleID, scramble: ScrambleString)
+    {
+      if (scrambledId === this.awaitedScrambleID) {
+        this._currentScramble = scramble;
+        this._scrambleView.setScramble(this._currentScramble);
+      } else {
+        var logInfo = console.info ? console.info.bind(console) : console.log;
+        logInfo("Scramble came back out of order late (received: ", scrambledId, ", current expected: ", this.awaitedScrambleID, "):", scramble)
+      }
+    }
 
-//     this._scrambleView.clearScramble();
-//     this._scramblers.getRandomScramble(this._currentEvent, scrambleCallback.bind(this, this._awaitedScrambleId));
-//   },
+    this.scrambleView.clearScramble();
+    this.scramblers.getRandomScramble(this.currentEvent, scrambleCallback.bind(this, this.awaitedScrambleID));
+  }
 
   setEvent(eventName: EventName, restartShortTermSession: boolean) {
     localStorage.setItem("current-event", eventName);
+    this.currentEvent = eventName;
     this.scrambleView.setEvent(this.currentEvent);
-    // this._startNewAttempt();
-    // this._timerController.reset();
-    // if (restartShortTermSession) {
-    //   this._shortTermSession.restart();
-    //   this._updateDisplayStats([]);
-    // }
+    this.startNewAttempt();
+    this.controller.reset();
+    if (restartShortTermSession) {
+      this.shortTermSession.restart();
+      this.updateDisplayStats([]);
+    }
   }
 
-//   _setRandomThemeColor: function()
-//   {
-//     var themeColors = [
-//       {name: "orange", value: "#f95b2a"},
-//       {name: "green", value: "#0d904f"},
-//       {name: "red", value: "#ce2e20"},
-//       {name: "blue", value: "#4285f4"}
-//     ];
-//     var randomChoice = TimerApp.Util.randomChoice(themeColors);
-//     this.domElement.classList.add("theme-" + randomChoice.name);
+  private setRandomThemeColor() {
+    type ThemeColor = {
+      name: string
+      value: string
+    }
+    var themeColors = [
+      {name: "orange", value: "#f95b2a"},
+      {name: "green", value: "#0d904f"},
+      {name: "red", value: "#ce2e20"},
+      {name: "blue", value: "#4285f4"}
+    ];
+    var randomChoice = Util.randomChoice<ThemeColor>(themeColors);
+    this.domElement.classList.add("theme-" + randomChoice.name);
 
-//     document.head || (document.head = document.getElementsByTagName('head')[0]);
+    // TODO: Can we remove the following line safely?
+    const head = document.head || document.getElementsByTagName('head')[0];
 
-//     var favicon = document.createElement('link');
-//     var currentFavicon = document.getElementById('favicon');
-//     favicon.id = 'favicon';
-//     favicon.rel = 'shortcut icon';
-//     favicon.href = 'lib/favicons/favicon_' + randomChoice.name + '.ico';
-//     if (currentFavicon) {
-//       document.head.removeChild(currentFavicon);
-//     }
-//     document.head.appendChild(favicon);
+    var favicon = document.createElement('link');
+    var currentFavicon = document.getElementById('favicon');
+    favicon.id = 'favicon';
+    favicon.rel = 'shortcut icon';
+    favicon.href = 'lib/favicons/favicon_' + randomChoice.name + '.ico';
+    if (currentFavicon) {
+      head.removeChild(currentFavicon);
+    }
+    head.appendChild(favicon);
 
-//     var meta = document.createElement("meta");
-//     meta.name = "theme-color";
-//     meta.id = "theme-color";
-//     meta.content = randomChoice.value;
-//     document.head.appendChild(meta);
-//   },
+    var meta = document.createElement("meta");
+    meta.name = "theme-color";
+    meta.id = "theme-color";
+    meta.content = randomChoice.value;
+    head.appendChild(meta);
+  }
 
-//   /**
-//    * @param {!TimerApp.Timer.Milliseconds} time
-//    */
   private solveDone(time: Milliseconds): void
   {
-    // TODO
-    // this._persistResult(time);
-    // var times = this._shortTermSession.addTime(time);
-    // this._updateDisplayStats(times);
+    this.persistResult(time);
+    var times = this.shortTermSession.addTime(time);
+    this.updateDisplayStats(times);
   }
 
 //   /**
 //    * @param {!TimerApp.Timer.Milliseconds} time
 //    */
-//   _persistResult: function(time)
-//   {
-//     var today = new Date();
-//     var dateString = today.getFullYear() + "-" + (today.getMonth() + 1) + "-" + today.getDate();
+  private persistResult(time: Milliseconds): void {
+    var today = new Date();
+    var dateString = today.getFullYear() + "-" + (today.getMonth() + 1) + "-" + today.getDate();
 
-//     var serializationFormat = "v0.1";
-//     var scrambleString = this._currentScramble ? this._currentScramble.scrambleString : "/* no scramble */";
-//     var result = "[" + serializationFormat + "][" + this._currentEvent + "][" + new Date() + "] " + (time / 1000) + " (" + scrambleString + ")";
+    var serializationFormat = "v0.1";
+    var scrambleString = this.currentScramble ? this.currentScramble.scrambleString : "/* no scramble */";
+    var result = "[" + serializationFormat + "][" + this.currentEvent + "][" + new Date() + "] " + (time / 1000) + " (" + scrambleString + ")";
 
-//     var store = (dateString in localStorage) ? localStorage[dateString] + "\n" : "";
-//     localStorage[dateString] = store + result;
+    var store = (dateString in localStorage) ? localStorage.getItem(dateString) + "\n" : "";
+    localStorage.setItem(dateString, store + result);
 
-//     localStorage["last-attempt-date"] = today.toString();
-//   },
+    localStorage.setItem("last-attempt-date", today.toString());
+  }
 
-  
-//    * @param {Array<!TimerApp.Timer.Milliseconds>} times
-   
-  // Type: TODO
-  // updateDisplayStats(times: any) {
-  //   this.statsView.setStats({
-  //     "avg5": Stats.prototype.formatTime(Stats.prototype.trimmedAverage(Stats.prototype.lastN(times, 5))),
-  //     "avg12": .prototype.formatTime(Stats.prototype.trimmedAverage(Stats.prototype.lastN(times, 12))),
-  //     "mean3": Stats.prototype.formatTime(Stats.prototype.mean(Stats.prototype.lastN(times, 3))),
-  //     "best": Stats.prototype.formatTime(Stats.prototype.best(times)),
-  //     "worst": Stats.prototype.formatTime(Stats.prototype.worst(times)),
-  //     "numSolves": times.length
-  //   });
-  // }
+  updateDisplayStats(times: Milliseconds[]) {
+    this.statsView.setStats({
+      "avg5": Stats.formatTime(Stats.trimmedAverage(Stats.lastN(times, 5))),
+      "avg12": Stats.formatTime(Stats.trimmedAverage(Stats.lastN(times, 12))),
+      "mean3": Stats.formatTime(Stats.mean(Stats.lastN(times, 3))),
+      "best": Stats.formatTime(Stats.best(times)),
+      "worst": Stats.formatTime(Stats.worst(times)),
+      "numSolves": times.length
+    });
+  }
 
   private attemptDone(): void {
-    // TODO
-    // this.startNewAttempt();
+    this.startNewAttempt();
   }
 }
-
-// /**
-//  * @param {!TimerApp} timerApp
-//  */
 
 class ScrambleView {
   private scrambleElement: HTMLElement;
@@ -218,9 +209,7 @@ class ScrambleView {
     });
 
     this.initializeSelectDropdown();
-
   }
-
 
   initializeSelectDropdown() {
     this.optionElementsByEventName = {};
@@ -239,7 +228,7 @@ class ScrambleView {
     this.scrambleText.classList.add("event-" + eventName);
     Util.removeClassesStartingWith(this.cubingIcon, "icon-");
     this.cubingIcon.classList.add("icon-" + eventName);
-    if (this.eventSelectDropdown.value != eventName) {
+    if (this.eventSelectDropdown.value !== eventName) {
       this.optionElementsByEventName[eventName].selected = true;
     }
     this.setScramblePlaceholder(eventName);
@@ -323,7 +312,7 @@ class Util {
     }
   }
 
-  randomChoice(list: string[]): string {
+  static randomChoice<T>(list: T[]): T {
     return list[Math.floor(Math.random() * list.length)];
   }
 }

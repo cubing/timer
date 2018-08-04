@@ -1,6 +1,7 @@
 // "use strict";
 
 export type EventName = string;
+export type ScrambleString = string;
 
 // var Cubing = function() {};
 
@@ -88,15 +89,15 @@ export const eventMetadata: {[e: string]: Event}  = {
 //  */
 // Cubing.Scramble;
 
+export class Scramblers {
+  constructor() {
+    // TODO
+    // this._worker = new Worker(this.WORKER_PATH);
+    // this._commandId = 0;
+    // this._commandIdToCallback = [];
 
-// Cubing.Scramblers = function()
-// {
-//   this._worker = new Worker(this.WORKER_PATH);
-//   this._commandId = 0;
-//   this._commandIdToCallback = [];
-
-//   this._worker.addEventListener("message", this._workerCallback.bind(this), false);
-// }
+    // this._worker.addEventListener("message", this._workerCallback.bind(this), false);
+  }
 
 // Cubing.Scramblers.prototype = {
 //   WORKER_PATH: "lib/scramble-worker.js",
@@ -105,17 +106,17 @@ export const eventMetadata: {[e: string]: Event}  = {
 //    * @param {!Object} eventName
 //    * @param {function(!Cubing.ScrambleString)} callback
 //    */
-//   getRandomScramble: function(eventName, callback)
-//   {
-//     var commandId = this._commandScrambleId;
-//     this._commandId += 1;
-//     this._commandIdToCallback[commandId] = callback;
-//     this._worker.postMessage({
-//       command: "getRandomScramble",
-//       commandId: commandId,
-//       eventName: eventName
-//     })
-//   },
+  getRandomScramble(eventName: EventName, callback: (s: ScrambleString) => void) {
+    // TODO
+    // var commandId = this._commandScrambleId;
+    // this._commandId += 1;
+    // this._commandIdToCallback[commandId] = callback;
+    // this._worker.postMessage({
+    //   command: "getRandomScramble",
+    //   commandId: commandId,
+    //   eventName: eventName
+    // })
+  }
 
 //   /**
 //    * @param {!Event} e
@@ -130,3 +131,4 @@ export const eventMetadata: {[e: string]: Event}  = {
 //     callback(e.data.scramble)
 //   }
 // }
+}

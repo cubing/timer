@@ -11,12 +11,13 @@ export type Milliseconds = number;
 //  */
 export class Controller {
   // TODO: Callback types
+  private timer: Timer;
   constructor(private domElement: HTMLElement,
-              private solveDoneCallback: () => number,
+              private solveDoneCallback: (t: Milliseconds) => void,
               private attemptDoneCallback: () => void) {
 
   var timerView = new View(domElement);
-//   this._timer = new Timer.Timer(timerView.displayTime.bind(timerView));
+  this.timer = new Timer(timerView.displayTime.bind(timerView));
 
 //   document.body.addEventListener("keydown", this._keyDown.bind(this));
 //   document.body.addEventListener("keyup", this._keyUp.bind(this));
@@ -111,9 +112,9 @@ export class Controller {
 //     }
 //   },
 
-//   reset: function() {
-//     this._timer.reset();
-//   },
+  reset() {
+    this.timer.reset();
+  }
 
 //   /**
 //    * @param {!Timer.Controller.State} state
@@ -180,7 +181,7 @@ class View {
   }
 }
 
-class Time {
+class Timer {
   private running: boolean = false;
   private animFrameBound: () => void;
   private startTime: number;

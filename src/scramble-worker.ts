@@ -1,3 +1,5 @@
+export type ScrambleID = number;
+
 // (function(f) {if (typeof MagicWorker !== "undefined") {
 //     MagicWorker.register("lib/scramble-worker.js", f);
 // } else {f()}})(function() {
