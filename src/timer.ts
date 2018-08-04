@@ -2,6 +2,17 @@ import {Stats} from "./results"
 
 export type Milliseconds = number;
 
+
+enum State {
+  Ready = "ready",
+  HandOnTimer = "handOnTimer",
+  Running = "running",
+  Stopped = "stopped",
+  Ignore = "ignore",
+}
+
+type TransitionMap = any; // TODO: Type
+
 // var Timer = {};
 
 // /**
@@ -12,6 +23,7 @@ export type Milliseconds = number;
 export class Controller {
   // TODO: Callback types
   private timer: Timer;
+  private state: State;
   constructor(private domElement: HTMLElement,
               private solveDoneCallback: (t: Milliseconds) => void,
               private attemptDoneCallback: () => void) {
@@ -19,150 +31,119 @@ export class Controller {
   var timerView = new View(domElement);
   this.timer = new Timer(timerView.displayTime.bind(timerView));
 
-//   document.body.addEventListener("keydown", this._keyDown.bind(this));
-//   document.body.addEventListener("keyup", this._keyUp.bind(this));
+  document.body.addEventListener("keydown", this.keyDown.bind(this));
+  document.body.addEventListener("keyup", this.keyUp.bind(this));
 
-//   FastClick.attach(domElement);
+  // TODO: Remove?
+  // FastClick.attach(domElement);
 
-//   domElement.addEventListener("touchstart", this._down.bind(this));
-//   domElement.addEventListener("touchend", this._up.bind(this));
+  domElement.addEventListener("touchstart", this.down.bind(this));
+  domElement.addEventListener("touchend", this.up.bind(this));
 
-//   document.body.addEventListener("touchstart", this._downIfRunning.bind(this));
-//   document.body.addEventListener("touchend", this._upIfStopped.bind(this));
+  document.body.addEventListener("touchstart", this.downIfRunning.bind(this));
+  document.body.addEventListener("touchend", this.upIfStopped.bind(this));
 
-//   if(navigator.maxTouchPoints > 0){
-//     domElement.addEventListener("pointerdown", this._down.bind(this));
-//     domElement.addEventListener("pointerup", this._up.bind(this));
+  if(navigator.maxTouchPoints > 0){
+    domElement.addEventListener("pointerdown", this.down.bind(this));
+    domElement.addEventListener("pointerup", this.up.bind(this));
 
-//     document.body.addEventListener("pointerdown", this._downIfRunning.bind(this));
-//     document.body.addEventListener("pointerup", this._upIfStopped.bind(this));
-//   }
+    document.body.addEventListener("pointerdown", this.downIfRunning.bind(this));
+    document.body.addEventListener("pointerup", this.upIfStopped.bind(this));
+  }
 
-//   this._setState(Timer.Controller.State.Ready);
+  this.setState(State.Ready);
 // }
   }
 
-// Timer.Controller.prototype = {
-//   /**
-//    * @param {!Event} e
-//    */
-//   _keyDown: function(e)
-//   {
-//     if (this._isTimerKey(e) || this._state === Timer.Controller.State.Running) {
-//       this._down();
-//     }
-//   },
+  private keyDown(e: KeyboardEvent): void{
+    if (this.isTimerKey(e) || this.state === State.Running) {
+      this.down();
+    }
+  }
 
-//   /**
-//    * @param {!Event} e
-//    */
-//   _keyUp: function(e)
-//   {
-//     if (this._isTimerKey(e) || this._state === Timer.Controller.State.Stopped) {
-//       this._up();
-//     }
-//   },
+  private keyUp(e: KeyboardEvent) {
+    if (this.isTimerKey(e) || this.state === State.Stopped) {
+      this.up();
+    }
+  }
 
-//   /**
-//    * @param {!Event} e
-//    */
-//   _isTimerKey: function(e)
-//   {
-//     // Only allow spacebar for now.
-//     return e.which === 32;
-//   },
+  private isTimerKey(e: KeyboardEvent) {
+    // Only allow spacebar for now.
+    return e.which === 32;
+  }
 
-//   _down: function()
-//   {
-//     var State = Timer.Controller.State;
-//     var transitionMap = {
-//       "ready":       State.HandOnTimer,
-//       "handOnTimer": State.Ignore,
-//       "running":     State.Stopped,
-//       "stopped":     State.Ignore
-//     }
-//     this._setState(transitionMap[this._state]);
-//   },
+  private down()
+  {
+    var transitionMap: TransitionMap = {
+      "ready":       State.HandOnTimer,
+      "handOnTimer": State.Ignore,
+      "running":     State.Stopped,
+      "stopped":     State.Ignore
+    }
+    this.setState(transitionMap[this.state]);
+  }
 
-//   _up: function(e)
-//   {
-//     var State = Timer.Controller.State;
-//     var transitionMap = {
-//       "ready":       State.Ignore,
-//       "handOnTimer": State.Running,
-//       "running":     State.Ignore,
-//       "stopped":     State.Ready
-//     }
-//     this._setState(transitionMap[this._state]);
-//   },
+  private up()
+  {
+    var transitionMap: TransitionMap = {
+      "ready":       State.Ignore,
+      "handOnTimer": State.Running,
+      "running":     State.Ignore,
+      "stopped":     State.Ready
+    }
+    this.setState(transitionMap[this.state]);
+  }
 
-//   _downIfRunning: function(e)
-//   {
-//     if (this._state === "running") {
-//       this._down(e);
-//       e.preventDefault();
-//     }
-//   },
+  private downIfRunning(e: Event)
+  {
+    if (this.state === "running") {
+      this.down();
+      e.preventDefault();
+    }
+  }
 
-//   _upIfStopped: function(e)
-//   {
-//     if (this._state === "stopped") {
-//       this._up(e);
-//       e.preventDefault();
-//     }
-//   },
+  private upIfStopped(e: Event)
+  {
+    if (this.state === "stopped") {
+      this.up();
+      e.preventDefault();
+    }
+  }
 
   reset() {
     this.timer.reset();
   }
 
-//   /**
-//    * @param {!Timer.Controller.State} state
-//    */
-//   _setState: function(state)
-//   {
-//     var State = Timer.Controller.State;
-//     switch (state) {
-//       case State.Ready:
-//         if (this._state == State.Stopped) {
-//           this._attemptDoneCallback();
-//         }
-//         break;
-//       case State.HandOnTimer:
-//         this.reset();
-//         break;
-//       case State.Running:
-//         this._timer.start();
-//         break;
-//       case State.Stopped:
-//         var time = this._timer.stop();
-//         this._solveDoneCallback(time);
-//         break;
-//       case State.Ignore:
-//         return;
-//       default:
-//         console.error("Tried to set invalid state in controller:", state);
-//         break;
-//     }
-//     this.domElement.classList.remove(this._state);
-//     this._state = state;
-//     this.domElement.classList.add(this._state);
-//   }
-// }
+  private setState(state: State)
+  {
+    switch (state) {
+      case State.Ready:
+        if (this.state == State.Stopped) {
+          this.attemptDoneCallback();
+        }
+        break;
+      case State.HandOnTimer:
+        this.reset();
+        break;
+      case State.Running:
+        this.timer.start();
+        break;
+      case State.Stopped:
+        var time = this.timer.stop();
+        this.solveDoneCallback(time);
+        break;
+      case State.Ignore:
+        return;
+      default:
+        console.error("Tried to set invalid state in controller:", state);
+        break;
+    }
+    this.domElement.classList.remove(this.state);
+    this.state = state;
+    this.domElement.classList.add(this.state);
+  }
 }
 
-// Timer.Controller.State = {
-//   Ready: "ready",
-//   HandOnTimer: "handOnTimer",
-//   Running: "running",
-//   Stopped: "stopped",
-//   Ignore: "ignore"
-// }
-
-
-// /**
-//  * @param {!Element} domElement
-//  */
 class View {
   private secFirstElement: HTMLElement;
   private secRestElement: HTMLElement;
