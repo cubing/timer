@@ -13,15 +13,7 @@ enum State {
 
 type TransitionMap = any; // TODO: Type
 
-// var Timer = {};
-
-// /**
-//  * @param {!Element} domElement
-//  * @param {function(!Timer.Timer.Milliseconds)} solveDoneCallback
-//  * @param {function(!Timer.Timer.Milliseconds)} attemptDoneCallback
-//  */
 export class Controller {
-  // TODO: Callback types
   private timer: Timer;
   private state: State;
   constructor(private domElement: HTMLElement,
@@ -52,7 +44,6 @@ export class Controller {
   }
 
   this.setState(State.Ready);
-// }
   }
 
   private keyDown(e: KeyboardEvent): void{

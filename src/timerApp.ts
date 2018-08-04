@@ -16,6 +16,15 @@ type Scramble = {
   scrambleString: string
 }
 
+type FormattedStats = {
+  "avg5": string
+  "avg12": string
+  "mean3": string
+  "best": string
+  "worst": string
+  "numSolves": number
+}
+
 export class TimerApp {
   private scrambleView: ScrambleView;
   private statsView: StatsView;
@@ -261,17 +270,17 @@ class ScrambleView {
 }
 
 class StatsView {
-  private _statsDropdown: HTMLElement; // TODO: Type
-  private _elems: any; // TODO: Type
+  private statsDropdown: HTMLSelectElement;
+  private elems: {[s: string]: HTMLOptionElement};
   constructor() {
-    this._statsDropdown = <HTMLElement>document.getElementById("stats-dropdown");
-    this._elems = {
-      "avg5":       document.getElementById("avg5"),
-      "avg12":      document.getElementById("avg12"),
-      "mean3":      document.getElementById("mean3"),
-      "best":       document.getElementById("best"),
-      "worst":      document.getElementById("worst"),
-      "num-solves": document.getElementById("num-solves"),
+    this.statsDropdown = <HTMLSelectElement>document.getElementById("stats-dropdown");
+    this.elems = {
+      "avg5":       <HTMLOptionElement>document.getElementById("avg5"),
+      "avg12":      <HTMLOptionElement>document.getElementById("avg12"),
+      "mean3":      <HTMLOptionElement>document.getElementById("mean3"),
+      "best":       <HTMLOptionElement>document.getElementById("best"),
+      "worst":      <HTMLOptionElement>document.getElementById("worst"),
+      "num-solves": <HTMLOptionElement>document.getElementById("num-solves"),
     };
 
     this.initializeDropdown();
@@ -280,24 +289,23 @@ class StatsView {
   initializeDropdown() {
     var storedCurrentStat = localStorage.getItem("current-stat");
 
-    if (storedCurrentStat && storedCurrentStat in this._elems) {
-      this._elems[storedCurrentStat].selected = true;
+    if (storedCurrentStat && storedCurrentStat in this.elems) {
+      this.elems[storedCurrentStat].selected = true;
     }
 
-    this._statsDropdown.addEventListener("change", function() {
-      localStorage.setItem("current-stat", this._statsDropdown.value);
-      this._statsDropdown.blur();
+    this.statsDropdown.addEventListener("change", function() {
+      localStorage.setItem("current-stat", this.statsDropdown.value);
+      this.statsDropdown.blur();
     }.bind(this));
   }
 
-  // TODO: Type of stats.
-  setStats(stats: any) {
-    this._elems["avg5"].textContent = "avg5: " + stats.avg5;
-    this._elems["avg12"].textContent = "avg12: " + stats.avg12;
-    this._elems["mean3"].textContent = "mean3: " + stats.mean3;
-    this._elems["best"].textContent = "best: " + stats.best;
-    this._elems["worst"].textContent = "worst: " + stats.worst;
-    this._elems["num-solves"].textContent = "#solves: " + stats.numSolves;
+  setStats(stats: FormattedStats) {
+    this.elems["avg5"].textContent = "avg5: " + stats.avg5;
+    this.elems["avg12"].textContent = "avg12: " + stats.avg12;
+    this.elems["mean3"].textContent = "mean3: " + stats.mean3;
+    this.elems["best"].textContent = "best: " + stats.best;
+    this.elems["worst"].textContent = "worst: " + stats.worst;
+    this.elems["num-solves"].textContent = "#solves: " + stats.numSolves;
   }
 }
 
