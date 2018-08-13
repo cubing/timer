@@ -324,8 +324,3 @@ class Util {
     return list[Math.floor(Math.random() * list.length)];
   }
 }
-
-// window.addEventListener("load", function()
-// {
-//   window.timerApp = new TimerApp();
-// });
