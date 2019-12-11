@@ -1,4 +1,4 @@
-import {Stats} from "./results"
+import { Stats } from "./stats"
 
 export type Milliseconds = number;
 
@@ -17,36 +17,36 @@ export class Controller {
   private timer: Timer;
   private state: State;
   constructor(private domElement: HTMLElement,
-              private solveDoneCallback: (t: Milliseconds) => void,
-              private attemptDoneCallback: () => void) {
+    private solveDoneCallback: (t: Milliseconds) => void,
+    private attemptDoneCallback: () => void) {
 
-  var timerView = new View(domElement);
-  this.timer = new Timer(timerView.displayTime.bind(timerView));
+    var timerView = new View(domElement);
+    this.timer = new Timer(timerView.displayTime.bind(timerView));
 
-  document.body.addEventListener("keydown", this.keyDown.bind(this));
-  document.body.addEventListener("keyup", this.keyUp.bind(this));
+    document.body.addEventListener("keydown", this.keyDown.bind(this));
+    document.body.addEventListener("keyup", this.keyUp.bind(this));
 
-  // TODO: Remove?
-  // FastClick.attach(domElement);
+    // TODO: Remove?
+    // FastClick.attach(domElement);
 
-  domElement.addEventListener("touchstart", this.down.bind(this));
-  domElement.addEventListener("touchend", this.up.bind(this));
+    domElement.addEventListener("touchstart", this.down.bind(this));
+    domElement.addEventListener("touchend", this.up.bind(this));
 
-  document.body.addEventListener("touchstart", this.downIfRunning.bind(this));
-  document.body.addEventListener("touchend", this.upIfStopped.bind(this));
+    document.body.addEventListener("touchstart", this.downIfRunning.bind(this));
+    document.body.addEventListener("touchend", this.upIfStopped.bind(this));
 
-  if(navigator.maxTouchPoints > 0){
-    domElement.addEventListener("pointerdown", this.down.bind(this));
-    domElement.addEventListener("pointerup", this.up.bind(this));
+    if (navigator.maxTouchPoints > 0) {
+      domElement.addEventListener("pointerdown", this.down.bind(this));
+      domElement.addEventListener("pointerup", this.up.bind(this));
 
-    document.body.addEventListener("pointerdown", this.downIfRunning.bind(this));
-    document.body.addEventListener("pointerup", this.upIfStopped.bind(this));
+      document.body.addEventListener("pointerdown", this.downIfRunning.bind(this));
+      document.body.addEventListener("pointerup", this.upIfStopped.bind(this));
+    }
+
+    this.setState(State.Ready);
   }
 
-  this.setState(State.Ready);
-  }
-
-  private keyDown(e: KeyboardEvent): void{
+  private keyDown(e: KeyboardEvent): void {
     if (this.isTimerKey(e) || this.state === State.Running) {
       this.down();
     }
@@ -63,38 +63,34 @@ export class Controller {
     return e.which === 32;
   }
 
-  private down()
-  {
+  private down() {
     var transitionMap: TransitionMap = {
-      "ready":       State.HandOnTimer,
+      "ready": State.HandOnTimer,
       "handOnTimer": State.Ignore,
-      "running":     State.Stopped,
-      "stopped":     State.Ignore
+      "running": State.Stopped,
+      "stopped": State.Ignore
     }
     this.setState(transitionMap[this.state]);
   }
 
-  private up()
-  {
+  private up() {
     var transitionMap: TransitionMap = {
-      "ready":       State.Ignore,
+      "ready": State.Ignore,
       "handOnTimer": State.Running,
-      "running":     State.Ignore,
-      "stopped":     State.Ready
+      "running": State.Ignore,
+      "stopped": State.Ready
     }
     this.setState(transitionMap[this.state]);
   }
 
-  private downIfRunning(e: Event)
-  {
+  private downIfRunning(e: Event) {
     if (this.state === "running") {
       this.down();
       e.preventDefault();
     }
   }
 
-  private upIfStopped(e: Event)
-  {
+  private upIfStopped(e: Event) {
     if (this.state === "stopped") {
       this.up();
       e.preventDefault();
@@ -105,8 +101,7 @@ export class Controller {
     this.timer.reset();
   }
 
-  private setState(state: State)
-  {
+  private setState(state: State) {
     switch (state) {
       case State.Ready:
         if (this.state == State.Stopped) {
@@ -161,8 +156,7 @@ class Timer {
     this.animFrameBound = this.animFrame.bind(this);
   };
 
-  start()
-  {
+  start() {
     this.startTime = Date.now();
     this.currentTimeCallback(0);
     this.running = true;

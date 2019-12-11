@@ -11,7 +11,13 @@
   "main": "./dist/timerApp.js",
   "types": "./dist/index.d.ts",
   "dependencies": {
-    "alg": "^0.9.8"
+    "@types/pouchdb": "^6.4.0",
+    "alg": "^0.9.8",
+    "babel-polyfill": "^6.26.0",
+    "inspector": "^0.5.0",
+    "pouchdb": "^7.1.1",
+    "pouchdb-find": "^7.1.1",
+    "results": "^0.14.1"
   },
   "externalsForWebpack": [
     "alg"

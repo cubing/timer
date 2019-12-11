@@ -6,7 +6,7 @@ dist: clean-dist
 
 .PHONY: dev
 dev:
-	${NODE_BIN}/webpack-cli --watch
+	npx parcel src/index.html
 
 .PHONY: test
 test:

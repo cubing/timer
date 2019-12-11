@@ -1,9 +1,9 @@
-import {EventName, eventOrder, eventMetadata} from "./cubing"
-import {Controller} from "./timer"
-import {Milliseconds} from "./timer"
+import { EventName, eventOrder, eventMetadata } from "./cubing"
+import { Controller } from "./timer"
+import { Milliseconds } from "./timer"
 // import {ScrambleID} from "./scramble-worker"
-import {Scramblers, ScrambleString} from "./cubing"
-import {ShortTermSession, Stats} from "./results"
+import { Scramblers, ScrambleString } from "./cubing"
+import { ShortTermSession, Stats } from "./stats"
 
 // TODO: Import this from "./scramble-worker"
 export type ScrambleID = number;
@@ -43,15 +43,14 @@ export class TimerApp {
     this.enableOffline();
 
     // // Prevent a timer tap from scrolling the whole page on touch screens.
-    this.domElement.addEventListener("touchmove", function(event)
-    {
+    this.domElement.addEventListener("touchmove", function (event) {
       event.preventDefault();
     });
 
     this.controller = new Controller(
-                                    <HTMLElement>document.getElementById("timer"),
-                                    this.solveDone.bind(this),
-                                    this.attemptDone.bind(this));
+      <HTMLElement>document.getElementById("timer"),
+      this.solveDone.bind(this),
+      this.attemptDone.bind(this));
     this.setRandomThemeColor();
 
     this.updateDisplayStats(this.shortTermSession.getTimes());
@@ -88,8 +87,8 @@ export class TimerApp {
     var currentDate = new Date();
 
     if (storedEvent && storedEvent in eventMetadata &&
-        lastAttemptDateStr &&
-        (currentDate.getTime() - new Date(lastAttemptDateStr).getTime() < STORED_EVENT_TIMEOUT_MS)
+      lastAttemptDateStr &&
+      (currentDate.getTime() - new Date(lastAttemptDateStr).getTime() < STORED_EVENT_TIMEOUT_MS)
     ) {
       this.setEvent(storedEvent, false);
     } else {
@@ -100,8 +99,7 @@ export class TimerApp {
   private startNewAttempt() {
     this.awaitedScrambleID = (typeof this.awaitedScrambleID !== "undefined") ? this.awaitedScrambleID + 1 : 0;
 
-    function scrambleCallback(scrambledId: ScrambleID, scramble: ScrambleString)
-    {
+    function scrambleCallback(scrambledId: ScrambleID, scramble: ScrambleString) {
       if (scrambledId === this.awaitedScrambleID) {
         this.currentScramble = scramble;
         this.scrambleView.setScramble(this.currentScramble);
@@ -133,10 +131,10 @@ export class TimerApp {
       value: string
     }
     var themeColors = [
-      {name: "orange", value: "#f95b2a"},
-      {name: "green", value: "#0d904f"},
-      {name: "red", value: "#ce2e20"},
-      {name: "blue", value: "#4285f4"}
+      { name: "orange", value: "#f95b2a" },
+      { name: "green", value: "#0d904f" },
+      { name: "red", value: "#ce2e20" },
+      { name: "blue", value: "#4285f4" }
     ];
     var randomChoice = Util.randomChoice<ThemeColor>(themeColors);
     this.domElement.classList.add("theme-" + randomChoice.name);
@@ -161,16 +159,15 @@ export class TimerApp {
     head.appendChild(meta);
   }
 
-  private solveDone(time: Milliseconds): void
-  {
+  private solveDone(time: Milliseconds): void {
     this.persistResult(time);
     var times = this.shortTermSession.addTime(time);
     this.updateDisplayStats(times);
   }
 
-//   /**
-//    * @param {!TimerApp.Timer.Milliseconds} time
-//    */
+  //   /**
+  //    * @param {!TimerApp.Timer.Milliseconds} time
+  //    */
   private persistResult(time: Milliseconds): void {
     var today = new Date();
     var dateString = today.getFullYear() + "-" + (today.getMonth() + 1) + "-" + today.getDate();
@@ -206,7 +203,7 @@ class ScrambleView {
   private eventSelectDropdown: HTMLSelectElement;
   private cubingIcon: HTMLElement;
   private scrambleText: HTMLElement;
-  private optionElementsByEventName: {[s: string]: HTMLOptionElement};
+  private optionElementsByEventName: { [s: string]: HTMLOptionElement };
   constructor(private timerApp: TimerApp) {
     this.scrambleElement = <HTMLElement>document.getElementById("scramble-bar");
     this.eventSelectDropdown = <HTMLSelectElement>document.getElementById("event-select-dropdown");
@@ -272,15 +269,15 @@ class ScrambleView {
 
 class StatsView {
   private statsDropdown: HTMLSelectElement;
-  private elems: {[s: string]: HTMLOptionElement};
+  private elems: { [s: string]: HTMLOptionElement };
   constructor() {
     this.statsDropdown = <HTMLSelectElement>document.getElementById("stats-dropdown");
     this.elems = {
-      "avg5":       <HTMLOptionElement>document.getElementById("avg5"),
-      "avg12":      <HTMLOptionElement>document.getElementById("avg12"),
-      "mean3":      <HTMLOptionElement>document.getElementById("mean3"),
-      "best":       <HTMLOptionElement>document.getElementById("best"),
-      "worst":      <HTMLOptionElement>document.getElementById("worst"),
+      "avg5": <HTMLOptionElement>document.getElementById("avg5"),
+      "avg12": <HTMLOptionElement>document.getElementById("avg12"),
+      "mean3": <HTMLOptionElement>document.getElementById("mean3"),
+      "best": <HTMLOptionElement>document.getElementById("best"),
+      "worst": <HTMLOptionElement>document.getElementById("worst"),
       "num-solves": <HTMLOptionElement>document.getElementById("num-solves"),
     };
 
@@ -294,7 +291,7 @@ class StatsView {
       this.elems[storedCurrentStat].selected = true;
     }
 
-    this.statsDropdown.addEventListener("change", function() {
+    this.statsDropdown.addEventListener("change", function () {
       localStorage.setItem("current-stat", this.statsDropdown.value);
       this.statsDropdown.blur();
     }.bind(this));
