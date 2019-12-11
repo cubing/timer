@@ -80,6 +80,10 @@ export class TimerApp {
       console.log("change", change);
       // TODO: Calculate if the only changes were at the end.
       this.updateDisplayStats(true);
+      this.domElement.querySelector(".stats")!.classList.add("received-data");
+      setTimeout(() => {
+        this.domElement.querySelector(".stats")!.classList.remove("received-data");
+      }, 750);
     }).on('error', (err) => {
       console.log("error", err);
     }).catch((err) => {
@@ -92,7 +96,6 @@ export class TimerApp {
       // descending: true,
       include_docs: true
     }))
-    console.log(docs.rows);
     return allDocsResponseToTimes(docs);
   }
 
@@ -215,7 +218,7 @@ export class TimerApp {
 
   async updateDisplayStats(assumeAttemptAppended: boolean = false) {
     if (assumeAttemptAppended) {
-      const times = allDocsResponseToTimes(await this.session.mostRecentAttempts(12));
+      const times = allDocsResponseToTimes(await this.session.mostRecentAttempts(12)).reverse();
       this.cachedBest = Math.min(this.cachedBest, ...times);
       this.cachedWorst = Math.max(this.cachedWorst, ...times);
 

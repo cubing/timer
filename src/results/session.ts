@@ -52,6 +52,7 @@ export class Session {
     return list[0];
   }
 
+  // TODO: this is in reverse order!
   async mostRecentAttempts(limit: number): Promise<PouchDB.Core.AllDocsResponse<AttemptData>> {
     return (await this.db.allDocs({
       limit: limit,
