@@ -1,18 +1,56 @@
 import PouchDB from "pouchdb" // TODO: Add a wrapper so we can remove `allowSyntheticDefaultImports`.
-import { AttemptData, AttemptDataWithID } from "./attempt";
+import { AttemptData, AttemptDataWithID, AttemptDataWithIDAndRev } from "./attempt";
 import { newDateUUID } from "./uuid";
 
 export class Session {
   public db: PouchDB.Database<AttemptData>
   constructor(name: string) {
     this.db = new PouchDB(`session_${name}`)
+    this.db.createIndex({
+      index: { fields: ["totalResultMs"] }
+    });
   }
 
+  // Modifies the data to add the ID
   async addNewAttempt(data: AttemptData): Promise<PouchDB.Core.Response> {
     const dataWithId = data as AttemptDataWithID;
     dataWithId._id = newDateUUID(data.unixDate);
     console.log(dataWithId);
     return await this.db.put(dataWithId);
+  }
+
+  async extremeTimes(limit: number, descending: boolean = false): Promise<AttemptDataWithIDAndRev[]> {
+    return (await this.db.find({
+      selector: {
+        totalResultMs: { $gt: 0 }
+      },
+      sort: [{ "totalResultMs": descending ? "desc" : "asc" }],
+      limit: 1
+    })).docs;
+  }
+
+  async bestSuccess(): Promise<AttemptDataWithIDAndRev | null> {
+    const list = await this.extremeTimes(1);
+    if (list.length === 0) {
+      return null;
+    }
+    return list[0];
+  }
+
+  async worstSuccess(): Promise<AttemptDataWithIDAndRev | null> {
+    const list = await this.extremeTimes(1, true);
+    if (list.length === 0) {
+      return null;
+    }
+    return list[0];
+  }
+
+  async mostRecentTimes(limit: number): Promise<AttemptDataWithIDAndRev[]> {
+    return (await this.db.allDocs({
+      limit: 5,
+      descending: true,
+      include_docs: true,
+    })).rows.map((row) => row.doc!);
   }
 }
 

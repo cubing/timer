@@ -3,7 +3,9 @@ import { Controller } from "./timer"
 import { Milliseconds } from "./timer"
 // import {ScrambleID} from "./scramble-worker"
 import { Scramblers, ScrambleString } from "./cubing"
-import { ShortTermSession, Stats } from "./stats"
+import { Stats } from "./stats"
+import { Session } from "./results/session"
+import { AttemptData } from "./results/attempt"
 
 // TODO: Import this from "./scramble-worker"
 export type ScrambleID = number;
@@ -33,8 +35,8 @@ export class TimerApp {
   private controller: Controller;
   private awaitedScrambleID: ScrambleID;
   private scramblers: Scramblers = new Scramblers();
-  private shortTermSession: ShortTermSession = new ShortTermSession();
   private currentScramble: Scramble;
+  private session = new Session("default");
   constructor() {
     this.scrambleView = new ScrambleView(this);
     this.statsView = new StatsView();
@@ -53,9 +55,18 @@ export class TimerApp {
       this.attemptDone.bind(this));
     this.setRandomThemeColor();
 
-    this.updateDisplayStats(this.shortTermSession.getTimes());
+    this.getTimes().then(this.updateDisplayStats.bind(this));
     // // This should trigger a new attempt for us.
     this.setInitialEvent();
+  }
+
+  private async getTimes(): Promise<Milliseconds[]> {
+    const docs: PouchDB.Core.AllDocsResponse<AttemptData> = (await this.session.db.allDocs({
+      limit: 5,
+      descending: true,
+      include_docs: true,
+    }))
+    return docs.rows.map((row) => row.doc!.totalResultMs)
   }
 
   private enableOffline() {
@@ -120,7 +131,7 @@ export class TimerApp {
     this.startNewAttempt();
     this.controller.reset();
     if (restartShortTermSession) {
-      this.shortTermSession.restart();
+      console.log("Restart not implemented");
       this.updateDisplayStats([]);
     }
   }
@@ -159,30 +170,24 @@ export class TimerApp {
     head.appendChild(meta);
   }
 
-  private solveDone(time: Milliseconds): void {
-    this.persistResult(time);
-    var times = this.shortTermSession.addTime(time);
-    this.updateDisplayStats(times);
+  private async solveDone(time: Milliseconds): Promise<void> {
+    await this.persistResult(time);
+    await this.updateDisplayStats(await this.getTimes());
   }
 
   //   /**
   //    * @param {!TimerApp.Timer.Milliseconds} time
   //    */
-  private persistResult(time: Milliseconds): void {
-    var today = new Date();
-    var dateString = today.getFullYear() + "-" + (today.getMonth() + 1) + "-" + today.getDate();
-
-    var serializationFormat = "v0.1";
-    var scrambleString = this.currentScramble ? this.currentScramble.scrambleString : "/* no scramble */";
-    var result = "[" + serializationFormat + "][" + this.currentEvent + "][" + new Date() + "] " + (time / 1000) + " (" + scrambleString + ")";
-
-    var store = (dateString in localStorage) ? localStorage.getItem(dateString) + "\n" : "";
-    localStorage.setItem(dateString, store + result);
-
-    localStorage.setItem("last-attempt-date", today.toString());
+  private async persistResult(time: Milliseconds): Promise<void> {
+    await this.session.addNewAttempt({
+      totalResultMs: time,
+      unixDate: Date.now(),
+      scramble: this.currentScramble.scrambleString
+    })
   }
 
   updateDisplayStats(times: Milliseconds[]) {
+    console.log(times);
     this.statsView.setStats({
       "avg5": Stats.formatTime(Stats.trimmedAverage(Stats.lastN(times, 5))),
       "avg12": Stats.formatTime(Stats.trimmedAverage(Stats.lastN(times, 12))),
