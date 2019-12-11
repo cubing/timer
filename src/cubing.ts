@@ -107,6 +107,7 @@ export class Scramblers {
 //    * @param {function(!Cubing.ScrambleString)} callback
 //    */
   getRandomScramble(eventName: EventName, callback: (s: ScrambleString) => void) {
+    callback("R U R'");
     // TODO
     // var commandId = this._commandScrambleId;
     // this._commandId += 1;

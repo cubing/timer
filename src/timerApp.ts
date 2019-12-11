@@ -62,22 +62,23 @@ export class TimerApp {
   private enableOffline() {
     const infoBar = document.getElementById("update-bar");
 
-    if ("serviceWorker" in navigator) {
-      navigator.serviceWorker.getRegistration().then(function(r) {
-        console.log(r);
-        if (!r) {
-          navigator.serviceWorker.register("./service-worker.js").then(function(registration) {
-            console.log("Registered service worker with scope: ", registration.scope);
-          }, function(err) {
-            console.error(err);
-          });
-        } else {
-          console.log("Service worker already registered.");
-        }
-      }, function(err) {
-        console.error("Could not enable offline support.");
-      });
-    }
+    // TODO
+    // if ("serviceWorker" in navigator) {
+    //   navigator.serviceWorker.getRegistration().then(function(r) {
+    //     console.log(r);
+    //     if (!r) {
+    //       navigator.serviceWorker.register("./service-worker.js").then(function(registration) {
+    //         console.log("Registered service worker with scope: ", registration.scope);
+    //       }, function(err) {
+    //         console.error(err);
+    //       });
+    //     } else {
+    //       console.log("Service worker already registered.");
+    //     }
+    //   }, function(err) {
+    //     console.error("Could not enable offline support.");
+    //   });
+    // }
   }
 
   private setInitialEvent() {
@@ -102,8 +103,8 @@ export class TimerApp {
     function scrambleCallback(scrambledId: ScrambleID, scramble: ScrambleString)
     {
       if (scrambledId === this.awaitedScrambleID) {
-        this._currentScramble = scramble;
-        this._scrambleView.setScramble(this._currentScramble);
+        this.currentScramble = scramble;
+        this.scrambleView.setScramble(this.currentScramble);
       } else {
         var logInfo = console.info ? console.info.bind(console) : console.log;
         logInfo("Scramble came back out of order late (received: ", scrambledId, ", current expected: ", this.awaitedScrambleID, "):", scramble)
