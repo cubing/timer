@@ -10,6 +10,13 @@ import { AttemptData, AttemptDataWithIDAndRev } from "./results/attempt"
 import { importTimes } from "./import-cstimer"
 import { data } from "./cstimer"
 
+const favicons = {
+  "blue": require("./lib/favicons/favicon_blue.ico"),
+  "red": require("./lib/favicons/favicon_red.ico"),
+  "green": require("./lib/favicons/favicon_green.ico"),
+  "orange": require("./lib/favicons/favicon_orange.ico")
+}
+
 // TODO: Import this from "./scramble-worker"
 export type ScrambleID = number;
 
@@ -72,23 +79,23 @@ export class TimerApp {
   }
 
   private async startSync() {
-    this.remoteDB = new PouchDB("http://localhost:5984/results-lgarron-cstimer");
-    this.session.db.sync(this.remoteDB, {
-      live: true,
-      retry: true
-    }).on('change', async (change) => {
-      console.log("change", change);
-      // TODO: Calculate if the only changes were at the end.
-      this.updateDisplayStats(true);
-      this.domElement.querySelector(".stats")!.classList.add("received-data");
-      setTimeout(() => {
-        this.domElement.querySelector(".stats")!.classList.remove("received-data");
-      }, 750);
-    }).on('error', (err) => {
-      console.log("error", err);
-    }).catch((err) => {
-      console.log("bad error", err);
-    });
+    // this.remoteDB = new PouchDB("http://localhost:5984/results-lgarron-cstimer");
+    // this.session.db.sync(this.remoteDB, {
+    //   live: true,
+    //   retry: true
+    // }).on('change', async (change) => {
+    //   console.log("change", change);
+    //   // TODO: Calculate if the only changes were at the end.
+    //   this.updateDisplayStats(true);
+    //   this.domElement.querySelector(".stats")!.classList.add("received-data");
+    //   setTimeout(() => {
+    //     this.domElement.querySelector(".stats")!.classList.remove("received-data");
+    //   }, 750);
+    // }).on('error', (err) => {
+    //   console.log("error", err);
+    // }).catch((err) => {
+    //   console.log("bad error", err);
+    // });
   }
 
   private async getTimes(): Promise<Milliseconds[]> {
@@ -187,7 +194,7 @@ export class TimerApp {
     var currentFavicon = document.getElementById('favicon');
     favicon.id = 'favicon';
     favicon.rel = 'shortcut icon';
-    favicon.href = 'lib/favicons/favicon_' + randomChoice.name + '.ico';
+    favicon.href = favicons[randomChoice.name];
     if (currentFavicon) {
       head.removeChild(currentFavicon);
     }

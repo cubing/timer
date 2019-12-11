@@ -1,16 +1,23 @@
-NODE_BIN = ./node_modules/.bin
-
-.PHONY: dist
-dist: clean-dist
-	env PROD=true ${NODE_BIN}/webpack-cli
+.PHONY: build
+build: clean-dist
+	npx parcel build --public-url ./ src/index.html
 
 .PHONY: dev
 dev:
 	npx parcel src/index.html
 
-.PHONY: test
-test:
-	${NODE_BIN}/mocha -r ts-node/register test/*.ts
+SFTP_PATH = "towns.dreamhost.com:~/experiments.cubing.net/timer/"
+URL       = "https://experiments.cubing.net/timer/"
+
+.PHONY: deploy
+deploy: build
+	rsync -avz \
+		--exclude .DS_Store \
+		--exclude .git \
+		./dist/ \
+		${SFTP_PATH}
+	echo "\nDone deploying. Go to ${URL}\n"
+
 
 .PHONY: clean
 clean: clean-dist
