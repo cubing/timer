@@ -49,8 +49,8 @@ export class TimerApp {
   private session = new Session("cstimer");
   private remoteDB: PouchDB.Database<AttemptData>;
 
-  private cachedBest: number = 0;
-  private cachedWorst: number = Infinity;
+  private cachedBest: number | null = null;
+  private cachedWorst: number | null = null;
   constructor() {
     this.startSync();
 
@@ -226,15 +226,26 @@ export class TimerApp {
   async updateDisplayStats(assumeAttemptAppended: boolean = false) {
     if (assumeAttemptAppended) {
       const times = allDocsResponseToTimes(await this.session.mostRecentAttempts(12)).reverse();
-      this.cachedBest = Math.min(this.cachedBest, ...times);
-      this.cachedWorst = Math.max(this.cachedWorst, ...times);
+
+      const timesForBestAndWorst = times.slice(0);
+      if (this.cachedBest !== null) {
+        timesForBestAndWorst.push(this.cachedBest)
+      }
+      if (this.cachedWorst !== null) {
+        timesForBestAndWorst.push(this.cachedWorst)
+      }
+
+      if (timesForBestAndWorst.length > 0) {
+        this.cachedBest = Math.min(...timesForBestAndWorst);
+        this.cachedWorst = Math.max(...timesForBestAndWorst);
+      }
 
       this.statsView.setStats({
         "avg5": Stats.formatTime(Stats.trimmedAverage(Stats.lastN(times, 5))),
         "avg12": Stats.formatTime(Stats.trimmedAverage(Stats.lastN(times, 12))),
         "mean3": Stats.formatTime(Stats.mean(Stats.lastN(times, 3))),
-        "best": Stats.formatTime(this.cachedBest),
-        "worst": Stats.formatTime(this.cachedWorst),
+        "best": Stats.formatTime(this.cachedBest === Infinity ? null : this.cachedBest),
+        "worst": Stats.formatTime(this.cachedWorst === Infinity ? null : this.cachedWorst),
         "numSolves": (await this.session.db.info()).doc_count - 1 // TODO: exact number
       });
     } else {
