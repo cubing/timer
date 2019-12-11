@@ -10,7 +10,7 @@ import { AttemptData, AttemptDataWithIDAndRev } from "./results/attempt"
 import { importTimes } from "./import-cstimer"
 import { data } from "./cstimer"
 
-const favicons = {
+const favicons: { [s: string]: string } = {
   "blue": require("./lib/favicons/favicon_blue.ico"),
   "red": require("./lib/favicons/favicon_red.ico"),
   "green": require("./lib/favicons/favicon_green.ico"),
