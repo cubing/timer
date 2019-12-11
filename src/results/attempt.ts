@@ -1,4 +1,4 @@
-import { UUID } from "./uuid";
+import { UUID, newDateUUID } from "./uuid";
 
 type AttemptUUID = UUID;
 type AlgString = string;
@@ -11,17 +11,12 @@ type EventName = string;
 // -101: Replaced with extra? // TODO
 type AttemptResultMs = number;
 
-// An *attempt* starts when the competitor starts inspection and ends when they confirm the result.
-// A *solve* is the portion of an attempt when the timer is running.
 export interface AttemptData {
-  // Globally unique, unpredictable identifier.
-  // Must be unique across all attempts everywhere, ever.
-  uuid: AttemptUUID;
-
   // Total result *including* penalties, rounded to the nearest millisecond.
   totalResultMs: AttemptResultMs;
 
-  // Unix date of the end of the solve, in milliseconds.
+  // Unix date of the solve, in milliseconds.
+  // Ideally, this date represents the end of the solve (the moment when the timer stopped).
   // TODO: Add a revision date?
   unixDate: number;
   event?: EventName
@@ -31,6 +26,14 @@ export interface AttemptData {
   // comment?: string; // TODO
   // reconstruction?: AlgString; // TODO
   // penalties?: Penalty[]; // TODO
+}
+
+// An *attempt* starts when the competitor starts inspection and ends when they confirm the result.
+// A *solve* is the portion of an attempt when the timer is running.
+export interface AttemptDataWithID extends AttemptData {
+  // Globally unique, unpredictable identifier.
+  // Must be unique across all attempts everywhere, ever.
+  _id: AttemptUUID;
 }
 
 export enum PenaltyReason {

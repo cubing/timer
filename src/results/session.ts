@@ -1,66 +1,50 @@
-import { AttemptData, AttemptUUID } from "./attempt";
-import { UUID, newUUID } from "./uuid";
-import { globalResults } from "./db";
+import PouchDB from "pouchdb" // TODO: Add a wrapper so we can remove `allowSyntheticDefaultImports`.
+import { AttemptData, AttemptDataWithID } from "./attempt";
+import { newDateUUID } from "./uuid";
 
 export class Session {
-  private constructor(readonly sessionData: SessionData) {
+  public db: PouchDB.Database<AttemptData>
+  constructor(name: string) {
+    this.db = new PouchDB(`session_${name}`)
   }
 
-  async put() {
-    globalResults.put(this.sessionData);
-  }
-
-  // TODO: Make name optional and auto-generate name based on UUID?
-  static async create(name: string): Promise<Session> {
-    const SessionData = {
-      _id: newUUID(),
-      name,
-      attempts: []
-    }
-    const session = new Session(SessionData)
-    session.put();
-    return session;
-  }
-
-  static async load(id: string): Promise<Session> {
-    return new Session(await globalResults.get(id));
-  }
-
-  async addAttempt(attempt: AttemptData): Promise<void> {
-    this.sessionData.attempts.push(attempt);
-    this.put();
+  async addNewAttempt(data: AttemptData): Promise<PouchDB.Core.Response> {
+    const dataWithId = data as AttemptDataWithID;
+    dataWithId._id = newDateUUID(data.unixDate);
+    console.log(dataWithId);
+    return await this.db.put(dataWithId);
   }
 }
 
 /******** Types ********/
 
-export type SessionUUID = UUID;
+// export type SessionUUID = UUID;
 
-export interface SessionData {
-  // Arbitrary user-provided name.
-  name: string;
-  _id: SessionUUID;
-  // Attempts must be in increasing order of Unix date.
-  // If the attempts are out of order, the resulting behaviour is undefined.
-  attempts: AttemptData[]
-  cachedStats?: SessionStats;
-  // TODO: session created and modified date?
-}
+// export interface SessionData {
+//   // Arbitrary user-provided name.
+//   name: string;
+//   _id: SessionUUID;
+//   // Attempts must be in increasing order of Unix date.
+//   // If the attempts are out of order, the resulting behaviour is undefined.
+//   attempts: AttemptData[]
+//   cachedStats?: SessionStats;
+//   // TODO: session created and modified date?
+// }
 
-export interface SessionStats {
-  numAttempts: number;
-  best: AttemptReferenceWithTotalResult;
-  worst: AttemptReferenceWithTotalResult;
-  // TODO: average, means?
-}
+// export interface SessionStats {
+//   numAttempts: number;
+//   best: AttemptReferenceWithTotalResult;
+//   worst: AttemptReferenceWithTotalResult;
+//   // TODO: average, means?
+// }
 
-export interface AttemptReference {
-  attemptUUID: AttemptUUID;
-}
+// export interface AttemptReference {
+//   attemptUUID: AttemptUUID;
+// }
 
-export interface AttemptReferenceWithTotalResult extends AttemptReference {
-  totalResult: number;
-}
+// export interface AttemptReferenceWithTotalResult extends AttemptReference {
+//   totalResult: number;
+// }
 
 // export interface AttemptRangeReference {
 //   firstAttemptUUID: AttemptUUID;
