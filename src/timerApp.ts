@@ -1,11 +1,14 @@
+import PouchDB from "pouchdb" // TODO: Add a wrapper so we can remove `allowSyntheticDefaultImports`.
 import { EventName, eventOrder, eventMetadata } from "./cubing"
 import { Controller } from "./timer"
 import { Milliseconds } from "./timer"
 // import {ScrambleID} from "./scramble-worker"
 import { Scramblers, ScrambleString } from "./cubing"
 import { Stats } from "./stats"
-import { Session } from "./results/session"
-import { AttemptData } from "./results/attempt"
+import { Session, allDocsResponseToTimes } from "./results/session"
+import { AttemptData, AttemptDataWithIDAndRev } from "./results/attempt"
+import { importTimes } from "./import-cstimer"
+import { data } from "./cstimer"
 
 // TODO: Import this from "./scramble-worker"
 export type ScrambleID = number;
@@ -36,8 +39,14 @@ export class TimerApp {
   private awaitedScrambleID: ScrambleID;
   private scramblers: Scramblers = new Scramblers();
   private currentScramble: Scramble;
-  private session = new Session("default");
+  private session = new Session("cstimer");
+  private remoteDB: PouchDB.Database<AttemptData>;
+
+  private cachedBest: number = 0;
+  private cachedWorst: number = Infinity;
   constructor() {
+    this.startSync();
+
     this.scrambleView = new ScrambleView(this);
     this.statsView = new StatsView();
     this.domElement = <HTMLElement>document.getElementById("timer-app");
@@ -55,18 +64,36 @@ export class TimerApp {
       this.attemptDone.bind(this));
     this.setRandomThemeColor();
 
-    this.getTimes().then(this.updateDisplayStats.bind(this));
+    this.updateDisplayStats();
     // // This should trigger a new attempt for us.
     this.setInitialEvent();
+
+    // importTimes(this.session);
+  }
+
+  private async startSync() {
+    this.remoteDB = new PouchDB("http://localhost:5984/results-lgarron-cstimer");
+    this.session.db.sync(this.remoteDB, {
+      live: true,
+      retry: true
+    }).on('change', async (change) => {
+      console.log("change", change);
+      // TODO: Calculate if the only changes were at the end.
+      this.updateDisplayStats(true);
+    }).on('error', (err) => {
+      console.log("error", err);
+    }).catch((err) => {
+      console.log("bad error", err);
+    });
   }
 
   private async getTimes(): Promise<Milliseconds[]> {
-    const docs: PouchDB.Core.AllDocsResponse<AttemptData> = (await this.session.db.allDocs({
-      limit: 5,
-      descending: true,
-      include_docs: true,
+    const docs = (await this.session.db.allDocs({
+      // descending: true,
+      include_docs: true
     }))
-    return docs.rows.map((row) => row.doc!.totalResultMs)
+    console.log(docs.rows);
+    return allDocsResponseToTimes(docs);
   }
 
   private enableOffline() {
@@ -132,7 +159,7 @@ export class TimerApp {
     this.controller.reset();
     if (restartShortTermSession) {
       console.log("Restart not implemented");
-      this.updateDisplayStats([]);
+      // this.updateDisplayStats([]);
     }
   }
 
@@ -172,7 +199,7 @@ export class TimerApp {
 
   private async solveDone(time: Milliseconds): Promise<void> {
     await this.persistResult(time);
-    await this.updateDisplayStats(await this.getTimes());
+    await this.updateDisplayStats(true);
   }
 
   //   /**
@@ -186,16 +213,40 @@ export class TimerApp {
     })
   }
 
-  updateDisplayStats(times: Milliseconds[]) {
-    console.log(times);
-    this.statsView.setStats({
-      "avg5": Stats.formatTime(Stats.trimmedAverage(Stats.lastN(times, 5))),
-      "avg12": Stats.formatTime(Stats.trimmedAverage(Stats.lastN(times, 12))),
-      "mean3": Stats.formatTime(Stats.mean(Stats.lastN(times, 3))),
-      "best": Stats.formatTime(Stats.best(times)),
-      "worst": Stats.formatTime(Stats.worst(times)),
-      "numSolves": times.length
-    });
+  async updateDisplayStats(assumeAttemptAppended: boolean = false) {
+    if (assumeAttemptAppended) {
+      const times = allDocsResponseToTimes(await this.session.mostRecentAttempts(12));
+      this.cachedBest = Math.min(this.cachedBest, ...times);
+      this.cachedWorst = Math.max(this.cachedWorst, ...times);
+
+      this.statsView.setStats({
+        "avg5": Stats.formatTime(Stats.trimmedAverage(Stats.lastN(times, 5))),
+        "avg12": Stats.formatTime(Stats.trimmedAverage(Stats.lastN(times, 12))),
+        "mean3": Stats.formatTime(Stats.mean(Stats.lastN(times, 3))),
+        "best": Stats.formatTime(this.cachedBest),
+        "worst": Stats.formatTime(this.cachedWorst),
+        "numSolves": (await this.session.db.info()).doc_count // TODO: exact number
+      });
+    } else {
+      const times: Milliseconds[] = await this.getTimes();
+      const best = Stats.best(times);
+      if (best !== null) {
+        this.cachedBest = best;
+      }
+      const worst = Stats.worst(times);
+      if (worst !== null) {
+        this.cachedWorst = worst;
+      }
+
+      this.statsView.setStats({
+        "avg5": Stats.formatTime(Stats.trimmedAverage(Stats.lastN(times, 5))),
+        "avg12": Stats.formatTime(Stats.trimmedAverage(Stats.lastN(times, 12))),
+        "mean3": Stats.formatTime(Stats.mean(Stats.lastN(times, 3))),
+        "best": Stats.formatTime(this.cachedBest),
+        "worst": Stats.formatTime(this.cachedWorst),
+        "numSolves": times.length
+      });
+    }
   }
 
   private attemptDone(): void {

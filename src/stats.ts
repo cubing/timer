@@ -1,6 +1,5 @@
 import { Milliseconds } from "./timer"
 import "./results/db"
-import { Session } from "inspector";
 // function Stats() {
 
 // };
@@ -118,99 +117,76 @@ export class Stats {
 
 const SESSION_RESUMPTION_TIMEOUT_MS: Milliseconds = 2 * 60 * 1000; // 2 min
 
-export class ShortTermSession {
-  private sessionInstanceId: number;
-  constructor() {
-    // TODO: Factor out ID generation.
-    this.sessionInstanceId = Math.floor(Math.random() * (4294967296 /* 2^32 */));
+// export class ShortTermSession {
+//   private sessionInstanceId: number;
+//   constructor() {
+//     // TODO: Factor out ID generation.
+//     this.sessionInstanceId = Math.floor(Math.random() * (4294967296 /* 2^32 */));
 
-    // Update the stored instance ID. This allows the first solve to be longer
-    // than SESSION_RESUMPTION_TIMEOUT_MS without starting a new session.
-    this.persistShortTermSession(this.getTimes());
-  }
+//     // Update the stored instance ID. This allows the first solve to be longer
+//     // than SESSION_RESUMPTION_TIMEOUT_MS without starting a new session.
+//     this.persistShortTermSession(this.getTimes());
+//   }
 
-  restart(): void {
-    this.persistShortTermSession([]);
-  }
+//   restart(): void {
+//     this.persistShortTermSession([]);
+//   }
 
-  addTime(time: Milliseconds) {
-    // Update short-term session.
-    var times = this.getTimes();
-    times.push(time);
-    this.persistShortTermSession(times);
-    return times;
-  }
+//   addTime(time: Milliseconds) {
+//     // Update short-term session.
+//     var times = this.getTimes();
+//     times.push(time);
+//     this.persistShortTermSession(times);
+//     return times;
+//   }
 
-  getTimes(): Milliseconds[] {
-    try {
-      if (!localStorage.getItem("short-term-session")) {
-        return [];
-      }
+//   getTimes(): Milliseconds[] {
+//     try {
+//       if (!localStorage.getItem("short-term-session")) {
+//         return [];
+//       }
 
-      var session = JSON.parse(<string>localStorage.getItem("short-term-session"));
-      var timely = Date.now() - session.date < SESSION_RESUMPTION_TIMEOUT_MS;
-      if (!timely && this.sessionInstanceId != session.id) {
-        return [];
-      }
+//       var session = JSON.parse(<string>localStorage.getItem("short-term-session"));
+//       var timely = Date.now() - session.date < SESSION_RESUMPTION_TIMEOUT_MS;
+//       if (!timely && this.sessionInstanceId != session.id) {
+//         return [];
+//       }
 
-      return session.times;
-    } catch (e) {
-      return [];
-    }
-  }
+//       return session.times;
+//     } catch (e) {
+//       return [];
+//     }
+//   }
 
-  persistShortTermSession(times: Milliseconds[]) {
-    localStorage.setItem("short-term-session", JSON.stringify({
-      "id": this.sessionInstanceId,
-      "date": Date.now(),
-      "times": times
-    }));
-  }
-}
+//   persistShortTermSession(times: Milliseconds[]) {
+//     localStorage.setItem("short-term-session", JSON.stringify({
+//       "id": this.sessionInstanceId,
+//       "date": Date.now(),
+//       "times": times
+//     }));
+//   }
+// }
 
-export class LongTermSession {
-  private session = new Session("default");
-  constructor() {
-  }
+// export class LongTermSession {
+//   private session = new Session("default");
+//   constructor() {
+//   }
 
-  // restart(): void {
-  //   this.persistShortTermSession([]);
-  // }
+//   // restart(): void {
+//   //   this.persistShortTermSession([]);
+//   // }
 
-  addTime(time: Milliseconds) {
-    // Update short-term session.
-    var times = this.getTimes();
-    times.push(time);
-    this.persistShortTermSession(times);
-    return times;
-  }
+//   async addTime(time: Milliseconds) {
+//     console.log(await this.session.addNewAttempt({
+//       totalResultMs: time,
+//       unixDate: Date.now(),
+//     }));
+//   }
 
-  getTimes(): Milliseconds[] {
-    try {
-      if (!localStorage.getItem("short-term-session")) {
-        return [];
-      }
-
-      var session = JSON.parse(<string>localStorage.getItem("short-term-session"));
-      var timely = Date.now() - session.date < SESSION_RESUMPTION_TIMEOUT_MS;
-      if (!timely && this.sessionInstanceId != session.id) {
-        return [];
-      }
-
-      return session.times;
-    } catch (e) {
-      return [];
-    }
-  }
-
-  persistShortTermSession(times: Milliseconds[]) {
-    localStorage.setItem("short-term-session", JSON.stringify({
-      "id": this.sessionInstanceId,
-      "date": Date.now(),
-      "times": times
-    }));
-  }
-}
+//   // getTimes(): Milliseconds[] {
+//   //   // TODO
+//   // }
+// }
 
 // async function test() {
 //   const session = new Session("default");

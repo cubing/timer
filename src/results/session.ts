@@ -1,6 +1,13 @@
-import PouchDB from "pouchdb" // TODO: Add a wrapper so we can remove `allowSyntheticDefaultImports`.
+import PouchDB from "pouchdb"; // TODO: Add a wrapper so we can remove `allowSyntheticDefaultImports`.
+import PouchDBFind from "pouchdb-find"; // TODO: Add a wrapper so we can remove `allowSyntheticDefaultImports`.
 import { AttemptData, AttemptDataWithID, AttemptDataWithIDAndRev } from "./attempt";
 import { newDateUUID } from "./uuid";
+
+PouchDB.plugin(PouchDBFind);
+
+export function allDocsResponseToTimes(docs: PouchDB.Core.AllDocsResponse<AttemptData>): number[] {
+  return docs.rows.filter((row) => "totalResultMs" in row.doc!).map((row) => row.doc!.totalResultMs)
+}
 
 export class Session {
   public db: PouchDB.Database<AttemptData>
@@ -45,12 +52,12 @@ export class Session {
     return list[0];
   }
 
-  async mostRecentTimes(limit: number): Promise<AttemptDataWithIDAndRev[]> {
+  async mostRecentAttempts(limit: number): Promise<PouchDB.Core.AllDocsResponse<AttemptData>> {
     return (await this.db.allDocs({
-      limit: 5,
+      limit: limit,
       descending: true,
       include_docs: true,
-    })).rows.map((row) => row.doc!);
+    })); //.rows.map((row) => row.doc!);
   }
 }
 
