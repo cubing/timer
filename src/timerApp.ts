@@ -228,7 +228,7 @@ export class TimerApp {
         "mean3": Stats.formatTime(Stats.mean(Stats.lastN(times, 3))),
         "best": Stats.formatTime(this.cachedBest),
         "worst": Stats.formatTime(this.cachedWorst),
-        "numSolves": (await this.session.db.info()).doc_count // TODO: exact number
+        "numSolves": (await this.session.db.info()).doc_count - 1 // TODO: exact number
       });
     } else {
       const times: Milliseconds[] = await this.getTimes();
