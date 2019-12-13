@@ -1,5 +1,8 @@
 // "use strict";
 
+import { randomScramble } from "./vendor/min2phase/wrapper"
+import { algToString } from "alg";
+
 export type EventName = string;
 export type ScrambleString = string;
 
@@ -54,26 +57,26 @@ interface Event {
   default_round: DefaultRound
 }
 
-export const eventMetadata: {[e: string]: Event}  = {
+export const eventMetadata: { [e: string]: Event } = {
   // Official WCA events as of November 24, 2011
-  "333":    {name: "3x3x3",     acn_puzzle_name: "3x3x3", default_round: {type: "avg", num_scrambles: 5}},
-  "444":    {name: "4x4x4",         acn_puzzle_name: "4x4x4", default_round: {type: "avg", num_scrambles: 5}},
-  "555":    {name: "5x5x5",         acn_puzzle_name: "5x5x5", default_round: {type: "avg", num_scrambles: 5}},
-  "222":    {name: "2x2x2",         acn_puzzle_name: "2x2x2", default_round: {type: "avg", num_scrambles: 5}},
-  "333bf":  {name: "3x3x3 BLD",  acn_puzzle_name: "3x3x3", default_round: {type: "best", num_scrambles: 3}},
-  "333oh":  {name: "3x3x3 OH",   acn_puzzle_name: "3x3x3", default_round: {type: "avg", num_scrambles: 5}},
-  "333fm":  {name: "3x3x3 FMC", acn_puzzle_name: "3x3x3", default_round: {type: "best", num_scrambles: 1 }},
-  "333ft":  {name: "3x3x3 Feet",    acn_puzzle_name: "3x3x3", default_round: {type: "avg", num_scrambles: 3}},
-  "minx":   {name: "Megaminx",         acn_puzzle_name: null, default_round: {type: "avg", num_scrambles: 5}},
-  "pyram":  {name: "Pyraminx",         acn_puzzle_name: null, default_round: {type: "avg", num_scrambles: 5}},
-  "sq1":    {name: "Square-1",         acn_puzzle_name: null, default_round: {type: "avg", num_scrambles: 5}},
-  "clock":  {name: "Clock",    acn_puzzle_name: null, default_round: {type: "avg", num_scrambles: 5}},
-  "skewb":  {name: "Skewb",    acn_puzzle_name: null, default_round: {type: "avg", num_scrambles: 5}},
-  "666":    {name: "6x6x6",         acn_puzzle_name: "6x6x6", default_round: {type: "mean", num_scrambles: 3}},
-  "777":    {name: "7x7x7",         acn_puzzle_name: "7x7x7", default_round: {type: "mean", num_scrambles: 3}},
-  "444bf":  {name: "4x4x4 BLD",  acn_puzzle_name: "4x4x4", default_round: {type: "best", num_scrambles: 3}},
-  "555bf":  {name: "5x5x5 BLD",  acn_puzzle_name: "5x5x5", default_round: {type: "best", num_scrambles: 3}},
-  "333mbf": {name: "3x3x3 MBLD",  acn_puzzle_name: "3x3x3", default_round: {type: "mbf", num_scrambles: 28}}
+  "333": { name: "3x3x3", acn_puzzle_name: "3x3x3", default_round: { type: "avg", num_scrambles: 5 } },
+  "444": { name: "4x4x4", acn_puzzle_name: "4x4x4", default_round: { type: "avg", num_scrambles: 5 } },
+  "555": { name: "5x5x5", acn_puzzle_name: "5x5x5", default_round: { type: "avg", num_scrambles: 5 } },
+  "222": { name: "2x2x2", acn_puzzle_name: "2x2x2", default_round: { type: "avg", num_scrambles: 5 } },
+  "333bf": { name: "3x3x3 BLD", acn_puzzle_name: "3x3x3", default_round: { type: "best", num_scrambles: 3 } },
+  "333oh": { name: "3x3x3 OH", acn_puzzle_name: "3x3x3", default_round: { type: "avg", num_scrambles: 5 } },
+  "333fm": { name: "3x3x3 FMC", acn_puzzle_name: "3x3x3", default_round: { type: "best", num_scrambles: 1 } },
+  "333ft": { name: "3x3x3 Feet", acn_puzzle_name: "3x3x3", default_round: { type: "avg", num_scrambles: 3 } },
+  "minx": { name: "Megaminx", acn_puzzle_name: null, default_round: { type: "avg", num_scrambles: 5 } },
+  "pyram": { name: "Pyraminx", acn_puzzle_name: null, default_round: { type: "avg", num_scrambles: 5 } },
+  "sq1": { name: "Square-1", acn_puzzle_name: null, default_round: { type: "avg", num_scrambles: 5 } },
+  "clock": { name: "Clock", acn_puzzle_name: null, default_round: { type: "avg", num_scrambles: 5 } },
+  "skewb": { name: "Skewb", acn_puzzle_name: null, default_round: { type: "avg", num_scrambles: 5 } },
+  "666": { name: "6x6x6", acn_puzzle_name: "6x6x6", default_round: { type: "mean", num_scrambles: 3 } },
+  "777": { name: "7x7x7", acn_puzzle_name: "7x7x7", default_round: { type: "mean", num_scrambles: 3 } },
+  "444bf": { name: "4x4x4 BLD", acn_puzzle_name: "4x4x4", default_round: { type: "best", num_scrambles: 3 } },
+  "555bf": { name: "5x5x5 BLD", acn_puzzle_name: "5x5x5", default_round: { type: "best", num_scrambles: 3 } },
+  "333mbf": { name: "3x3x3 MBLD", acn_puzzle_name: "3x3x3", default_round: { type: "mbf", num_scrambles: 28 } }
 };
 
 // /** @typedef {string} */
@@ -99,15 +102,16 @@ export class Scramblers {
     // this._worker.addEventListener("message", this._workerCallback.bind(this), false);
   }
 
-// Cubing.Scramblers.prototype = {
-//   WORKER_PATH: "lib/scramble-worker.js",
+  // Cubing.Scramblers.prototype = {
+  //   WORKER_PATH: "lib/scramble-worker.js",
 
-//   /**
-//    * @param {!Object} eventName
-//    * @param {function(!Cubing.ScrambleString)} callback
-//    */
+  //   /**
+  //    * @param {!Object} eventName
+  //    * @param {function(!Cubing.ScrambleString)} callback
+  //    */
   getRandomScramble(eventName: EventName, callback: (s: ScrambleString) => void) {
-    callback("R U R'");
+    randomScramble().then(callback);
+    // callback("R U R'");
     // TODO
     // var commandId = this._commandScrambleId;
     // this._commandId += 1;
@@ -119,17 +123,17 @@ export class Scramblers {
     // })
   }
 
-//   /**
-//    * @param {!Event} e
-//    */
-//   _workerCallback: function(e)
-//   {
-//     var callback = this._commandIdToCallback[e.data.commandId];
-//     delete this._commandIdToCallback[e.data.commandId];
-//     // TODO: Handle race conditions if the first attempt is done before the
-//     // first scramble returns (possibly don't allow starting the timer without
-//     // a valid scramble?).
-//     callback(e.data.scramble)
-//   }
-// }
+  //   /**
+  //    * @param {!Event} e
+  //    */
+  //   _workerCallback: function(e)
+  //   {
+  //     var callback = this._commandIdToCallback[e.data.commandId];
+  //     delete this._commandIdToCallback[e.data.commandId];
+  //     // TODO: Handle race conditions if the first attempt is done before the
+  //     // first scramble returns (possibly don't allow starting the timer without
+  //     // a valid scramble?).
+  //     callback(e.data.scramble)
+  //   }
+  // }
 }

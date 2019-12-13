@@ -278,6 +278,10 @@ a#update-bar.hidden {
   color: white;
 }
 
+.stats a {
+  font-size: 5vh;
+  text-decoration: none;
+}
 .stats #sync {
   flex: 0 0 2.5em;
   height: 4.5em;
@@ -288,8 +292,6 @@ a#update-bar.hidden {
 }
 
 .stats #sync a {
-  font-size: 5vh;
-  text-decoration: none;
   transition: transform 0.5s ;
 }
 

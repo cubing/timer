@@ -6,9 +6,7 @@ import { Milliseconds } from "./timer"
 import { Scramblers, ScrambleString } from "./cubing"
 import { Stats } from "./stats"
 import { Session, allDocsResponseToTimes } from "./results/session"
-import { AttemptData, AttemptDataWithIDAndRev } from "./results/attempt"
-import { importTimes } from "./import-cstimer"
-import { data } from "./cstimer"
+import { AttemptData } from "./results/attempt"
 
 const CONFIG_LINK = "./config.html";
 
@@ -48,7 +46,7 @@ export class TimerApp {
   private awaitedScrambleID: ScrambleID;
   private scramblers: Scramblers = new Scramblers();
   private currentScramble: Scramble;
-  private session = new Session("cstimer");
+  private session = new Session("session");
   private remoteDB: PouchDB.Database<AttemptData>;
 
   private cachedBest: number | null = null;
@@ -100,7 +98,7 @@ export class TimerApp {
       live: true,
       retry: true
     }).on('change', async (change) => {
-      console.log("change", change);
+      console.log("sync change", change);
       // TODO: Calculate if the only changes were at the end.
       this.updateDisplayStats(true);
       this.domElement.querySelector(".stats a")!.classList.add("rotate");
@@ -113,9 +111,9 @@ export class TimerApp {
       //   this.domElement.querySelector(".stats")!.classList.remove("received-data");
       // }, 750);
     }).on('error', (err) => {
-      console.log("error", err);
+      console.log("sync error", err);
     }).catch((err) => {
-      console.log("bad error", err);
+      console.log("sync bad error", err);
     });
   }
 
@@ -166,8 +164,6 @@ export class TimerApp {
   }
 
   private scrambleCallback(eventName: EventName, scrambledId: ScrambleID, scramble: ScrambleString) {
-    console.log("scrambleCallback", scrambledId, scramble)
-
     if (scrambledId === this.awaitedScrambleID) {
       this.currentScramble = { eventName: eventName, scrambleString: scramble };
       this.scrambleView.setScramble(this.currentScramble);
@@ -242,6 +238,7 @@ export class TimerApp {
     await this.session.addNewAttempt({
       totalResultMs: time,
       unixDate: Date.now(),
+      event: this.currentEvent,
       scramble: this.currentScramble.scrambleString
     })
   }
@@ -331,7 +328,6 @@ class ScrambleView {
   }
 
   setEvent(eventName: string) {
-    console.log("setEvent")
     Util.removeClassesStartingWith(this.scrambleText, "event-");
     this.scrambleText.classList.add("event-" + eventName);
     Util.removeClassesStartingWith(this.cubingIcon, "icon-");
@@ -350,7 +346,6 @@ class ScrambleView {
   }
 
   setScramble(scramble: Scramble) {
-    console.log("scsetScrambleramble", this.scrambleText, scramble)
     this.scrambleText.classList.remove("stale");
     this.scrambleText.textContent = scramble.scrambleString;
 
