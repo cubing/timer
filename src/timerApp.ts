@@ -8,8 +8,6 @@ import { Stats } from "./stats"
 import { Session, allDocsResponseToTimes } from "./results/session"
 import { AttemptData } from "./results/attempt"
 
-const CONFIG_LINK = "./config.html";
-
 const favicons: { [s: string]: string } = {
   "blue": require("./lib/favicons/favicon_blue.ico"),
   "red": require("./lib/favicons/favicon_red.ico"),
@@ -239,7 +237,7 @@ export class TimerApp {
       totalResultMs: time,
       unixDate: Date.now(),
       event: this.currentEvent,
-      scramble: this.currentScramble.scrambleString
+      scramble: (this.currentScramble || { scrambleString: "" }).scrambleString
     })
   }
 
@@ -383,7 +381,12 @@ class StatsView {
     const syncLink = <HTMLAnchorElement>document.querySelector("#sync-link");
     syncLink.addEventListener("click", (e: Event) => {
       e.preventDefault();
-      window.location.href = CONFIG_LINK;
+      window.location.href = syncLink.href;
+    });
+    const resultLink = <HTMLAnchorElement>document.querySelector("#results-link");
+    resultLink.addEventListener("click", (e: Event) => {
+      e.preventDefault();
+      window.location.href = resultLink.href;
     });
   }
 

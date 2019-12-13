@@ -1,8 +1,8 @@
 import "babel-polyfill"; // Prevent `regeneratorRuntime is not defined` error. https://github.com/babel/babel/issues/5085
 
-import { Session } from "./session";
-import { AttemptData } from "./attempt";
-import { Stats } from "../stats";
+import { Session } from "./results/session";
+import { AttemptData } from "./results/attempt";
+import { Stats } from "./stats";
 import { algCubingNetLink, parse, Sequence } from "alg";
 
 const session = new Session("session");
