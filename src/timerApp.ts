@@ -44,13 +44,13 @@ export class TimerApp {
   private awaitedScrambleID: ScrambleID;
   private scramblers: Scramblers = new Scramblers();
   private currentScramble: Scramble;
-  private session = new Session("session");
+  private session = new Session();
   private remoteDB: PouchDB.Database<AttemptData>;
 
   private cachedBest: number | null = null;
   private cachedWorst: number | null = null;
   constructor() {
-    this.startSync();
+    this.session.startSync(this.onSyncChange.bind(this));
 
     this.scrambleView = new ScrambleView(this);
     this.statsView = new StatsView();
@@ -76,43 +76,19 @@ export class TimerApp {
     // importTimes(this.session);
   }
 
-  private async startSync(): Promise<void> {
-    if (!localStorage.pouchDBUsername || !localStorage.pouchDBPassword) {
-      console.info("No CouchDB user!")
-      return;
-    }
+  async onSyncChange(change: PouchDB.Replication.SyncResult<AttemptData>): Promise<void> {
+    console.log("sync change", change);
+    // TODO: Calculate if the only changes were at the end.
+    this.updateDisplayStats(true);
+    this.domElement.querySelector(".stats a")!.classList.add("rotate");
+    setTimeout(() => {
+      this.domElement.querySelector(".stats a")!.classList.remove("rotate");
+    }, 500);
 
-    console.log("Attempting to connect to CouchDB.")
-
-    // TODO:
-    // - Validate username/password.
-    // - auth using e.g. cookies
-    const url = new URL("https://couchdb.api.cubing.net/");
-    url.username = localStorage.pouchDBUsername;
-    url.password = localStorage.pouchDBPassword;
-    url.pathname = `results-${localStorage.pouchDBUsername}`;
-    this.remoteDB = new PouchDB(url.toString());
-    this.session.db.sync(this.remoteDB, {
-      live: true,
-      retry: true
-    }).on('change', async (change) => {
-      console.log("sync change", change);
-      // TODO: Calculate if the only changes were at the end.
-      this.updateDisplayStats(true);
-      this.domElement.querySelector(".stats a")!.classList.add("rotate");
-      setTimeout(() => {
-        this.domElement.querySelector(".stats a")!.classList.remove("rotate");
-      }, 500);
-
-      // this.domElement.querySelector(".stats")!.classList.add("received-data");
-      // setTimeout(() => {
-      //   this.domElement.querySelector(".stats")!.classList.remove("received-data");
-      // }, 750);
-    }).on('error', (err) => {
-      console.log("sync error", err);
-    }).catch((err) => {
-      console.log("sync bad error", err);
-    });
+    // this.domElement.querySelector(".stats")!.classList.add("received-data");
+    // setTimeout(() => {
+    //   this.domElement.querySelector(".stats")!.classList.remove("received-data");
+    // }, 750);
   }
 
   private async getTimes(): Promise<Milliseconds[]> {

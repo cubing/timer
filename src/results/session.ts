@@ -11,10 +11,39 @@ export function allDocsResponseToTimes(docs: PouchDB.Core.AllDocsResponse<Attemp
 
 export class Session {
   public db: PouchDB.Database<AttemptData>
-  constructor(name: string) {
+  public remoteDB: PouchDB.Database<AttemptData>
+  constructor(name: string = "session") {
     this.db = new PouchDB(`session_${name}`)
     this.db.createIndex({
       index: { fields: ["totalResultMs"] }
+    });
+  }
+
+  startSync(onSyncChange: (change: PouchDB.Replication.SyncResult<AttemptData>) => void): void {
+
+    if (!localStorage.pouchDBUsername || !localStorage.pouchDBPassword) {
+      console.info("No CouchDB user!")
+      return;
+    }
+
+    console.log("Attempting to connect to CouchDB.")
+
+    // TODO:
+    // - Validate username/password.
+    // - auth using e.g. cookies
+    const url = new URL("https://couchdb.api.cubing.net/");
+    url.username = localStorage.pouchDBUsername;
+    url.password = localStorage.pouchDBPassword;
+    url.pathname = `results-${localStorage.pouchDBUsername}`;
+
+    this.remoteDB = new PouchDB(url.toString());
+    this.db.sync(this.remoteDB, {
+      live: true,
+      retry: true
+    }).on('change', onSyncChange).on('error', (err) => {
+      console.log("sync error", err);
+    }).catch((err) => {
+      console.log("sync bad error", err);
     });
   }
 

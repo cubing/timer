@@ -5,7 +5,8 @@ import { AttemptData, AttemptDataWithIDAndRev } from "./results/attempt";
 import { Stats } from "./stats";
 import { algCubingNetLink, parse, Sequence } from "alg";
 
-const session = new Session("session");
+const session = new Session();
+let justRemoved: string;
 
 function tdWithContent(content?: string): HTMLTableDataCellElement {
   const td = document.createElement("td");
@@ -33,6 +34,7 @@ function trashTD(attempt: AttemptDataWithIDAndRev): HTMLTableDataCellElement {
     console.log("Removing", attempt);
     session.db.remove(attempt);
     trashButton.parentNode!.parentNode!.parentNode!.removeChild(trashButton.parentNode!.parentNode!);
+    justRemoved = attempt._id;
   })
   scrambleTD.appendChild(trashButton);
   return scrambleTD;
@@ -52,8 +54,9 @@ function formatUnixDate(unixDate: number): string {
   return date.getFullYear() + "-" + pad((date.getMonth() + 1)) + "-" + pad((date.getDate() + 1));
 }
 
-window.addEventListener("load", async () => {
+async function showData(): Promise<void> {
   const tableBody = document.querySelector("#results tbody") as HTMLBodyElement;
+  tableBody.textContent = "";
   const attempts = (await session.mostRecentAttempts(1000)).rows.map((row) => row.doc!);
   for (const attempt of attempts) {
     if (!attempt.totalResultMs) {
@@ -67,4 +70,18 @@ window.addEventListener("load", async () => {
     tr.appendChild(trashTD(attempt));
     tableBody.appendChild(tr);
   }
+}
+
+function onSyncChange(change: PouchDB.Replication.SyncResult<AttemptData>): void {
+  // We've only implemented full table reload (no DOM diffing). This is a hack to avoid doing that if we only removed a doc locally.
+  if (!(change.change.docs.length === 1 && change.change.docs[0]._id === justRemoved)) {
+    showData();
+  } else {
+    "known!";
+  }
+}
+
+window.addEventListener("load", async () => {
+  showData();
+  session.startSync(onSyncChange);
 })
