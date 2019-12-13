@@ -4,16 +4,17 @@ Password: <input type="password" id="pouchDBPassword" placeholder="Password">
   function save(identifier) {
     const element = document.querySelector(`#${identifier}`);
     localStorage[identifier] = element.value;
-    element.animate([
-      { background: "green" },
-      { background: "white" }
-    ], {
-      duration: 500
-    });
+
+    // Workaround for missing `Element.animate()` API in Safari.
+    element.style.backgroundColor = "rgba(127, 255, 127)";
+    setTimeout(() => { element.style.backgroundColor = "rgba(159, 255, 159)"; }, 125);
+    setTimeout(() => { element.style.backgroundColor = "rgba(192, 255, 192)"; }, 250);
+    setTimeout(() => { element.style.backgroundColor = "rgba(223, 255, 223)"; }, 375);
+    setTimeout(() => { element.style.backgroundColor = "inherit"; }, 500);
   }
 
   function load(identifier) {
-    document.querySelector(`#${identifier}`).value = localStorage[identifier];
+    document.querySelector(`#${identifier}`).value = localStorage[identifier] || "";
   }
 
   function setup(identifier) {

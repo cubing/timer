@@ -84,6 +84,8 @@ export class TimerApp {
       return;
     }
 
+    console.log("SDfd")
+
     // TODO:
     // - Validate username/password.
     // - auth using e.g. cookies
@@ -91,7 +93,8 @@ export class TimerApp {
     url.username = localStorage.pouchDBUsername;
     url.password = localStorage.pouchDBPassword;
     url.pathname = `results-${localStorage.pouchDBUsername}`;
-    this.remoteDB = new PouchDB(url.toString(), { skip_setup: true });
+    console.log(url);
+    this.remoteDB = new PouchDB(url.toString());
     this.session.db.sync(this.remoteDB, {
       live: true,
       retry: true

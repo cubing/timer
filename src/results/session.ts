@@ -23,7 +23,6 @@ export class Session {
     const dataWithId = data as AttemptDataWithID;
     dataWithId._id = newDateUUID(data.unixDate);
     // console.log(dataWithId);
-    console.count("new attempt")
     return await this.db.put(dataWithId);
   }
 
