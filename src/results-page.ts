@@ -1,7 +1,7 @@
 import "babel-polyfill"; // Prevent `regeneratorRuntime is not defined` error. https://github.com/babel/babel/issues/5085
 
 import { Session } from "./results/session";
-import { AttemptData } from "./results/attempt";
+import { AttemptData, AttemptDataWithIDAndRev } from "./results/attempt";
 import { Stats } from "./stats";
 import { algCubingNetLink, parse, Sequence } from "alg";
 
@@ -21,7 +21,20 @@ function scrambleTD(scramble: string): HTMLTableDataCellElement {
     alg: new Sequence([])
   })
   scrambleLink.textContent = scramble;
-  scrambleTD.appendChild(scrambleLink)
+  scrambleTD.appendChild(scrambleLink);
+  return scrambleTD;
+}
+
+function trashTD(attempt: AttemptDataWithIDAndRev): HTMLTableDataCellElement {
+  const scrambleTD = document.createElement("td");
+  const trashButton = document.createElement("button");
+  trashButton.textContent = "🗑";
+  trashButton.addEventListener("click", () => {
+    console.log("Removing", attempt);
+    session.db.remove(attempt);
+    trashButton.parentNode!.parentNode!.parentNode!.removeChild(trashButton.parentNode!.parentNode!);
+  })
+  scrambleTD.appendChild(trashButton);
   return scrambleTD;
 }
 
@@ -42,7 +55,6 @@ function formatUnixDate(unixDate: number): string {
 window.addEventListener("load", async () => {
   const tableBody = document.querySelector("#results tbody") as HTMLBodyElement;
   const attempts = (await session.mostRecentAttempts(1000)).rows.map((row) => row.doc!);
-  console.log(attempts);
   for (const attempt of attempts) {
     if (!attempt.totalResultMs) {
       continue;
@@ -51,8 +63,8 @@ window.addEventListener("load", async () => {
     tr.appendChild(tdWithContent(Stats.formatTime(attempt.totalResultMs)));
     tr.appendChild(scrambleTD(attempt.scramble || ""));
     tr.appendChild(tdWithContent(attempt.event));
-    tr.appendChild(tdWithContent(formatUnixTime(attempt.unixDate)));
-    tr.appendChild(tdWithContent(formatUnixDate(attempt.unixDate)));
+    tr.appendChild(tdWithContent(formatUnixTime(attempt.unixDate) + " | " + formatUnixDate(attempt.unixDate)));
+    tr.appendChild(trashTD(attempt));
     tableBody.appendChild(tr);
   }
 })
