@@ -165,21 +165,23 @@ export class TimerApp {
     }
   }
 
+  private scrambleCallback(eventName: EventName, scrambledId: ScrambleID, scramble: ScrambleString) {
+    console.log("scrambleCallback", scrambledId, scramble)
+
+    if (scrambledId === this.awaitedScrambleID) {
+      this.currentScramble = { eventName: eventName, scrambleString: scramble };
+      this.scrambleView.setScramble(this.currentScramble);
+    } else {
+      var logInfo = console.info ? console.info.bind(console) : console.log;
+      logInfo("Scramble came back out of order late (received: ", scrambledId, ", current expected: ", this.awaitedScrambleID, "):", scramble)
+    }
+  }
+
   private startNewAttempt() {
     this.awaitedScrambleID = (typeof this.awaitedScrambleID !== "undefined") ? this.awaitedScrambleID + 1 : 0;
 
-    function scrambleCallback(scrambledId: ScrambleID, scramble: ScrambleString) {
-      if (scrambledId === this.awaitedScrambleID) {
-        this.currentScramble = scramble;
-        this.scrambleView.setScramble(this.currentScramble);
-      } else {
-        var logInfo = console.info ? console.info.bind(console) : console.log;
-        logInfo("Scramble came back out of order late (received: ", scrambledId, ", current expected: ", this.awaitedScrambleID, "):", scramble)
-      }
-    }
-
     this.scrambleView.clearScramble();
-    this.scramblers.getRandomScramble(this.currentEvent, scrambleCallback.bind(this, this.awaitedScrambleID));
+    this.scramblers.getRandomScramble(this.currentEvent, this.scrambleCallback.bind(this, this.currentEvent, this.awaitedScrambleID));
   }
 
   setEvent(eventName: EventName, restartShortTermSession: boolean) {
@@ -329,6 +331,7 @@ class ScrambleView {
   }
 
   setEvent(eventName: string) {
+    console.log("setEvent")
     Util.removeClassesStartingWith(this.scrambleText, "event-");
     this.scrambleText.classList.add("event-" + eventName);
     Util.removeClassesStartingWith(this.cubingIcon, "icon-");
@@ -347,6 +350,7 @@ class ScrambleView {
   }
 
   setScramble(scramble: Scramble) {
+    console.log("scsetScrambleramble", this.scrambleText, scramble)
     this.scrambleText.classList.remove("stale");
     this.scrambleText.textContent = scramble.scrambleString;
 
