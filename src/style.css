@@ -235,10 +235,14 @@ a#update-bar.hidden {
   border-top: 1px solid rgba(0, 0, 0, 0.25);
   color: black;
   width: 100%;
-
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
 }
 
 .stats select {
+  flex: 0 0 auto;
   font-size: 5vh;
   font-family: Roboto, Helvetica, "Tahoma", sans-serif;
   color: white;
@@ -246,7 +250,7 @@ a#update-bar.hidden {
   vertical-align: middle;
   height: 2.5em;
   /*width: 100%;*/
-  padding: 0 2em;
+  padding: 0 0.5em;
   border: 0px solid white;
   cursor: pointer;
   background: none;
@@ -272,6 +276,29 @@ a#update-bar.hidden {
 
 .stats.received-data select {
   color: white;
+}
+
+.stats #sync {
+  flex: 0 0 2.5em;
+  height: 4.5em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+.stats #sync a {
+  font-size: 5vh;
+  text-decoration: none;
+  transition: transform 0.5s ;
+}
+
+.stats #sync a:hover {
+  transform: rotate(-90deg);
+}
+
+.stats #sync a.rotate {
+  transform: rotate(-180deg);
 }
 
 .timer-app.theme-orange > .scramble-bar,

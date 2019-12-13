@@ -1,27 +1,43 @@
-Username: <input id="pouchDBUsername" placeholder="Username"><br>
-Password: <input type="password" id="pouchDBPassword" placeholder="Password">
-<script>
-  function save(identifier) {
-    const element = document.querySelector(`#${identifier}`);
-    localStorage[identifier] = element.value;
+<!DOCTYPE html>
+<html>
 
-    // Workaround for missing `Element.animate()` API in Safari.
-    element.style.backgroundColor = "rgba(127, 255, 127)";
-    setTimeout(() => { element.style.backgroundColor = "rgba(159, 255, 159)"; }, 125);
-    setTimeout(() => { element.style.backgroundColor = "rgba(192, 255, 192)"; }, 250);
-    setTimeout(() => { element.style.backgroundColor = "rgba(223, 255, 223)"; }, 375);
-    setTimeout(() => { element.style.backgroundColor = "inherit"; }, 500);
-  }
+<head>
+  <meta charset="UTF-8">
 
-  function load(identifier) {
-    document.querySelector(`#${identifier}`).value = localStorage[identifier] || "";
-  }
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Timer 🛠 | Config">
+  <title>Timer 🛠 | Config</title>
+</head>
 
-  function setup(identifier) {
-    load(identifier);
-    document.querySelector(`#${identifier}`).addEventListener("change", save.bind(save, identifier));
-  }
+<body>
+  Username: <input id="pouchDBUsername" placeholder="Username"><br>
+  Password: <input type="password" id="pouchDBPassword" placeholder="Password"><br>
+  <a href="./">Back to timer!</a>
+  <script>
+    function save(identifier) {
+      const element = document.querySelector(`#${identifier}`);
+      localStorage[identifier] = element.value;
 
-  setup("pouchDBUsername");
-  setup("pouchDBPassword");
-</script>
+      // Workaround for missing `Element.animate()` API in Safari.
+      element.style.backgroundColor = "rgba(127, 255, 127)";
+      setTimeout(() => { element.style.backgroundColor = "rgba(159, 255, 159)"; }, 125);
+      setTimeout(() => { element.style.backgroundColor = "rgba(192, 255, 192)"; }, 250);
+      setTimeout(() => { element.style.backgroundColor = "rgba(223, 255, 223)"; }, 375);
+      setTimeout(() => { element.style.backgroundColor = "inherit"; }, 500);
+    }
+
+    function load(identifier) {
+      document.querySelector(`#${identifier}`).value = localStorage[identifier] || "";
+    }
+
+    function setup(identifier) {
+      load(identifier);
+      document.querySelector(`#${identifier}`).addEventListener("change", save.bind(save, identifier));
+    }
+
+    setup("pouchDBUsername");
+    setup("pouchDBPassword");
+  </script>
+</body>
+
+</html>

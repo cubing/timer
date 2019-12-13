@@ -10,6 +10,8 @@ import { AttemptData, AttemptDataWithIDAndRev } from "./results/attempt"
 import { importTimes } from "./import-cstimer"
 import { data } from "./cstimer"
 
+const CONFIG_LINK = "./config.html";
+
 const favicons: { [s: string]: string } = {
   "blue": require("./lib/favicons/favicon_blue.ico"),
   "red": require("./lib/favicons/favicon_red.ico"),
@@ -84,7 +86,7 @@ export class TimerApp {
       return;
     }
 
-    console.log("SDfd")
+    console.log("Attempting to connect to CouchDB.")
 
     // TODO:
     // - Validate username/password.
@@ -102,10 +104,15 @@ export class TimerApp {
       console.log("change", change);
       // TODO: Calculate if the only changes were at the end.
       this.updateDisplayStats(true);
-      this.domElement.querySelector(".stats")!.classList.add("received-data");
+      this.domElement.querySelector(".stats a")!.classList.add("rotate");
       setTimeout(() => {
-        this.domElement.querySelector(".stats")!.classList.remove("received-data");
-      }, 750);
+        this.domElement.querySelector(".stats a")!.classList.remove("rotate");
+      }, 500);
+
+      // this.domElement.querySelector(".stats")!.classList.add("received-data");
+      // setTimeout(() => {
+      //   this.domElement.querySelector(".stats")!.classList.remove("received-data");
+      // }, 750);
     }).on('error', (err) => {
       console.log("error", err);
     }).catch((err) => {
@@ -374,6 +381,12 @@ class StatsView {
     };
 
     this.initializeDropdown();
+
+    const syncLink = <HTMLAnchorElement>document.querySelector("#sync-link");
+    syncLink.addEventListener("click", (e: Event) => {
+      e.preventDefault();
+      window.location.href = CONFIG_LINK;
+    });
   }
 
   initializeDropdown() {
