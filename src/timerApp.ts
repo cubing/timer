@@ -95,7 +95,6 @@ export class TimerApp {
     url.username = localStorage.pouchDBUsername;
     url.password = localStorage.pouchDBPassword;
     url.pathname = `results-${localStorage.pouchDBUsername}`;
-    console.log(url);
     this.remoteDB = new PouchDB(url.toString());
     this.session.db.sync(this.remoteDB, {
       live: true,
