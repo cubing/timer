@@ -78,24 +78,36 @@ export class TimerApp {
     // importTimes(this.session);
   }
 
-  private async startSync() {
-    // this.remoteDB = new PouchDB("http://localhost:5984/results-lgarron-cstimer");
-    // this.session.db.sync(this.remoteDB, {
-    //   live: true,
-    //   retry: true
-    // }).on('change', async (change) => {
-    //   console.log("change", change);
-    //   // TODO: Calculate if the only changes were at the end.
-    //   this.updateDisplayStats(true);
-    //   this.domElement.querySelector(".stats")!.classList.add("received-data");
-    //   setTimeout(() => {
-    //     this.domElement.querySelector(".stats")!.classList.remove("received-data");
-    //   }, 750);
-    // }).on('error', (err) => {
-    //   console.log("error", err);
-    // }).catch((err) => {
-    //   console.log("bad error", err);
-    // });
+  private async startSync(): Promise<void> {
+    if (!localStorage.pouchDBUsername || !localStorage.pouchDBPassword) {
+      console.info("No CouchDB user!")
+      return;
+    }
+
+    // TODO:
+    // - Validate username/password.
+    // - auth using e.g. cookies
+    const url = new URL("https://couchdb.api.cubing.net/");
+    url.username = localStorage.pouchDBUsername;
+    url.password = localStorage.pouchDBPassword;
+    url.pathname = `results-${localStorage.pouchDBUsername}`;
+    this.remoteDB = new PouchDB(url.toString(), { skip_setup: true });
+    this.session.db.sync(this.remoteDB, {
+      live: true,
+      retry: true
+    }).on('change', async (change) => {
+      console.log("change", change);
+      // TODO: Calculate if the only changes were at the end.
+      this.updateDisplayStats(true);
+      this.domElement.querySelector(".stats")!.classList.add("received-data");
+      setTimeout(() => {
+        this.domElement.querySelector(".stats")!.classList.remove("received-data");
+      }, 750);
+    }).on('error', (err) => {
+      console.log("error", err);
+    }).catch((err) => {
+      console.log("bad error", err);
+    });
   }
 
   private async getTimes(): Promise<Milliseconds[]> {

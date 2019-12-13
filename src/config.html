@@ -1,0 +1,26 @@
+Username: <input id="pouchDBUsername" placeholder="Username"><br>
+Password: <input type="password" id="pouchDBPassword" placeholder="Password">
+<script>
+  function save(identifier) {
+    const element = document.querySelector(`#${identifier}`);
+    localStorage[identifier] = element.value;
+    element.animate([
+      { background: "green" },
+      { background: "white" }
+    ], {
+      duration: 500
+    });
+  }
+
+  function load(identifier) {
+    document.querySelector(`#${identifier}`).value = localStorage[identifier];
+  }
+
+  function setup(identifier) {
+    load(identifier);
+    document.querySelector(`#${identifier}`).addEventListener("change", save.bind(save, identifier));
+  }
+
+  setup("pouchDBUsername");
+  setup("pouchDBPassword");
+</script>
