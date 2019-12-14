@@ -3,7 +3,38 @@ import "babel-polyfill"; // Prevent `regeneratorRuntime is not defined` error. h
 import { Session } from "./results/session";
 import { AttemptData, AttemptDataWithIDAndRev } from "./results/attempt";
 import { Stats } from "./stats";
-import { algCubingNetLink, parse, Sequence } from "alg";
+import { algCubingNetLink, parse, Sequence, TraversalUp, Group, BlockMove, Commutator, Conjugate, Pause, NewLine, CommentShort, CommentLong } from "alg";
+
+// class CountMoves extends TraversalUp<number> {
+//   public traverseSequence(sequence: Sequence): number {
+//     let total = 0;
+//     for (const part of sequence.nestedUnits) {
+//       total += this.traverse(part);
+//     }
+//     return total;
+//   }
+//   public traverseGroup(group: Group): number {
+//     return this.traverseSequence(group.nestedSequence);
+//   }
+//   public traverseBlockMove(blockMove: BlockMove): number {
+//     return 1;
+//   }
+//   public traverseCommutator(commutator: Commutator): number {
+//     return 2 * (this.traverseSequence(commutator.A) + this.traverseSequence(commutator.B));
+//   }
+//   public traverseConjugate(conjugate: Conjugate): number {
+//     return 2 * (this.traverseSequence(conjugate.A)) + this.traverseSequence(conjugate.B);
+//   }
+//   public traversePause(pause: Pause): number { return 0; }
+//   public traverseNewLine(newLine: NewLine): number { return 0; }
+//   public traverseCommentShort(commentShort: CommentShort): number { return 0; }
+//   public traverseCommentLong(commentLong: CommentLong): number { return 0; }
+// }
+
+// (window as any).CM = CountMoves
+
+// // const countMovesInstance = new CountMoves();
+// // const countMoves = countMovesInstance.traverse.bind(countMovesInstance);
 
 const session = new Session();
 let justRemoved: string;
@@ -24,6 +55,34 @@ function scrambleTD(scramble: string): HTMLTableDataCellElement {
   scrambleLink.textContent = scramble;
   scrambleTD.appendChild(scrambleLink);
   return scrambleTD;
+}
+
+function solutionTD(attemptData: AttemptData): HTMLTableDataCellElement {
+  const solutionTD = document.createElement("td");
+  try {
+    let title = `${Stats.formatTime(attemptData.totalResultMs)}s`;
+    if (localStorage.pouchDBUsername) {
+      title += `\n${localStorage.pouchDBUsername}`;
+    }
+    if (attemptData.unixDate) {
+      title += `\n${formatUnixDate(attemptData.unixDate)}`;
+    }
+    if (attemptData.solution) {
+      const scrambleLink = document.createElement("a");
+      scrambleLink.href = algCubingNetLink({
+        setup: parse(attemptData.scramble || ""),
+        alg: parse(attemptData.solution || ""),
+        title
+      })
+      scrambleLink.textContent = "▶️";
+      solutionTD.appendChild(scrambleLink);
+      // const node = document.createTextNode(` (${countMoves(attemptData.solution)} ETM)`);
+      // solutionTD.appendChild(node);
+    }
+  } catch (e) {
+    console.error(e);
+  }
+  return solutionTD;
 }
 
 function trashTD(attempt: AttemptDataWithIDAndRev): HTMLTableDataCellElement {
@@ -65,6 +124,7 @@ async function showData(): Promise<void> {
     const tr = document.createElement("tr");
     tr.appendChild(tdWithContent(Stats.formatTime(attempt.totalResultMs)));
     tr.appendChild(scrambleTD(attempt.scramble || ""));
+    tr.appendChild(solutionTD(attempt));
     tr.appendChild(tdWithContent(attempt.event));
     tr.appendChild(tdWithContent(formatUnixTime(attempt.unixDate) + " | " + formatUnixDate(attempt.unixDate)));
     tr.appendChild(trashTD(attempt));
