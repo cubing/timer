@@ -1,9 +1,12 @@
 import "babel-polyfill"; // Prevent `regeneratorRuntime is not defined` error. https://github.com/babel/babel/issues/5085
 
-import { Session } from "./results/session";
+import { TimerSession, allDocsResponseToAttemptList } from "./results/session";
 import { AttemptData, AttemptDataWithIDAndRev } from "./results/attempt";
 import { Stats } from "./stats";
 import { algCubingNetLink, parse, Sequence, TraversalUp, Group, BlockMove, Commutator, Conjugate, Pause, NewLine, CommentShort, CommentLong } from "alg";
+import { convertToCSTimerFormat } from "./results/compat/cstimer";
+import { downloadFile } from "./results/compat/download";
+import { convertToQQTimerFormat } from "./results/compat/qqtimer";
 
 // class CountMoves extends TraversalUp<number> {
 //   public traverseSequence(sequence: Sequence): number {
@@ -36,7 +39,7 @@ import { algCubingNetLink, parse, Sequence, TraversalUp, Group, BlockMove, Commu
 // // const countMovesInstance = new CountMoves();
 // // const countMoves = countMovesInstance.traverse.bind(countMovesInstance);
 
-const session = new Session();
+const session = new TimerSession();
 let justRemoved: string;
 
 function tdWithContent(content?: string): HTMLTableDataCellElement {
@@ -141,7 +144,28 @@ function onSyncChange(change: PouchDB.Replication.SyncResult<AttemptData>): void
   }
 }
 
+async function exportTCN(): Promise<void> {
+  const jsonData = await session.allAttempts();
+  // navigator.clipboard.writeText(JSON.stringify(jsonData, null, "  "));
+  downloadFile(`timer.cubing.net Format | ${new Date().toString()}.txt`, JSON.stringify(jsonData, null, "  "));
+}
+
+async function exportToCSTimer(): Promise<void> {
+  const jsonData = await convertToCSTimerFormat(session);
+  // navigator.clipboard.writeText(JSON.stringify(jsonData, null, "  "));
+  downloadFile(`csTimer Format | ${new Date().toString()}.txt`, JSON.stringify(jsonData, null, "  "));
+}
+
+async function exportToQQTimer(): Promise<void> {
+  const jsonData = await convertToQQTimerFormat(session);
+  // navigator.clipboard.writeText(JSON.stringify(jsonData, null, "  "));
+  downloadFile(`qqtimer Format | ${new Date().toString()}.txt`, JSON.stringify(jsonData, null, "  "));
+}
+
 window.addEventListener("load", async () => {
   showData();
   session.startSync(onSyncChange);
+  document.querySelector("#export")!.addEventListener("click", exportTCN)
+  document.querySelector("#export-to-cstimer")!.addEventListener("click", exportToCSTimer)
+  document.querySelector("#export-to-qqtimer")!.addEventListener("click", exportToQQTimer)
 })

@@ -1,14 +1,4 @@
-type CSTimerAttempt = [
-  [number, number],
-  string,
-  string,
-  number,
-];
-
-
-interface CSTimerData {
-  session1: CSTimerAttempt[]
-}
+import { CSTimerData } from "./cstimer";
 
 export const data: CSTimerData = {
     "session1": [

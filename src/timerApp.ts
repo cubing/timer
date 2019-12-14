@@ -5,7 +5,7 @@ import { Milliseconds } from "./timer"
 // import {ScrambleID} from "./scramble-worker"
 import { Scramblers, ScrambleString } from "./cubing"
 import { Stats } from "./stats"
-import { Session, allDocsResponseToTimes } from "./results/session"
+import { TimerSession, allDocsResponseToTimes } from "./results/session"
 import { AttemptData } from "./results/attempt"
 
 const favicons: { [s: string]: string } = {
@@ -45,7 +45,7 @@ export class TimerApp {
   private awaitedScrambleID: ScrambleID;
   private scramblers: Scramblers = new Scramblers();
   private currentScramble: Scramble;
-  private session = new Session();
+  private session = new TimerSession();
   private remoteDB: PouchDB.Database<AttemptData>;
 
   private cachedBest: number | null = null;

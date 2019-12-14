@@ -4,4 +4,4 @@ import {
   TimerApp
 } from "./timerApp"
 
-new TimerApp();
+(window as any).app = new TimerApp();

@@ -5,11 +5,16 @@ import { newDateUUID } from "./uuid";
 
 PouchDB.plugin(PouchDBFind);
 
-export function allDocsResponseToTimes(docs: PouchDB.Core.AllDocsResponse<AttemptData>): number[] {
-  return docs.rows.filter((row) => "totalResultMs" in row.doc!).map((row) => row.doc!.totalResultMs)
+export function allDocsResponseToAttemptList(docs: PouchDB.Core.AllDocsResponse<AttemptData>): AttemptData[] {
+  console.log(docs.rows)
+  return docs.rows.filter((row) => "totalResultMs" in row.doc!).map((row) => row.doc!)
 }
 
-export class Session {
+export function allDocsResponseToTimes(docs: PouchDB.Core.AllDocsResponse<AttemptData>): number[] {
+  return allDocsResponseToAttemptList(docs).map((doc) => doc.totalResultMs)
+}
+
+export class TimerSession {
   public db: PouchDB.Database<AttemptData>
   public remoteDB: PouchDB.Database<AttemptData>
   constructor(name: string = "session") {
@@ -88,6 +93,13 @@ export class Session {
       descending: true,
       include_docs: true,
     })); //.rows.map((row) => row.doc!);
+  }
+
+  // TODO: Remove this and encourate using map/reduce or limited reads.
+  async allAttempts(): Promise<AttemptData[]> {
+    return allDocsResponseToAttemptList(await this.db.allDocs({
+      include_docs: true
+    }));
   }
 }
 
