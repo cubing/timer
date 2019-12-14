@@ -29,6 +29,7 @@ type Scramble = {
 type FormattedStats = {
   "avg5": string
   "avg12": string
+  "avg100": string
   "mean3": string
   "best": string
   "worst": string
@@ -219,7 +220,7 @@ export class TimerApp {
 
   async updateDisplayStats(assumeAttemptAppended: boolean = false) {
     if (assumeAttemptAppended) {
-      const times = allDocsResponseToTimes(await this.session.mostRecentAttempts(12)).reverse();
+      const times = allDocsResponseToTimes(await this.session.mostRecentAttempts(100)).reverse();
 
       const timesForBestAndWorst = times.slice(0);
       if (this.cachedBest !== null) {
@@ -237,6 +238,7 @@ export class TimerApp {
       this.statsView.setStats({
         "avg5": Stats.formatTime(Stats.trimmedAverage(Stats.lastN(times, 5))),
         "avg12": Stats.formatTime(Stats.trimmedAverage(Stats.lastN(times, 12))),
+        "avg100": Stats.formatTime(Stats.trimmedAverage(Stats.lastN(times, 100))),
         "mean3": Stats.formatTime(Stats.mean(Stats.lastN(times, 3))),
         "best": Stats.formatTime(this.cachedBest === Infinity ? null : this.cachedBest),
         "worst": Stats.formatTime(this.cachedWorst === Infinity ? null : this.cachedWorst),
@@ -256,6 +258,7 @@ export class TimerApp {
       this.statsView.setStats({
         "avg5": Stats.formatTime(Stats.trimmedAverage(Stats.lastN(times, 5))),
         "avg12": Stats.formatTime(Stats.trimmedAverage(Stats.lastN(times, 12))),
+        "avg100": Stats.formatTime(Stats.trimmedAverage(Stats.lastN(times, 100))),
         "mean3": Stats.formatTime(Stats.mean(Stats.lastN(times, 3))),
         "best": Stats.formatTime(this.cachedBest),
         "worst": Stats.formatTime(this.cachedWorst),
@@ -346,6 +349,7 @@ class StatsView {
     this.elems = {
       "avg5": <HTMLOptionElement>document.getElementById("avg5"),
       "avg12": <HTMLOptionElement>document.getElementById("avg12"),
+      "avg100": <HTMLOptionElement>document.getElementById("avg100"),
       "mean3": <HTMLOptionElement>document.getElementById("mean3"),
       "best": <HTMLOptionElement>document.getElementById("best"),
       "worst": <HTMLOptionElement>document.getElementById("worst"),
@@ -382,6 +386,7 @@ class StatsView {
   setStats(stats: FormattedStats) {
     this.elems["avg5"].textContent = "avg5: " + stats.avg5;
     this.elems["avg12"].textContent = "avg12: " + stats.avg12;
+    this.elems["avg100"].textContent = "avg100: " + stats.avg100;
     this.elems["mean3"].textContent = "mean3: " + stats.mean3;
     this.elems["best"].textContent = "best: " + stats.best;
     this.elems["worst"].textContent = "worst: " + stats.worst;
