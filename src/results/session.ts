@@ -6,7 +6,6 @@ import { newDateUUID } from "./uuid";
 PouchDB.plugin(PouchDBFind);
 
 export function allDocsResponseToAttemptList(docs: PouchDB.Core.AllDocsResponse<AttemptData>): AttemptData[] {
-  console.log(docs.rows)
   return docs.rows.filter((row) => "totalResultMs" in row.doc!).map((row) => row.doc!)
 }
 
