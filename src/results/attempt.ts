@@ -27,7 +27,7 @@ export interface AttemptData {
 
   // Arbitrary user-provided comment.
   comment?: string; // TODO
-  // reconstruction?: AlgString; // TODO
+  solution?: AlgString; // TODO
   // penalties?: Penalty[]; // TODO
 }
 

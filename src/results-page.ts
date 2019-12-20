@@ -117,9 +117,11 @@ function formatUnixDate(unixDate: number): string {
 }
 
 async function showData(): Promise<void> {
+  const eventId = getEventID();
   const tableBody = document.querySelector("#results tbody") as HTMLBodyElement;
   tableBody.textContent = "";
-  const attempts = (await session.mostRecentAttempts(1000)).rows.map((row) => row.doc!);
+  const unfilteredAttempts: AttemptDataWithIDAndRev[] = (await session.mostRecentAttempts(1000)).rows.map((row) => row.doc!);
+  const attempts = unfilteredAttempts.filter((attempt: AttemptData) => attempt.event === eventId);
   for (const attempt of attempts) {
     if (!attempt.totalResultMs) {
       continue;
@@ -144,6 +146,10 @@ function onSyncChange(change: PouchDB.Replication.SyncResult<AttemptData>): void
   }
 }
 
+function getEventID(): string {
+  return (document.querySelector("#eventID") as HTMLSelectElement).selectedOptions[0].value;
+}
+
 async function exportTCN(): Promise<void> {
   const jsonData = await session.allAttempts();
   // navigator.clipboard.writeText(JSON.stringify(jsonData, null, "  "));
@@ -151,15 +157,19 @@ async function exportTCN(): Promise<void> {
 }
 
 async function exportToCSTimer(): Promise<void> {
-  const jsonData = await convertToCSTimerFormat(session);
+  const jsonData = await convertToCSTimerFormat(session, getEventID());
   // navigator.clipboard.writeText(JSON.stringify(jsonData, null, "  "));
   downloadFile(`csTimer Format | ${new Date().toString()}.txt`, JSON.stringify(jsonData, null, "  "));
 }
 
 async function exportToQQTimer(): Promise<void> {
-  const jsonData = await convertToQQTimerFormat(session);
+  const jsonData = await convertToQQTimerFormat(session, getEventID());
   // navigator.clipboard.writeText(JSON.stringify(jsonData, null, "  "));
   downloadFile(`qqtimer Format | ${new Date().toString()}.txt`, JSON.stringify(jsonData, null, "  "));
+}
+
+async function eventChanged(): Promise<void> {
+  await showData();
 }
 
 window.addEventListener("load", async () => {
@@ -168,4 +178,5 @@ window.addEventListener("load", async () => {
   document.querySelector("#export")!.addEventListener("click", exportTCN)
   document.querySelector("#export-to-cstimer")!.addEventListener("click", exportToCSTimer)
   document.querySelector("#export-to-qqtimer")!.addEventListener("click", exportToQQTimer)
+  document.querySelector("#eventID")!.addEventListener("change", eventChanged);
 })

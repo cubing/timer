@@ -1,6 +1,6 @@
-import { data } from "./cstimer-data";
-import { Session, allDocsResponseToAttemptList } from "../session";
 import { AttemptData } from "../attempt";
+import { TimerSession } from "../session";
+import { data } from "./cstimer-data";
 
 export type CSTimerAttempt = [
   [number, number],
@@ -13,7 +13,7 @@ export interface CSTimerData {
   session1: CSTimerAttempt[]
 }
 
-export async function importTimes(session: Session): Promise<void> {
+export async function importTimes(session: TimerSession): Promise<void> {
   for (const attempt of data.session1) {
     const attemptData: AttemptData = {
       totalResultMs: attempt[0][0] + attempt[0][1] + Math.floor(Math.random() * 1000),
@@ -34,8 +34,8 @@ function attemptToCSTimerFormat(attempt: AttemptData): CSTimerAttempt {
   ];
 }
 
-export async function convertToCSTimerFormat(session: Session): Promise<CSTimerData> {
+export async function convertToCSTimerFormat(session: TimerSession, eventId: string): Promise<CSTimerData> {
   return {
-    session1: (await session.allAttempts()).map(attemptToCSTimerFormat)
+    session1: (await session.allAttempts()).filter((attempt: AttemptData) => attempt.event === eventId).map(attemptToCSTimerFormat)
   }
 }
