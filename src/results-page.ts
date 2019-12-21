@@ -7,6 +7,9 @@ import { algCubingNetLink, parse, Sequence, TraversalUp, Group, BlockMove, Commu
 import { convertToCSTimerFormat } from "./results/compat/cstimer";
 import { downloadFile } from "./results/compat/download";
 import { convertToQQTimerFormat } from "./results/compat/qqtimer";
+import { eventMetadata } from "./cubing";
+
+const DEFAULT_EVENT_ID = "333";
 
 // class CountMoves extends TraversalUp<number> {
 //   public traverseSequence(sequence: Sequence): number {
@@ -172,7 +175,21 @@ async function eventChanged(): Promise<void> {
   await showData();
 }
 
+function addEventIDOptions(): void {
+  const select = document.querySelector("#eventID") as HTMLSelectElement;
+  for (const [id, info] of Object.entries(eventMetadata)) {
+    const opt = document.createElement("option");
+    opt.value = id;
+    opt.textContent = info.name;
+    if (id === DEFAULT_EVENT_ID) {
+      opt.setAttribute("selected", "selected");
+    }
+    select.appendChild(opt);
+  }
+}
+
 window.addEventListener("load", async () => {
+  addEventIDOptions();
   showData();
   session.startSync(onSyncChange);
   document.querySelector("#export")!.addEventListener("click", exportTCN)
