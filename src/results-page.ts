@@ -58,7 +58,7 @@ function scrambleTD(scramble: string): HTMLTableDataCellElement {
     setup: parse(scramble),
     alg: new Sequence([])
   })
-  scrambleLink.textContent = scramble;
+  scrambleLink.textContent = "▶️";
   scrambleTD.appendChild(scrambleLink);
   return scrambleTD;
 }
