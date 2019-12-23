@@ -88,6 +88,25 @@ function solutionTD(attemptData: AttemptData): HTMLTableDataCellElement {
   } catch (e) {
     console.error(e);
   }
+  const editButton = document.createElement("button");
+  editButton.textContent = "Edit";
+  editButton.addEventListener("click", () => {
+    solutionTD.removeChild(editButton);
+    const textarea = document.createElement("textarea");
+    textarea.value = attemptData.solution ?? "";
+    const updateButton = document.createElement("button");
+    updateButton.textContent = "Update";
+    updateButton.addEventListener("click", () => {
+      console.log(textarea);
+      attemptData.solution = textarea.value ?? undefined;
+      console.log(attemptData);
+      session.db.put(attemptData);
+    });
+    solutionTD.appendChild(textarea);
+    solutionTD.appendChild(updateButton);
+  })
+
+  solutionTD.appendChild(editButton);
   return solutionTD;
 }
 
