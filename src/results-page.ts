@@ -195,20 +195,17 @@ function getEventID(): string {
 
 async function exportTCN(): Promise<void> {
   const jsonData = await session.allAttempts();
-  // navigator.clipboard.writeText(JSON.stringify(jsonData, null, "  "));
-  downloadFile(`timer.cubing.net Format | ${new Date().toString()}.txt`, JSON.stringify(jsonData, null, "  "));
+  downloadFile(`timer.cubing.net Format | ${new Date().toString()}.json`, JSON.stringify(jsonData, null, "  "));
 }
 
 async function exportToCSTimer(): Promise<void> {
   const jsonData = await convertToCSTimerFormat(session, getEventID());
-  // navigator.clipboard.writeText(JSON.stringify(jsonData, null, "  "));
   downloadFile(`csTimer Format | ${new Date().toString()}.txt`, JSON.stringify(jsonData, null, "  "));
 }
 
 async function exportToQQTimer(): Promise<void> {
-  const jsonData = await convertToQQTimerFormat(session, getEventID());
-  // navigator.clipboard.writeText(JSON.stringify(jsonData, null, "  "));
-  downloadFile(`qqtimer Format | ${new Date().toString()}.txt`, JSON.stringify(jsonData, null, "  "));
+  const strData = await convertToQQTimerFormat(session, getEventID());
+  downloadFile(`qqtimer Format | ${new Date().toString()}.txt`, strData);
 }
 
 async function eventChanged(): Promise<void> {
