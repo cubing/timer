@@ -119,6 +119,27 @@ function formatUnixDate(unixDate: number): string {
   return date.getFullYear() + "-" + pad((date.getMonth() + 1)) + "-" + pad((date.getDate() + 1));
 }
 
+function eventTD(attempt: AttemptDataWithIDAndRev): HTMLTableDataCellElement {
+  const td = document.createElement("td");
+  const select: HTMLSelectElement = document.createElement("select");
+  for (const [id, info] of Object.entries(eventMetadata)) {
+    const opt = document.createElement("option");
+    opt.textContent = info.name;
+    opt.value = id;
+    if (id == attempt.event) {
+      opt.setAttribute("selected", "selected");
+    }
+    select.appendChild(opt);
+  }
+  select.addEventListener("change", async () => {
+    attempt.event = select.selectedOptions[0].value;
+    const putResult = await session.db.put(attempt);
+    console.log("Updated event for attempt", attempt, putResult);
+  });
+  td.appendChild(select);
+  return td;
+}
+
 async function showData(): Promise<void> {
   const eventId = getEventID();
   const tableBody = document.querySelector("#results tbody") as HTMLBodyElement;
@@ -133,7 +154,7 @@ async function showData(): Promise<void> {
     tr.appendChild(tdWithContent(Stats.formatTime(attempt.totalResultMs)));
     tr.appendChild(scrambleTD(attempt.scramble || ""));
     tr.appendChild(solutionTD(attempt));
-    tr.appendChild(tdWithContent(attempt.event));
+    tr.appendChild(eventTD(attempt));
     tr.appendChild(tdWithContent(formatUnixTime(attempt.unixDate) + " | " + formatUnixDate(attempt.unixDate)));
     tr.appendChild(trashTD(attempt));
     tableBody.appendChild(tr);
