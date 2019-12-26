@@ -94,6 +94,16 @@ function getScramble(type?: any, length?: any, state?: any) {
 	return solv.toStr(solv.search([perm, ori], maxl).reverse(), "URF", "'2 ");
 }
 
+// scrMgr.reg(['222o', '222so', '222nb'], getScramble)
+// ('222eg0', getScramble, [egfilter.slice(0, 8), egprobs.slice(0, 8)])
+// ('222eg1', getScramble, [egfilter.slice(8, 40), egprobs.slice(8, 40)])
+// ('222eg2', getScramble, [egfilter.slice(40, 48), egprobs.slice(40, 48)])
+// ('222eg', getScramble, [egfilter, egprobs]);
+
+function getRandomScramble(): string {
+	return getScramble("222so");
+}
+
 export {
-	getScramble as getRandomScramble
+	getRandomScramble
 }
