@@ -42,7 +42,14 @@ export type ScrambleString = string;
 // }
 
 // // Matches the order on the WCA website.
-export const eventOrder: EventName[] = ["333", "444", "555", "222", "333bf", "333oh", "333fm", "333ft", "minx", "pyram", "sq1", "clock", "skewb", "666", "777", "444bf", "555bf", "333mbf"];
+export const eventOrder: EventName[] = [
+  "333", "444",
+  // "555",
+  "222", "333bf", "333oh",
+  // "333fm", "333ft", "minx",
+  "pyram", "sq1", "clock", "skewb",
+  // "666", "777", "444bf", "555bf", "333mbf"
+];
 
 // From cubing/scrambler-interface:
 // https://github.com/cubing/scrambler-interface/blob/181a875a1/js/ui.js#L342
@@ -62,22 +69,22 @@ export const eventMetadata: { [e: string]: Event } = {
   // Official WCA events as of November 24, 2011
   "333": { name: "3x3x3", acn_puzzle_name: "3x3x3", default_round: { type: "avg", num_scrambles: 5 } },
   "444": { name: "4x4x4", acn_puzzle_name: "4x4x4", default_round: { type: "avg", num_scrambles: 5 } },
-  "555": { name: "5x5x5", acn_puzzle_name: "5x5x5", default_round: { type: "avg", num_scrambles: 5 } },
+  // "555": { name: "5x5x5", acn_puzzle_name: "5x5x5", default_round: { type: "avg", num_scrambles: 5 } },
   "222": { name: "2x2x2", acn_puzzle_name: "2x2x2", default_round: { type: "avg", num_scrambles: 5 } },
   "333bf": { name: "3x3x3 BLD", acn_puzzle_name: "3x3x3", default_round: { type: "best", num_scrambles: 3 } },
   "333oh": { name: "3x3x3 OH", acn_puzzle_name: "3x3x3", default_round: { type: "avg", num_scrambles: 5 } },
-  "333fm": { name: "3x3x3 FMC", acn_puzzle_name: "3x3x3", default_round: { type: "best", num_scrambles: 1 } },
-  "333ft": { name: "3x3x3 Feet", acn_puzzle_name: "3x3x3", default_round: { type: "avg", num_scrambles: 3 } },
-  "minx": { name: "Megaminx", acn_puzzle_name: null, default_round: { type: "avg", num_scrambles: 5 } },
+  // "333fm": { name: "3x3x3 FMC", acn_puzzle_name: "3x3x3", default_round: { type: "best", num_scrambles: 1 } },
+  // "333ft": { name: "3x3x3 Feet", acn_puzzle_name: "3x3x3", default_round: { type: "avg", num_scrambles: 3 } },
+  // "minx": { name: "Megaminx", acn_puzzle_name: null, default_round: { type: "avg", num_scrambles: 5 } },
   "pyram": { name: "Pyraminx", acn_puzzle_name: null, default_round: { type: "avg", num_scrambles: 5 } },
   "sq1": { name: "Square-1", acn_puzzle_name: null, default_round: { type: "avg", num_scrambles: 5 } },
   "clock": { name: "Clock", acn_puzzle_name: null, default_round: { type: "avg", num_scrambles: 5 } },
   "skewb": { name: "Skewb", acn_puzzle_name: null, default_round: { type: "avg", num_scrambles: 5 } },
-  "666": { name: "6x6x6", acn_puzzle_name: "6x6x6", default_round: { type: "mean", num_scrambles: 3 } },
-  "777": { name: "7x7x7", acn_puzzle_name: "7x7x7", default_round: { type: "mean", num_scrambles: 3 } },
-  "444bf": { name: "4x4x4 BLD", acn_puzzle_name: "4x4x4", default_round: { type: "best", num_scrambles: 3 } },
-  "555bf": { name: "5x5x5 BLD", acn_puzzle_name: "5x5x5", default_round: { type: "best", num_scrambles: 3 } },
-  "333mbf": { name: "3x3x3 MBLD", acn_puzzle_name: "3x3x3", default_round: { type: "mbf", num_scrambles: 28 } }
+  // "666": { name: "6x6x6", acn_puzzle_name: "6x6x6", default_round: { type: "mean", num_scrambles: 3 } },
+  // "777": { name: "7x7x7", acn_puzzle_name: "7x7x7", default_round: { type: "mean", num_scrambles: 3 } },
+  // "444bf": { name: "4x4x4 BLD", acn_puzzle_name: "4x4x4", default_round: { type: "best", num_scrambles: 3 } },
+  // "555bf": { name: "5x5x5 BLD", acn_puzzle_name: "5x5x5", default_round: { type: "best", num_scrambles: 3 } },
+  // "333mbf": { name: "3x3x3 MBLD", acn_puzzle_name: "3x3x3", default_round: { type: "mbf", num_scrambles: 28 } }
 };
 
 // /** @typedef {string} */
