@@ -42,7 +42,7 @@ function circle(arr, ...moreArgs: any) {
 //pow: 1, 2, 3, ...
 //ori: ori1, ori2, ..., orin, base
 // arr[perm[idx2]] = arr[perm[idx1]] + ori[idx2] - ori[idx1] + base
-function acycle(arr, perm, pow, ori) {
+function acycle(arr, perm, pow?: any, ori?: any) {
 	pow = pow || 1;
 	var plen = perm.length;
 	var tmp = [];
