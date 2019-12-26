@@ -9,7 +9,15 @@ import { downloadFile } from "./results/compat/download";
 import { convertToQQTimerFormat } from "./results/compat/qqtimer";
 import { eventMetadata } from "./cubing";
 
-const DEFAULT_EVENT_ID = "333";
+const EVENT_PARAM_NAME = "event";
+const DEFAULT_EVENT = "333";
+
+function getURLParam(name: string, defaultValue: string): string {
+  const url = new URL(location.href);
+  return url.searchParams.get(name) ?? defaultValue;
+}
+
+const initialEventID = getURLParam(EVENT_PARAM_NAME, DEFAULT_EVENT);
 
 // class CountMoves extends TraversalUp<number> {
 //   public traverseSequence(sequence: Sequence): number {
@@ -212,9 +220,7 @@ async function exportToQQTimer(): Promise<void> {
   downloadFile(`qqtimer Format | ${new Date().toString()}.txt`, strData);
 }
 
-async function eventChanged(): Promise<void> {
-  await showData();
-}
+const optByEvent: {[eventName: string]: HTMLOptionElement} = {};
 
 function addEventIDOptions(): void {
   const select = document.querySelector("#eventID") as HTMLSelectElement;
@@ -222,12 +228,27 @@ function addEventIDOptions(): void {
     const opt = document.createElement("option");
     opt.value = id;
     opt.textContent = info.name;
-    if (id === DEFAULT_EVENT_ID) {
+    if (id === initialEventID) {
       opt.setAttribute("selected", "selected");
     }
+    optByEvent[id] = opt;
     select.appendChild(opt);
   }
 }
+
+async function eventChanged(): Promise<void> {
+  const eventID = getEventID();
+  const newURL = new URL(location.href);
+  newURL.searchParams.set(EVENT_PARAM_NAME, eventID);
+  history.pushState({event: eventID}, `Results | ${eventID}`, "?" + newURL.searchParams.toString())
+  await showData();
+}
+
+window.addEventListener("popstate", (event) => {
+  const select = document.querySelector("#eventID") as HTMLSelectElement;
+  select.value = event.state?.event ?? DEFAULT_EVENT;
+  showData();
+});
 
 window.addEventListener("load", async () => {
   addEventIDOptions();
