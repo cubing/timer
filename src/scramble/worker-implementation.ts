@@ -7,6 +7,7 @@ import { getRandomScramble as getRandomScramble444 } from "../vendor/cstimer/src
 import { getRandomScramble as getRandomScramblePyram } from "../vendor/cstimer/src/js/scramble/pyraminx";
 import { getRandomScramble as getRandomScrambleSq1 } from "./sq1_fix";
 import { EventName } from "../cubing";
+import { getRandomScramble333Bf } from "./333bf";
 
 export interface ScrambleWorker {
   getRandomScramble(eventName: EventName): Promise<string>
@@ -26,6 +27,8 @@ class ScrambleWorkerImpl implements ScrambleWorker {
       case "333oh":
       case "333ft":
         return getRandomScramble333();
+      case "333bf":
+        return getRandomScramble333Bf();
       case "444":
         return getRandomScramble444();
       case "pyram":
