@@ -3,7 +3,7 @@ import "babel-polyfill"; // Prevent `regeneratorRuntime is not defined` error. h
 import { expose } from "comlink"
 import { getRandomScramble as getRandomScramble333 } from "../vendor/cstimer/src/js/scramble/scramble_333_edit";
 import { getRandomScramble as getRandomScramble444 } from "../vendor/cstimer/src/js/scramble/scramble_444";
-import { getRandomScramble as getRandomScrambleSq1 } from "../vendor/cstimer/src/js/scramble/scramble_sq1_new";
+import { getRandomScramble as getRandomScrambleSq1 } from "./sq1_fix";
 import { EventName } from "../cubing";
 
 export interface ScrambleWorker {
