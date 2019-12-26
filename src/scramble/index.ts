@@ -14,6 +14,7 @@ const instance444: ScrambleWorker = new constructor();
 async function getInstanceForNewScramble(eventName: EventName): Promise<ScrambleWorker> {
   switch (eventName) {
     case "444":
+    case "444bf":
       // 4x4x4 is the only "slow" scrambler, so we put it on its own thread.
       return instance444;
     default:
