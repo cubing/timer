@@ -123,7 +123,7 @@ export class TimerApp {
   }
 
   private setInitialEvent() {
-    var storedEvent = localStorage.getItem("current-event");
+    var storedEvent = localStorage.getItem("current-event") as EventName;
     var lastAttemptDateStr = localStorage.getItem("last-attempt-date");
 
     var currentDate = new Date();
@@ -286,7 +286,7 @@ class ScrambleView {
 
     this.eventSelectDropdown.addEventListener("change", () => {
       this.eventSelectDropdown.blur()
-      this.timerApp.setEvent(this.eventSelectDropdown.value, true);
+      this.timerApp.setEvent(this.eventSelectDropdown.value as EventName, true);
     });
 
     this.initializeSelectDropdown();
@@ -304,7 +304,7 @@ class ScrambleView {
     }
   }
 
-  setEvent(eventName: string) {
+  setEvent(eventName: EventName) {
     Util.removeClassesStartingWith(this.scrambleText, "event-");
     this.scrambleText.classList.add("event-" + eventName);
     Util.removeClassesStartingWith(this.cubingIcon, "icon-");

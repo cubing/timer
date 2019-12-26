@@ -3,7 +3,8 @@
 import { randomScramble } from "./scramble"
 import { algToString } from "alg";
 
-export type EventName = string;
+// TODO: Rename to `EventID`?
+export type EventName = "333" | "444" | "555" | "222" | "333bf" | "333oh" | "333fm" | "333ft" | "minx" | "pyram" | "sq1" | "clock" | "skewb" | "666" | "777" | "444bf" | "555bf" | "333mbf";
 export type ScrambleString = string;
 
 // var Cubing = function() {};
@@ -110,7 +111,7 @@ export class Scramblers {
   //    * @param {function(!Cubing.ScrambleString)} callback
   //    */
   getRandomScramble(eventName: EventName, callback: (s: ScrambleString) => void) {
-    randomScramble().then(callback);
+    randomScramble(eventName).then(callback);
     // callback("R U R'");
     // TODO
     // var commandId = this._commandScrambleId;

@@ -1,10 +1,12 @@
 import "babel-polyfill"; // Prevent `regeneratorRuntime is not defined` error. https://github.com/babel/babel/issues/5085
 
-import {expose} from "comlink"
+import { expose } from "comlink"
 import { getRandomScramble as getRandomScramble333 } from "../vendor/cstimer/src/js/scramble/scramble_333_edit";
+import { getRandomScramble as getRandomScramble444 } from "../vendor/cstimer/src/js/scramble/scramble_444";
+import { EventName } from "../cubing";
 
 export interface ScrambleWorker {
-  getRandomScramble333(): Promise<string>
+  getRandomScramble(eventName: EventName): Promise<string>
 }
 
 export interface ScrambleWorkerConstructor {
@@ -12,8 +14,15 @@ export interface ScrambleWorkerConstructor {
 }
 
 class ScrambleWorkerImpl implements ScrambleWorker {
-  async getRandomScramble333(): Promise<string> {
-    return getRandomScramble333();
+  async getRandomScramble(eventName: EventName): Promise<string> {
+    switch (eventName) {
+      case "333":
+        return getRandomScramble333();
+      case "444":
+        return getRandomScramble444();
+      default:
+        return "<scramble unavailable>";
+    }
   }
 }
 
