@@ -4,7 +4,9 @@ import { expose } from "comlink"
 import { getRandomScramble as getRandomScramble222 } from "../vendor/cstimer/src/js/scramble/2x2x2";
 import { getRandomScramble as getRandomScramble333 } from "../vendor/cstimer/src/js/scramble/scramble_333_edit";
 import { getRandomScramble as getRandomScramble444 } from "../vendor/cstimer/src/js/scramble/scramble_444";
+import { getRandomScramble as getRandomScrambleClock } from "../vendor/cstimer/src/js/scramble/clock";
 import { getRandomScramble as getRandomScramblePyram } from "../vendor/cstimer/src/js/scramble/pyraminx";
+import { getRandomScramble as getRandomScrambleSkewb } from "../vendor/cstimer/src/js/scramble/skewb";
 import { getRandomScramble as getRandomScrambleSq1 } from "./sq1_fix";
 import { EventName } from "../cubing";
 import { getRandomScramble333Bf } from "./333bf";
@@ -31,8 +33,12 @@ class ScrambleWorkerImpl implements ScrambleWorker {
         return getRandomScramble333Bf();
       case "444":
         return getRandomScramble444();
+      case "clock":
+        return getRandomScrambleClock();
       case "pyram":
         return getRandomScramblePyram();
+      case "skewb":
+        return getRandomScrambleSkewb();
       case "sq1":
         return getRandomScrambleSq1();
       default:
