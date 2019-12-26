@@ -53,13 +53,17 @@ function tdWithContent(content?: string): HTMLTableDataCellElement {
 
 function scrambleTD(scramble: string): HTMLTableDataCellElement {
   const scrambleTD = document.createElement("td");
-  const scrambleLink = document.createElement("a");
-  scrambleLink.href = algCubingNetLink({
-    setup: parse(scramble),
-    alg: new Sequence([])
-  })
-  scrambleLink.textContent = "▶️";
-  scrambleTD.appendChild(scrambleLink);
+  if (scramble) {
+    const scrambleLink = document.createElement("a");
+    scrambleLink.href = algCubingNetLink({
+      setup: parse(scramble),
+      alg: new Sequence([])
+    })
+    scrambleLink.textContent = "▶️";
+    scrambleTD.appendChild(scrambleLink);
+  } else {
+    scrambleTD.textContent = "N/A";
+  }
   return scrambleTD;
 }
 
