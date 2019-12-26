@@ -7,10 +7,11 @@ import { algCubingNetLink, parse, Sequence, TraversalUp, Group, BlockMove, Commu
 import { convertToCSTimerFormat } from "./results/compat/cstimer";
 import { downloadFile } from "./results/compat/download";
 import { convertToQQTimerFormat } from "./results/compat/qqtimer";
-import { eventMetadata } from "./cubing";
+import { eventMetadata, EventName } from "./cubing";
 
 const EVENT_PARAM_NAME = "event";
 const DEFAULT_EVENT = "333";
+const MAX_NUM_RECENT_ATTEMPTS = 100;
 
 function getURLParam(name: string, defaultValue: string): string {
   const url = new URL(location.href);
@@ -175,7 +176,7 @@ async function showData(): Promise<void> {
   const eventId = getEventID();
   const tableBody = document.querySelector("#results tbody") as HTMLBodyElement;
   tableBody.textContent = "";
-  const unfilteredAttempts: AttemptDataWithIDAndRev[] = (await session.mostRecentAttempts(1000)).rows.map((row) => row.doc!);
+  const unfilteredAttempts: AttemptDataWithIDAndRev[] = (await session.mostRecentAttemptsForEvent(eventId as EventName, MAX_NUM_RECENT_ATTEMPTS)).docs;
   const attempts = unfilteredAttempts.filter((attempt: AttemptData) => attempt.event === eventId);
   for (const attempt of attempts) {
     if (!attempt.totalResultMs) {

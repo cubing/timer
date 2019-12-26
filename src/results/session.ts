@@ -2,6 +2,7 @@ import PouchDB from "pouchdb"; // TODO: Add a wrapper so we can remove `allowSyn
 import PouchDBFind from "pouchdb-find"; // TODO: Add a wrapper so we can remove `allowSyntheticDefaultImports`.
 import { AttemptData, AttemptDataWithID, AttemptDataWithIDAndRev } from "./attempt";
 import { newDateUUID } from "./uuid";
+import { EventName } from "../cubing";
 
 PouchDB.plugin(PouchDBFind);
 
@@ -92,6 +93,22 @@ export class TimerSession {
       descending: true,
       include_docs: true,
     })); //.rows.map((row) => row.doc!);
+  }
+
+  // TODO: this is in reverse order!
+  async mostRecentAttemptsForEvent(event: EventName, limit: number): Promise<PouchDB.Find.FindResponse<AttemptData>> {
+    // return (await this.db.allDocs({
+    //   limit: limit,
+    //   descending: true,
+    //   include_docs: true,
+    // })); //.rows.map((row) => row.doc!);
+    return (await this.db.find({
+      selector: {
+        event
+      },
+      sort: [{"_id": "desc"}],
+      limit: limit
+    }));
   }
 
   // TODO: Remove this and encourate using map/reduce or limited reads.
