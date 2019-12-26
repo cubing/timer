@@ -1,7 +1,7 @@
 "use strict";
 
-import { isArray, DEBUG } from "./shim-lib";
-import { MersenneTwisterObject } from "./mersennetwister";
+import { isArray, DEBUG } from "../lgarron-additions-for-typescript/shim-lib";
+import { randomUIntBelow } from "../lgarron-additions-for-typescript/random-int/src";
 
 
 var Cnk = [],
@@ -681,53 +681,12 @@ _.idaSearch = function (state, maxl, lm) {
 	return false;
 };
 
-var randGen = (function () {
-	var rndFunc;
-	var rndCnt;
-	var seedStr; // '' + new Date().getTime();
-
-	function random() {
-		rndCnt++;
-		return rndFunc();
-	}
-
-	function getSeed() {
-		return [rndCnt, seedStr];
-	}
-
-	function setSeed(_rndCnt, _seedStr) {
-		if (_seedStr && (_seedStr != seedStr || rndCnt > _rndCnt)) {
-			var seed = [];
-			for (var i = 0; i < _seedStr.length; i++) {
-				seed[i] = _seedStr.charCodeAt(i);
-			}
-			const mto = new MersenneTwisterObject(seed[0], seed);
-			rndFunc = mto.randomReal53.bind(mto); // TODO;
-			rndCnt = 0;
-			seedStr = _seedStr;
-		}
-		while (rndCnt < _rndCnt) {
-			rndFunc();
-			rndCnt++;
-		}
-	}
-
-	// setSeed(0, '1576938267035');
-	setSeed(0, '' + new Date().getTime());
-
-	return {
-		random: random,
-		getSeed: getSeed,
-		setSeed: setSeed
-	};
-})();
-
 function rndEl(x) {
-	return x[~~(randGen.random() * x.length)];
+	return x[randomUIntBelow(x.length)];
 }
 
 function rn(n) {
-	return ~~(randGen.random() * n)
+	return randomUIntBelow(n)
 }
 
 function rndPerm(n) {
@@ -748,7 +707,7 @@ function rndProb(plist) {
 		if (plist[i] == 0) {
 			continue;
 		}
-		if (randGen.random() < plist[i] / (cum + plist[i])) {
+		if (randomUIntBelow(cum + plist[i]) < plist[i]) {
 			curIdx = i;
 		}
 		cum += plist[i];
@@ -814,9 +773,6 @@ function valuedArray(len, val) {
 
 const SOLVED_FACELET = "UUUUUUUUURRRRRRRRRFFFFFFFFFDDDDDDDDDLLLLLLLLLBBBBBBBBB";
 
-const getSeed = randGen.getSeed;
-const setSeed = randGen.setSeed;
-
 export {
 	Cnk,
 	fact,
@@ -846,7 +802,5 @@ export {
 	valuedArray,
 	Solver,
 	rndPerm,
-	gSolver,
-	getSeed,
-	setSeed
+	gSolver
 };
