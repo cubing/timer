@@ -54,7 +54,7 @@ export class TimerApp {
     this.session.startSync(this.onSyncChange.bind(this));
 
     this.scrambleView = new ScrambleView(this);
-    this.statsView = new StatsView();
+    this.statsView = new StatsView(() => this.currentEvent);
     this.domElement = <HTMLElement>document.getElementById("timer-app");
 
     this.enableOffline();
@@ -344,7 +344,7 @@ class ScrambleView {
 class StatsView {
   private statsDropdown: HTMLSelectElement;
   private elems: { [s: string]: HTMLOptionElement };
-  constructor() {
+  constructor(private getCurrentEvent: () => EventName) {
     this.statsDropdown = <HTMLSelectElement>document.getElementById("stats-dropdown");
     this.elems = {
       "avg5": <HTMLOptionElement>document.getElementById("avg5"),
@@ -366,7 +366,9 @@ class StatsView {
     const resultLink = <HTMLAnchorElement>document.querySelector("#results-link");
     resultLink.addEventListener("click", (e: Event) => {
       e.preventDefault();
-      window.location.href = resultLink.href;
+      const url = new URL(resultLink.href);
+      url.searchParams.set("event", getCurrentEvent())
+      window.location.href = url.toString();
     });
   }
 
