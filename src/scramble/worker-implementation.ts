@@ -21,7 +21,6 @@ export interface ScrambleWorkerConstructor {
 
 class ScrambleWorkerImpl implements ScrambleWorker {
   async getRandomScramble(eventName: EventName): Promise<string> {
-    console.log(eventName);
     switch (eventName) {
       case "222":
         return getRandomScramble222("222so");
