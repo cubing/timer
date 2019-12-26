@@ -18,6 +18,8 @@ class ScrambleWorkerImpl implements ScrambleWorker {
   async getRandomScramble(eventName: EventName): Promise<string> {
     switch (eventName) {
       case "333":
+      case "333oh":
+      case "333ft":
         return getRandomScramble333();
       case "444":
         return getRandomScramble444();
