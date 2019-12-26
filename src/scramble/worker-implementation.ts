@@ -9,7 +9,7 @@ import { getRandomScramble as getRandomScramblePyram } from "../vendor/cstimer/s
 import { getRandomScramble as getRandomScrambleSkewb } from "../vendor/cstimer/src/js/scramble/skewb";
 import { getRandomScramble as getRandomScrambleSq1 } from "./sq1_fix";
 import { EventName } from "../cubing";
-import { getRandomScramble333Bf, getRandomScramble444Bf } from "./bf";
+import { getRandomScramble333bf, getRandomScramble444bf } from "./bf";
 
 export interface ScrambleWorker {
   getRandomScramble(eventName: EventName): Promise<string>
@@ -30,11 +30,11 @@ class ScrambleWorkerImpl implements ScrambleWorker {
       case "333ft":
         return getRandomScramble333();
       case "333bf":
-        return getRandomScramble333Bf();
+        return getRandomScramble333bf();
         case "444":
           return getRandomScramble444();
           case "444bf":
-            return getRandomScramble444Bf();
+            return getRandomScramble444bf();
       case "clock":
         return getRandomScrambleClock();
       case "pyram":
