@@ -97,7 +97,7 @@ function getNParity(idx, n) {
 	return p & 1;
 }
 
-function get8Perm(arr, n, even) {
+function get8Perm(arr, n?: number, even?: any) {
 	n = n || 8;
 	var idx = 0;
 	var val = 0x76543210;

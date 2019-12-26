@@ -171,7 +171,7 @@ function toFaceCube(cc) {
 
 var search = new Search();
 
-function getRandomScramble(): string {
+function getRandomScramble() {
 	return getAnyScramble(0xffffffffffff, 0xffffffffffff, 0xffffffff, 0xffffffff);
 }
 
