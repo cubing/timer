@@ -1,6 +1,6 @@
 // "use strict";
 
-import { randomScramble } from "./vendor/min2phase/wrapper"
+import { randomScramble } from "./scramble"
 import { algToString } from "alg";
 
 export type EventName = string;
