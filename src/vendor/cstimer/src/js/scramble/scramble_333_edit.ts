@@ -13,7 +13,7 @@ Compiled to Javascript using GWT.
 
 import { getNPerm, setNPerm, set8Perm, getNParity, rn, rndEl } from "../lib/mathlib"
 import { Search } from "../lib/min2phase";
-import { fixCase } from "./scramble_manager";
+import { fixCase } from "../lgarron-additions-for-typescript/shim-lib";
 
 var Ux1 = 0,
 	Ux2 = 1,
