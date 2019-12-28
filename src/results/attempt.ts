@@ -4,6 +4,11 @@ type AttemptUUID = UUID;
 type AlgString = string;
 type EventName = string;
 
+type ParityInfo = {
+  permutationParity?: boolean
+  orientationParity?: boolean;
+}
+
 // Result in milliseconds
 // Special values:
 // -1: DNF
@@ -29,6 +34,9 @@ export interface AttemptData {
   comment?: string; // TODO
   solution?: AlgString; // TODO
   // penalties?: Penalty[]; // TODO
+
+  // TODO: change this to general tags?
+  parities: ParityInfo
 }
 
 export interface AttemptDataWithID extends AttemptData {

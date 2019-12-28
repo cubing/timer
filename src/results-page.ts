@@ -63,13 +63,26 @@ function tdWithContent(content?: string): HTMLTableDataCellElement {
 function scrambleTD(scramble: string): HTMLTableDataCellElement {
   const scrambleTD = document.createElement("td");
   if (scramble) {
+    let algo: null | Sequence = null;;
+    try {
+      algo = parse(scramble);
+    } catch (e) {
+      const button = document.createElement("button");
+      button.textContent = "🔀";
+      button.addEventListener("click", () => {
+        scrambleTD.textContent = scramble;
+      });
+      scrambleTD.appendChild(button);
+    }
+    if (algo) {
     const scrambleLink = document.createElement("a");
-    scrambleLink.href = algCubingNetLink({
-      setup: parse(scramble),
-      alg: new Sequence([])
-    })
-    scrambleLink.textContent = "▶️";
-    scrambleTD.appendChild(scrambleLink);
+      scrambleLink.href = algCubingNetLink({
+        setup: algo,
+        alg: new Sequence([])
+      })
+      scrambleLink.textContent = "▶️";
+      scrambleTD.appendChild(scrambleLink);
+    }
   } else {
     scrambleTD.textContent = "N/A";
   }
@@ -118,8 +131,29 @@ function solutionTD(attemptData: AttemptData): HTMLTableDataCellElement {
     solutionTD.appendChild(textarea);
     solutionTD.appendChild(updateButton);
   })
-
   solutionTD.appendChild(editButton);
+
+  if (attemptData.event === "sq1") {
+    const button = document.createElement("button");
+    if (!attemptData.parities) {
+      button.textContent = "Parity"
+    } else if (!("permutationParity" in attemptData.parities)) {
+      button.textContent = "Parity: ?"
+    } else {
+      button.textContent = "Parity: " + (attemptData.parities.permutationParity ? "☹️" : "😎");
+    }
+    button.addEventListener("click", () => {
+      if (!attemptData.parities || !("permutationParity" in attemptData.parities)) {
+        attemptData.parities = {permutationParity: false};
+      } else if (!attemptData.parities.permutationParity) {
+        attemptData.parities = {permutationParity: true};
+      } else {
+        delete attemptData.parities.permutationParity;
+      }
+      session.db.put(attemptData);
+    });
+    solutionTD.appendChild(button);
+  }
   return solutionTD;
 }
 
