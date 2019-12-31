@@ -36,7 +36,7 @@ export interface AttemptData {
   // penalties?: Penalty[]; // TODO
 
   // TODO: change this to general tags?
-  parities: ParityInfo
+  parities?: ParityInfo
   // device: string
 }
 
