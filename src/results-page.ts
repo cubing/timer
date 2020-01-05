@@ -1,13 +1,13 @@
 import "babel-polyfill"; // Prevent `regeneratorRuntime is not defined` error. https://github.com/babel/babel/issues/5085
-
-import { TimerSession, allDocsResponseToAttemptList } from "./results/session";
+import { algCubingNetLink, parse, Sequence } from "cubing/alg";
+import { eventMetadata, EventName } from "./cubing";
 import { AttemptData, AttemptDataWithIDAndRev } from "./results/attempt";
-import { Stats } from "./stats";
-import { algCubingNetLink, parse, Sequence, TraversalUp, Group, BlockMove, Commutator, Conjugate, Pause, NewLine, CommentShort, CommentLong } from "alg";
 import { convertToCSTimerFormat } from "./results/compat/cstimer";
 import { downloadFile } from "./results/compat/download";
 import { convertToQQTimerFormat } from "./results/compat/qqtimer";
-import { eventMetadata, EventName } from "./cubing";
+import { TimerSession } from "./results/session";
+import { Stats } from "./stats";
+
 
 const EVENT_PARAM_NAME = "event";
 const DEFAULT_EVENT = "333";
