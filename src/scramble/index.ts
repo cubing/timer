@@ -1,9 +1,9 @@
 import { wrap } from "comlink";
 import { EventName } from "../cubing";
-import { ScrambleWorker, ScrambleWorkerConstructor } from "./worker-implementation";
+import { ScrambleWorker, ScrambleWorkerConstructor } from "./scramble-worker";
 
 const constructor = wrap(
-  new Worker("./worker-implementation.ts")
+  new Worker("./scramble-worker.ts")
 ) as any as ScrambleWorkerConstructor;
 
 const instanceMain: ScrambleWorker = new constructor();
