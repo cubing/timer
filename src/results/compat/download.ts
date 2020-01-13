@@ -3,7 +3,8 @@
 export function downloadFile(fileName: string, content: string) {
   var downloadAnchor = document.createElement("a");
   downloadAnchor.setAttribute('download', fileName);
-  downloadAnchor.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(content));
+  const blob = new Blob([content], {type : "text/plain;charset=utf-8"});
+  downloadAnchor.setAttribute('href', URL.createObjectURL(blob));
 
   downloadAnchor.style.display = "none";
   document.body.appendChild(downloadAnchor);
