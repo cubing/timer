@@ -75,7 +75,7 @@ function scrambleTD(scramble: string): HTMLTableDataCellElement {
       scrambleTD.appendChild(button);
     }
     if (algo) {
-    const scrambleLink = document.createElement("a");
+      const scrambleLink = document.createElement("a");
       scrambleLink.href = algCubingNetLink({
         setup: algo,
         alg: new Sequence([])
@@ -93,6 +93,10 @@ function solutionTD(attemptData: AttemptData): HTMLTableDataCellElement {
   const solutionTD = document.createElement("td");
   try {
     let title = `${Stats.formatTime(attemptData.totalResultMs)}s`;
+    if (attemptData.event) {
+      // TODO: Use `eventMetadata[attemptData.event].name` once scaping works properly.
+      title += `\n${attemptData.event}`;
+    }
     if (localStorage.pouchDBUsername) {
       title += `\n${localStorage.pouchDBUsername}`;
     }
@@ -144,9 +148,9 @@ function solutionTD(attemptData: AttemptData): HTMLTableDataCellElement {
     }
     button.addEventListener("click", () => {
       if (!attemptData.parities || !("permutationParity" in attemptData.parities)) {
-        attemptData.parities = {permutationParity: false};
+        attemptData.parities = { permutationParity: false };
       } else if (!attemptData.parities.permutationParity) {
-        attemptData.parities = {permutationParity: true};
+        attemptData.parities = { permutationParity: true };
       } else {
         delete attemptData.parities.permutationParity;
       }
@@ -255,7 +259,7 @@ async function exportToQQTimer(): Promise<void> {
   downloadFile(`qqtimer Format | ${new Date().toString()}.txt`, strData);
 }
 
-const optByEvent: {[eventName: string]: HTMLOptionElement} = {};
+const optByEvent: { [eventName: string]: HTMLOptionElement } = {};
 
 function addEventIDOptions(): void {
   const select = document.querySelector("#eventID") as HTMLSelectElement;
@@ -275,7 +279,7 @@ async function eventChanged(): Promise<void> {
   const eventID = getEventID();
   const newURL = new URL(location.href);
   newURL.searchParams.set(EVENT_PARAM_NAME, eventID);
-  history.pushState({event: eventID}, `Results | ${eventID}`, "?" + newURL.searchParams.toString())
+  history.pushState({ event: eventID }, `Results | ${eventID}`, "?" + newURL.searchParams.toString())
   await showData();
 }
 
