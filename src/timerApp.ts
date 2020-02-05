@@ -6,7 +6,8 @@ import { Milliseconds } from "./timer"
 import { Scramblers, ScrambleString } from "./cubing"
 import { Stats } from "./stats"
 import { TimerSession, allDocsResponseToTimes } from "./results/session"
-import { AttemptData } from "./results/attempt"
+import { AttemptData, AttemptDataWithIDAndRev } from "./results/attempt"
+import { trForAttempt } from "./results-page"
 
 const favicons: { [s: string]: string } = {
   "blue": require("./lib/favicons/favicon_blue.ico"),
@@ -227,7 +228,7 @@ export class TimerApp {
     })
   }
 
-  private async latest(): Promise<AttemptData[]> {
+  private async latest(): Promise<AttemptDataWithIDAndRev[]> {
     return (await this.session.mostRecentAttemptsForEvent(this.currentEvent, LATEST_AMOUNT)).docs;
   }
 
@@ -243,7 +244,7 @@ export class TimerApp {
       "worst": Stats.formatTime(Math.max(...times)),
       "numSolves": (await this.session.db.info()).doc_count - 1 // TODO: exact number
     };
-    this.statsView.setStats(formattedStats);
+    this.statsView.setStats(formattedStats, attempts);
   }
 
   private attemptDone(): void {
@@ -379,7 +380,7 @@ class StatsView {
     }.bind(this));
   }
 
-  setStats(stats: FormattedStats) {
+  setStats(stats: FormattedStats, attempts: AttemptDataWithIDAndRev[]) {
     this.elems["avg5"].textContent = "avg5: " + stats.avg5;
     this.sidebarElems["avg5"].textContent = stats.avg5;
     this.elems["avg12"].textContent = "avg12: " + stats.avg12;
@@ -394,6 +395,15 @@ class StatsView {
     this.sidebarElems["worst"].textContent = stats.worst;
     this.elems["num-solves"].textContent = "#solves: " + stats.numSolves;
     this.sidebarElems["num-solves"].textContent = stats.numSolves.toString();
+    this.updateAttemptList(attempts);
+  }
+
+  updateAttemptList(attempts: AttemptDataWithIDAndRev[]): void {
+    const tbody = document.querySelector("#attempt-list tbody")!;
+    tbody.textContent = "";
+    for (const attempt of attempts) {
+      tbody.appendChild(trForAttempt(attempt, true));
+    }
   }
 }
 

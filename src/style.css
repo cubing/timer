@@ -23,29 +23,29 @@ html, body {
 }
 
 body {
-  display: flex;
+  /* display: flex; */
   background: #f2f2f2;
 }
 
-* {
+/* * {
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   -khtml-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-}
+} */
 
 
 .timer-app {
-  flex: 3;
+  /* flex: 3; */
   /* display: flex; */
-  flex-direction: column;
+  /* flex-direction: column;
   align-items: flex-start;
   justify-content: center;
-  text-align: center;
+  text-align: center; */
   width: 100%;
-  contain: size;
+  height: 100%;
 }
 
 a#update-bar {
@@ -243,6 +243,11 @@ a#update-bar.hidden {
   color: black;
   width: 100%;
   font-family: Roboto, Helvetica, "Tahoma", sans-serif;
+  contain: size;
+}
+
+.stats .side-bar {
+  height: 100%;
 }
 
 .stats .bottom-bar {
@@ -336,6 +341,7 @@ a#update-bar.hidden {
     grid-template-areas:
       "scramble-bar scramble-bar"
       "timer stats";
+    height: 100%;
   }
 
   .timer-app .stats .bottom-bar {
@@ -343,14 +349,13 @@ a#update-bar.hidden {
   }
 
   .timer-app .stats {
-    height: 100%;
     background: rgba(0, 0, 0, 0.75);
-    overflow-y: auto;
     box-shadow: inset 8px 0 8px -8px rgba(0, 0, 0, 1);
+    overflow: auto;
   }
 
   .timer-app .stats .side-bar {
-    display: block;
+    display: inherit;
     color: rgba(255, 255, 255, 0.5);
   }
 }
@@ -366,7 +371,6 @@ a#update-bar.hidden {
 
 .stats {
   grid-area: stats;
-  height: 100%;
 }
 
 .stats .side-bar {
@@ -390,23 +394,38 @@ a#update-bar.hidden {
   color: white;
 }
 
-.stats .side-bar table {
+.stats-summary table {
   border-collapse: collapse;
   margin: auto;
 }
 
-.stats .side-bar table tbody:not(:first-child) tr:first-child td {
+.stats-summary table tbody:not(:first-child) tr:first-child td {
   padding-top: 0.5em;
 }
 
-.stats .side-bar table td:first-child {
-  text-align: right;
-  color: rgb(150, 150, 150);
-}
-
-.stats .side-bar table td:last-child {
+.stats-summary table td:last-child {
   padding-left: 0.5em;
   text-align: left;
+}
+
+table#attempt-list {
+  border-collapse: collapse;
+  font-size: 0.75em;
+  width: 100%;
+}
+
+table#attempt-list td {
+  border-bottom: 1px solid #888;
+  padding: 0.25em 0.25em;
+  text-align: center;
+}
+
+table#attempt-list td:first-child {
+  text-align: right;
+}
+
+table#attempt-list thead {
+  text-align: center;
 }
 
 .timer-app.theme-orange > .scramble-bar,

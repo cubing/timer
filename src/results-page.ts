@@ -80,7 +80,7 @@ function scrambleTD(scramble: string): HTMLTableDataCellElement {
         setup: algo,
         alg: new Sequence([])
       })
-      scrambleLink.textContent = "▶️";
+      scrambleLink.textContent = "🔀";
       scrambleTD.appendChild(scrambleLink);
     }
   } else {
@@ -210,6 +210,36 @@ function eventTD(attempt: AttemptDataWithIDAndRev): HTMLTableDataCellElement {
   return td;
 }
 
+export function trForAttempt(attempt: AttemptDataWithIDAndRev, condensed: boolean = false): HTMLTableRowElement {
+  const tr = document.createElement("tr");
+  tr.appendChild(tdWithContent(Stats.formatTime(attempt.totalResultMs)));
+  if (!condensed) {
+    tr.appendChild(scrambleTD(attempt.scramble || ""));
+  } else {
+    if (attempt.solution) {
+      tr.appendChild(solutionTD(attempt));
+    } else {
+      tr.appendChild(scrambleTD(attempt.scramble || ""));
+    }
+  }
+  if (!condensed) {
+    tr.appendChild(eventTD(attempt));
+    tr.appendChild(tdWithContent(formatUnixTime(attempt.unixDate) + " | " + formatUnixDate(attempt.unixDate)));
+  } else {
+    const todayDate = formatUnixDate(Date.now()); // TODO: optimize
+    const formattedTimeOfDay = formatUnixTime(attempt.unixDate);
+    let formattedDate = formattedTimeOfDay;
+    const formattedDateStamp = formatUnixDate(attempt.unixDate)
+    if (formattedDateStamp !== todayDate) {
+      formattedDate = "(not today)";
+    }
+    tr.appendChild(tdWithContent(formattedDate));
+    tr.title = formattedTimeOfDay + " | " + formattedDateStamp;
+  }
+  tr.appendChild(trashTD(attempt));
+  return tr;
+}
+
 async function showData(): Promise<void> {
   const eventId = getEventID();
   const tableBody = document.querySelector("#results tbody") as HTMLBodyElement;
@@ -220,14 +250,7 @@ async function showData(): Promise<void> {
     if (!attempt.totalResultMs) {
       continue;
     }
-    const tr = document.createElement("tr");
-    tr.appendChild(tdWithContent(Stats.formatTime(attempt.totalResultMs)));
-    tr.appendChild(scrambleTD(attempt.scramble || ""));
-    tr.appendChild(solutionTD(attempt));
-    tr.appendChild(eventTD(attempt));
-    tr.appendChild(tdWithContent(formatUnixTime(attempt.unixDate) + " | " + formatUnixDate(attempt.unixDate)));
-    tr.appendChild(trashTD(attempt));
-    tableBody.appendChild(tr);
+    tableBody.appendChild(trForAttempt(attempt));
   }
 }
 
