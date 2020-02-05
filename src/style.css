@@ -243,6 +243,7 @@ a#update-bar.hidden {
   color: black;
   width: 100%;
   font-family: Roboto, Helvetica, "Tahoma", sans-serif;
+  contain: size;
 }
 
 .stats .side-bar {
@@ -324,49 +325,35 @@ a#update-bar.hidden {
 }
 
 .timer-app {
-  display: flex;
-  flex-direction: column;
-}
-
-.results-panels {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-}
-
-.timer {
-  flex: 1;
-}
-
-.stats {
-  flex: 0 auto;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  grid-template-columns: 1fr;
+  grid-template-areas:
+    "scramble-bar"
+    "timer"
+    "stats";
 }
 
 @media (min-aspect-ratio: 3/2), (min-width: 600px) {
-  .results-panels {
-    flex-direction: row;
+  .timer-app {
+    grid-template-columns: 2fr minmax(15em, 1fr);
+    grid-template-rows: auto 1fr;
+    grid-template-areas:
+      "scramble-bar scramble-bar"
+      "timer stats";
+    height: 100%;
   }
 
   .timer-app .stats .bottom-bar {
     display: none;
   }
 
-  .timer {
-    flex: 2;
-  }
-
-  .stats {
-    flex: 1;
-  }
-
   .timer-app .stats {
     background: rgba(0, 0, 0, 0.75);
     box-shadow: inset 8px 0 8px -8px rgba(0, 0, 0, 1);
-    height: 100%;
-    contain: size;
     overflow-x: hidden;
     overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
+    -webkit-overflow-scrolling: touch; /* Lets it scroll lazy */
   }
 
   .timer-app .stats .side-bar {
@@ -375,7 +362,7 @@ a#update-bar.hidden {
   }
 }
 
-/* .scramble-bar {
+.scramble-bar {
   grid-area: scramble-bar;
 }
 
@@ -385,7 +372,7 @@ a#update-bar.hidden {
 
 .stats {
   grid-area: stats;
-} */
+}
 
 .stats .side-bar {
   display: none;
