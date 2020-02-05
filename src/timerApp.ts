@@ -233,7 +233,7 @@ export class TimerApp {
   }
 
   private async latest(): Promise<AttemptDataWithIDAndRev[]> {
-    return (await this.session.mostRecentAttemptsForEvent(this.currentEvent, LATEST_AMOUNT)).docs;
+    return (await this.session.mostRecentAttemptsForEvent(this.currentEvent, LATEST_AMOUNT)).docs.reverse();
   }
 
   async updateDisplayStats(assumeAttemptAppended: boolean = false) {
@@ -405,7 +405,7 @@ class StatsView {
   updateAttemptList(attempts: AttemptDataWithIDAndRev[]): void {
     const tbody = document.querySelector("#attempt-list tbody")!;
     tbody.textContent = "";
-    for (const attempt of attempts) {
+    for (const attempt of attempts.reverse()) {
       tbody.appendChild(trForAttempt(attempt, true));
     }
   }
