@@ -15,6 +15,8 @@ body, div, span {
 
 html, body {
   height: 100%;
+  width: 100%;
+  overflow: hidden;
 }
 
 body {
@@ -38,7 +40,9 @@ body {
   flex-direction: column;
   align-items: flex-start;
   justify-content: center;
-  text-align: center
+  text-align: center;
+  width: 100%;
+  contain: size;
 }
 
 a#update-bar {
@@ -283,8 +287,11 @@ a#update-bar.hidden {
 }
 
 .stats a {
-  font-size: 5vh;
   color: white;
+}
+
+.stats .bottom-bar a {
+  font-size: 5vh;
 }
 
 .stats .bottom-bar .sync {
@@ -312,13 +319,14 @@ a#update-bar.hidden {
 .timer-app {
   display: grid;
   grid-template-rows: auto 1fr auto;
+  grid-template-columns: 1fr;
   grid-template-areas:
     "scramble-bar"
     "timer"
     "stats";
 }
 
-@media (min-aspect-ratio: 3/2) {
+@media (min-aspect-ratio: 3/2), (min-width: 600px) {
   .timer-app {
     grid-template-columns: 2fr minmax(15em, 1fr);
     grid-template-rows: auto 1fr;
@@ -360,7 +368,13 @@ a#update-bar.hidden {
 
 .stats .side-bar {
   display: none;
-  font-size: 5vh;
+  font-size: 3vw;
+}
+
+@media (min-aspect-ratio: 3/2) {
+  .stats .side-bar {
+    font-size: 5vh;
+  }
 }
 
 .stats-summary {
