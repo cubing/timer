@@ -81,9 +81,15 @@ export class TimerApp {
     console.log("sync change", change);
     // TODO: Calculate if the only changes were at the end.
     this.updateDisplayStats(true);
-    this.domElement.querySelector(".stats a")!.classList.add("rotate");
+    console.log(this.domElement.querySelector(".stats a.sync-link"));
+    const syncLinks = this.domElement.querySelectorAll(".stats a.sync-link");
+    for (const syncLink of [...syncLinks]) {
+      syncLink.classList.add("rotate")
+    }
     setTimeout(() => {
-      this.domElement.querySelector(".stats a")!.classList.remove("rotate");
+      for (const syncLink of [...syncLinks]) {
+        syncLink.classList.remove("rotate")
+      }
     }, 500);
 
     // this.domElement.querySelector(".stats")!.classList.add("received-data");
@@ -344,6 +350,7 @@ class ScrambleView {
 class StatsView {
   private statsDropdown: HTMLSelectElement;
   private elems: { [s: string]: HTMLOptionElement };
+  private sidebarElems: { [s: string]: HTMLOptionElement };
   constructor(private getCurrentEvent: () => EventName) {
     this.statsDropdown = <HTMLSelectElement>document.getElementById("stats-dropdown");
     this.elems = {
@@ -355,21 +362,35 @@ class StatsView {
       "worst": <HTMLOptionElement>document.getElementById("worst"),
       "num-solves": <HTMLOptionElement>document.getElementById("num-solves"),
     };
+    this.sidebarElems = {
+      "avg5": <HTMLOptionElement>document.getElementById("stats-current-avg5"),
+      "avg12": <HTMLOptionElement>document.getElementById("stats-current-avg12"),
+      "avg100": <HTMLOptionElement>document.getElementById("stats-current-avg100"),
+      "mean3": <HTMLOptionElement>document.getElementById("stats-current-mean3"),
+      "best": <HTMLOptionElement>document.getElementById("stats-best-time"),
+      "worst": <HTMLOptionElement>document.getElementById("stats-worst-time"),
+      "num-solves": <HTMLOptionElement>document.getElementById("stats-num-times"),
+    };
 
     this.initializeDropdown();
 
-    const syncLink = <HTMLAnchorElement>document.querySelector("#sync-link");
-    syncLink.addEventListener("click", (e: Event) => {
-      e.preventDefault();
-      window.location.href = syncLink.href;
-    });
-    const resultLink = <HTMLAnchorElement>document.querySelector("#results-link");
-    resultLink.addEventListener("click", (e: Event) => {
-      e.preventDefault();
-      const url = new URL(resultLink.href);
-      url.searchParams.set("event", getCurrentEvent())
-      window.location.href = url.toString();
-    });
+    const syncLinks = <NodeListOf<HTMLAnchorElement>>document.querySelectorAll(".sync-link");
+    for (const syncLink of [...syncLinks]) {
+      syncLink.addEventListener("click", (e: Event) => {
+        e.preventDefault();
+        window.location.href = syncLink.href;
+      });
+    }
+
+    const resultsLinks = <NodeListOf<HTMLAnchorElement>>document.querySelectorAll(".results-link");
+    for (const resultsLink of [...resultsLinks]) {
+      resultsLink.addEventListener("click", (e: Event) => {
+        e.preventDefault();
+        const url = new URL(resultsLink.href);
+        url.searchParams.set("event", getCurrentEvent())
+        window.location.href = url.toString();
+      });
+    }
   }
 
   initializeDropdown() {
@@ -387,12 +408,19 @@ class StatsView {
 
   setStats(stats: FormattedStats) {
     this.elems["avg5"].textContent = "avg5: " + stats.avg5;
+    this.sidebarElems["avg5"].textContent = stats.avg5;
     this.elems["avg12"].textContent = "avg12: " + stats.avg12;
+    this.sidebarElems["avg12"].textContent = stats.avg12;
     this.elems["avg100"].textContent = "avg100: " + stats.avg100;
+    this.sidebarElems["avg100"].textContent = stats.avg100;
     this.elems["mean3"].textContent = "mean3: " + stats.mean3;
+    this.sidebarElems["mean3"].textContent = stats.mean3;
     this.elems["best"].textContent = "best: " + stats.best;
+    this.sidebarElems["best"].textContent = stats.best;
     this.elems["worst"].textContent = "worst: " + stats.worst;
+    this.sidebarElems["worst"].textContent = stats.worst;
     this.elems["num-solves"].textContent = "#solves: " + stats.numSolves;
+    this.sidebarElems["num-solves"].textContent = stats.numSolves.toString();
   }
 }
 

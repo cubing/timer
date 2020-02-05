@@ -34,7 +34,7 @@ body {
 
 .timer-app {
   flex: 3;
-  display: flex;
+  /* display: flex; */
   flex-direction: column;
   align-items: flex-start;
   justify-content: center;
@@ -74,7 +74,7 @@ a#update-bar.hidden {
 }
 
 .scramble-bar {
-  flex: 0 0 auto;
+  /* flex: 0 0 auto; */
   width: 100%;
   padding: 0.25em 0;
   background: #4285f4;
@@ -89,7 +89,7 @@ a#update-bar.hidden {
 }
 
 .event-select {
-  flex: 0 0 auto;
+  /* flex: 0 0 auto; */
   border: 1px solid rgba(0, 0, 0, 0.25);
   padding: 0 0.3em;
   margin: 0.25em 1em;
@@ -113,7 +113,7 @@ a#update-bar.hidden {
 }
 
 .scramble-text {
-  flex: 1 0 65vw;
+  /* flex: 1 0 65vw; */
   white-space: normal;
   margin: 0.25em 1em;
   text-align: center;
@@ -150,7 +150,7 @@ a#update-bar.hidden {
 }
 
 .timer {
-  flex: 1;
+  /* flex: 1; */
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -235,6 +235,10 @@ a#update-bar.hidden {
   border-top: 1px solid rgba(0, 0, 0, 0.25);
   color: black;
   width: 100%;
+  font-family: Roboto, Helvetica, "Tahoma", sans-serif;
+}
+
+.stats .bottom-bar {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -280,9 +284,10 @@ a#update-bar.hidden {
 
 .stats a {
   font-size: 5vh;
-  text-decoration: none;
+  color: white;
 }
-.stats #sync {
+
+.stats .bottom-bar .sync {
   flex: 0 0 2.5em;
   height: 4.5em;
   display: flex;
@@ -291,16 +296,100 @@ a#update-bar.hidden {
   box-sizing: border-box;
 }
 
-.stats #sync a {
-  transition: transform 0.5s ;
+.stats a.sync-link {
+  display: inline-block;
+  transition: transform 0.5s;
 }
 
-.stats #sync a:hover {
+.stats a.sync-link:hover {
   transform: rotate(-90deg);
 }
 
-.stats #sync a.rotate {
+.stats a.sync-link.rotate {
   transform: rotate(-180deg);
+}
+
+.timer-app {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  grid-template-areas:
+    "scramble-bar"
+    "timer"
+    "stats";
+}
+
+@media (min-aspect-ratio: 3/2) {
+  .timer-app {
+    grid-template-columns: 2fr minmax(15em, 1fr);
+    grid-template-rows: auto 1fr;
+    grid-template-areas:
+      "scramble-bar scramble-bar"
+      "timer stats";
+  }
+
+  .timer-app .stats .bottom-bar {
+    display: none;
+  }
+
+  .timer-app .stats {
+    height: 100%;
+    background: rgba(0, 0, 0, 0.75);
+    overflow-y: auto;
+    box-shadow: inset 8px 0 8px -8px rgba(0, 0, 0, 1);
+  }
+
+  .timer-app .stats .side-bar {
+    display: block;
+    color: rgba(255, 255, 255, 0.5);
+  }
+}
+
+.scramble-bar {
+  grid-area: scramble-bar;
+}
+
+.timer {
+  grid-area: timer;
+  height: 100%;
+}
+
+.stats {
+  grid-area: stats;
+  height: 100%;
+}
+
+.stats .side-bar {
+  display: none;
+  font-size: 5vh;
+}
+
+.stats-summary {
+  padding: 0.5em 0.25em;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.25);
+  box-shadow: 0 0 4px rgba(0,0,0,.25), 0px 4px 8px rgba(0,0,0,.25);
+}
+
+.stats-summary table td:nth-child(2) {
+  color: white;
+}
+
+.stats .side-bar table {
+  border-collapse: collapse;
+  margin: auto;
+}
+
+.stats .side-bar table tbody:not(:first-child) tr:first-child td {
+  padding-top: 0.5em;
+}
+
+.stats .side-bar table td:first-child {
+  text-align: right;
+  color: rgb(150, 150, 150);
+}
+
+.stats .side-bar table td:last-child {
+  padding-left: 0.5em;
+  text-align: left;
 }
 
 .timer-app.theme-orange > .scramble-bar,
