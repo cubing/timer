@@ -20,6 +20,7 @@ body, div, span {
 html, body {
   height: 100%;
   width: 100%;
+  overflow: hidden;
 }
 
 body {
@@ -158,7 +159,6 @@ a#update-bar.hidden {
 
 .timer {
   /* flex: 1; */
-  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -243,7 +243,6 @@ a#update-bar.hidden {
   color: black;
   width: 100%;
   font-family: Roboto, Helvetica, "Tahoma", sans-serif;
-  contain: size;
 }
 
 .stats .side-bar {
@@ -325,33 +324,49 @@ a#update-bar.hidden {
 }
 
 .timer-app {
-  display: grid;
-  grid-template-rows: auto 1fr auto;
-  grid-template-columns: 1fr;
-  grid-template-areas:
-    "scramble-bar"
-    "timer"
-    "stats";
+  display: flex;
+  flex-direction: column;
+}
+
+.results-panels {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.timer {
+  flex: 1;
+}
+
+.stats {
+  flex: 0 auto;
 }
 
 @media (min-aspect-ratio: 3/2), (min-width: 600px) {
-  .timer-app {
-    grid-template-columns: 2fr minmax(15em, 1fr);
-    grid-template-rows: auto 1fr;
-    grid-template-areas:
-      "scramble-bar scramble-bar"
-      "timer stats";
-    height: 100%;
+  .results-panels {
+    flex-direction: row;
   }
 
   .timer-app .stats .bottom-bar {
     display: none;
   }
 
+  .timer {
+    flex: 2;
+  }
+
+  .stats {
+    flex: 1;
+  }
+
   .timer-app .stats {
     background: rgba(0, 0, 0, 0.75);
     box-shadow: inset 8px 0 8px -8px rgba(0, 0, 0, 1);
-    overflow: auto;
+    height: 100%;
+    contain: size;
+    overflow-x: hidden;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
   }
 
   .timer-app .stats .side-bar {
@@ -360,18 +375,17 @@ a#update-bar.hidden {
   }
 }
 
-.scramble-bar {
+/* .scramble-bar {
   grid-area: scramble-bar;
 }
 
 .timer {
   grid-area: timer;
-  height: 100%;
 }
 
 .stats {
   grid-area: stats;
-}
+} */
 
 .stats .side-bar {
   display: none;
@@ -386,8 +400,9 @@ a#update-bar.hidden {
 
 .stats-summary {
   padding: 0.5em 0.25em;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.25);
-  box-shadow: 0 0 4px rgba(0,0,0,.25), 0px 4px 8px rgba(0,0,0,.25);
+  border-bottom: 4px solid #888;
+  /* border-bottom: 1px solid rgba(0, 0, 0, 0.25); */
+  /* box-shadow: 0 0 4px rgba(0,0,0,.25), 0px 4px 8px rgba(0,0,0,.25); */
 }
 
 .stats-summary table td:nth-child(2) {
