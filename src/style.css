@@ -8,6 +8,10 @@
   src: url("lib/digital-7.ttf") format("truetype");
 }
 
+* {
+  box-sizing: border-box;
+}
+
 body, div, span {
   margin: 0;
   padding: 0;
@@ -16,7 +20,6 @@ body, div, span {
 html, body {
   height: 100%;
   width: 100%;
-  overflow: hidden;
 }
 
 body {
