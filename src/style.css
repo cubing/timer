@@ -405,6 +405,10 @@ a#update-bar.hidden {
   padding-top: 0.5em;
 }
 
+.stats-summary table td:first-child {
+  text-align: right;
+}
+
 .stats-summary table td:last-child {
   padding-left: 0.5em;
   text-align: left;
