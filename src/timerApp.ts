@@ -175,6 +175,7 @@ export class TimerApp {
       console.log("Restart not implemented");
       // this.updateDisplayStats([]);
     }
+    this.updateDisplayStats(false);
   }
 
   private setRandomThemeColor() {
