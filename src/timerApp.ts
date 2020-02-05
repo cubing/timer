@@ -7,7 +7,7 @@ import { Scramblers, ScrambleString } from "./cubing"
 import { Stats } from "./stats"
 import { TimerSession, allDocsResponseToTimes } from "./results/session"
 import { AttemptData, AttemptDataWithIDAndRev } from "./results/attempt"
-import { trForAttempt } from "./results-page"
+import { trForAttempt } from "./results-table"
 
 const favicons: { [s: string]: string } = {
   "blue": require("./lib/favicons/favicon_blue.ico"),
