@@ -310,10 +310,21 @@ a#update-bar.hidden {
   box-sizing: border-box;
 }
 
+.stats .bottom-bar a {
+  text-decoration: none;
+}
+
+.stats #attempt-list tbody a {
+  text-decoration: none;
+}
+
+.stats .stats-summary a.sync-link {
+  text-decoration: none;
+}
+
 .stats a.sync-link {
   display: inline-block;
   transition: transform 0.5s;
-  text-decoration: none;
 }
 
 .stats a.sync-link:hover {
@@ -339,7 +350,7 @@ a#update-bar.hidden {
     grid-template-columns: 2fr minmax(15em, 1fr);
     grid-template-rows: auto 1fr;
     grid-template-areas:
-      "scramble-bar scramble-bar"
+      "scramble-bar stats"
       "timer stats";
     height: 100%;
   }
