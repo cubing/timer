@@ -210,11 +210,18 @@ function eventTD(attempt: AttemptDataWithIDAndRev): HTMLTableDataCellElement {
   return td;
 }
 
+function deviceTD(attempt: AttemptDataWithIDAndRev): HTMLTableDataCellElement {
+  const td = document.createElement("td");
+  td.textContent = attempt.device || "";
+  return td;
+}
+
 export function trForAttempt(attempt: AttemptDataWithIDAndRev, condensed: boolean = false): HTMLTableRowElement {
   const tr = document.createElement("tr");
   tr.appendChild(tdWithContent(Stats.formatTime(attempt.totalResultMs)));
   if (!condensed) {
     tr.appendChild(scrambleTD(attempt.scramble || ""));
+    tr.appendChild(solutionTD(attempt));
   } else {
     if (attempt.solution) {
       tr.appendChild(solutionTD(attempt));
@@ -225,6 +232,7 @@ export function trForAttempt(attempt: AttemptDataWithIDAndRev, condensed: boolea
   if (!condensed) {
     tr.appendChild(eventTD(attempt));
     tr.appendChild(tdWithContent(formatUnixTime(attempt.unixDate) + " | " + formatUnixDate(attempt.unixDate)));
+    tr.appendChild(deviceTD(attempt));
   } else {
     const todayDate = formatUnixDate(Date.now()); // TODO: optimize
     const formattedTimeOfDay = formatUnixTime(attempt.unixDate);

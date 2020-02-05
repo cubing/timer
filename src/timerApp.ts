@@ -220,12 +220,16 @@ export class TimerApp {
   //    * @param {!TimerApp.Timer.Milliseconds} time
   //    */
   private async persistResult(time: Milliseconds): Promise<void> {
-    await this.session.addNewAttempt({
+    const attemptData: AttemptData = {
       totalResultMs: time,
       unixDate: Date.now(),
       event: this.currentEvent,
       scramble: (this.currentScramble || { scrambleString: "" }).scrambleString
-    })
+    };
+    if (localStorage.pouchDBDeviceName) {
+      attemptData.device = localStorage.pouchDBDeviceName;
+    }
+    await this.session.addNewAttempt(attemptData)
   }
 
   private async latest(): Promise<AttemptDataWithIDAndRev[]> {

@@ -37,7 +37,7 @@ export interface AttemptData {
 
   // TODO: change this to general tags?
   parities?: ParityInfo
-  // device: string
+  device?: string
 }
 
 export interface AttemptDataWithID extends AttemptData {
