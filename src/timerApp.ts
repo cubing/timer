@@ -240,8 +240,8 @@ export class TimerApp {
       "avg12": Stats.formatTime(Stats.trimmedAverage(Stats.lastN(times, 12))),
       "avg100": Stats.formatTime(Stats.trimmedAverage(Stats.lastN(times, 100))),
       "mean3": Stats.formatTime(Stats.mean(Stats.lastN(times, 3))),
-      "best": Stats.formatTime(Math.min(...times)),
-      "worst": Stats.formatTime(Math.max(...times)),
+      "best": times.length > 0 ? Stats.formatTime(Math.min(...times)) : "---",
+      "worst": times.length > 0 ? Stats.formatTime(Math.max(...times)) : "---",
       "numSolves": (await this.session.db.info()).doc_count - 1 // TODO: exact number
     };
     this.statsView.setStats(formattedStats, attempts);
