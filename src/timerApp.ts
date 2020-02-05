@@ -20,6 +20,7 @@ export type ScrambleID = number;
 
 const DEFAULT_EVENT = "333";
 const STORED_EVENT_TIMEOUT_MS = 15 * 60 * 1000;
+const LATEST_AMOUNT = 100;
 
 type Scramble = {
   eventName: EventName
@@ -99,6 +100,8 @@ export class TimerApp {
   }
 
   private async getTimes(): Promise<Milliseconds[]> {
+    const docs0 = await this.session.mostRecentAttemptsForEvent(this.currentEvent, LATEST_AMOUNT);
+    console.log(docs0)
     const docs = (await this.session.db.allDocs({
       // descending: true,
       include_docs: true
@@ -224,53 +227,23 @@ export class TimerApp {
     })
   }
 
+  private async latest(): Promise<AttemptData[]> {
+    return (await this.session.mostRecentAttemptsForEvent(this.currentEvent, LATEST_AMOUNT)).docs;
+  }
+
   async updateDisplayStats(assumeAttemptAppended: boolean = false) {
-    if (assumeAttemptAppended) {
-      const times = allDocsResponseToTimes(await this.session.mostRecentAttempts(100)).reverse();
-
-      const timesForBestAndWorst = times.slice(0);
-      if (this.cachedBest !== null) {
-        timesForBestAndWorst.push(this.cachedBest)
-      }
-      if (this.cachedWorst !== null) {
-        timesForBestAndWorst.push(this.cachedWorst)
-      }
-
-      if (timesForBestAndWorst.length > 0) {
-        this.cachedBest = Math.min(...timesForBestAndWorst);
-        this.cachedWorst = Math.max(...timesForBestAndWorst);
-      }
-
-      this.statsView.setStats({
-        "avg5": Stats.formatTime(Stats.trimmedAverage(Stats.lastN(times, 5))),
-        "avg12": Stats.formatTime(Stats.trimmedAverage(Stats.lastN(times, 12))),
-        "avg100": Stats.formatTime(Stats.trimmedAverage(Stats.lastN(times, 100))),
-        "mean3": Stats.formatTime(Stats.mean(Stats.lastN(times, 3))),
-        "best": Stats.formatTime(this.cachedBest === Infinity ? null : this.cachedBest),
-        "worst": Stats.formatTime(this.cachedWorst === Infinity ? null : this.cachedWorst),
-        "numSolves": (await this.session.db.info()).doc_count - 1 // TODO: exact number
-      });
-    } else {
-      const times: Milliseconds[] = await this.getTimes();
-      const best = Stats.best(times);
-      if (best !== null) {
-        this.cachedBest = best;
-      }
-      const worst = Stats.worst(times);
-      if (worst !== null) {
-        this.cachedWorst = worst;
-      }
-
-      this.statsView.setStats({
-        "avg5": Stats.formatTime(Stats.trimmedAverage(Stats.lastN(times, 5))),
-        "avg12": Stats.formatTime(Stats.trimmedAverage(Stats.lastN(times, 12))),
-        "avg100": Stats.formatTime(Stats.trimmedAverage(Stats.lastN(times, 100))),
-        "mean3": Stats.formatTime(Stats.mean(Stats.lastN(times, 3))),
-        "best": Stats.formatTime(this.cachedBest),
-        "worst": Stats.formatTime(this.cachedWorst),
-        "numSolves": times.length
-      });
-    }
+    const attempts = await this.latest();
+    const times = attempts.map((attempt) => attempt.totalResultMs);
+    const formattedStats = {
+      "avg5": Stats.formatTime(Stats.trimmedAverage(Stats.lastN(times, 5))),
+      "avg12": Stats.formatTime(Stats.trimmedAverage(Stats.lastN(times, 12))),
+      "avg100": Stats.formatTime(Stats.trimmedAverage(Stats.lastN(times, 100))),
+      "mean3": Stats.formatTime(Stats.mean(Stats.lastN(times, 3))),
+      "best": Stats.formatTime(Math.min(...times)),
+      "worst": Stats.formatTime(Math.max(...times)),
+      "numSolves": (await this.session.db.info()).doc_count - 1 // TODO: exact number
+    };
+    this.statsView.setStats(formattedStats);
   }
 
   private attemptDone(): void {
