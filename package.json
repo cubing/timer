@@ -17,6 +17,7 @@
     "comlink": "^4.2.0",
     "cubing": "^0.9.18",
     "inspector": "^0.5.0",
+    "lib": "^4.0.5",
     "pouchdb": "^7.1.1",
     "pouchdb-find": "^7.1.1",
     "results": "^0.14.1"
@@ -30,6 +31,7 @@
     "chai": "^4.1.2",
     "mocha": "^5.2.0",
     "parcel-bundler": "^1.12.4",
+    "parcel-plugin-sw-cache": "^0.3.1",
     "ts-loader": "^4.4.2",
     "ts-node": "^7.0.0",
     "typescript": "^3.7.5",
@@ -39,5 +41,10 @@
   },
   "scripts": {
     "prepublishOnly": "make dist"
+  },
+  "cache": {
+    "globPatterns": [
+      "**/*.{html,js,css,jpg,png,ttf,ico}"
+    ]
   }
 }
