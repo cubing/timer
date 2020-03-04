@@ -6,8 +6,8 @@ build: clean-dist
 dev:
 	npx parcel src/index.html
 
-SFTP_PATH = "towns.dreamhost.com:~/experiments.cubing.net/timer/"
-URL       = "https://experiments.cubing.net/timer/"
+SFTP_PATH = "towns.dreamhost.com:~/timer.cubing.net/"
+URL       = "https://timer.cubing.net/"
 
 .PHONY: deploy
 deploy: build
