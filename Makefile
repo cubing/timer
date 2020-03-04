@@ -1,36 +1,27 @@
-all: deploy open
+.PHONY: build
+build: clean-dist
+	npx parcel build --public-url ./ src/index.html
 
-SFTP_PATH      = "towns.dreamhost.com:~/timer.cubing.net/"
-URL            = "https://timer.cubing.net/"
+.PHONY: dev
+dev:
+	npx parcel src/index.html
 
-SFTP_TEST_PATH = "towns.dreamhost.com:~/timer.cubing.net/test/"
-TEST_URL       = "https://timer.cubing.net/test/"
-
+SFTP_PATH = "towns.dreamhost.com:~/timer.cubing.net/"
+URL       = "https://timer.cubing.net/"
 
 .PHONY: deploy
-deploy:
-	echo ""
+deploy: build
 	rsync -avz \
 		--exclude .DS_Store \
 		--exclude .git \
-		--exclude .gitignore \
-		--exclude .gitmodules \
-		./ \
+		./dist/ \
 		${SFTP_PATH}
 	echo "\nDone deploying. Go to ${URL}\n"
 
-.PHONY: deploy-test
-deploy-test:
-	rsync -avz \
-		--exclude .DS_Store \
-		--exclude .git \
-		--exclude .gitignore \
-		--exclude .gitmodules \
-		./ \
-		${SFTP_TEST_PATH}
-	echo "\nDone deploying. Go to ${TEST_URL}\n"
 
+.PHONY: clean
+clean: clean-dist
 
-.PHONY: open
-open:
-	open ${URL}
+.PHONY: clean-dist
+clean-dist:
+	rm -rf ./dist

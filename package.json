@@ -1,0 +1,50 @@
+{
+  "name": "timerApp",
+  "version": "0.0.1",
+  "description": "Template for interacting with cubing JS libraries.",
+  "author": "Lucas Garron <code@garron.net> (https://garron.net/)",
+  "license": "MIT",
+  "repository": "github:cubing/libTemplate.js",
+  "bugs": {
+    "url": "https://github.com/cubing/libTemplate.js/issues"
+  },
+  "main": "./dist/timerApp.js",
+  "types": "./dist/index.d.ts",
+  "dependencies": {
+    "@types/pouchdb": "^6.4.0",
+    "alg": "^0.9.8",
+    "babel-polyfill": "^6.26.0",
+    "comlink": "^4.2.0",
+    "cubing": "^0.9.18",
+    "inspector": "^0.5.0",
+    "lib": "^4.0.5",
+    "pouchdb": "^7.1.1",
+    "pouchdb-find": "^7.1.1",
+    "results": "^0.14.1"
+  },
+  "externalsForWebpack": [
+    "alg"
+  ],
+  "devDependencies": {
+    "@types/chai": "^4.1.4",
+    "@types/mocha": "^5.2.3",
+    "chai": "^4.1.2",
+    "mocha": "^5.2.0",
+    "parcel-bundler": "^1.12.4",
+    "parcel-plugin-sw-cache": "^0.3.1",
+    "ts-loader": "^4.4.2",
+    "ts-node": "^7.0.0",
+    "typescript": "^3.7.5",
+    "webpack": "^4.41.5",
+    "webpack-cli": "^3.0.8",
+    "webpack-notifier": "^1.6.0"
+  },
+  "scripts": {
+    "prepublishOnly": "make dist"
+  },
+  "cache": {
+    "globPatterns": [
+      "**/*.{html,js,css,jpg,png,ttf,ico}"
+    ]
+  }
+}

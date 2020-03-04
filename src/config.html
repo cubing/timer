@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Timer 🛠 | Config">
+  <meta name="viewport" content="initial-scale=1">
+  <title>Timer 🛠 | Config</title>
+</head>
+
+<body>
+  If you would like to test sync, contact Lucas Garron!<br>
+  Username: <input id="pouchDBUsername" placeholder="Username"><br>
+  Password: <input type="password" id="pouchDBPassword" placeholder="Password"><br>
+  Device name: <input type="text" id="pouchDBDeviceName" placeholder="Device name"><br>
+  <a href="./">Back to timer!</a>
+  <script>
+    function save(identifier) {
+      const element = document.querySelector(`#${identifier}`);
+      localStorage[identifier] = element.value;
+
+      // Workaround for missing `Element.animate()` API in Safari.
+      element.style.backgroundColor = "rgba(127, 255, 127)";
+      setTimeout(() => { element.style.backgroundColor = "rgba(159, 255, 159)"; }, 125);
+      setTimeout(() => { element.style.backgroundColor = "rgba(192, 255, 192)"; }, 250);
+      setTimeout(() => { element.style.backgroundColor = "rgba(223, 255, 223)"; }, 375);
+      setTimeout(() => { element.style.backgroundColor = "inherit"; }, 500);
+    }
+
+    function load(identifier) {
+      document.querySelector(`#${identifier}`).value = localStorage[identifier] || "";
+    }
+
+    function setup(identifier) {
+      load(identifier);
+      document.querySelector(`#${identifier}`).addEventListener("change", save.bind(save, identifier));
+    }
+
+    setup("pouchDBUsername");
+    setup("pouchDBPassword");
+    setup("pouchDBDeviceName");
+  </script>
+</body>
+
+</html>
