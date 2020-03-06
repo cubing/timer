@@ -45,6 +45,9 @@
   "cache": {
     "globPatterns": [
       "**/*.{html,js,css,jpg,png,ttf,ico}"
+    ],
+    "ignoreURLParametersMatching": [
+      ".*"
     ]
   }
 }
