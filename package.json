@@ -1,5 +1,5 @@
 {
-  "name": "timerApp",
+  "name": "@cubing/timer",
   "version": "0.0.1",
   "description": "Template for interacting with cubing JS libraries.",
   "author": "Lucas Garron <code@garron.net> (https://garron.net/)",
