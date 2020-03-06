@@ -20,4 +20,4 @@ A simple cubing timer.
 
 ## License
 
-MIT
+GPL (except some scrambling code).
