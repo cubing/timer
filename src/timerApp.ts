@@ -365,9 +365,11 @@ class StatsView {
     for (const resultsLink of [...resultsLinks]) {
       resultsLink.addEventListener("click", (e: Event) => {
         e.preventDefault();
-        const url = new URL(resultsLink.href);
-        url.searchParams.set("event", getCurrentEvent())
-        window.location.href = url.toString();
+        window.location.href = resultsLink.href;
+        // Don't set event for now.
+        // const url = new URL(resultsLink.href);
+        // url.searchParams.set("event", getCurrentEvent())
+        // window.location.href = url.toString();
       });
     }
   }
