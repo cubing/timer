@@ -10,9 +10,13 @@ A simple cubing timer.
 - Instant session syncing across devices.
   - Syncs instantly while online, or continues recording offline and syncs immediately the next time you're online.
 
-<img width="512" src="./screenshots/desktop.png" alt="timer.cubing.net screenshot: Desktop">
-<br>
+## Portrait Mode
+
 <img width="256" src="./screenshots/mobile.png" alt="timer.cubing.net screenshot: mobile">
+
+## Landscape Mode
+
+<img width="512" src="./screenshots/desktop.png" alt="timer.cubing.net screenshot: Desktop">
 
 ## License
 
