@@ -227,7 +227,7 @@ export function trForAttempt(attempt: AttemptDataWithIDAndRev, condensed: boolea
     let formattedDate = formattedTimeOfDay;
     const formattedDateStamp = formatUnixDate(attempt.unixDate)
     if (formattedDateStamp !== todayDate) {
-      formattedDate = "(not today)";
+      formattedDate = "(old)";
     }
     const td = tdWithContent(formattedDate);
     td.title = formattedTimeOfDay + " | " + formattedDateStamp;

@@ -251,7 +251,7 @@ a#update-bar.hidden {
 
 .stats .bottom-bar {
   display: grid;
-  grid-template-columns: auto 1fr auto;
+  grid-template-columns: 1fr 3fr 1fr;
 }
 
 .stats .bottom-bar > a {
@@ -291,7 +291,7 @@ a#update-bar.hidden {
   vertical-align: middle;
   height: 2.5em;
   /*width: 100%;*/
-  /* padding: 0 0.5em; */
+  padding: 0 0.25em;
   border: 0px solid white;
   cursor: pointer;
   background: none;
@@ -447,10 +447,6 @@ a#update-bar.hidden {
   border-bottom: 4px solid rgba(255, 255, 255, 0.5);
   /* border-bottom: 1px solid rgba(0, 0, 0, 0.25); */
   /* box-shadow: 0 0 4px rgba(0,0,0,.25), 0px 4px 8px rgba(0,0,0,.25); */
-}
-
-.stats-summary .sync-link img {
-  vertical-align: bottom;
 }
 
 .stats-summary table td:nth-child(2) {
