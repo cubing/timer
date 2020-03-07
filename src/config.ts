@@ -25,11 +25,13 @@ setupField("pouchDBUsername");
 setupField("pouchDBPassword");
 setupField("pouchDBDeviceName");
 
-const clearServiceWorkersButton = document.querySelector("#clear-service-workers") as HTMLButtonElement;
+const clearServiceWorkersButton = document.querySelector("#force-update-app") as HTMLButtonElement;
 clearServiceWorkersButton.addEventListener("click", async () => {
   clearServiceWorkersButton.textContent += "..."
   const registrations = await navigator.serviceWorker.getRegistrations();
   registrations.map((registration) => registration.unregister())
   clearServiceWorkersButton.textContent += "done!"
-  console.log("Cleared!")
+  console.log("Cleared service worker!")
+  const clearedFileCache = await caches.delete(`workbox-precache-v2-${location.origin}/`);
+  console.log("Cleared file cache:", clearedFileCache);
 });
