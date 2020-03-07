@@ -4,6 +4,7 @@ import { eventMetadata, EventName } from "./cubing";
 import { AttemptData, AttemptDataWithIDAndRev } from "./results/attempt";
 import { TimerSession } from "./results/session";
 import { Stats } from "./stats";
+import { trashIcon, playIcon } from "./material-icons";
 
 export const MAX_NUM_RECENT_ATTEMPTS = 100;
 
@@ -67,7 +68,7 @@ function scrambleTD(scramble: string): HTMLTableDataCellElement {
         setup: algo,
         alg: new Sequence([])
       })
-      scrambleLink.textContent = "🔀";
+      scrambleLink.appendChild(playIcon());
       scrambleTD.appendChild(scrambleLink);
     }
   } else {
@@ -151,7 +152,7 @@ function solutionTD(attemptData: AttemptData): HTMLTableDataCellElement {
 function trashTD(attempt: AttemptDataWithIDAndRev): HTMLTableDataCellElement {
   const scrambleTD = document.createElement("td");
   const trashButton = document.createElement("button");
-  trashButton.textContent = "🗑";
+  trashButton.appendChild(trashIcon());
   trashButton.addEventListener("click", () => {
     console.log("Removing", attempt);
     session.db.remove(attempt);
