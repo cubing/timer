@@ -75,7 +75,7 @@ a#update-bar.hidden {
 }
 
 .scramble-bar, .event-select select {
-  font-size: 5vh;
+  font-size: min(5vh, 10vw);
   /* Would use Roboto, except that primes (') are easier to read in Helvetica. */
   font-family: Helvetica, "Tahoma", sans-serif;
   color: white;
@@ -201,7 +201,7 @@ a#update-bar.hidden {
 
 @media (max-aspect-ratio: 1/1) {
   .time {
-    font-size: 30vh;
+    font-size: min(30vh, 60vw);
   }
   .dot {
     display: none;
@@ -271,7 +271,7 @@ a#update-bar.hidden {
 
 .stats select {
   flex: 0 0 auto;
-  font-size: 5vh;
+  font-size: min(5vh, 10vw);
   font-family: Roboto, Helvetica, "Tahoma", sans-serif;
   color: white;
 
@@ -311,7 +311,7 @@ a#update-bar.hidden {
 }
 
 .stats .bottom-bar a {
-  font-size: 5vh;
+  font-size: min(5vh, 10vw);
 }
 
 .stats .bottom-bar .sync {
