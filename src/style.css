@@ -371,6 +371,23 @@ a#update-bar.hidden {
     display: inherit;
     color: rgba(255, 255, 255, 0.5);
   }
+
+  .timer-app.theme-orange .stats {
+    background-color: #4D2214;
+  }
+
+  .timer-app.theme-green .stats {
+    background-color: #162F1D;
+  }
+
+  .timer-app.theme-red .stats {
+    background-color: #3F140F;
+  }
+
+  .timer-app.theme-blue .stats {
+    background-color: #1C2C4F;
+  }
+
 }
 
 .scramble-bar {
