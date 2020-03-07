@@ -1,6 +1,5 @@
 import delete_white_svg from "./vendor/material-icons/delete-24px-white.svg";
 import play_white_svg from "./vendor/material-icons/play_arrow-24px-white.svg";
-import { importTimes } from "./results/compat/cstimer";
 
 function materialIcon(path: string, altText: string): () => HTMLImageElement {
   return function () {
