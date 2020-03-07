@@ -46,6 +46,10 @@ export class Controller {
     this.setState(State.Ready);
   }
 
+  public isRunning(): boolean {
+    return this.timer.isRunning();
+  }
+
   private keyDown(e: KeyboardEvent): void {
     if (this.isTimerKey(e) || this.state === State.Running) {
       this.down();
@@ -155,6 +159,10 @@ class Timer {
   constructor(private currentTimeCallback: (t: Milliseconds) => void) {
     this.animFrameBound = this.animFrame.bind(this);
   };
+
+  public isRunning(): boolean {
+    return this.running;
+  }
 
   start() {
     this.startTime = Date.now();

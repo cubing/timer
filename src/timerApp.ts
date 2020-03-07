@@ -61,10 +61,8 @@ export class TimerApp {
 
     this.enableOffline();
 
-    // // Prevent a timer tap from scrolling the whole page on touch screens.
-    this.domElement.addEventListener("touchmove", function (event) {
-      event.preventDefault();
-    });
+    this.domElement.querySelector(".stats")!.addEventListener("touchmove", this.onTouchMoveStats.bind(this));
+    this.domElement.addEventListener("touchmove", this.onTouchMove.bind(this));
 
     this.controller = new Controller(
       <HTMLElement>document.getElementById("timer"),
@@ -108,6 +106,17 @@ export class TimerApp {
       include_docs: true
     }))
     return allDocsResponseToTimes(docs);
+  }
+
+  // Prevent a timer tap from scrolling the whole page on touch screens.
+  private onTouchMove(e: Event) {
+    e.preventDefault();
+  }
+
+
+  // Selective enable scrolling the stats element.
+  private onTouchMoveStats(e: Event) {
+    e.stopPropagation()
   }
 
   private enableOffline() {
