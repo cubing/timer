@@ -262,7 +262,7 @@ a#update-bar.hidden {
   place-content: center;
 }
 
-.stats .bottom-bar > *:hover {
+.stats .bottom-bar > a:hover {
   background: #f2f2f2;
 }
 
@@ -274,9 +274,12 @@ a#update-bar.hidden {
   border-radius: 1em;
 }
 
-.stats .bottom-bar #stats-dropdown {
-  border-left: 1px solid rgba(0, 0, 0, 0.5);
+.stats .bottom-bar .sync-link {
   border-right: 1px solid rgba(0, 0, 0, 0.5);
+}
+
+.stats .bottom-bar .results-link {
+  border-left: 1px solid rgba(0, 0, 0, 0.5);
 }
 
 .stats select {
