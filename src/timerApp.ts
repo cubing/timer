@@ -397,13 +397,13 @@ class StatsView {
   }
 
   setStats(stats: FormattedStats, attempts: AttemptDataWithIDAndRev[]) {
-    this.elems["avg5"].textContent = "avg5: " + stats.avg5;
+    this.elems["avg5"].textContent = "⌀5: " + stats.avg5;
     this.sidebarElems["avg5"].textContent = stats.avg5;
-    this.elems["avg12"].textContent = "avg12: " + stats.avg12;
+    this.elems["avg12"].textContent = "⌀12: " + stats.avg12;
     this.sidebarElems["avg12"].textContent = stats.avg12;
-    this.elems["avg100"].textContent = "avg100: " + stats.avg100;
+    this.elems["avg100"].textContent = "⌀100: " + stats.avg100;
     this.sidebarElems["avg100"].textContent = stats.avg100;
-    this.elems["mean3"].textContent = "mean3: " + stats.mean3;
+    this.elems["mean3"].textContent = "μ3: " + stats.mean3;
     this.sidebarElems["mean3"].textContent = stats.mean3;
     this.elems["best"].textContent = "best: " + stats.best;
     this.sidebarElems["best"].textContent = stats.best;
