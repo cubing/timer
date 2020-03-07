@@ -229,8 +229,9 @@ export function trForAttempt(attempt: AttemptDataWithIDAndRev, condensed: boolea
     if (formattedDateStamp !== todayDate) {
       formattedDate = "(not today)";
     }
-    tr.appendChild(tdWithContent(formattedDate));
-    tr.title = formattedTimeOfDay + " | " + formattedDateStamp;
+    const td = tdWithContent(formattedDate);
+    td.title = formattedTimeOfDay + " | " + formattedDateStamp;
+    tr.appendChild(td);
   }
   tr.appendChild(trashTD(attempt));
   return tr;
