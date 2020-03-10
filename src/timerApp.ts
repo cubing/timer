@@ -38,6 +38,10 @@ type FormattedStats = {
   "numSolves": number
 }
 
+// WebSafari (WebKit) doesn't center text in `<select>`'s `<option>` tags: https://bugs.webkit.org/show_bug.cgi?id=40216
+// We detect Safari based on https://stackoverflow.com/a/23522755 so we can do an ugly workaround (manually adding padding using spaces) below.
+const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+
 export class TimerApp {
   private scrambleView: ScrambleView;
   private statsView: StatsView;
@@ -341,6 +345,7 @@ class StatsView {
   private sidebarElems: { [s: string]: HTMLOptionElement };
   constructor(private getCurrentEvent: () => EventName) {
     this.statsDropdown = <HTMLSelectElement>document.getElementById("stats-dropdown");
+
     this.elems = {
       "avg5": <HTMLOptionElement>document.getElementById("avg5"),
       "avg12": <HTMLOptionElement>document.getElementById("avg12"),
@@ -397,17 +402,38 @@ class StatsView {
   }
 
   setStats(stats: FormattedStats, attempts: AttemptDataWithIDAndRev[]) {
-    this.elems["avg5"].textContent = "⌀5: " + stats.avg5;
+
+    const maxLen = Math.max(...[
+      "⌀5: " + stats.avg5,
+      "⌀12: " + stats.avg12,
+      "⌀100: " + stats.avg100,
+      "μ3: " + stats.mean3,
+      "best: " + stats.best,
+      "worst: " + stats.worst,
+      "#solves: " + stats.numSolves
+    ].map((s) => s.length));
+    function setStat(elem: HTMLOptionElement, s: string): void {
+      let spacing = "";
+      if (isSafari) {
+        for (var i = 0; i < (maxLen - s.length) * 0.75; i++) {
+          spacing += "&nbsp;"
+        }
+      }
+      elem.innerHTML = spacing;
+      elem.appendChild(document.createTextNode(s));
+    }
+
+    setStat(this.elems["avg5"], "⌀5: " + stats.avg5);
     this.sidebarElems["avg5"].textContent = stats.avg5;
-    this.elems["avg12"].textContent = "⌀12: " + stats.avg12;
+    setStat(this.elems["avg12"], "⌀12: " + stats.avg12);
     this.sidebarElems["avg12"].textContent = stats.avg12;
-    this.elems["avg100"].textContent = "⌀100: " + stats.avg100;
+    setStat(this.elems["avg100"], "⌀100: " + stats.avg100);
     this.sidebarElems["avg100"].textContent = stats.avg100;
-    this.elems["mean3"].textContent = "μ3: " + stats.mean3;
+    setStat(this.elems["mean3"], "μ3: " + stats.mean3);
     this.sidebarElems["mean3"].textContent = stats.mean3;
-    this.elems["best"].textContent = "best: " + stats.best;
+    setStat(this.elems["best"], "best: " + stats.best);
     this.sidebarElems["best"].textContent = stats.best;
-    this.elems["worst"].textContent = "worst: " + stats.worst;
+    setStat(this.elems["worst"], "worst: " + stats.worst);
     this.sidebarElems["worst"].textContent = stats.worst;
     this.elems["num-solves"].textContent = "#solves: " + stats.numSolves;
     this.sidebarElems["num-solves"].textContent = stats.numSolves.toString();
