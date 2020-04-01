@@ -16,7 +16,7 @@ A simple cubing timer.
 
 ## Landscape Mode
 
-<img width="512" src="./screenshots/desktop.png" alt="timer.cubing.net screenshot: Desktop">
+<img width="512" src="./screenshots/landscape.png" alt="timer.cubing.net screenshot: landscape">
 
 ## How to Develop
 
