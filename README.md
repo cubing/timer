@@ -18,6 +18,13 @@ A simple cubing timer.
 
 <img width="512" src="./screenshots/desktop.png" alt="timer.cubing.net screenshot: Desktop">
 
+## How to Develop
+
+    git clone https://github.com/cubing/timer
+    cd timer
+    npm install
+    make dev
+
 ## License
 
 GPL (except some scrambling code).
