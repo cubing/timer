@@ -98,7 +98,7 @@ function solutionTD(attemptData: AttemptData): HTMLTableDataCellElement {
         alg: parse(attemptData.solution || ""),
         title
       })
-      scrambleLink.textContent = "▶️";
+      scrambleLink.appendChild(playIcon());
       solutionTD.appendChild(scrambleLink);
       // const node = document.createTextNode(` (${countMoves(attemptData.solution)} ETM)`);
       // solutionTD.appendChild(node);

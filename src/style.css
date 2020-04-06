@@ -483,6 +483,10 @@ table#attempt-list td {
   text-align: center;
 }
 
+table#attempt-list td .material-icon {
+  vertical-align: -50%;
+}
+
 table#attempt-list tr:hover {
   background: rgba(255, 255, 255, 0.125);
 }
@@ -496,6 +500,7 @@ table#attempt-list button {
   padding: 0;
   background: none;
   border: none;
+  color: rgba(255, 255, 255, 0.5);
 }
 
 table#attempt-list tbody .material-icon:hover {
