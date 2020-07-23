@@ -1,6 +1,6 @@
 import "babel-polyfill"; // Prevent `regeneratorRuntime is not defined` error. https://github.com/babel/babel/issues/5085
 
-import { expose } from "comlink"
+import { expose } from "comlink";
 import { getRandomScramble as getRandomScramble222 } from "../vendor/cstimer/src/js/scramble/2x2x2";
 import { getRandomScramble as getRandomScramble333 } from "../vendor/cstimer/src/js/scramble/scramble_333_edit";
 import { getRandomScramble as getRandomScramble444 } from "../vendor/cstimer/src/js/scramble/scramble_444";
@@ -10,13 +10,14 @@ import { getRandomScramble as getRandomScrambleSkewb } from "../vendor/cstimer/s
 import { getRandomScramble as getRandomScrambleSq1 } from "./sq1_fix";
 import { EventName } from "../cubing";
 import { getRandomScramble333bf, getRandomScramble444bf } from "./bf";
+import { getRandomScrambleMegaminx } from "./megaminx";
 
 export interface ScrambleWorker {
-  getRandomScramble(eventName: EventName): Promise<string>
+  getRandomScramble(eventName: EventName): Promise<string>;
 }
 
 export interface ScrambleWorkerConstructor {
-  new(): ScrambleWorker
+  new (): ScrambleWorker;
 }
 
 class ScrambleWorkerImpl implements ScrambleWorker {
@@ -30,10 +31,10 @@ class ScrambleWorkerImpl implements ScrambleWorker {
         return getRandomScramble333();
       case "333bf":
         return getRandomScramble333bf();
-        case "444":
-          return getRandomScramble444();
-          case "444bf":
-            return getRandomScramble444bf();
+      case "444":
+        return getRandomScramble444();
+      case "444bf":
+        return getRandomScramble444bf();
       case "clock":
         return getRandomScrambleClock();
       case "pyram":
@@ -42,10 +43,12 @@ class ScrambleWorkerImpl implements ScrambleWorker {
         return getRandomScrambleSkewb();
       case "sq1":
         return getRandomScrambleSq1();
+      case "minx":
+        return getRandomScrambleMegaminx();
       default:
         return "<scramble unavailable>";
     }
   }
 }
 
-expose(ScrambleWorkerImpl)
+expose(ScrambleWorkerImpl);
