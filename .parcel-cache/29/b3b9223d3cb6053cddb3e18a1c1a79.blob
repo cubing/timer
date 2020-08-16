@@ -1,0 +1,21 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.isArray = isArray;
+exports.fixCase = fixCase;
+exports.DEBUG = void 0;
+
+var _mathlib = require("../lib/mathlib");
+
+const DEBUG = false;
+exports.DEBUG = DEBUG;
+
+function isArray(a) {
+  return Array.isArray(a);
+}
+
+function fixCase(cases, probs) {
+  return cases == undefined ? (0, _mathlib.rndProb)(probs) : cases;
+}

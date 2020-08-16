@@ -1,0 +1,19 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.newDateUUID = newDateUUID;
+
+function bufferToHex(buffer) {
+  const uint8Array = new Uint8Array(buffer);
+  return Array.prototype.slice.call(uint8Array).map(x => ("00" + x.toString(16)).slice(-2)).join("");
+} // export function newUUID(): UUID {
+//   return bufferToHex(crypto.getRandomValues(new Uint8Array(16)));
+// }
+
+
+function newDateUUID(date) {
+  const suffix = bufferToHex(crypto.getRandomValues(new Uint8Array(4)));
+  return `a${date}-${suffix}`;
+}

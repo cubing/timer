@@ -1,0 +1,41 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.getRandomScrambleMegaminx = getRandomScrambleMegaminx;
+
+var _src = require("../vendor/cstimer/src/js/lgarron-additions-for-typescript/random-int/src");
+
+const suffixes = ["++", "--"];
+
+function rdPair() {
+  return `R${suffixes[(0, _src.randomUIntBelow)(2)]} D${suffixes[(0, _src.randomUIntBelow)(2)]}`;
+}
+
+function randomU() {
+  return `U${["", "'"][(0, _src.randomUIntBelow)(2)]}`;
+}
+
+function row() {
+  const chunks = [];
+
+  for (let i = 0; i < 5; i++) {
+    chunks.push(rdPair());
+  }
+
+  chunks.push(randomU());
+  return chunks.join(" ");
+}
+
+function getRandomScrambleMegaminx() {
+  const chunks = [];
+
+  for (let i = 0; i < 6; i++) {
+    chunks.push(row());
+  }
+
+  return chunks.join("\n");
+}
+
+console.log(getRandomScrambleMegaminx());

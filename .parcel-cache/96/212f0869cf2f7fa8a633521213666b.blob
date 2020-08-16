@@ -1,0 +1,121 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.showData = showData;
+
+var _resultsTable = require("./results-table");
+
+var _download = require("./results/compat/download");
+
+var _session = require("./results/session");
+
+var _cstimer = require("./results/compat/cstimer");
+
+var _qqtimer = require("./results/compat/qqtimer");
+
+var _cubing = require("./cubing");
+
+const EVENT_PARAM_NAME = "event";
+const DEFAULT_EVENT = "333";
+
+function getURLParam(name, defaultValue) {
+  var _url$searchParams$get;
+
+  const url = new URL(location.href);
+  return (_url$searchParams$get = url.searchParams.get(name)) !== null && _url$searchParams$get !== void 0 ? _url$searchParams$get : defaultValue;
+}
+
+const initialEventID = getURLParam(EVENT_PARAM_NAME, DEFAULT_EVENT);
+const session = new _session.TimerSession();
+let justRemoved;
+
+function onSyncChange(change) {
+  // We've only implemented full table reload (no DOM diffing). This is a hack to avoid doing that if we only removed a doc locally.
+  if (!(change.change.docs.length === 1 && change.change.docs[0]._id === justRemoved)) {
+    showData(getEventID());
+  } else {
+    "known!";
+  }
+}
+
+function getEventID() {
+  return document.querySelector("#eventID").selectedOptions[0].value;
+}
+
+async function exportTCN() {
+  const jsonData = await session.allAttempts();
+  (0, _download.downloadFile)(`timer.cubing.net Format | ${new Date().toString()}.json`, JSON.stringify(jsonData, null, "  "));
+}
+
+async function exportToCSTimer() {
+  const jsonData = await (0, _cstimer.convertToCSTimerFormat)(session, getEventID());
+  (0, _download.downloadFile)(`csTimer Format | ${new Date().toString()}.txt`, JSON.stringify(jsonData, null, "  "));
+}
+
+async function exportToQQTimer() {
+  const strData = await (0, _qqtimer.convertToQQTimerFormat)(session, getEventID());
+  (0, _download.downloadFile)(`qqtimer Format | ${new Date().toString()}.txt`, strData);
+}
+
+const optByEvent = {};
+
+function addEventIDOptions() {
+  const select = document.querySelector("#eventID");
+
+  for (const [id, info] of Object.entries(_cubing.eventMetadata)) {
+    const opt = document.createElement("option");
+    opt.value = id;
+    opt.textContent = info.name;
+
+    if (id === initialEventID) {
+      opt.setAttribute("selected", "selected");
+    }
+
+    optByEvent[id] = opt;
+    select.appendChild(opt);
+  }
+}
+
+async function showData(eventId) {
+  const tableBody = document.querySelector("#results tbody");
+  tableBody.textContent = "";
+  const unfilteredAttempts = (await session.mostRecentAttemptsForEvent(eventId, _resultsTable.MAX_NUM_RECENT_ATTEMPTS)).docs;
+  const attempts = unfilteredAttempts.filter(attempt => attempt.event === eventId);
+
+  for (const attempt of attempts) {
+    if (!attempt.totalResultMs) {
+      continue;
+    }
+
+    tableBody.appendChild((0, _resultsTable.trForAttempt)(attempt));
+  }
+}
+
+async function eventChanged() {
+  const eventID = getEventID();
+  const newURL = new URL(location.href);
+  newURL.searchParams.set(EVENT_PARAM_NAME, eventID);
+  history.pushState({
+    event: eventID
+  }, `Results | ${eventID}`, "?" + newURL.searchParams.toString());
+  await showData(getEventID());
+}
+
+window.addEventListener("popstate", event => {
+  var _event$state$event;
+
+  const select = document.querySelector("#eventID");
+  select.value = (_event$state$event = event.state?.event) !== null && _event$state$event !== void 0 ? _event$state$event : DEFAULT_EVENT;
+  showData(getEventID());
+});
+window.addEventListener("load", async () => {
+  addEventIDOptions();
+  showData(getEventID());
+  session.startSync(onSyncChange);
+  document.querySelector("#export").addEventListener("click", exportTCN);
+  document.querySelector("#export-to-cstimer").addEventListener("click", exportToCSTimer);
+  document.querySelector("#export-to-qqtimer").addEventListener("click", exportToQQTimer);
+  document.querySelector("#eventID").addEventListener("change", eventChanged);
+});

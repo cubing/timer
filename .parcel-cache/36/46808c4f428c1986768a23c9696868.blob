@@ -1,0 +1,68 @@
+"use strict";
+
+require("babel-polyfill");
+
+var _comlink = require("comlink");
+
+var _x2x = require("../vendor/cstimer/src/js/scramble/2x2x2");
+
+var _scramble_333_edit = require("../vendor/cstimer/src/js/scramble/scramble_333_edit");
+
+var _scramble_ = require("../vendor/cstimer/src/js/scramble/scramble_444");
+
+var _clock = require("../vendor/cstimer/src/js/scramble/clock");
+
+var _pyraminx = require("../vendor/cstimer/src/js/scramble/pyraminx");
+
+var _skewb = require("../vendor/cstimer/src/js/scramble/skewb");
+
+var _sq1_fix = require("./sq1_fix");
+
+var _bf = require("./bf");
+
+var _megaminx = require("./megaminx");
+
+// Prevent `regeneratorRuntime is not defined` error. https://github.com/babel/babel/issues/5085
+class ScrambleWorkerImpl {
+  async getRandomScramble(eventName) {
+    switch (eventName) {
+      case "222":
+        return (0, _x2x.getRandomScramble)();
+
+      case "333":
+      case "333oh":
+      case "333ft":
+        return (0, _scramble_333_edit.getRandomScramble)();
+
+      case "333bf":
+        return (0, _bf.getRandomScramble333bf)();
+
+      case "444":
+        return (0, _scramble_.getRandomScramble)();
+
+      case "444bf":
+        return (0, _bf.getRandomScramble444bf)();
+
+      case "clock":
+        return (0, _clock.getRandomScramble)();
+
+      case "pyram":
+        return (0, _pyraminx.getRandomScramble)();
+
+      case "skewb":
+        return (0, _skewb.getRandomScramble)();
+
+      case "sq1":
+        return (0, _sq1_fix.getRandomScramble)();
+
+      case "minx":
+        return (0, _megaminx.getRandomScrambleMegaminx)();
+
+      default:
+        return "<scramble unavailable>";
+    }
+  }
+
+}
+
+(0, _comlink.expose)(ScrambleWorkerImpl);

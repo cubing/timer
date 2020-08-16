@@ -1,0 +1,27 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.playIcon = exports.trashIcon = void 0;
+
+var _delete24pxWhite = _interopRequireDefault(require("url:./vendor/material-icons/delete-24px-white.svg"));
+
+var _play_arrow24pxWhite = _interopRequireDefault(require("url:./vendor/material-icons/play_arrow-24px-white.svg"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function materialIcon(path, altText) {
+  return function () {
+    const img = document.createElement("img");
+    img.src = path;
+    img.classList.add("material-icon");
+    img.title = altText;
+    return img;
+  };
+}
+
+const trashIcon = materialIcon(_delete24pxWhite.default, "Delete");
+exports.trashIcon = trashIcon;
+const playIcon = materialIcon(_play_arrow24pxWhite.default, "Play");
+exports.playIcon = playIcon;

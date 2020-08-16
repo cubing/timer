@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="Timer 🛠 | Config">
+    <meta name="viewport" content="initial-scale=1">
+    <title>Timer 🛠 | Config</title>
+
+    <style data-parcel-key="4491836f8deecdb464fc5f83ded80c8f">
+      body {
+        font-family: sans-serif;
+      }
+    </style>
+  </head>
+
+  <body>
+    <a href="./">Back to timer!</a>
+    <br>
+    <br>
+    If you would like a sync account, contact Lucas Garron!<br>
+    <h2>Login</h2>
+    Username: <input id="pouchDBUsername" placeholder="Username"><br>
+    Password:
+    <input type="password" id="pouchDBPassword" placeholder="Password"><br>
+    <h2>Settings</h2>
+    Name of this device:
+    <input type="text" id="pouchDBDeviceName" placeholder="Device name"><br>
+    <h2>Advanced</h2>
+    <button id="force-update-app">Force update app</button>
+    <script src="0805786f51bedd2ac9695a4839a46e4a"></script>
+  </body>
+</html>

@@ -1,0 +1,31 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.importTimes = importTimes;
+exports.convertToCSTimerFormat = convertToCSTimerFormat;
+
+var _cstimerData = require("./cstimer-data");
+
+async function importTimes(session) {
+  for (const attempt of _cstimerData.data.session1) {
+    const attemptData = {
+      totalResultMs: attempt[0][0] + attempt[0][1] + Math.floor(Math.random() * 1000),
+      scramble: attempt[1],
+      comment: attempt[2],
+      unixDate: attempt[3] + Math.floor(Math.random() * 1000)
+    };
+    await session.addNewAttempt(attemptData);
+  }
+}
+
+function attemptToCSTimerFormat(attempt) {
+  return [[0, attempt.totalResultMs], attempt.scramble || "", attempt.comment || "", attempt.unixDate];
+}
+
+async function convertToCSTimerFormat(session, eventId) {
+  return {
+    session1: (await session.allAttempts()).filter(attempt => attempt.event === eventId).map(attemptToCSTimerFormat)
+  };
+}

@@ -1,0 +1,13 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+Object.defineProperty(exports, "randomUIntBelow", {
+  enumerable: true,
+  get: function () {
+    return _randomInt.randomUIntBelow;
+  }
+});
+
+var _randomInt = require("./random-int");

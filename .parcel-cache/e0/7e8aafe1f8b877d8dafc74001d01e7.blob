@@ -1,0 +1,35 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.getRandomValues = void 0;
+
+var nodeCrypto = _interopRequireWildcard(require("crypto"));
+
+function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function () { return cache; }; return cache; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+
+function nodeGetRandomValues(arr) {
+  if (!(arr instanceof Uint32Array)) {
+    throw new Error("The getRandomValues() shim only takes unsigned 32-bit int arrays");
+  }
+
+  var bytes = nodeCrypto.randomBytes(arr.length * 4);
+  var uint32_list = [];
+
+  for (var i = 0; i < arr.length; i++) {
+    uint32_list.push((bytes[i * 4 + 0] << 24) + (bytes[i * 4 + 1] << 16) + (bytes[i * 4 + 2] << 8) + (bytes[i * 4 + 3] << 0));
+  }
+
+  arr.set(uint32_list);
+}
+
+function browserGetRandomValues(arr) {
+  crypto.getRandomValues(arr);
+}
+
+const inBrowser = typeof crypto !== "undefined" && typeof crypto.getRandomValues !== "undefined";
+const getRandomValues = inBrowser ? browserGetRandomValues : nodeGetRandomValues;
+exports.getRandomValues = getRandomValues;

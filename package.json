@@ -8,6 +8,7 @@
   "bugs": {
     "url": "https://github.com/cubing/libTemplate.js/issues"
   },
+  "type": "module",
   "main": "./dist/timerApp.js",
   "types": "./dist/index.d.ts",
   "dependencies": {
@@ -34,8 +35,7 @@
     "@types/mocha": "^5.2.3",
     "chai": "^4.1.2",
     "mocha": "^5.2.0",
-    "parcel-bundler": "^1.12.4",
-    "parcel-plugin-sw-cache": "^0.3.1",
+    "parcel": "^2.0.0-nightly.368",
     "ts-loader": "^4.4.2",
     "ts-node": "^7.0.0",
     "typescript": "^3.9.7",

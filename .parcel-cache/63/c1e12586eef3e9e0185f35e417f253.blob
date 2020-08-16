@@ -1,0 +1,29 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.randomScramble = randomScramble;
+
+var _comlink = require("comlink");
+
+const constructor = (0, _comlink.wrap)(new Worker(require("./scramble-worker.ts")));
+const instanceMain = new constructor();
+const instance444 = new constructor(); // Balances instances.
+// Currently shards by event, but may get clever and track availability of workers in the future.
+
+async function getInstanceForNewScramble(eventName) {
+  switch (eventName) {
+    case "444":
+    case "444bf":
+      // 4x4x4 is the only "slow" scrambler, so we put it on its own thread.
+      return instance444;
+
+    default:
+      return instanceMain;
+  }
+}
+
+async function randomScramble(eventName) {
+  return await (await getInstanceForNewScramble(eventName)).getRandomScramble(eventName);
+}

@@ -1,0 +1,13 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.getRandomScramble = getRandomScramble;
+
+var _scramble_sq1_new = require("../vendor/cstimer/src/js/scramble/scramble_sq1_new");
+
+// TODO: Fix this in the source.
+function getRandomScramble() {
+  return (0, _scramble_sq1_new.getRandomScramble)().replace("`/`", "/");
+}
