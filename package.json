@@ -20,7 +20,8 @@
     "lib": "^4.0.5",
     "pouchdb": "^7.1.1",
     "pouchdb-find": "^7.1.1",
-    "results": "^0.14.1"
+    "results": "^0.14.1",
+    "timer-db": "0.0.3"
   },
   "externalsForWebpack": [
     "alg"
