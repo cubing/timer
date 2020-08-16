@@ -16,13 +16,12 @@
     "babel-polyfill": "^6.26.0",
     "comlink": "^4.2.0",
     "cubing": "^0.9.18",
-    "inspector": "^0.5.0",
     "lib": "^4.0.5",
     "pouchdb": "^7.1.1",
     "pouchdb-find": "^7.1.1",
     "regenerator-runtime": "^0.13.7",
     "results": "^0.14.1",
-    "timer-db": "0.0.3"
+    "timer-db": "0.0.4"
   },
   "externalsForWebpack": [
     "alg"
