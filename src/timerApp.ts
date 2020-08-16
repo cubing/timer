@@ -8,6 +8,7 @@ import { Stats } from "./stats";
 import { TimerSession, allDocsResponseToTimes } from "./results/session";
 import { AttemptData, AttemptDataWithIDAndRev } from "./results/attempt";
 import { trForAttempt } from "./results-table";
+import { TimerDB } from "timer-db";
 
 const favicons: { [s: string]: string } = {
   blue: require("./lib/favicons/favicon_blue.ico"),
@@ -43,6 +44,8 @@ type FormattedStats = {
 const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
 
 export class TimerApp {
+  private timerDB: TimerDB = new TimerDB();
+
   private scrambleView: ScrambleView;
   private statsView: StatsView;
   private domElement: HTMLElement;
@@ -51,13 +54,13 @@ export class TimerApp {
   private awaitedScrambleID: ScrambleID;
   private scramblers: Scramblers = new Scramblers();
   private currentScramble: Scramble;
-  private session = new TimerSession();
+  // private session = new TimerSession();
   private remoteDB: PouchDB.Database<AttemptData>;
 
   private cachedBest: number | null = null;
   private cachedWorst: number | null = null;
   constructor() {
-    this.session.startSync(this.onSyncChange.bind(this));
+    // this.session.startSync(this.onSyncChange.bind(this));
 
     this.scrambleView = new ScrambleView(this);
     this.statsView = new StatsView(() => this.currentEvent);
@@ -108,16 +111,17 @@ export class TimerApp {
   }
 
   private async getTimes(): Promise<Milliseconds[]> {
-    const docs0 = await this.session.mostRecentAttemptsForEvent(
-      this.currentEvent,
-      LATEST_AMOUNT
-    );
-    console.log(docs0);
-    const docs = await this.session.db.allDocs({
-      // descending: true,
-      include_docs: true,
-    });
-    return allDocsResponseToTimes(docs);
+    // const docs0 = await this.session.mostRecentAttemptsForEvent(
+    //   this.currentEvent,
+    //   LATEST_AMOUNT
+    // );
+    // console.log(docs0);
+    // const docs = await this.session.db.allDocs({
+    //   // descending: true,
+    //   include_docs: true,
+    // });
+    // return allDocsResponseToTimes(docs);
+    return [];
   }
 
   // Prevent a timer tap from scrolling the whole page on touch screens.
@@ -274,16 +278,17 @@ export class TimerApp {
     if (localStorage.pouchDBDeviceName) {
       attemptData.device = localStorage.pouchDBDeviceName;
     }
-    await this.session.addNewAttempt(attemptData);
+    // await this.session.addNewAttempt(attemptData);
   }
 
   private async latest(): Promise<AttemptDataWithIDAndRev[]> {
-    return (
-      await this.session.mostRecentAttemptsForEvent(
-        this.currentEvent,
-        LATEST_AMOUNT
-      )
-    ).docs.reverse();
+    throw "TODO";
+    // return (
+    //   await this.session.mostRecentAttemptsForEvent(
+    //     this.currentEvent,
+    //     LATEST_AMOUNT
+    //   )
+    // ).docs.reverse();
   }
 
   async updateDisplayStats(assumeAttemptAppended: boolean = false) {
@@ -296,7 +301,7 @@ export class TimerApp {
       mean3: Stats.formatTime(Stats.mean(Stats.lastN(times, 3))),
       best: times.length > 0 ? Stats.formatTime(Math.min(...times)) : "---",
       worst: times.length > 0 ? Stats.formatTime(Math.max(...times)) : "---",
-      numSolves: (await this.session.db.info()).doc_count - 1, // TODO: exact number
+      numSolves: 10, //(await this.session.db.info()).doc_count - 1, // TODO: exact number
     };
     this.statsView.setStats(formattedStats, attempts);
   }

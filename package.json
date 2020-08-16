@@ -35,7 +35,7 @@
     "parcel-plugin-sw-cache": "^0.3.1",
     "ts-loader": "^4.4.2",
     "ts-node": "^7.0.0",
-    "typescript": "^3.7.5",
+    "typescript": "^3.9.7",
     "webpack": "^4.41.5",
     "webpack-cli": "^3.0.8",
     "webpack-notifier": "^1.6.0"
