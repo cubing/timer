@@ -1,14 +1,15 @@
-import PouchDB from "pouchdb"; // TODO: Add a wrapper so we can remove `allowSyntheticDefaultImports`.
-import { EventName, eventOrder, eventMetadata } from "./cubing";
-import { Controller } from "./timer";
-import { Milliseconds } from "./timer";
-// import {ScrambleID} from "./scramble-worker"
-import { Scramblers, ScrambleString } from "./cubing";
-import { Stats } from "./stats";
-import { TimerSession, allDocsResponseToTimes } from "./results/session";
-import { AttemptData, AttemptDataWithIDAndRev } from "./results/attempt";
-import { trForAttempt } from "./results-table";
 import { TimerDB } from "timer-db";
+import {
+  eventMetadata,
+  EventName,
+  eventOrder,
+  Scramblers,
+  ScrambleString,
+} from "./cubing";
+import { trForAttempt } from "./results-table";
+import { AttemptData, AttemptDataWithIDAndRev } from "./results/attempt";
+import { Stats } from "./stats";
+import { Controller, Milliseconds } from "./timer";
 
 const favicons: { [s: string]: string } = {
   blue: require("./lib/favicons/favicon_blue.ico"),
@@ -181,7 +182,10 @@ export class TimerApp {
     scramble: ScrambleString
   ) {
     if (scrambledId === this.awaitedScrambleID) {
-      this.currentScramble = { eventName: eventName, scrambleString: scramble };
+      this.currentScramble = {
+        eventName: eventName,
+        scrambleString: scramble,
+      };
       this.scrambleView.setScramble(this.currentScramble);
     } else {
       var logInfo = console.info ? console.info.bind(console) : console.log;

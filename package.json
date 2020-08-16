@@ -20,6 +20,7 @@
     "lib": "^4.0.5",
     "pouchdb": "^7.1.1",
     "pouchdb-find": "^7.1.1",
+    "regenerator-runtime": "^0.13.7",
     "results": "^0.14.1",
     "timer-db": "0.0.3"
   },
@@ -27,6 +28,9 @@
     "alg"
   ],
   "devDependencies": {
+    "@babel/core": "^7.11.1",
+    "@babel/plugin-proposal-nullish-coalescing-operator": "^7.10.4",
+    "@babel/preset-typescript": "^7.10.4",
     "@types/chai": "^4.1.4",
     "@types/mocha": "^5.2.3",
     "chai": "^4.1.2",

@@ -21,6 +21,7 @@ deploy: build
 
 .PHONY: clean
 clean: clean-dist
+	rm -rf ./.cache
 
 .PHONY: clean-dist
 clean-dist:
