@@ -1,0 +1,23 @@
+session-select {
+  /* flex: 0 0 auto; */
+  border: 1px solid rgba(0, 0, 0, 0.25);
+  padding: 0 0.3em;
+  margin: 0.25em 1em;
+  background: rgba(255, 255, 255, 0.25);
+}
+
+session-select .cubing-icon {
+  vertical-align: middle;
+}
+
+session-select select {
+  vertical-align: middle;
+  height: 1.5em;
+  border: 0px solid white;
+  cursor: pointer;
+  background: none;
+
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}

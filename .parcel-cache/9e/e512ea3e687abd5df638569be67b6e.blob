@@ -1,1 +1,0 @@
-var o,r=require("crypto");console.log("uuid/crypto!"),o=r,module.exports=o;

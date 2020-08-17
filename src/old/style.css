@@ -1,26 +1,23 @@
 @font-face {
   font-family: digital-7-mono;
-  src: url("vendor/digital-7-mono.ttf") format("truetype");
+  src: url("lib/digital-7-mono.ttf") format("truetype");
 }
 
 @font-face {
   font-family: digital-7;
-  src: url("vendor/digital-7.ttf") format("truetype");
+  src: url("lib/digital-7.ttf") format("truetype");
 }
 
 * {
   box-sizing: border-box;
 }
 
-body,
-div,
-span {
+body, div, span {
   margin: 0;
   padding: 0;
 }
 
-html,
-body {
+html, body {
   height: 100%;
   width: 100%;
   overflow: hidden;
@@ -39,6 +36,7 @@ body {
   -ms-user-select: none;
   user-select: none;
 } */
+
 
 .timer-app {
   /* flex: 3; */
@@ -76,15 +74,14 @@ a#update-bar.hidden {
   height: 0;
 }
 
-.top-bar,
-.event-select select {
+.scramble-bar, .event-select select {
   font-size: min(5vh, 10vw);
   /* Would use Roboto, except that primes (') are easier to read in Helvetica. */
   font-family: Helvetica, "Tahoma", sans-serif;
   color: white;
 }
 
-.top-bar {
+.scramble-bar {
   /* flex: 0 0 auto; */
   width: 100%;
   padding: 0.25em 0;
@@ -95,8 +92,32 @@ a#update-bar.hidden {
   align-items: center;
   justify-content: center;
   white-space: nowrap;
-  box-shadow: 0 0 4px rgba(0, 0, 0, 0.14), 0 4px 8px rgba(0, 0, 0, 0.28);
+  box-shadow: 0 0 4px rgba(0,0,0,.14),0 4px 8px rgba(0,0,0,.28);
   flex-wrap: wrap;
+}
+
+.event-select {
+  /* flex: 0 0 auto; */
+  border: 1px solid rgba(0, 0, 0, 0.25);
+  padding: 0 0.3em;
+  margin: 0.25em 1em;
+  background: rgba(255, 255, 255, .25);
+}
+
+.event-select .cubing-icon {
+  vertical-align: middle;
+}
+
+.event-select select {
+  vertical-align: middle;
+  height: 1.5em;
+  border: 0px solid white;
+  cursor: pointer;
+  background: none;
+
+  -webkit-appearance: none;
+  -moz-appearance:    none;
+  appearance:         none;
 }
 
 .scramble-text {
@@ -106,7 +127,7 @@ a#update-bar.hidden {
   text-align: center;
 }
 
-@supports ((text-align-last: center) or (-moz-text-align-last: center)) {
+@supports ( (text-align-last: center) or (-moz-text-align-last: center) ) {
   .scramble-text {
     text-align: justify;
     text-align-last: center;
@@ -143,7 +164,7 @@ a#update-bar.hidden {
   align-items: center;
   justify-content: center;
   transition: background-color 0s;
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
 }
 
 /* Slow down transitions into some states. */
@@ -276,8 +297,8 @@ a#update-bar.hidden {
   background: none;
 
   -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
+  -moz-appearance:    none;
+  appearance:         none;
 
   text-align: center;
   text-align-last: center;
@@ -348,7 +369,7 @@ a#update-bar.hidden {
   grid-template-rows: auto 1fr auto;
   grid-template-columns: 1fr;
   grid-template-areas:
-    "top-bar"
+    "scramble-bar"
     "timer"
     "stats";
 }
@@ -358,7 +379,7 @@ a#update-bar.hidden {
     grid-template-columns: 2fr minmax(15em, 1fr);
     grid-template-rows: auto 1fr;
     grid-template-areas:
-      "top-bar stats"
+      "scramble-bar stats"
       "timer stats";
     height: 100%;
   }
@@ -381,24 +402,25 @@ a#update-bar.hidden {
   }
 
   .timer-app.theme-orange .stats {
-    background-color: #4d2214;
+    background-color: #4D2214;
   }
 
   .timer-app.theme-green .stats {
-    background-color: #162f1d;
+    background-color: #162F1D;
   }
 
   .timer-app.theme-red .stats {
-    background-color: #3f140f;
+    background-color: #3F140F;
   }
 
   .timer-app.theme-blue .stats {
-    background-color: #1c2c4f;
+    background-color: #1C2C4F;
   }
+
 }
 
-.top-bar {
-  grid-area: top-bar;
+.scramble-bar {
+  grid-area: scramble-bar;
 }
 
 .timer {
@@ -488,6 +510,7 @@ table#attempt-list tbody .material-icon:hover {
   /* box-shadow: 0 0 0.25em 0.25em rgba(255, 255, 255, 0.25); */
 }
 
+
 table#attempt-list td:first-child {
   text-align: right;
 }
@@ -496,7 +519,7 @@ table#attempt-list thead {
   text-align: center;
 }
 
-.timer-app.theme-orange > .top-bar,
+.timer-app.theme-orange > .scramble-bar,
 .timer-app.theme-orange > .timer.handOnTimer,
 .timer-app.theme-orange > .timer.stopped,
 .timer-app.theme-orange .event-select select option,
@@ -504,7 +527,7 @@ table#attempt-list thead {
   background-color: #f95b2a;
 }
 
-.timer-app.theme-green > .top-bar,
+.timer-app.theme-green > .scramble-bar,
 .timer-app.theme-green > .timer.handOnTimer,
 .timer-app.theme-green > .timer.stopped,
 .timer-app.theme-green .event-select select option,
@@ -512,7 +535,7 @@ table#attempt-list thead {
   background-color: #0d904f;
 }
 
-.timer-app.theme-red > .top-bar,
+.timer-app.theme-red > .scramble-bar,
 .timer-app.theme-red > .timer.handOnTimer,
 .timer-app.theme-red > .timer.stopped,
 .timer-app.theme-red .event-select select option,
@@ -520,7 +543,7 @@ table#attempt-list thead {
   background-color: #ce2e20;
 }
 
-.timer-app.theme-blue > .top-bar,
+.timer-app.theme-blue > .scramble-bar,
 .timer-app.theme-blue > .timer.handOnTimer,
 .timer-app.theme-blue > .timer.stopped,
 .timer-app.theme-blue .event-select select option,

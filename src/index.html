@@ -8,9 +8,9 @@
 
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-title" content="timer.cubing.net">
-  <link rel="apple-touch-icon" href="lib/favicons/touch-icon.png" />
+  <link rel="apple-touch-icon" href="icons/touch-icon.png" />
   <meta property="og:image" content="https://timer.cubing.net/screenshot.png" />
-  <link rel="shortcut icon" id="favicon" href="lib/favicons/favicon_blue.ico" />
+  <link rel="shortcut icon" id="favicon" href="icons/favicon_blue.ico" />
 
   <title>timer.cubing.net (v2)</title>
   <script src="./index.ts" defer></script>
@@ -18,9 +18,9 @@
   <!-- <link rel="manifest" href="manifest.json">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-title" content="timer.cubing.net">
-  <link rel="apple-touch-icon" href="lib/favicons/touch-icon.png"/>
+  <link rel="apple-touch-icon" href="icons/touch-icon.png"/>
   <meta property="og:image" content="https://timer.cubing.net/screenshot.png" />
-  <link rel="shortcut icon" id="favicon" href="lib/favicons/favicon_blue.ico"/>
+  <link rel="shortcut icon" id="favicon" href="icons/favicon_blue.ico"/>
 
   <title>timer.cubing.net</title>
 
@@ -39,13 +39,8 @@
 
 <body>
   <div class="timer-app with-side-bar" id="timer-app">
-    <div class="scramble-bar" id="scramble-bar">
-      <div class="event-select">
-        <span class="cubing-icon" id="cubing-icon"></span>
-        <select id="event-select-dropdown">
-        </select>
-      </div>
-      <span class="scramble-text" id="scramble-text">generating...</span>
+    <div class="top-bar" id="top-bar">
+      timer.cubing.net
     </div>
     <div class="timer" id="timer">
       <div class="time">
@@ -58,7 +53,7 @@
     </div>
     <div class="stats">
       <div class="bottom-bar">
-        <a class="sync-link" href="./config.html"><img src="./vendor/material-icons/sync-24px.svg" title="Sync"
+        <a class="sync-link"><img src="./vendor/material-icons/sync-24px.svg" title="Sync"
             class="material-icon"></a>
         <select id="stats-dropdown">
           <option id="avg5" value="avg5">⌀5: ---</option>
@@ -69,7 +64,7 @@
           <option id="worst" value="worst">worst: ---</option>
           <option id="num-solves" value="num-solves">#solves: 0</option>
         </select>
-        <a class="results-link" href="./results.html"><img src="./vendor/material-icons/list-24px.svg" title="Sync"
+        <a class="results-link"><img src="./vendor/material-icons/list-24px.svg" title="Sync"
             class="material-icon"></a>
       </div>
 
@@ -83,13 +78,13 @@
               </tr> -->
               <tr>
                 <td>sync:</td>
-                <td class="sync"><a class="sync-link" style="display: inline-block;" href="./config.html"><img
+                <td class="sync"><a class="sync-link" style="display: inline-block;"><img
                       src="./vendor/material-icons/sync-24px-white.svg" title="Delete" class="material-icon">
               </tr>
               <tr>
                 <td title="number of attempts">count:</td>
                 <td>
-                  <a class="results-link" href="./results.html"><span id="stats-num-times">-</span></a>
+                  <a class="results-link"><span id="stats-num-times">-</span></a>
                 </td>
               </tr>
             </tbody>

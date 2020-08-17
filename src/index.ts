@@ -1,7 +1,5 @@
 import "regenerator-runtime/runtime"; // Prevent `regeneratorRuntime is not defined` error. https://github.com/babel/babel/issues/5085
 
-console.log("000");
-
 import { TimerApp } from "./timerApp";
 
 // const SW_CACHE_FILE = "./sw.js";
@@ -13,6 +11,4 @@ import { TimerApp } from "./timerApp";
 //   });
 // }
 
-console.log("aaa");
 (window as any).app = new TimerApp();
-console.log("bbb");
