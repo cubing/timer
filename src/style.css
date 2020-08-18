@@ -76,14 +76,6 @@ a#update-bar.hidden {
   height: 0;
 }
 
-.top-bar,
-.event-select select {
-  font-size: min(5vh, 10vw);
-  /* Would use Roboto, except that primes (') are easier to read in Helvetica. */
-  font-family: Helvetica, "Tahoma", sans-serif;
-  color: white;
-}
-
 .top-bar {
   /* flex: 0 0 auto; */
   width: 100%;

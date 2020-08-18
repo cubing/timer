@@ -1,4 +1,4 @@
-session-select {
+:host {
   /* flex: 0 0 auto; */
   border: 1px solid rgba(0, 0, 0, 0.25);
   padding: 0 0.3em;
@@ -6,11 +6,11 @@ session-select {
   background: rgba(255, 255, 255, 0.25);
 }
 
-session-select .cubing-icon {
+.cubing-icon {
   vertical-align: middle;
 }
 
-session-select select {
+select {
   vertical-align: middle;
   height: 1.5em;
   border: 0px solid white;
@@ -20,4 +20,11 @@ session-select select {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
+}
+
+select {
+  font-size: min(5vh, 10vw);
+  /* Would use Roboto, except that primes (') are easier to read in Helvetica. */
+  font-family: Helvetica, "Tahoma", sans-serif;
+  color: white;
 }
