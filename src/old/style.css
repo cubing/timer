@@ -12,12 +12,15 @@
   box-sizing: border-box;
 }
 
-body, div, span {
+body,
+div,
+span {
   margin: 0;
   padding: 0;
 }
 
-html, body {
+html,
+body {
   height: 100%;
   width: 100%;
   overflow: hidden;
@@ -36,7 +39,6 @@ body {
   -ms-user-select: none;
   user-select: none;
 } */
-
 
 .timer-app {
   /* flex: 3; */
@@ -74,7 +76,8 @@ a#update-bar.hidden {
   height: 0;
 }
 
-.scramble-bar, .event-select select {
+.scramble-bar,
+.event-select select {
   font-size: min(5vh, 10vw);
   /* Would use Roboto, except that primes (') are easier to read in Helvetica. */
   font-family: Helvetica, "Tahoma", sans-serif;
@@ -92,7 +95,7 @@ a#update-bar.hidden {
   align-items: center;
   justify-content: center;
   white-space: nowrap;
-  box-shadow: 0 0 4px rgba(0,0,0,.14),0 4px 8px rgba(0,0,0,.28);
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.14), 0 4px 8px rgba(0, 0, 0, 0.28);
   flex-wrap: wrap;
 }
 
@@ -101,7 +104,7 @@ a#update-bar.hidden {
   border: 1px solid rgba(0, 0, 0, 0.25);
   padding: 0 0.3em;
   margin: 0.25em 1em;
-  background: rgba(255, 255, 255, .25);
+  background: rgba(255, 255, 255, 0.25);
 }
 
 .event-select .cubing-icon {
@@ -116,8 +119,8 @@ a#update-bar.hidden {
   background: none;
 
   -webkit-appearance: none;
-  -moz-appearance:    none;
-  appearance:         none;
+  -moz-appearance: none;
+  appearance: none;
 }
 
 .scramble-text {
@@ -127,7 +130,7 @@ a#update-bar.hidden {
   text-align: center;
 }
 
-@supports ( (text-align-last: center) or (-moz-text-align-last: center) ) {
+@supports ((text-align-last: center) or (-moz-text-align-last: center)) {
   .scramble-text {
     text-align: justify;
     text-align-last: center;
@@ -164,7 +167,7 @@ a#update-bar.hidden {
   align-items: center;
   justify-content: center;
   transition: background-color 0s;
-  -webkit-tap-highlight-color: rgba(0,0,0,0);
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 
 /* Slow down transitions into some states. */
@@ -297,8 +300,8 @@ a#update-bar.hidden {
   background: none;
 
   -webkit-appearance: none;
-  -moz-appearance:    none;
-  appearance:         none;
+  -moz-appearance: none;
+  appearance: none;
 
   text-align: center;
   text-align-last: center;
@@ -402,21 +405,20 @@ a#update-bar.hidden {
   }
 
   .timer-app.theme-orange .stats {
-    background-color: #4D2214;
+    background-color: #4d2214;
   }
 
   .timer-app.theme-green .stats {
-    background-color: #162F1D;
+    background-color: #162f1d;
   }
 
   .timer-app.theme-red .stats {
-    background-color: #3F140F;
+    background-color: #3f140f;
   }
 
   .timer-app.theme-blue .stats {
-    background-color: #1C2C4F;
+    background-color: #1c2c4f;
   }
-
 }
 
 .scramble-bar {
@@ -440,35 +442,6 @@ a#update-bar.hidden {
   .stats .side-bar {
     font-size: 5vh;
   }
-}
-
-.stats-summary {
-  padding: 0.5em 0.25em;
-  border-bottom: 4px solid rgba(255, 255, 255, 0.5);
-  /* border-bottom: 1px solid rgba(0, 0, 0, 0.25); */
-  /* box-shadow: 0 0 4px rgba(0,0,0,.25), 0px 4px 8px rgba(0,0,0,.25); */
-}
-
-.stats-summary table td:nth-child(2) {
-  color: white;
-}
-
-.stats-summary table {
-  border-collapse: collapse;
-  margin: auto;
-}
-
-.stats-summary table tbody:not(:first-child) tr:first-child td {
-  padding-top: 0.5em;
-}
-
-.stats-summary table td:first-child {
-  text-align: right;
-}
-
-.stats-summary table td:last-child {
-  padding-left: 0.5em;
-  text-align: left;
 }
 
 table#attempt-list {
@@ -509,7 +482,6 @@ table#attempt-list tbody .material-icon:hover {
   /* background: rgba(255, 255, 255, 0.25); */
   /* box-shadow: 0 0 0.25em 0.25em rgba(255, 255, 255, 0.25); */
 }
-
 
 table#attempt-list td:first-child {
   text-align: right;

@@ -1,0 +1,28 @@
+:host {
+  padding: 0.5em 0.25em;
+  border-bottom: 4px solid rgba(255, 255, 255, 0.5);
+  /* border-bottom: 1px solid rgba(0, 0, 0, 0.25); */
+  /* box-shadow: 0 0 4px rgba(0,0,0,.25), 0px 4px 8px rgba(0,0,0,.25); */
+}
+
+table td:nth-child(2) {
+  color: white;
+}
+
+table {
+  border-collapse: collapse;
+  margin: auto;
+}
+
+table tbody:not(:first-child) tr:first-child td {
+  padding-top: 0.5em;
+}
+
+table td:first-child {
+  text-align: right;
+}
+
+table td:last-child {
+  padding-left: 0.5em;
+  text-align: left;
+}

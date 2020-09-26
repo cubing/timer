@@ -1,9 +1,9 @@
-import { ManagedCustomElement, CSSSource } from "./ManagedCustomElement";
-import { Session, SessionUUID } from "timer-db";
-
 // @ts-ignore
 import sessionSelectCSSText from "bundle-text:./SessionSelect.css";
+import { Session } from "timer-db";
 import { SessionsTracker } from "../SessionsTracker";
+import { CSSSource, ManagedCustomElement } from "./ManagedCustomElement";
+
 const sessionSelectCSS = new CSSSource(sessionSelectCSSText);
 
 export class SessionSelect extends ManagedCustomElement {
