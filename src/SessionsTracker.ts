@@ -22,10 +22,21 @@ export class SessionsTracker {
   }
 
   setCurrentSession(session: Session): void {
-    console.log("current sessions", session);
+    console.log(
+      "current session",
+      this.currentSession,
+      this.listeners,
+      session
+    );
+    // TODO
+    // session.add({
+    //   resultTotalMs: Math.floor(8000 + Math.random() * 6000),
+    //   unixDate: Date.now(),
+    // });
     if (this.currentSession !== session) {
       this.currentSession = session;
       for (const listener of this.listeners) {
+        console.log("disp");
         listener.onCurrentSessionChange(session);
       }
     }
