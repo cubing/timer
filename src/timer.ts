@@ -101,7 +101,13 @@ export class Controller {
     }
   }
 
+  private clearDocumentSelection() {
+    const selection = window.getSelection ? window.getSelection() : null;
+    selection?.empty();
+  }
+
   reset() {
+    this.clearDocumentSelection();
     this.timer.reset();
   }
 
