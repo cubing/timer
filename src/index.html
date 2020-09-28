@@ -1,21 +1,23 @@
 <!DOCTYPE html>
 <html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=0.75" />
+    <link rel="stylesheet" href="./style.css" />
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=0.75">
-  <link rel="stylesheet" href="./style.css" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="timer.cubing.net" />
+    <link rel="apple-touch-icon" href="icons/touch-icon.png" />
+    <meta
+      property="og:image"
+      content="https://timer.cubing.net/screenshot.png"
+    />
+    <link rel="shortcut icon" id="favicon" href="icons/favicon_blue.ico" />
 
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-title" content="timer.cubing.net">
-  <link rel="apple-touch-icon" href="icons/touch-icon.png" />
-  <meta property="og:image" content="https://timer.cubing.net/screenshot.png" />
-  <link rel="shortcut icon" id="favicon" href="icons/favicon_blue.ico" />
+    <title>timer.cubing.net (v2)</title>
+    <script src="./index.ts" defer></script>
 
-  <title>timer.cubing.net (v2)</title>
-  <script src="./index.ts" defer></script>
-
-  <!-- <link rel="manifest" href="manifest.json">
+    <!-- <link rel="manifest" href="manifest.json">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-title" content="timer.cubing.net">
   <link rel="apple-touch-icon" href="icons/touch-icon.png"/>
@@ -35,104 +37,67 @@
   <script src="results.js" defer></script>
   <script src="timer.js" defer></script>
   <script src="timerApp.js" defer></script> -->
-</head>
+  </head>
 
-<body>
-  <div class="timer-app with-side-bar" id="timer-app">
-    <div class="top-bar" id="top-bar">
-      timer.cubing.net
-    </div>
-    <div class="timer" id="timer">
-      <div class="time">
-        <div class="sec">
-          <span class="sec-first"></span><span class="sec-rest">0</span>
+  <body>
+    <div class="timer-app with-side-bar" id="timer-app">
+      <div class="top-bar" id="top-bar">timer.cubing.net</div>
+      <div class="timer" id="timer">
+        <div class="time">
+          <div class="sec">
+            <span class="sec-first"></span><span class="sec-rest">0</span>
+          </div>
+          <div class="decimals">
+            <span class="dot">.</span><span class="decimal-digits">00</span
+            ><span class="invisible dot">.</span>
+          </div>
         </div>
-        <div class="decimals"><span class="dot">.</span><span class="decimal-digits">00</span><span
-            class="invisible dot">.</span></div>
       </div>
-    </div>
-    <div class="stats">
-      <div class="bottom-bar">
-        <a class="sync-link"><img src="./vendor/material-icons/sync-24px.svg" title="Sync"
-            class="material-icon"></a>
-        <select id="stats-dropdown">
-          <option id="avg5" value="avg5">⌀5: ---</option>
-          <option id="avg12" value="avg12">⌀12: ---</option>
-          <option id="avg100" value="avg100">⌀100: ---</option>
-          <option id="mean3" value="mean3">μ3: ---</option>
-          <option id="best" value="best">best: ---</option>
-          <option id="worst" value="worst">worst: ---</option>
-          <option id="num-solves" value="num-solves">#solves: 0</option>
-        </select>
-        <a class="results-link"><img src="./vendor/material-icons/list-24px.svg" title="Sync"
-            class="material-icon"></a>
-      </div>
+      <div class="stats">
+        <div class="bottom-bar">
+          <a class="sync-link"
+            ><img
+              src="./vendor/material-icons/sync-24px.svg"
+              title="Sync"
+              class="material-icon"
+          /></a>
+          <select id="stats-dropdown">
+            <option id="avg5" value="avg5">⌀5: ---</option>
+            <option id="avg12" value="avg12">⌀12: ---</option>
+            <option id="avg100" value="avg100">⌀100: ---</option>
+            <option id="mean3" value="mean3">μ3: ---</option>
+            <option id="best" value="best">best: ---</option>
+            <option id="worst" value="worst">worst: ---</option>
+            <option id="num-solves" value="num-solves">#solves: 0</option>
+          </select>
+          <a class="results-link"
+            ><img
+              src="./vendor/material-icons/list-24px.svg"
+              title="Sync"
+              class="material-icon"
+          /></a>
+        </div>
 
-      <div class="side-bar">
-        <div class="stats-summary">
-          <table>
-            <tbody>
-              <!-- <tr>
-                <td>view:</td>
-                <td class="layout"><a class="view-link" href="#">all</a></td>
-              </tr> -->
+        <div class="side-bar">
+          <table id="attempt-list">
+            <thead>
               <tr>
-                <td>sync:</td>
-                <td class="sync"><a class="sync-link" style="display: inline-block;"><img
-                      src="./vendor/material-icons/sync-24px-white.svg" title="Delete" class="material-icon">
-              </tr>
-              <tr>
-                <td title="number of attempts">count:</td>
+                <td>Result</td>
+                <td>View</td>
+                <td>When</td>
                 <td>
-                  <a class="results-link"><span id="stats-num-times">-</span></a>
+                  <img
+                    src="./vendor/material-icons/delete-24px-white.svg"
+                    title="Delete"
+                    class="material-icon"
+                  />
                 </td>
               </tr>
-            </tbody>
-            <tbody>
-              <tr>
-                <td>μ&#8239;3:</td>
-                <td id="stats-current-mean3">-</td>
-              </tr>
-              <tr>
-                <td>⌀&#8239;5:</td>
-                <td id="stats-current-avg5">-</td>
-              </tr>
-              <tr>
-                <td>⌀&#8239;12:</td>
-                <td id="stats-current-avg12">-</td>
-              </tr>
-            </tbody>
-            <tbody class="more">
-              <tr>
-                <td>⌀&#8239;100:</td>
-                <td id="stats-current-avg100">-</td>
-              </tr>
-              <tr>
-                <td>best:</td>
-                <td id="stats-best-time">-</td>
-              </tr>
-              <tr>
-                <td>worst:</td>
-                <td id="stats-worst-time">-</td>
-              </tr>
-            </tbody>
+            </thead>
+            <tbody></tbody>
           </table>
         </div>
-        <table id="attempt-list">
-          <thead>
-            <tr>
-              <td>Result</td>
-              <td>View</td>
-              <td>When</td>
-              <td><img src="./vendor/material-icons/delete-24px-white.svg" title="Delete" class="material-icon">
-              </td>
-            </tr>
-          </thead>
-          <tbody></tbody>
-        </table>
       </div>
     </div>
-  </div>
-</body>
-
+  </body>
 </html>

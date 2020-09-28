@@ -38,19 +38,19 @@ export class StatsSummary extends ManagedCustomElement {
     let keyTD = table.appendChild(document.createElement("td"));
     keyTD.textContent = "μ 3:";
     this.mean3TD = table.appendChild(document.createElement("td"));
-    this.mean3TD.textContent = "-";
+    this.mean3TD.textContent = "—";
 
     tr = table.appendChild(document.createElement("tr"));
     keyTD = table.appendChild(document.createElement("td"));
     keyTD.textContent = "⌀ 5:";
     this.avg5TD = table.appendChild(document.createElement("td"));
-    this.avg5TD.textContent = "-";
+    this.avg5TD.textContent = "—";
 
     tr = table.appendChild(document.createElement("tr"));
     keyTD = table.appendChild(document.createElement("td"));
     keyTD.textContent = "⌀ 12:";
     this.avg12TD = table.appendChild(document.createElement("td"));
-    this.avg12TD.textContent = "-";
+    this.avg12TD.textContent = "—";
   }
 
   // TODO
@@ -71,7 +71,7 @@ export class StatsSummary extends ManagedCustomElement {
   }
 
   setSnapshot(stats: StatSnapshot) {
-    console.log(stats);
+    console.log({ stats });
     this.mean3TD.textContent = Stats.formatTime(stats.mean3);
     this.avg5TD.textContent = Stats.formatTime(stats.avg5);
     this.avg12TD.textContent = Stats.formatTime(stats.avg12);

@@ -21,37 +21,28 @@ class DOMManager {
 
     this.statsSummary = new StatsSummary(sessionsTracker);
     this.sideBar.prepend(this.statsSummary); // TODO: append
-    console.log(this.statsSummary);
   }
 }
 
 export class TimerApp {
-  private sessionsTracker: SessionsTracker = new SessionsTracker();
-
   private timerDB: TimerDB = new TimerDB();
+  private sessionsTracker: SessionsTracker = new SessionsTracker(this.timerDB);
   private domManager: DOMManager = new DOMManager(this.sessionsTracker);
 
   constructor() {
-    this.setupTimerDB();
+    this.startSync();
   }
 
-  private async setupTimerDB(): Promise<void> {
-    this.timerDB.startSync({
-      username: localStorage.timerDBUsername,
-      password: localStorage.timerDBPassword,
-    });
-
-    let sessions = await this.timerDB.getSessions();
-    let initialSession: Session;
-    if (sessions.length > 0) {
-      initialSession = sessions[0];
-    } else {
-      initialSession = await this.timerDB.createSession("3x3x3", "333", {
-        stub: true,
+  private async startSync(): Promise<void> {
+    if (localStorage.timerDBUsername) {
+      this.timerDB.startSync({
+        username: localStorage.timerDBUsername,
+        password: localStorage.timerDBPassword,
       });
-      sessions = [initialSession];
+    } else {
+      console.info(
+        "Not syncing: could not find `localStorage.timerDBUsername`"
+      );
     }
-    this.sessionsTracker.setSessions(sessions);
-    this.sessionsTracker.setCurrentSession(initialSession);
   }
 }
