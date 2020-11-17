@@ -1,9 +1,10 @@
 import "regenerator-runtime/runtime"; // Prevent `regeneratorRuntime is not defined` error. https://github.com/babel/babel/issues/5085
 
-import { TimerDB, Session, SessionUUID } from "timer-db";
+import { TimerDB, Session, SessionUUID, Attempt } from "timer-db";
 import { SessionSelect } from "./dom/SessionSelect";
 import { SessionsTracker } from "./SessionsTracker";
 import { StatsSummary } from "./dom/StatsSummary";
+import { AttemptList } from "./dom/AttemptList";
 
 class DOMManager {
   root: HTMLElement = document.querySelector(".timer-app") as HTMLElement;
@@ -12,6 +13,7 @@ class DOMManager {
 
   sessionSelect: SessionSelect;
   statsSummary: StatsSummary;
+  attemptList: AttemptList;
   constructor(sessionsTracker: SessionsTracker) {
     this.topBar.innerHTML = "";
 
@@ -20,7 +22,9 @@ class DOMManager {
     );
 
     this.statsSummary = new StatsSummary(sessionsTracker);
+    this.attemptList = new AttemptList(sessionsTracker);
     this.sideBar.prepend(this.statsSummary); // TODO: append
+    this.sideBar.appendChild(this.attemptList); // TODO: append
   }
 }
 
