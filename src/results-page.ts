@@ -19,27 +19,46 @@ const initialEventID = getURLParam(EVENT_PARAM_NAME, DEFAULT_EVENT);
 const session = new TimerSession();
 let justRemoved: string;
 
-function onSyncChange(change: PouchDB.Replication.SyncResult<AttemptData>): void {
+function onSyncChange(
+  change: PouchDB.Replication.SyncResult<AttemptData>
+): void {
   // We've only implemented full table reload (no DOM diffing). This is a hack to avoid doing that if we only removed a doc locally.
-  if (!(change.change.docs.length === 1 && change.change.docs[0]._id === justRemoved)) {
-    showData(getEventID());
+  if (
+    !(
+      change.change.docs.length === 1 &&
+      change.change.docs[0]._id === justRemoved
+    )
+  ) {
+    showData();
   } else {
-    "known!";
+    ("known!");
   }
 }
 
 function getEventID(): EventName {
-  return (document.querySelector("#eventID") as HTMLSelectElement).selectedOptions[0].value as EventName;
+  return (document.querySelector("#eventID") as HTMLSelectElement)
+    .selectedOptions[0].value as EventName;
+}
+
+function getRangeSelector(): "most-recent" | "least-recent" | "best" | "worst" {
+  return (document.querySelector("#rangeSelector") as HTMLSelectElement)
+    .selectedOptions[0].value as any;
 }
 
 async function exportTCN(): Promise<void> {
   const jsonData = await session.allAttempts();
-  downloadFile(`timer.cubing.net Format | ${new Date().toString()}.json`, JSON.stringify(jsonData, null, "  "));
+  downloadFile(
+    `timer.cubing.net Format | ${new Date().toString()}.json`,
+    JSON.stringify(jsonData, null, "  ")
+  );
 }
 
 async function exportToCSTimer(): Promise<void> {
   const jsonData = await convertToCSTimerFormat(session, getEventID());
-  downloadFile(`csTimer Format | ${new Date().toString()}.txt`, JSON.stringify(jsonData, null, "  "));
+  downloadFile(
+    `csTimer Format | ${new Date().toString()}.txt`,
+    JSON.stringify(jsonData, null, "  ")
+  );
 }
 
 async function exportToQQTimer(): Promise<void> {
@@ -63,11 +82,40 @@ function addEventIDOptions(): void {
   }
 }
 
-export async function showData(eventId: EventName): Promise<void> {
+export async function showData(): Promise<void> {
+  const eventId = getEventID();
+  const rangeSelector = getRangeSelector();
+
   const tableBody = document.querySelector("#results tbody") as HTMLBodyElement;
   tableBody.textContent = "";
-  const unfilteredAttempts: AttemptDataWithIDAndRev[] = (await session.mostRecentAttemptsForEvent(eventId as EventName, MAX_NUM_RECENT_ATTEMPTS)).docs;
-  const attempts = unfilteredAttempts.filter((attempt: AttemptData) => attempt.event === eventId);
+  let unfilteredAttempts: AttemptDataWithIDAndRev[];
+  switch (rangeSelector) {
+    case "most-recent":
+    // fallthrough
+    case "least-recent":
+      unfilteredAttempts = (
+        await session.mostRecentAttempts(
+          MAX_NUM_RECENT_ATTEMPTS,
+          eventId as EventName,
+          rangeSelector === "most-recent"
+        )
+      ).docs;
+      break;
+    case "best":
+    // fallthrough
+    case "worst":
+      unfilteredAttempts = await session.extremeTimes(
+        MAX_NUM_RECENT_ATTEMPTS,
+        rangeSelector === "worst",
+        eventId as EventName
+      );
+      break;
+    default:
+      throw new Error("unexpected range selector");
+  }
+  const attempts = unfilteredAttempts.filter(
+    (attempt: AttemptData) => attempt.event === eventId
+  );
   for (const attempt of attempts) {
     if (!attempt.totalResultMs) {
       continue;
@@ -80,22 +128,37 @@ async function eventChanged(): Promise<void> {
   const eventID = getEventID();
   const newURL = new URL(location.href);
   newURL.searchParams.set(EVENT_PARAM_NAME, eventID);
-  history.pushState({ event: eventID }, `Results | ${eventID}`, "?" + newURL.searchParams.toString())
-  await showData(getEventID());
+  history.pushState(
+    { event: eventID },
+    `Results | ${eventID}`,
+    "?" + newURL.searchParams.toString()
+  );
+  await showData();
+}
+
+async function rangeSelectorChanged(): Promise<void> {
+  await showData();
 }
 
 window.addEventListener("popstate", (event) => {
   const select = document.querySelector("#eventID") as HTMLSelectElement;
   select.value = event.state?.event ?? DEFAULT_EVENT;
-  showData(getEventID());
+  showData();
 });
 
 window.addEventListener("load", async () => {
   addEventIDOptions();
-  showData(getEventID());
+  showData();
   session.startSync(onSyncChange);
-  document.querySelector("#export")!.addEventListener("click", exportTCN)
-  document.querySelector("#export-to-cstimer")!.addEventListener("click", exportToCSTimer)
-  document.querySelector("#export-to-qqtimer")!.addEventListener("click", exportToQQTimer)
+  document.querySelector("#export")!.addEventListener("click", exportTCN);
+  document
+    .querySelector("#export-to-cstimer")!
+    .addEventListener("click", exportToCSTimer);
+  document
+    .querySelector("#export-to-qqtimer")!
+    .addEventListener("click", exportToQQTimer);
   document.querySelector("#eventID")!.addEventListener("change", eventChanged);
-})
+  document
+    .querySelector("#rangeSelector")!
+    .addEventListener("change", rangeSelectorChanged);
+});
