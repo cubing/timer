@@ -1,37 +1,48 @@
 import PouchDB from "pouchdb"; // TODO: Add a wrapper so we can remove `allowSyntheticDefaultImports`.
 import PouchDBFind from "pouchdb-find"; // TODO: Add a wrapper so we can remove `allowSyntheticDefaultImports`.
-import { AttemptData, AttemptDataWithID, AttemptDataWithIDAndRev } from "./attempt";
+import {
+  AttemptData,
+  AttemptDataWithID,
+  AttemptDataWithIDAndRev,
+} from "./attempt";
 import { newDateUUID } from "./uuid";
 import { EventName } from "../cubing";
 
 PouchDB.plugin(PouchDBFind);
 
-export function allDocsResponseToAttemptList(docs: PouchDB.Core.AllDocsResponse<AttemptData>): AttemptData[] {
-  return docs.rows.filter((row) => "totalResultMs" in row.doc!).map((row) => row.doc!)
+export function allDocsResponseToAttemptList(
+  docs: PouchDB.Core.AllDocsResponse<AttemptData>
+): AttemptData[] {
+  return docs.rows
+    .filter((row) => "totalResultMs" in row.doc!)
+    .map((row) => row.doc!);
 }
 
-export function allDocsResponseToTimes(docs: PouchDB.Core.AllDocsResponse<AttemptData>): number[] {
-  return allDocsResponseToAttemptList(docs).map((doc) => doc.totalResultMs)
+export function allDocsResponseToTimes(
+  docs: PouchDB.Core.AllDocsResponse<AttemptData>
+): number[] {
+  return allDocsResponseToAttemptList(docs).map((doc) => doc.totalResultMs);
 }
 
 export class TimerSession {
-  public db: PouchDB.Database<AttemptData>
-  public remoteDB: PouchDB.Database<AttemptData>
+  public db: PouchDB.Database<AttemptData>;
+  public remoteDB: PouchDB.Database<AttemptData>;
   constructor(name: string = "session") {
-    this.db = new PouchDB(`session_${name}`)
+    this.db = new PouchDB(`session_${name}`);
     this.db.createIndex({
-      index: { fields: ["totalResultMs"] }
+      index: { fields: ["totalResultMs"] },
     });
   }
 
-  startSync(onSyncChange: (change: PouchDB.Replication.SyncResult<AttemptData>) => void): void {
-
+  startSync(
+    onSyncChange: (change: PouchDB.Replication.SyncResult<AttemptData>) => void
+  ): void {
     if (!localStorage.pouchDBUsername || !localStorage.pouchDBPassword) {
-      console.info("No CouchDB user!")
+      console.info("No CouchDB user!");
       return;
     }
 
-    console.log("Attempting to connect to CouchDB.")
+    console.log("Attempting to connect to CouchDB.");
 
     // TODO:
     // - Validate username/password.
@@ -42,14 +53,18 @@ export class TimerSession {
     url.pathname = `results-${localStorage.pouchDBUsername}`;
 
     this.remoteDB = new PouchDB(url.toString());
-    this.db.sync(this.remoteDB, {
-      live: true,
-      retry: true
-    }).on('change', onSyncChange).on('error', (err) => {
-      console.log("sync error", err);
-    }).catch((err) => {
-      console.log("sync bad error", err);
-    });
+    this.db
+      .sync(this.remoteDB, {
+        live: true,
+        retry: true,
+      })
+      .on("change", onSyncChange)
+      .on("error", (err) => {
+        console.log("sync error", err);
+      })
+      .catch((err) => {
+        console.log("sync bad error", err);
+      });
   }
 
   // Modifies the data to add the ID
@@ -60,14 +75,21 @@ export class TimerSession {
     return await this.db.put(dataWithId);
   }
 
-  async extremeTimes(limit: number, descending: boolean = false): Promise<AttemptDataWithIDAndRev[]> {
-    return (await this.db.find({
-      selector: {
-        totalResultMs: { $gt: 0 }
-      },
-      sort: [{ "totalResultMs": descending ? "desc" : "asc" }],
-      limit: 1
-    })).docs;
+  async extremeTimes(
+    limit: number,
+    descending: boolean = false,
+    event?: EventName
+  ): Promise<AttemptDataWithIDAndRev[]> {
+    return (
+      await this.db.find({
+        selector: {
+          totalResultMs: { $gt: 0 },
+          event,
+        },
+        sort: [{ totalResultMs: descending ? "desc" : "asc" }],
+        limit,
+      })
+    ).docs;
   }
 
   async bestSuccess(): Promise<AttemptDataWithIDAndRev | null> {
@@ -87,35 +109,47 @@ export class TimerSession {
   }
 
   // TODO: this is in reverse order!
-  async mostRecentAttempts(limit: number): Promise<PouchDB.Core.AllDocsResponse<AttemptData>> {
-    return (await this.db.allDocs({
-      limit: limit,
-      descending: true,
-      include_docs: true,
-    })); //.rows.map((row) => row.doc!);
+  async mostRecentAttempts(
+    limit: number,
+    event?: EventName,
+    descending?: boolean
+  ): Promise<PouchDB.Find.FindResponse<AttemptData>> {
+    return await this.db.find({
+      selector: {
+        totalResultMs: { $gt: 0 },
+        event,
+      },
+      sort: [{ _id: descending ? "desc" : "asc" }],
+      limit,
+    });
   }
 
   // TODO: this is in reverse order!
-  async mostRecentAttemptsForEvent(event: EventName, limit: number): Promise<PouchDB.Find.FindResponse<AttemptData>> {
+  async mostRecentAttemptsForEvent(
+    event: EventName,
+    limit: number
+  ): Promise<PouchDB.Find.FindResponse<AttemptData>> {
     // return (await this.db.allDocs({
     //   limit: limit,
     //   descending: true,
     //   include_docs: true,
     // })); //.rows.map((row) => row.doc!);
-    return (await this.db.find({
+    return await this.db.find({
       selector: {
-        event
+        event,
       },
-      sort: [{"_id": "desc"}],
-      limit: limit
-    }));
+      sort: [{ _id: "desc" }],
+      limit: limit,
+    });
   }
 
   // TODO: Remove this and encourate using map/reduce or limited reads.
   async allAttempts(): Promise<AttemptData[]> {
-    return allDocsResponseToAttemptList(await this.db.allDocs({
-      include_docs: true
-    }));
+    return allDocsResponseToAttemptList(
+      await this.db.allDocs({
+        include_docs: true,
+      })
+    );
   }
 }
 

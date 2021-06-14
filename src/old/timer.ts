@@ -16,10 +16,11 @@ type TransitionMap = any; // TODO: Type
 export class Controller {
   private timer: Timer;
   private state: State;
-  constructor(private domElement: HTMLElement,
+  constructor(
+    private domElement: HTMLElement,
     private solveDoneCallback: (t: Milliseconds) => void,
-    private attemptDoneCallback: () => void) {
-
+    private attemptDoneCallback: () => void
+  ) {
     var timerView = new View(domElement);
     this.timer = new Timer(timerView.displayTime.bind(timerView));
 
@@ -39,7 +40,10 @@ export class Controller {
       domElement.addEventListener("pointerdown", this.down.bind(this));
       domElement.addEventListener("pointerup", this.up.bind(this));
 
-      document.body.addEventListener("pointerdown", this.downIfRunning.bind(this));
+      document.body.addEventListener(
+        "pointerdown",
+        this.downIfRunning.bind(this)
+      );
       document.body.addEventListener("pointerup", this.upIfStopped.bind(this));
     }
 
@@ -69,21 +73,21 @@ export class Controller {
 
   private down() {
     var transitionMap: TransitionMap = {
-      "ready": State.HandOnTimer,
-      "handOnTimer": State.Ignore,
-      "running": State.Stopped,
-      "stopped": State.Ignore
-    }
+      ready: State.HandOnTimer,
+      handOnTimer: State.Ignore,
+      running: State.Stopped,
+      stopped: State.Ignore,
+    };
     this.setState(transitionMap[this.state]);
   }
 
   private up() {
     var transitionMap: TransitionMap = {
-      "ready": State.Ignore,
-      "handOnTimer": State.Running,
-      "running": State.Ignore,
-      "stopped": State.Ready
-    }
+      ready: State.Ignore,
+      handOnTimer: State.Running,
+      running: State.Ignore,
+      stopped: State.Ready,
+    };
     this.setState(transitionMap[this.state]);
   }
 
@@ -101,7 +105,13 @@ export class Controller {
     }
   }
 
+  private clearDocumentSelection() {
+    const selection = window.getSelection ? window.getSelection() : null;
+    selection?.empty();
+  }
+
   reset() {
+    this.clearDocumentSelection();
     this.timer.reset();
   }
 
