@@ -222,7 +222,7 @@ export function trForAttempt(attempt: AttemptDataWithIDAndRev, condensed: boolea
     tr.appendChild(tdWithContent(formatUnixTime(attempt.unixDate) + " | " + formatUnixDate(attempt.unixDate)));
     tr.appendChild(deviceTD(attempt));
   } else {
-    const todayDate = formatUnixDate(Date.now()); // TODO: optimize
+    const todayDate = formatUnixDate(performance.now()); // TODO: optimize
     const formattedTimeOfDay = formatUnixTime(attempt.unixDate);
     let formattedDate = formattedTimeOfDay;
     const formattedDateStamp = formatUnixDate(attempt.unixDate)

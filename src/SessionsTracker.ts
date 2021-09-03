@@ -57,7 +57,7 @@ export class SessionsTracker {
     // TODO
     // session.add({
     //   resultTotalMs: Math.floor(8000 + Math.random() * 6000),
-    //   unixDate: Date.now(),
+    //   unixDate: performance.now(),
     // });
     if (this.currentSession !== session) {
       this.currentSession = session;

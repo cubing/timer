@@ -284,7 +284,7 @@ export class TimerApp {
   private async persistResult(time: Milliseconds): Promise<void> {
     const attemptData: AttemptData = {
       totalResultMs: time,
-      unixDate: Date.now(),
+      unixDate: performance.now(),
       event: this.currentEvent,
       scramble: (this.currentScramble || { scrambleString: "" }).scrambleString,
     };

@@ -175,7 +175,7 @@ class Timer {
   }
 
   start() {
-    this.startTime = Date.now();
+    this.startTime = performance.now();
     this.currentTimeCallback(0);
     this.running = true;
     requestAnimationFrame(this.animFrameBound);
@@ -202,6 +202,6 @@ class Timer {
   }
 
   private elapsed() {
-    return Date.now() - this.startTime;
+    return performance.now() - this.startTime;
   }
 }
