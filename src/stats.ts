@@ -147,7 +147,7 @@ const SESSION_RESUMPTION_TIMEOUT_MS: Milliseconds = 2 * 60 * 1000; // 2 min
 //       }
 
 //       var session = JSON.parse(<string>localStorage.getItem("short-term-session"));
-//       var timely = Date.now() - session.date < SESSION_RESUMPTION_TIMEOUT_MS;
+//       var timely = Math.floor(performance.now()) - session.date < SESSION_RESUMPTION_TIMEOUT_MS;
 //       if (!timely && this.sessionInstanceId != session.id) {
 //         return [];
 //       }
@@ -161,7 +161,7 @@ const SESSION_RESUMPTION_TIMEOUT_MS: Milliseconds = 2 * 60 * 1000; // 2 min
 //   persistShortTermSession(times: Milliseconds[]) {
 //     localStorage.setItem("short-term-session", JSON.stringify({
 //       "id": this.sessionInstanceId,
-//       "date": Date.now(),
+//       "date": Math.floor(performance.now()),
 //       "times": times
 //     }));
 //   }
@@ -179,7 +179,7 @@ const SESSION_RESUMPTION_TIMEOUT_MS: Milliseconds = 2 * 60 * 1000; // 2 min
 //   async addTime(time: Milliseconds) {
 //     console.log(await this.session.addNewAttempt({
 //       totalResultMs: time,
-//       unixDate: Date.now(),
+//       unixDate: Math.floor(performance.now()),
 //     }));
 //   }
 
@@ -192,7 +192,7 @@ const SESSION_RESUMPTION_TIMEOUT_MS: Milliseconds = 2 * 60 * 1000; // 2 min
 //   const session = new Session("default");
 //   console.log(await session.addNewAttempt({
 //     totalResultMs: Math.floor(9000 + 3000 * Math.random()),
-//     unixDate: Date.now(),
+//     unixDate: Math.floor(performance.now()),
 //   }));
 
 //   console.log(await session.db.allDocs())
@@ -218,7 +218,7 @@ const SESSION_RESUMPTION_TIMEOUT_MS: Milliseconds = 2 * 60 * 1000; // 2 min
 //   // session.addAttempt({
 //   //   uuid: newUUID(),
 //   //   totalResultMs: 1234,
-//   //   unixDate: Date.now(),
+//   //   unixDate: Math.floor(performance.now()),
 //   // })
 
 //   // const session = await Session.create("hi");
