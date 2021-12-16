@@ -12,6 +12,7 @@
   "main": "./dist/timerApp.js",
   "types": "./dist/index.d.ts",
   "dependencies": {
+    "@babel/runtime": "^7.16.5",
     "@types/pouchdb": "^6.4.0",
     "alg": "^0.9.8",
     "babel-polyfill": "^6.26.0",
@@ -35,7 +36,7 @@
     "@types/mocha": "^5.2.3",
     "chai": "^4.1.2",
     "mocha": "^5.2.0",
-    "parcel": "^2.0.0-nightly.368",
+    "parcel": "^2.0.1",
     "ts-loader": "^4.4.2",
     "ts-node": "^7.0.0",
     "typescript": "^3.9.7",

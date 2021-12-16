@@ -1,10 +1,10 @@
 .PHONY: build
 build: clean-dist
-	npx parcel-bundler build --public-url ./ src/index.html
+	npx parcel build --public-url ./ src/index.html
 
 .PHONY: dev
 dev:
-	npx parcel-bundler src/index.html
+	npx parcel src/index.html
 
 SFTP_PATH = "towns.dreamhost.com:~/timer.cubing.net/"
 URL       = "https://timer.cubing.net/"
