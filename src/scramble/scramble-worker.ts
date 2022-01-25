@@ -1,23 +1,24 @@
 import "babel-polyfill"; // Prevent `regeneratorRuntime is not defined` error. https://github.com/babel/babel/issues/5085
 
-import { expose } from "comlink"
+import { expose } from "comlink";
 import { getRandomScramble as getRandomScramble222 } from "../vendor/cstimer/src/js/scramble/2x2x2";
 import { getRandomScramble as getRandomScramble333 } from "../vendor/cstimer/src/js/scramble/scramble_333_edit";
 import { getRandomScramble as getRandomScramble444 } from "../vendor/cstimer/src/js/scramble/scramble_444";
 import { getRandomScramble as getRandomScrambleClock } from "../vendor/cstimer/src/js/scramble/clock";
 import { getRandomScramble as getRandomScramblePyram } from "../vendor/cstimer/src/js/scramble/pyraminx";
 import { getRandomScramble as getRandomScrambleSkewb } from "../vendor/cstimer/src/js/scramble/skewb";
-import { randomFTOScrambleString } from "../vendor/cstimer/src/js/scramble/ftosolver-smaller-phase3-table";
+import { randomMasterTetraminxScrambleString } from "../vendor/cstimer/src/js/scramble/masterpyra";
 import { getRandomScramble as getRandomScrambleSq1 } from "./sq1_fix";
 import { EventName } from "../cubing";
 import { getRandomScramble333bf, getRandomScramble444bf } from "./bf";
+import { randomFTOScrambleString } from "../vendor/cstimer/src/js/scramble/ftosolver-smaller-phase3-table";
 
 export interface ScrambleWorker {
-  getRandomScramble(eventName: EventName): Promise<string>
+  getRandomScramble(eventName: EventName): Promise<string>;
 }
 
 export interface ScrambleWorkerConstructor {
-  new(): ScrambleWorker
+  new (): ScrambleWorker;
 }
 
 class ScrambleWorkerImpl implements ScrambleWorker {
@@ -31,10 +32,10 @@ class ScrambleWorkerImpl implements ScrambleWorker {
         return getRandomScramble333();
       case "333bf":
         return getRandomScramble333bf();
-        case "444":
-          return getRandomScramble444();
-          case "444bf":
-            return getRandomScramble444bf();
+      case "444":
+        return getRandomScramble444();
+      case "444bf":
+        return getRandomScramble444bf();
       case "clock":
         return getRandomScrambleClock();
       case "pyram":
@@ -43,12 +44,14 @@ class ScrambleWorkerImpl implements ScrambleWorker {
         return getRandomScrambleSkewb();
       case "sq1":
         return getRandomScrambleSq1();
-      case "fto": 
+      case "fto":
         return randomFTOScrambleString();
+      case "master_tetraminx":
+        return randomMasterTetraminxScrambleString();
       default:
         return "<scramble unavailable>";
     }
   }
 }
 
-expose(ScrambleWorkerImpl)
+expose(ScrambleWorkerImpl);
