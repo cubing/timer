@@ -7,6 +7,7 @@ import { getRandomScramble as getRandomScramble444 } from "../vendor/cstimer/src
 import { getRandomScramble as getRandomScrambleClock } from "../vendor/cstimer/src/js/scramble/clock";
 import { getRandomScramble as getRandomScramblePyram } from "../vendor/cstimer/src/js/scramble/pyraminx";
 import { getRandomScramble as getRandomScrambleSkewb } from "../vendor/cstimer/src/js/scramble/skewb";
+import { randomFTOScrambleString } from "../vendor/cstimer/src/js/scramble/ftosolver-smaller-phase3-table";
 import { getRandomScramble as getRandomScrambleSq1 } from "./sq1_fix";
 import { EventName } from "../cubing";
 import { getRandomScramble333bf, getRandomScramble444bf } from "./bf";
@@ -42,6 +43,8 @@ class ScrambleWorkerImpl implements ScrambleWorker {
         return getRandomScrambleSkewb();
       case "sq1":
         return getRandomScrambleSq1();
+      case "fto": 
+        return randomFTOScrambleString();
       default:
         return "<scramble unavailable>";
     }

@@ -4,7 +4,7 @@ import { randomScramble } from "./scramble"
 import { algToString } from "alg";
 
 // TODO: Rename to `EventID`?
-export type EventName = "333" | "444" | "555" | "222" | "333bf" | "333oh" | "333fm" | "333ft" | "minx" | "pyram" | "sq1" | "clock" | "skewb" | "666" | "777" | "444bf" | "555bf" | "333mbf";
+export type EventName = "333" | "444" | "555" | "222" | "333bf" | "333oh" | "333fm" | "333ft" | "minx" | "pyram" | "sq1" | "clock" | "skewb" | "666" | "777" | "444bf" | "555bf" | "333mbf" | "fto";
 export type ScrambleString = string;
 
 // var Cubing = function() {};
@@ -49,6 +49,7 @@ export const eventOrder: EventName[] = [
   // "333fm", "333ft", "minx",
   "pyram", "sq1", "clock", "skewb",
   // "666", "777", "444bf", "555bf", "333mbf"
+  "fto",
 ];
 
 // From cubing/scrambler-interface:
@@ -85,6 +86,7 @@ export const eventMetadata: { [e: string]: Event } = {
   // "444bf": { name: "4x4x4 BLD", acn_puzzle_name: "4x4x4", default_round: { type: "best", num_scrambles: 3 } },
   // "555bf": { name: "5x5x5 BLD", acn_puzzle_name: "5x5x5", default_round: { type: "best", num_scrambles: 3 } },
   // "333mbf": { name: "3x3x3 MBLD", acn_puzzle_name: "3x3x3", default_round: { type: "mbf", num_scrambles: 28 } }
+  "fto": { name: "FTO", acn_puzzle_name: null, default_round: { type: "avg", num_scrambles: 5 } },
 };
 
 // /** @typedef {string} */
