@@ -174,6 +174,8 @@ export const eventMetadata: { [e: string]: Event } = {
 //  */
 // Cubing.Scramble;
 
+const randomScramblePrefetch: Record<string, Promise<ScrambleString>> = {};
+
 export class Scramblers {
   constructor() {
     // TODO
@@ -194,7 +196,17 @@ export class Scramblers {
     eventName: EventName,
     callback: (s: ScrambleString) => void
   ) {
-    randomScramble(eventName).then(callback);
+    let promise;
+    if (eventName in randomScramblePrefetch) {
+      promise = randomScramblePrefetch[eventName];
+      delete randomScramblePrefetch[eventName];
+    } else {
+      promise = randomScramble(eventName);
+    }
+    promise.then((s) => {
+      randomScramblePrefetch[eventName] = randomScramble(eventName);
+      callback(s);
+    });
     // callback("R U R'");
     // TODO
     // var commandId = this._commandScrambleId;
