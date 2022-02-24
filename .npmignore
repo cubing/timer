@@ -1,3 +1,0 @@
-# Including this file prevents `npm`/`yarn` from excluding everything in
-# `.gitignore, and only ignores files specified here.
-/node_modules

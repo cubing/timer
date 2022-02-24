@@ -1,53 +1,33 @@
 {
-  "name": "@cubing/timer",
-  "version": "0.0.1",
-  "description": "Template for interacting with cubing JS libraries.",
+  "name": "timer.cubing.net",
+  "version": "3.0.0-pre1",
   "author": "Lucas Garron <code@garron.net> (https://garron.net/)",
   "license": "GPL-3.0-or-later",
-  "repository": "github:cubing/libTemplate.js",
-  "bugs": {
-    "url": "https://github.com/cubing/libTemplate.js/issues"
-  },
-  "main": "./dist/timerApp.js",
-  "types": "./dist/index.d.ts",
-  "dependencies": {
-    "@types/pouchdb": "^6.4.0",
-    "alg": "^0.9.8",
-    "babel-polyfill": "^6.26.0",
-    "comlink": "^4.2.0",
-    "cubing": "^0.9.18",
-    "inspector": "^0.5.0",
-    "lib": "^4.0.5",
-    "pouchdb": "^7.1.1",
-    "pouchdb-find": "^7.1.1",
-    "results": "^0.14.1"
-  },
-  "externalsForWebpack": [
-    "alg"
-  ],
-  "devDependencies": {
-    "@types/chai": "^4.1.4",
-    "@types/mocha": "^5.2.3",
-    "chai": "^4.1.2",
-    "mocha": "^5.2.0",
-    "parcel-bundler": "^1.12.4",
-    "parcel-plugin-sw-cache": "^0.3.1",
-    "ts-loader": "^4.4.2",
-    "ts-node": "^7.0.0",
-    "typescript": "^3.7.5",
-    "webpack": "^4.41.5",
-    "webpack-cli": "^3.0.8",
-    "webpack-notifier": "^1.6.0"
-  },
+  "type": "module",
   "scripts": {
-    "prepublishOnly": "make dist"
+    "dev": "node script/dev.js"
   },
-  "cache": {
-    "globPatterns": [
-      "**/*.{html,js,css,jpg,png,ttf,ico}"
-    ],
-    "ignoreURLParametersMatching": [
-      ".*"
-    ]
-  }
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cubing/timer.git"
+  },
+  "bugs": {
+    "url": "https://github.com/cubing/timer/issues"
+  },
+  "homepage": "https://github.com/cubing/timer#readme",
+  "devDependencies": {
+    "barely-a-dev-server": "^0.2.6"
+  },
+  "dependencies": {
+    "cubing": "^0.25.1",
+    "timer-db": "^0.0.6"
+  },
+  "keywords": [
+    "cubing",
+    "timer",
+    "speedcubing",
+    "speedsolving",
+    "puzzles",
+    "rubiks"
+  ]
 }

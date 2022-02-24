@@ -1,27 +1,17 @@
-.PHONY: build
-build: clean-dist
-	npx parcel-bundler build --public-url ./ src/index.html
+# This Makefile is a wrapper around the scripts from `package.json`.
+# https://github.com/lgarron/Makefile-scripts
 
-.PHONY: dev
-dev:
-	npx parcel-bundler src/index.html
+# Note: the first command becomes the default `make` target.
+NPM_COMMANDS = dev
 
-SFTP_PATH = "towns.dreamhost.com:~/timer.cubing.net/"
-URL       = "https://timer.cubing.net/"
+.PHONY: $(NPM_COMMANDS)
+$(NPM_COMMANDS):
+	npm run $@
 
-.PHONY: deploy
-deploy: build
-	rsync -avz \
-		--exclude .DS_Store \
-		--exclude .git \
-		./dist/ \
-		${SFTP_PATH}
-	echo "\nDone deploying. Go to ${URL}\n"
-
-
-.PHONY: clean
-clean: clean-dist
-
-.PHONY: clean-dist
-clean-dist:
-	rm -rf ./dist
+# We write the npm commands to the top of the file above to make shell autocompletion work in more places.
+DYNAMIC_NPM_COMMANDS = $(shell node -e 'console.log(Object.keys(require("./package.json").scripts).join(" "))')
+UPDATE_MAKEFILE_SED_ARGS = "s/^NPM_COMMANDS = .*$$/NPM_COMMANDS = ${DYNAMIC_NPM_COMMANDS}/" Makefile
+.PHONY: update-Makefile
+update-Makefile:
+	if [ "$(shell uname -s)" = "Darwin" ] ; then sed -i "" ${UPDATE_MAKEFILE_SED_ARGS} ; fi
+	if [ "$(shell uname -s)" != "Darwin" ] ; then sed -i"" ${UPDATE_MAKEFILE_SED_ARGS} ; fi
