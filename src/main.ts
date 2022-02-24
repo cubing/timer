@@ -1,4 +1,5 @@
 import { TwistyAlgViewer, TwistyPlayer } from "cubing/twisty";
+import "./db";
 
 class TimerAppV3 {
   player = new TwistyPlayer();
