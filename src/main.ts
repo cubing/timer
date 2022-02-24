@@ -8,3 +8,5 @@ class TimerAppV3 {
     this.viewer.setTwistyPlayer(this.player);
   }
 }
+
+globalThis.timer = new TimerAppV3();
