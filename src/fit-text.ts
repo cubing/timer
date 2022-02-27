@@ -1,3 +1,8 @@
+// TODO: How do we avoid bad sizing flashes without this?
+const globalWait = async () => {
+  await new Promise((resolve) => setTimeout(resolve, 0));
+};
+
 export class TextFitter {
   constructor(
     private elem: HTMLElement,
@@ -9,7 +14,8 @@ export class TextFitter {
     this.elem.style.overflow = "hidden";
   }
 
-  onResize(): void {
+  async onResize(): Promise<void> {
+    await globalWait();
     // console.log("Sdfdsf")
     this.elem.classList.toggle(
       "vertical",
