@@ -15,7 +15,9 @@
   src: url("../vendor/fonts/digital-7.ttf") format("truetype");
 }
 
-html, body, timer-app {
+html,
+body,
+timer-app {
   height: 100%;
   width: 100%;
   margin: 0;
@@ -67,6 +69,7 @@ time-display {
   overflow: hidden;
   /* font-size: 15rem; */
   font-family: digital-7, monospace;
+  margin: 0.25em;
 }
 
 time-display.vertical span {
@@ -80,20 +83,18 @@ time-display.vertical span > * {
   place-content: center;
 }
 
-time-display > span {
-  margin: 0.25em;
-}
-
 time-display time-dot {
-  display: inline
+  display: inline;
 }
 
 time-display.vertical time-dot {
   display: none;
 }
 
-time-dot, time-decimals {
+time-dot,
+time-decimals {
   opacity: 0.25;
+  font-size: 50%
 }
 
 time-decimals {

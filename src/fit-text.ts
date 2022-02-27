@@ -7,9 +7,10 @@ export class TextFitter {
   }
 
   onResize(): void {
+    // console.log("Sdfdsf")
     this.elem.classList.toggle(
       "vertical",
-      this.elem.offsetWidth / this.elem.offsetHeight < (this.options?.verticalRatio ?? 1)
+      this.elem.clientWidth / this.elem.clientHeight < (this.options?.verticalRatio ?? 1)
     );
 
     let px = 1;
@@ -21,7 +22,7 @@ export class TextFitter {
       px < 1000 && this.tryFit(px);
       px = Math.ceil(1.1 * px)
     ) {}
-    console.log("2", px);
+    // console.log("2", px);
     // for (; px < 1000 && this.tryFit(px); px = Math.ceil(1.1 * px)) {}
 
     this.tryFit(this.lastGoodFit);
@@ -29,27 +30,27 @@ export class TextFitter {
 
   lastGoodFit: number = 1;
   tryFit(px: number): boolean {
-    console.log("trying", px);
-    this.elem.style.fontSize = `${px}vw`; // TODO: back to `px`?
-    if (this.elem.offsetWidth < this.elem.scrollWidth) {
-      console.log(
-        "Width too large!",
-        px,
-        this.elem.offsetWidth,
-        this.elem.scrollWidth
-      );
+    // console.log("trying", px);
+    this.elem.style.fontSize = `${px}px`; // TODO: back to `px`?
+    if (this.elem.clientWidth < this.elem.scrollWidth) {
+      // console.log(
+      //   "Width too large!",
+      //   px,
+      //   this.elem.clientWidth,
+      //   this.elem.scrollWidth
+      // );
       return false;
     }
-    if (this.elem.offsetHeight < this.elem.scrollHeight) {
-      console.log(
-        "Height too large!",
-        px,
-        this.elem.offsetHeight,
-        this.elem.scrollHeight
-      );
+    if (this.elem.clientHeight < this.elem.scrollHeight) {
+      // console.log(
+      //   "Height too large!",
+      //   px,
+      //   this.elem.clientHeight,
+      //   this.elem.scrollHeight
+      // );
       return false;
     }
-    // console.log(this.elem.offsetWidth, this.elem.scrollWidth);
+    // console.log(this.elem.clientWidth, this.elem.scrollWidth);
     this.lastGoodFit = px;
     return true;
   }
