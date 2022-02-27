@@ -59,8 +59,22 @@ time-display {
   grid-area: time-display;
   display: grid;
   place-content: center;
-  font-size: 15rem;
+  box-sizing: border-box;
+  overflow: hidden;
+  /* font-size: 15rem; */
   font-family: digital-7, monospace;
+}
+
+time-display > span {
+  margin: 0.25em;
+}
+
+time-display timer-dot {
+  display: inline
+}
+
+time-display.vertical timer-dot {
+  display: none;
 }
 
 time-decimals {

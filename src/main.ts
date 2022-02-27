@@ -1,5 +1,6 @@
 import { TwistyAlgViewer, TwistyPlayer } from "cubing/twisty";
 import "./db";
+import { TextFitter } from "./fit-text";
 
 class TimerAppV3 {
   player = new TwistyPlayer();
@@ -7,6 +8,8 @@ class TimerAppV3 {
   constructor() {
     this.player.alg = "R U R'";
     this.viewer.setTwistyPlayer(this.player);
+
+    new TextFitter(document.querySelector("time-display"));
   }
 }
 
