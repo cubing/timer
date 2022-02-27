@@ -1,16 +1,20 @@
 export class TextFitter {
-  constructor(private elem: HTMLElement, private options?: {verticalRatio?: number}) {
+  constructor(
+    private elem: HTMLElement,
+    private options?: { verticalRatio?: number }
+  ) {
     console.log(this.elem);
     const observer = new ResizeObserver(() => this.onResize());
     observer.observe(this.elem);
-    this.elem.style.overflow = "hidden"
+    this.elem.style.overflow = "hidden";
   }
 
   onResize(): void {
     // console.log("Sdfdsf")
     this.elem.classList.toggle(
       "vertical",
-      this.elem.clientWidth / this.elem.clientHeight < (this.options?.verticalRatio ?? 1)
+      this.elem.clientWidth / this.elem.clientHeight <
+        (this.options?.verticalRatio ?? 1)
     );
 
     let px = 1;
