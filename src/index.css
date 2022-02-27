@@ -36,6 +36,9 @@ scramble-bar {
   background-color: var(--main-theme-color);
   color: white;
   box-shadow: 0 0 4px rgb(0 0 0 / 14%), 0 4px 8px rgb(0 0 0 / 28%);
+  overflow: hidden;
+  padding: 1em;
+  text-align: center;
 }
 
 event-select {

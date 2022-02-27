@@ -3,6 +3,7 @@ export class TextFitter {
     console.log(this.elem);
     const observer = new ResizeObserver(() => this.onResize());
     observer.observe(this.elem);
+    this.elem.style.overflow = "hidden"
   }
 
   onResize(): void {
