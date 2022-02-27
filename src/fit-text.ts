@@ -1,5 +1,5 @@
 export class TextFitter {
-  constructor(private elem: HTMLElement) {
+  constructor(private elem: HTMLElement, private options?: {verticalRatio?: number}) {
     console.log(this.elem);
     const observer = new ResizeObserver(() => this.onResize());
     observer.observe(this.elem);
@@ -9,7 +9,7 @@ export class TextFitter {
   onResize(): void {
     this.elem.classList.toggle(
       "vertical",
-      this.elem.offsetHeight > this.elem.offsetWidth
+      this.elem.offsetWidth / this.elem.offsetHeight < (this.options?.verticalRatio ?? 1)
     );
 
     let px = 1;
@@ -19,7 +19,7 @@ export class TextFitter {
     for (
       px = this.lastGoodFit;
       px < 1000 && this.tryFit(px);
-      px = Math.floor(1.1 * px)
+      px = Math.ceil(1.1 * px)
     ) {}
     console.log("2", px);
     // for (; px < 1000 && this.tryFit(px); px = Math.ceil(1.1 * px)) {}
