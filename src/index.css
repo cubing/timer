@@ -65,16 +65,31 @@ time-display {
   font-family: digital-7, monospace;
 }
 
+time-display.vertical span {
+  display: grid;
+  place-content: center;
+  grid-auto-columns: 1fr;
+}
+
+time-display.vertical span > * {
+  display: grid;
+  place-content: center;
+}
+
 time-display > span {
   margin: 0.25em;
 }
 
-time-display timer-dot {
+time-display time-dot {
   display: inline
 }
 
-time-display.vertical timer-dot {
+time-display.vertical time-dot {
   display: none;
+}
+
+time-dot, time-decimals {
+  opacity: 0.25;
 }
 
 time-decimals {
