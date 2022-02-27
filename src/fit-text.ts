@@ -30,7 +30,7 @@ export class TextFitter {
   lastGoodFit: number = 1;
   tryFit(px: number): boolean {
     console.log("trying", px);
-    this.elem.style.fontSize = `${px}px`;
+    this.elem.style.fontSize = `${px}vw`;
     if (this.elem.offsetWidth < this.elem.scrollWidth) {
       console.log(
         "Width too large!",
