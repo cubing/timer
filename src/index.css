@@ -1,3 +1,48 @@
-html, body {
-  background: #f2f2f2;
+html, body, timer-app {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  font-family: Ubuntu, Tahoma, sans-serif;
+}
+
+
+timer-app {
+  display: grid;
+  grid-template-areas: "scramble-bar timer-stats" "twisty-player timer-stats" "time-display timer-stats";
+  grid-template-columns: 2fr 1fr;
+  grid-template-rows: 1fr 1fr 2fr;
+}
+
+scramble-bar {
+  grid-area: scramble-bar;
+  display: grid;
+  place-content: center;
+}
+
+event-select {
+  grid-area: event-select;
+}
+
+twisty-alg-viewer {
+  grid-area: twisty-alg-viewer;
+  display: grid;
+  place-content: center;
+}
+
+twisty-player {
+  grid-area: twisty-player;
+  width: 100%;
+  height: 100%;
+}
+
+time-display {
+  grid-area: time-display;
+  display: grid;
+  place-content: center;
+  font-size: 5rem;
+}
+
+timer-stats {
+  grid-area: timer-stats;
+  padding: 1em;
 }

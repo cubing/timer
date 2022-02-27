@@ -11,9 +11,9 @@ console.log(db);
   // for (const attempt of await session.nMostRecent(100)) {
   //   session.delete(attempt);
   // }
-  await session.add({
-    resultTotalMs: Math.floor(8000 + Math.random() * 4000),
-    unixDate: Date.now(),
-  });
+  // await session.add({
+  //   resultTotalMs: Math.floor(8000 + Math.random() * 4000),
+  //   unixDate: Date.now(),
+  // });
   console.log(await session.nMostRecent(100));
 })();
