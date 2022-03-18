@@ -8,6 +8,7 @@ export class TextFitter {
     private elem: HTMLElement,
     private options?: { verticalRatio?: number }
   ) {
+    console.log({ elem });
     const observer = new ResizeObserver(() => this.onResize());
     observer.observe(this.elem);
     this.elem.style.overflow = "hidden";

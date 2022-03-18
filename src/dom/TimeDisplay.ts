@@ -1,14 +1,13 @@
+import "./TimeDisplay.css";
+
 import { MillisecondTimestamp } from "cubing/dist/types/twisty/controllers/AnimationTypes";
 import { TextFitter } from "./fit-text";
-import { timeToParts } from "./format";
+import { timeToParts } from "../format";
 
 export class TimeDisplay extends HTMLElement {
-  timeDisplayTextFitter = new TextFitter(
-    document.querySelector("time-display"),
-    {
-      verticalRatio: 1.5,
-    }
-  );
+  textFitter = new TextFitter(this, {
+    verticalRatio: 1.5,
+  });
 
   emphasizedFirstElem = this.querySelector("time-first");
   emphasizedRestElem = this.querySelector("time-rest");
