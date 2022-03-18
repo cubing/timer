@@ -26,10 +26,29 @@ export class TimerAppV3 extends HTMLElement {
   connectedCallback(): void {
     this.scrambleBar.algViewer.setTwistyPlayer(this.player);
 
-    this.setEvent("minx");
+    this.setEvent("sq1");
     this.startNewAttempt();
     console.log("SDfsdf", this.timeDisplay);
     this.timeDisplay.time = 0;
+
+    window.addEventListener("keydown", (e) => {
+      if (e.code === "Space") {
+        e.preventDefault();
+        if (e.repeat) {
+          return;
+        }
+        this.currentAttempt?.onSpaceDown();
+      }
+    });
+    window.addEventListener("keyup", (e) => {
+      if (e.code === "Space") {
+        e.preventDefault();
+        if (e.repeat) {
+          return;
+        }
+        this.currentAttempt?.onSpaceUp();
+      }
+    });
   }
 
   currentAttempt: TimerAttempt | null = null;
@@ -69,8 +88,8 @@ export class TimerAppV3 extends HTMLElement {
     // this.scrambleBarTextFitter.onResize();
   }
 
-  showTime(): void {
-    this.classList.add("show-time");
+  showTimeDisplay(show: boolean = true): void {
+    this.classList.toggle("hide-time", !show);
   }
 }
 

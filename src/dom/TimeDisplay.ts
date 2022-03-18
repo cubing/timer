@@ -18,6 +18,8 @@ export class TimeDisplay extends HTMLElement {
     this.emphasizedFirstElem.textContent = timeParts.secFirst;
     this.emphasizedRestElem.textContent = timeParts.secRest;
     this.deEmphasizedElem.textContent = timeParts.decimals;
+
+    this.textFitter.onResize();
   }
 }
 

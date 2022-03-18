@@ -28,10 +28,9 @@ timer-app {
   display: grid;
   grid-template-areas:
     "scramble-bar timer-stats"
-    "twisty-player timer-stats"
     "time-display timer-stats";
   grid-template-columns: 2fr 1fr;
-  grid-template-rows: 1fr 1fr 4fr;
+  grid-template-rows: 1fr 4fr;
 }
 
 scramble-bar {
@@ -57,10 +56,14 @@ twisty-alg-viewer {
 }
 
 twisty-player {
-  grid-area: twisty-player;
+  grid-area: main;
   width: 100%;
   height: 100%;
   overflow: hidden;
+}
+
+time-display {
+  grid-area: main;
 }
 
 timer-stats {
@@ -74,10 +77,28 @@ timer-stats {
 /* Event-specific tweaks */
 
 timer-app.event-minx {
-  grid-template-rows: 1.8fr 1fr 4fr;
+  grid-template-rows: 1.8fr 4fr;
+}
+
+twisty-player {
+  display: none;
 }
 
 timer-app.event-minx twisty-alg-viewer {
   text-align: left;
   font-family: monospace;
+}
+
+timer-app.hide-time time-display {
+  display: none;
+}
+
+timer-app.hide-time twisty-player {
+  display: inherit;
+}
+
+timer-app.hide-time {
+  grid-template-areas:
+    "scramble-bar timer-stats"
+    "main timer-stats";
 }

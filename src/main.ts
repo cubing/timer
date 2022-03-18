@@ -1,3 +1,3 @@
-import { TimerAppV3 } from "./TimerAppV3";
+import "./TimerAppV3";
 
-globalThis.timer = new TimerAppV3();
+globalThis.timerApp = document.querySelector("timer-app");

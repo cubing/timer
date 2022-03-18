@@ -3,22 +3,24 @@ import { randomScrambleForEvent } from "cubing/scramble";
 import type { TimerAppV3 } from "./TimerAppV3";
 
 export enum TimerAttemptStatus {
-  GeneratingScramble,
-  ScrambleReady,
-  TimerReady,
-  TimerStarted,
-  TimerStopped,
+  GeneratingScramble = "GeneratingScramble",
+  ScrambleReady = "ScrambleReady",
+  TimerReady = "TimerReady",
+  TimerRunning = "TimerRunning",
+  TimerStopped = "TimerStopped",
 }
 export class TimerAttempt {
   scramble: Promise<Alg>;
   constructor(private app: TimerAppV3, public eventID: string) {
-    this.scramble = randomScrambleForEvent(eventID);
-
-    this.scramble.then(() => this.onScramble());
-
-    this.scramble.catch(() =>
-      console.error("cannot get scramble for event???", eventID)
-    );
+    this.app.showTimeDisplay(false);
+    (async () => {
+      try {
+        this.scramble = randomScrambleForEvent(eventID);
+        this.onScramble(await this.scramble);
+      } catch (e) {
+        console.error("cannot get scramble for event???", eventID, e);
+      }
+    })();
   }
 
   #status = TimerAttemptStatus.GeneratingScramble;
@@ -32,10 +34,14 @@ export class TimerAttempt {
         `Tried to set the same status as before: ${this.#status}`
       );
     }
+    console.log("new status", newStatus);
+    this.#status = newStatus;
   }
 
-  onScramble(): void {
+  onScramble(scramble: Alg): void {
+    console.log("scramble!", scramble);
     this.status = TimerAttemptStatus.ScrambleReady;
+    this.app.player.alg = scramble;
   }
 
   onSpaceDown(): void {
@@ -45,7 +51,38 @@ export class TimerAttempt {
         throw new Error("cannot start an attempt without a scramble");
       case TimerAttemptStatus.ScrambleReady:
         this.status = TimerAttemptStatus.TimerReady;
-        this.app.showTime();
+        this.app.showTimeDisplay(true);
+        return;
+      case TimerAttemptStatus.TimerReady:
+        // ignore
+        return;
+      case TimerAttemptStatus.TimerRunning:
+        this.status = TimerAttemptStatus.TimerStopped;
+        return;
+      case TimerAttemptStatus.TimerStopped:
+        this.app.startNewAttempt();
+        return;
+      default:
+        throw new Error("unimplemented!");
+    }
+  }
+
+  onSpaceUp(): void {
+    switch (this.status) {
+      case TimerAttemptStatus.GeneratingScramble:
+        // ignore
+        return;
+      case TimerAttemptStatus.ScrambleReady:
+        // ignore
+        return;
+      case TimerAttemptStatus.TimerReady:
+        this.status = TimerAttemptStatus.TimerRunning;
+        return;
+      case TimerAttemptStatus.TimerStopped:
+        // ignore
+        return;
+      default:
+        throw new Error("unimplemented!");
     }
   }
 }
