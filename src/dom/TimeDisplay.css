@@ -19,6 +19,11 @@ time-display.vertical {
   grid-auto-flow: row;
 }
 
+time-display.vertical > * {
+  display: grid;
+  place-content: center;
+}
+
 time-display time-dot {
   display: inline;
 }

@@ -25,6 +25,9 @@ export class TimerAppV3 extends HTMLElement {
 
   connectedCallback(): void {
     this.scrambleBar.algViewer.setTwistyPlayer(this.player);
+    this.player.experimentalModel.alg.addFreshListener(() => {
+      this.scrambleBar.textFitter.onResize(true);
+    });
 
     this.setEvent("sq1");
     this.startNewAttempt();
