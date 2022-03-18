@@ -18,7 +18,7 @@ class TimerAppV3 {
   timeDisplayTextFitter = new TextFitter(
     document.querySelector("time-display"),
     {
-      verticalRatio: 1.2,
+      verticalRatio: 1.5,
     }
   );
   scrambleBarTextFitter = new TextFitter(
