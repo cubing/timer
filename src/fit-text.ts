@@ -8,15 +8,25 @@ export class TextFitter {
     private elem: HTMLElement,
     private options?: { verticalRatio?: number }
   ) {
-    console.log(this.elem);
     const observer = new ResizeObserver(() => this.onResize());
     observer.observe(this.elem);
     this.elem.style.overflow = "hidden";
   }
 
+  lastDims: { clientWidth: number; clientHeight: number } | null = null;
   async onResize(): Promise<void> {
+    const { clientWidth, clientHeight } = this.elem;
+    if (
+      this.lastDims &&
+      this.lastDims.clientWidth === clientWidth &&
+      this.lastDims.clientHeight === clientHeight
+    ) {
+      // No change. Let's avoid debouncing / redundant DOM sizing operations.
+      return;
+    }
+    this.lastDims = { clientWidth, clientHeight };
+
     await globalWait();
-    // console.log("Sdfdsf")
     this.elem.classList.toggle(
       "vertical",
       this.elem.clientWidth / this.elem.clientHeight <
@@ -25,42 +35,24 @@ export class TextFitter {
 
     let px = 1;
     for (px = 1; px < 1000 && this.tryFit(px); px *= 2) {}
-    // console.log("1", px);
-    // debugger;
     for (
       px = this.lastGoodFit;
       px < 1000 && this.tryFit(px);
       px = Math.ceil(1.1 * px)
     ) {}
-    // console.log("2", px);
-    // for (; px < 1000 && this.tryFit(px); px = Math.ceil(1.1 * px)) {}
 
     this.tryFit(this.lastGoodFit);
   }
 
   lastGoodFit: number = 1;
   tryFit(px: number): boolean {
-    // console.log("trying", px);
-    this.elem.style.fontSize = `${px}px`; // TODO: back to `px`?
+    this.elem.style.fontSize = `${px}px`; // TODO: back to `em`?
     if (this.elem.clientWidth < this.elem.scrollWidth) {
-      // console.log(
-      //   "Width too large!",
-      //   px,
-      //   this.elem.clientWidth,
-      //   this.elem.scrollWidth
-      // );
       return false;
     }
     if (this.elem.clientHeight < this.elem.scrollHeight) {
-      // console.log(
-      //   "Height too large!",
-      //   px,
-      //   this.elem.clientHeight,
-      //   this.elem.scrollHeight
-      // );
       return false;
     }
-    // console.log(this.elem.clientWidth, this.elem.scrollWidth);
     this.lastGoodFit = px;
     return true;
   }
