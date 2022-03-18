@@ -73,17 +73,14 @@ time-display {
   font-family: digital-7, monospace;
   padding: 0.25em;
   contain: strict;
+  grid-auto-flow: column;
+  align-items: baseline;
 }
 
-time-display.vertical span {
+time-display.vertical {
   display: grid;
   place-content: center;
-  grid-auto-columns: 1fr;
-}
-
-time-display.vertical span > * {
-  display: grid;
-  place-content: center;
+  grid-auto-flow: row;
 }
 
 time-display time-dot {
@@ -94,13 +91,21 @@ time-display.vertical time-dot {
   display: none;
 }
 
+time-emphasized {
+  grid-auto-flow: column;
+}
+
+time-first {
+  font-family: digital-7, monospace;
+}
+
 time-dot,
-time-decimals {
+time-de-emphasized {
   opacity: 0.25;
   font-size: 50%;
 }
 
-time-decimals {
+time-de-emphasized {
   font-family: digital-7-mono, monospace;
 }
 

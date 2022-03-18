@@ -5,6 +5,9 @@ import type { TwistyAlgViewer, TwistyPlayer } from "cubing/twisty";
 import "./db";
 import { TextFitter } from "./fit-text";
 
+import "./time-display";
+import { TimeDisplay } from "./time-display";
+
 enum ScrambleStatus {
   Pending,
   Ready,
@@ -14,19 +17,16 @@ class TimerAppV3 {
   appElem = document.querySelector("timer-app");
   player = document.querySelector("twisty-player") as TwistyPlayer;
   algViewer: TwistyAlgViewer = document.querySelector("twisty-alg-viewer");
+  timeDisplay: TimeDisplay = document.querySelector("time-display");
 
-  timeDisplayTextFitter = new TextFitter(
-    document.querySelector("time-display"),
-    {
-      verticalRatio: 1.5,
-    }
-  );
   scrambleBarTextFitter = new TextFitter(
     document.querySelector("scramble-bar")
   );
   constructor() {
     console.log(this.algViewer);
     this.algViewer.setTwistyPlayer(this.player);
+
+    this.timeDisplay.time = 11130;
 
     this.setEvent("minx");
     setTimeout(() => this.scrambleBarTextFitter.onResize(), 0);
