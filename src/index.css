@@ -71,7 +71,8 @@ time-display {
   overflow: hidden;
   /* font-size: 15rem; */
   font-family: digital-7, monospace;
-  margin: 0.25em;
+  padding: 0.25em;
+  contain: strict;
 }
 
 time-display.vertical span {
