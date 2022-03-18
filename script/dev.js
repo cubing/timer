@@ -5,5 +5,6 @@ barelyServe({
   port: 3456,
   esbuildOptions: {
     minify: false,
+    loader: { ".ttf": "file" },
   },
 });

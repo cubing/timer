@@ -1,10 +1,12 @@
+import "./TimerAppV3.css";
+
 import { eventInfo } from "cubing/puzzles";
 import { randomScrambleForEvent } from "cubing/scramble";
 import "cubing/twisty";
-import type { TwistyAlgViewer, TwistyPlayer } from "cubing/twisty";
+import type { TwistyPlayer } from "cubing/twisty";
 import "./db";
 import "./dom/ScrambleBar";
-import { ScrambleBar } from "./dom/ScrambleBar";
+import { type ScrambleBar } from "./dom/ScrambleBar";
 import "./dom/TimeDisplay";
 import { TimeDisplay } from "./dom/TimeDisplay";
 import { TimerAttempt } from "./TimerAttempt";
@@ -24,6 +26,7 @@ export class TimerAppV3 extends HTMLElement {
   }
 
   connectedCallback(): void {
+    console.log(this.scrambleBar.algViewer);
     this.scrambleBar.algViewer.setTwistyPlayer(this.player);
     this.player.experimentalModel.alg.addFreshListener(() => {
       this.scrambleBar.textFitter.onResize(true);
