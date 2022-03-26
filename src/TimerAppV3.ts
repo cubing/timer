@@ -26,11 +26,13 @@ export class TimerAppV3 extends HTMLElement {
   }
 
   connectedCallback(): void {
-    console.log(this.scrambleBar.algViewer);
-    this.scrambleBar.algViewer.setTwistyPlayer(this.player);
-    this.player.experimentalModel.alg.addFreshListener(() => {
-      this.scrambleBar.textFitter.onResize(true);
-    });
+    // console.log(
+    //   this.scrambleBar,
+    //   this.scrambleBar.isConnected,
+    //   this.scrambleBar.algViewer
+    // );
+    // this.scrambleBar.test();
+    // this.scrambleBar.algViewer.setTwistyPlayer(this.player);
 
     this.setEvent("sq1");
     this.startNewAttempt();
@@ -72,7 +74,8 @@ export class TimerAppV3 extends HTMLElement {
     this.event = event;
     this.player.puzzle = eventInfo(event).puzzleID;
     this.scrambleStatus = ScrambleStatus.Pending;
-    this.player.alg = "// Generating scramble...";
+    // console.log(this.player, this.player.experimentalModel);
+    // this.player.alg = "// Generating scramble...";
     // this.scrambleBarTextFitter.onResize();
     this.classList.add("event-" + this.event);
     this.updateScramble();
@@ -81,7 +84,7 @@ export class TimerAppV3 extends HTMLElement {
   scrambleStatus: ScrambleStatus.Pending;
   async updateScramble(): Promise<void> {
     const event = this.event;
-    this.player.alg = "// Generating scramble...";
+    // this.player.alg = "// Generating scramble...";
     // this.scrambleBarTextFitter.onResize();
     console.log("foo!");
     const scramble = await randomScrambleForEvent(event);
@@ -90,7 +93,7 @@ export class TimerAppV3 extends HTMLElement {
       return;
     }
     console.log(scramble);
-    this.player.alg = scramble;
+    this.player.experimentalModel.alg.set(scramble);
     // this.scrambleBarTextFitter.onResize();
   }
 

@@ -41,7 +41,8 @@ export class TimerAttempt {
   onScramble(scramble: Alg): void {
     console.log("scramble!", scramble);
     this.status = TimerAttemptStatus.ScrambleReady;
-    this.app.player.alg = scramble;
+    console.log("aasdasd", this.app.player, this.app.player.experimentalModel);
+    this.app.player.experimentalModel.alg.set(scramble);
   }
 
   onSpaceDown(): void {

@@ -12,10 +12,16 @@ export class TextFitter {
     const observer = new ResizeObserver(() => this.onResize());
     observer.observe(this.elem);
     this.elem.style.overflow = "hidden";
+    this.elem.style.contain = "strict";
   }
 
   lastDims: { clientWidth: number; clientHeight: number } | null = null;
   async onResize(contentChanged: boolean = false): Promise<void> {
+    console.log("this.elem.textContent", this.elem.textContent);
+    if (this.elem.textContent.trim() === "") {
+      return;
+    }
+
     const { clientWidth, clientHeight } = this.elem;
     if (
       !contentChanged &&
