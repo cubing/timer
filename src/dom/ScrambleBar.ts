@@ -15,7 +15,7 @@ export class ScrambleBar extends HTMLElement {
   connectedCallback(): void {
     const app = this.closest("timer-app") as TimerAppV3;
     console.log("player", app.player);
-    this.algViewer.setTwistyPlayer(app.player);
+    this.algViewer.twistyPlayer =(app.player);
     app.player.experimentalModel.alg.addFreshListener(() => {
       console.log("fresh");
       this.textFitter.onResize(true);
