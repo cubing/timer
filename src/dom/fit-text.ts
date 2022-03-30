@@ -17,10 +17,6 @@ export class TextFitter {
 
   lastDims: { clientWidth: number; clientHeight: number } | null = null;
   async onResize(contentChanged: boolean = false): Promise<void> {
-    console.log("this.elem.textContent", this.elem.textContent);
-    if (this.elem.textContent.trim() === "") {
-      return;
-    }
 
     const { clientWidth, clientHeight } = this.elem;
     if (
