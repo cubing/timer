@@ -1,8 +1,9 @@
 import "./TimeDisplay.css";
 
-import { MillisecondTimestamp } from "cubing/dist/types/twisty/controllers/AnimationTypes";
 import { TextFitter } from "./fit-text";
 import { timeToParts } from "../format";
+
+type MillisecondTimestamp = number; // TODO
 
 export class TimeDisplay extends HTMLElement {
   textFitter = new TextFitter(this, {
