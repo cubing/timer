@@ -16,10 +16,18 @@ enum ScrambleStatus {
   Ready,
 }
 
+function upgraded<T extends HTMLElement>(elem: T, _t: new () => T): T {
+  customElements.upgrade(elem);
+  return elem;
+}
+
 export class TimerAppV3 extends HTMLElement {
   player = this.querySelector("twisty-player") as TwistyPlayer;
   scrambleBar: ScrambleBar = this.querySelector("scramble-bar");
-  timeDisplay: TimeDisplay = this.querySelector("time-display");
+  timeDisplay: TimeDisplay = upgraded(
+    this.querySelector("time-display"),
+    TimeDisplay
+  );
 
   constructor() {
     super();
@@ -36,7 +44,6 @@ export class TimerAppV3 extends HTMLElement {
 
     this.setEvent("sq1");
     this.startNewAttempt();
-    console.log("SDfsdf", this.timeDisplay);
     this.timeDisplay.time = 0;
 
     window.addEventListener("keydown", (e) => {
@@ -45,7 +52,7 @@ export class TimerAppV3 extends HTMLElement {
         if (e.repeat) {
           return;
         }
-        this.currentAttempt?.onSpaceDown();
+        this.currentAttempt?.onSpaceDown(e);
       }
     });
     window.addEventListener("keyup", (e) => {
@@ -54,7 +61,7 @@ export class TimerAppV3 extends HTMLElement {
         if (e.repeat) {
           return;
         }
-        this.currentAttempt?.onSpaceUp();
+        this.currentAttempt?.onSpaceUp(e);
       }
     });
   }
@@ -86,7 +93,6 @@ export class TimerAppV3 extends HTMLElement {
     const event = this.event;
     // this.player.alg = "// Generating scramble...";
     // this.scrambleBarTextFitter.onResize();
-    console.log("foo!");
     const scramble = await randomScrambleForEvent(event);
     if (this.event !== event) {
       // TODO: cache?
@@ -97,8 +103,11 @@ export class TimerAppV3 extends HTMLElement {
     // this.scrambleBarTextFitter.onResize();
   }
 
-  showTimeDisplay(show: boolean = true): void {
-    this.classList.toggle("hide-time", !show);
+  showTime(ms: number | null): void {
+    this.classList.toggle("hide-time", ms === null);
+    if (ms !== null) {
+      this.timeDisplay.time = ms;
+    }
   }
 }
 

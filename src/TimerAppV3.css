@@ -2,7 +2,7 @@ timer-app {
   display: grid;
   grid-template-areas:
     "scramble-bar timer-stats"
-    "time-display timer-stats";
+    "main timer-stats";
   grid-template-columns: 2fr 1fr;
   grid-template-rows: 1fr 4fr;
 }

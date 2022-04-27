@@ -1,6 +1,6 @@
 
 time-display {
-  grid-area: time-display;
+  grid-area: main;
   display: grid;
   place-content: center;
   box-sizing: border-box;

@@ -1,5 +1,6 @@
 import { Alg } from "cubing/alg";
 import { randomScrambleForEvent } from "cubing/scramble";
+import { MillisecondTimestamp } from "./dom/TimeDisplay";
 import type { TimerAppV3 } from "./TimerAppV3";
 
 export enum TimerAttemptStatus {
@@ -12,7 +13,7 @@ export enum TimerAttemptStatus {
 export class TimerAttempt {
   scramble: Promise<Alg>;
   constructor(private app: TimerAppV3, public eventID: string) {
-    this.app.showTimeDisplay(false);
+    this.app.showTime(null);
     (async () => {
       try {
         this.scramble = randomScrambleForEvent(eventID);
@@ -45,19 +46,21 @@ export class TimerAttempt {
     this.app.player.experimentalModel.alg.set(scramble);
   }
 
-  onSpaceDown(): void {
+  onSpaceDown(e: Event): void {
     switch (this.status) {
       case TimerAttemptStatus.GeneratingScramble:
         // TODO: flash scramble field with message?
         throw new Error("cannot start an attempt without a scramble");
       case TimerAttemptStatus.ScrambleReady:
         this.status = TimerAttemptStatus.TimerReady;
-        this.app.showTimeDisplay(true);
+        this.app.showTime(0);
         return;
       case TimerAttemptStatus.TimerReady:
         // ignore
         return;
       case TimerAttemptStatus.TimerRunning:
+        this.updateTime(e.timeStamp);
+        cancelAnimationFrame(this.#animFrameNumber);
         this.status = TimerAttemptStatus.TimerStopped;
         return;
       case TimerAttemptStatus.TimerStopped:
@@ -68,7 +71,25 @@ export class TimerAttempt {
     }
   }
 
-  onSpaceUp(): void {
+  #animationFrameFn = this.animationFrame.bind(this);
+  #animFrameNumber = 0;
+  animationFrame(timestamp: MillisecondTimestamp) {
+    this.#animFrameNumber = requestAnimationFrame(this.#animationFrameFn);
+    this.updateTime(timestamp);
+  }
+
+  timerStartTimestamp: number;
+  #timerLatestTimestamp: number;
+  get elapsedTime(): number {
+    return Math.max(0, this.#timerLatestTimestamp - this.timerStartTimestamp);
+  }
+
+  updateTime(newLatestTimestamp: MillisecondTimestamp) {
+    this.#timerLatestTimestamp = newLatestTimestamp;
+    this.app.showTime(this.elapsedTime);
+  }
+
+  onSpaceUp(e: Event): void {
     switch (this.status) {
       case TimerAttemptStatus.GeneratingScramble:
         // ignore
@@ -77,7 +98,9 @@ export class TimerAttempt {
         // ignore
         return;
       case TimerAttemptStatus.TimerReady:
+        this.timerStartTimestamp = e.timeStamp;
         this.status = TimerAttemptStatus.TimerRunning;
+        this.animationFrame(e.timeStamp);
         return;
       case TimerAttemptStatus.TimerStopped:
         // ignore

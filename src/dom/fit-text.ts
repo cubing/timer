@@ -17,7 +17,6 @@ export class TextFitter {
 
   lastDims: { clientWidth: number; clientHeight: number } | null = null;
   async onResize(contentChanged: boolean = false): Promise<void> {
-
     const { clientWidth, clientHeight } = this.elem;
     if (
       !contentChanged &&
@@ -30,7 +29,7 @@ export class TextFitter {
     }
     this.lastDims = { clientWidth, clientHeight };
 
-    await globalWait();
+    // await globalWait();
     this.elem.classList.toggle(
       "vertical",
       this.elem.clientWidth / this.elem.clientHeight <
