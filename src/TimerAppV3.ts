@@ -3,27 +3,30 @@ import "./TimerAppV3.css";
 import { eventInfo } from "cubing/puzzles";
 import { randomScrambleForEvent } from "cubing/scramble";
 import "cubing/twisty";
-import type { TwistyPlayer } from "cubing/twisty";
+import { TwistyPlayer } from "cubing/twisty";
 import "./db";
 import "./dom/ScrambleBar";
-import { type ScrambleBar } from "./dom/ScrambleBar";
+import { ScrambleBar } from "./dom/ScrambleBar";
 import "./dom/TimeDisplay";
 import { TimeDisplay } from "./dom/TimeDisplay";
 import { TimerAttempt } from "./TimerAttempt";
+import { Alg } from "cubing/alg";
+import { mainTwistyPlayer, upgraded } from "./dom/query";
 
 enum ScrambleStatus {
   Pending,
   Ready,
 }
 
-function upgraded<T extends HTMLElement>(elem: T, _t: new () => T): T {
-  customElements.upgrade(elem);
-  return elem;
-}
-
 export class TimerAppV3 extends HTMLElement {
-  player = this.querySelector("twisty-player") as TwistyPlayer;
-  scrambleBar: ScrambleBar = this.querySelector("scramble-bar");
+  get player(): TwistyPlayer {
+    return mainTwistyPlayer;
+  }
+
+  scrambleBar: ScrambleBar = upgraded(
+    this.querySelector<ScrambleBar>("scramble-bar"),
+    ScrambleBar
+  );
   timeDisplay: TimeDisplay = upgraded(
     this.querySelector("time-display"),
     TimeDisplay
@@ -108,6 +111,13 @@ export class TimerAppV3 extends HTMLElement {
     if (ms !== null) {
       this.timeDisplay.time = ms;
     }
+  }
+
+  showScramble(eventID: string, scramble: Alg): void {
+    console.log("showScramble", this.player, eventID, scramble);
+    console.log(eventInfo(eventID));
+    this.player.puzzle = "square1";
+    this.player.alg = scramble;
   }
 }
 

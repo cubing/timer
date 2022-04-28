@@ -44,6 +44,7 @@ export class TimerAttempt {
     this.status = TimerAttemptStatus.ScrambleReady;
     console.log("aasdasd", this.app.player, this.app.player.experimentalModel);
     this.app.player.experimentalModel.alg.set(scramble);
+    this.app.showScramble(this.eventID, scramble); // TODO: race condition
   }
 
   onSpaceDown(e: Event): void {
@@ -53,7 +54,6 @@ export class TimerAttempt {
         throw new Error("cannot start an attempt without a scramble");
       case TimerAttemptStatus.ScrambleReady:
         this.status = TimerAttemptStatus.TimerReady;
-        this.app.showTime(0);
         return;
       case TimerAttemptStatus.TimerReady:
         // ignore

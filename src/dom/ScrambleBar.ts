@@ -2,6 +2,7 @@ import "cubing/twisty";
 import { TwistyAlgViewer } from "cubing/twisty";
 import type { TimerAppV3 } from "../TimerAppV3";
 import { TextFitter } from "./fit-text";
+import { mainTwistyPlayer } from "./query";
 import "./ScrambleBar.css";
 
 export class ScrambleBar extends HTMLElement {
@@ -15,8 +16,8 @@ export class ScrambleBar extends HTMLElement {
   connectedCallback(): void {
     const app = this.closest("timer-app") as TimerAppV3;
     console.log("player", app.player);
-    this.algViewer.twistyPlayer =(app.player);
-    app.player.experimentalModel.alg.addFreshListener(() => {
+    this.algViewer.twistyPlayer = mainTwistyPlayer;
+    mainTwistyPlayer.experimentalModel.alg.addFreshListener(() => {
       console.log("fresh");
       this.textFitter.onResize(true);
     });
