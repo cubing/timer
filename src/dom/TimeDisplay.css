@@ -57,7 +57,7 @@ time-display {
   transition: background-color 0.25s;
 }
 
-time-display.ready {
+time-display.highlight {
   color: white;
   background: var(--main-theme-color);
 }

@@ -11,3 +11,7 @@ scramble-bar {
   box-sizing: border-box;
   overflow: hidden;
 }
+
+scramble-bar.dim {
+  color: rgb(255, 255, 250, 0.4);
+}

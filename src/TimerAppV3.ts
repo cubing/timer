@@ -117,6 +117,7 @@ export class TimerAppV3 extends HTMLElement {
   // TODO: only handle current timer?
   onTimerStatus(status: TimerAttemptStatus): void {
     this.timeDisplay.onTimerStatus(status);
+    this.scrambleBar.onTimerStatus(status);
   }
 
   flashTime(): void {

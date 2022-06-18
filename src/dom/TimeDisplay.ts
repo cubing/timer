@@ -43,7 +43,7 @@ export class TimeDisplay extends HTMLElement {
   }
 
   onTimerStatus(status: TimerAttemptStatus): void {
-    this.classList.toggle("ready", status == TimerAttemptStatus.TimerReady);
+    this.classList.toggle("highlight", status == TimerAttemptStatus.TimerReady);
   }
 }
 

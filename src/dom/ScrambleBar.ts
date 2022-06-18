@@ -1,6 +1,7 @@
 import "cubing/twisty";
 import { TwistyAlgViewer } from "cubing/twisty";
 import type { TimerAppV3 } from "../TimerAppV3";
+import { TimerAttemptStatus } from "../TimerAttempt";
 import { TextFitter } from "./fit-text";
 import { mainTwistyPlayer } from "./query";
 import "./ScrambleBar.css";
@@ -25,6 +26,11 @@ export class ScrambleBar extends HTMLElement {
 
   test(): void {
     console.log("test!");
+  }
+
+  onTimerStatus(status: TimerAttemptStatus): void {
+    console.log("scramble-bar", status);
+    this.classList.toggle("dim", status !== TimerAttemptStatus.ScrambleReady);
   }
 }
 
