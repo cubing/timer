@@ -11,8 +11,8 @@ export class TimeDisplay extends HTMLElement {
   });
 
   emphasizedFirstElem = this.querySelector("time-first") as HTMLElement;
-  emphasizedRestElem = this.querySelector("time-rest");
-  deEmphasizedElem = this.querySelector("time-de-emphasized");
+  emphasizedRestElem = this.querySelector("time-rest") as HTMLElement;
+  deEmphasizedElem = this.querySelector("time-de-emphasized") as HTMLElement;
   set time(timeMs: MillisecondTimestamp) {
     timeMs = Math.floor(timeMs);
     const timeParts = timeToParts(timeMs);
@@ -23,6 +23,22 @@ export class TimeDisplay extends HTMLElement {
     this.deEmphasizedElem.textContent = timeParts.decimals;
 
     this.textFitter.onResize();
+  }
+
+  flash() {
+    console.log("flashing");
+    this.animate(
+      [
+        {
+          color: "white",
+          backgroundColor: "var(--main-theme-color)",
+        },
+        {
+          color: "inherit",
+        },
+      ],
+      250
+    );
   }
 }
 

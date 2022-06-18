@@ -113,6 +113,10 @@ export class TimerAppV3 extends HTMLElement {
     }
   }
 
+  flashTime(): void {
+    this.timeDisplay.flash();
+  }
+
   showScramble(eventID: string, scramble: Alg): void {
     console.log("showScramble", this.player, eventID, scramble);
     console.log(eventInfo(eventID));

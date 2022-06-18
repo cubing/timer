@@ -60,6 +60,7 @@ export class TimerAttempt {
         return;
       case TimerAttemptStatus.TimerRunning:
         this.updateTime(e.timeStamp);
+        this.app.flashTime();
         cancelAnimationFrame(this.#animFrameNumber);
         this.status = TimerAttemptStatus.TimerStopped;
         return;

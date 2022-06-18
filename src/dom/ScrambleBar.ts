@@ -7,7 +7,7 @@ import "./ScrambleBar.css";
 
 export class ScrambleBar extends HTMLElement {
   textFitter = new TextFitter(this);
-  algViewer: TwistyAlgViewer = this.querySelector("twisty-alg-viewer");
+  algViewer: TwistyAlgViewer = this.querySelector("twisty-alg-viewer")!;
   constructor() {
     super();
     console.log("constructor", this.algViewer);

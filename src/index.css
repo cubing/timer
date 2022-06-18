@@ -1,7 +1,9 @@
-* {
+:root {
   --main-theme-color: #4285f4;
   --main-theme-color-dark: #1c2c4f;
+}
 
+* {
   box-sizing: border-box;
 }
 
