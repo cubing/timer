@@ -19,8 +19,8 @@
     "barely-a-dev-server": "^0.2.6"
   },
   "dependencies": {
-    "cubing": "^0.26.0",
-    "timer-db": "^0.1.0-pre1"
+    "cubing": "^0.26.3",
+    "timer-db": "^0.1.0-pre2"
   },
   "keywords": [
     "cubing",
