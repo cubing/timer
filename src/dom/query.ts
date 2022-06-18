@@ -6,7 +6,7 @@ export function upgraded<T extends HTMLElement>(elem: T, _t: new () => T): T {
   return elem;
 }
 
-export const mainTwistyPlayer = upgraded(
-  document.querySelector<TwistyPlayer>("twisty-player"),
+export const mainTwistyPlayer: TwistyPlayer = upgraded(
+  document.querySelector<TwistyPlayer>("twisty-player")!,
   TwistyPlayer
 );

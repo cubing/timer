@@ -24,11 +24,11 @@ export class TimerAppV3 extends HTMLElement {
   }
 
   scrambleBar: ScrambleBar = upgraded(
-    this.querySelector<ScrambleBar>("scramble-bar"),
+    this.querySelector<ScrambleBar>("scramble-bar")!,
     ScrambleBar
   );
   timeDisplay: TimeDisplay = upgraded(
-    this.querySelector("time-display"),
+    this.querySelector("time-display")!,
     TimeDisplay
   );
 
@@ -82,7 +82,7 @@ export class TimerAppV3 extends HTMLElement {
     }
     this.classList.remove("event-" + this.event);
     this.event = event;
-    this.player.puzzle = eventInfo(event).puzzleID;
+    this.player.puzzle = eventInfo(event)!.puzzleID;
     this.scrambleStatus = ScrambleStatus.Pending;
     // console.log(this.player, this.player.experimentalModel);
     // this.player.alg = "// Generating scramble...";
@@ -116,7 +116,7 @@ export class TimerAppV3 extends HTMLElement {
   showScramble(eventID: string, scramble: Alg): void {
     console.log("showScramble", this.player, eventID, scramble);
     console.log(eventInfo(eventID));
-    this.player.puzzle = "square1";
+    this.player.puzzle = eventInfo(eventID)!.puzzleID;
     this.player.alg = scramble;
   }
 }
