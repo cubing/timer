@@ -2,6 +2,7 @@ import "./TimeDisplay.css";
 
 import { TextFitter } from "./fit-text";
 import { timeToParts } from "../format";
+import { TimerAttemptStatus } from "../TimerAttempt";
 
 export type MillisecondTimestamp = number; // TODO
 
@@ -39,6 +40,10 @@ export class TimeDisplay extends HTMLElement {
       ],
       250
     );
+  }
+
+  onTimerStatus(status: TimerAttemptStatus): void {
+    this.classList.toggle("ready", status == TimerAttemptStatus.TimerReady);
   }
 }
 

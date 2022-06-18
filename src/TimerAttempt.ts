@@ -37,6 +37,7 @@ export class TimerAttempt {
     }
     console.log("new status", newStatus);
     this.#status = newStatus;
+    this.app.onTimerStatus?.(newStatus);
   }
 
   onScramble(scramble: Alg): void {
@@ -54,6 +55,7 @@ export class TimerAttempt {
         throw new Error("cannot start an attempt without a scramble");
       case TimerAttemptStatus.ScrambleReady:
         this.status = TimerAttemptStatus.TimerReady;
+        this.app.showTime(0); // TODO
         return;
       case TimerAttemptStatus.TimerReady:
         // ignore

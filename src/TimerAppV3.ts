@@ -9,7 +9,7 @@ import "./dom/ScrambleBar";
 import { ScrambleBar } from "./dom/ScrambleBar";
 import "./dom/TimeDisplay";
 import { TimeDisplay } from "./dom/TimeDisplay";
-import { TimerAttempt } from "./TimerAttempt";
+import { TimerAttempt, TimerAttemptStatus } from "./TimerAttempt";
 import { Alg } from "cubing/alg";
 import { mainTwistyPlayer, upgraded } from "./dom/query";
 
@@ -111,6 +111,12 @@ export class TimerAppV3 extends HTMLElement {
     if (ms !== null) {
       this.timeDisplay.time = ms;
     }
+  }
+
+  // TODO: do something more reactive
+  // TODO: only handle current timer?
+  onTimerStatus(status: TimerAttemptStatus): void {
+    this.timeDisplay.onTimerStatus(status);
   }
 
   flashTime(): void {
