@@ -1,4 +1,5 @@
 import { Stats } from "./stats"
+import * as WakeLock from "./wake-lock";
 
 export type Milliseconds = number;
 
@@ -126,9 +127,11 @@ export class Controller {
         this.reset();
         break;
       case State.Running:
+        WakeLock.enable();
         this.timer.start();
         break;
       case State.Stopped:
+        WakeLock.disable();
         var time = this.timer.stop();
         this.solveDoneCallback(time);
         break;
