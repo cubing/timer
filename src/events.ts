@@ -1,6 +1,6 @@
 // "use strict";
 
-import { puzzles } from "cubing/puzzles";
+import { eventInfo, puzzles } from "cubing/puzzles";
 
 export type EventID = keyof typeof puzzles;
 
@@ -23,3 +23,13 @@ export const eventOrder: EventID[] = [
   "kilominx",
   "redi_cube",
 ];
+
+export function modifiedEventName(eventID: EventID): string {
+  switch (eventID) {
+    case "fto":
+      return "Face-Turning Octa";
+    case "master_tetraminx":
+      return "Master Tetra";
+  }
+  return eventInfo(eventID)?.eventName ?? "----";
+}

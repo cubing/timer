@@ -1,5 +1,4 @@
 import { Alg } from "cubing/alg";
-import { eventMetadata, EventName } from "./cubing";
 import { AttemptData, AttemptDataWithIDAndRev } from "./results/attempt";
 import { TimerSession } from "./results/session";
 import { Stats } from "./stats";

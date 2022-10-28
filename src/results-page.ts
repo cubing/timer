@@ -4,7 +4,7 @@ import { AttemptData, AttemptDataWithIDAndRev } from "./results/attempt";
 import { TimerSession } from "./results/session";
 import { convertToCSTimerFormat } from "./results/compat/cstimer";
 import { convertToQQTimerFormat } from "./results/compat/qqtimer";
-import { EventID, eventOrder } from "./events";
+import { EventID, eventOrder, modifiedEventName } from "./events";
 import { eventInfo } from "cubing/puzzles";
 
 const EVENT_PARAM_NAME = "event";
@@ -74,7 +74,7 @@ function addEventIDOptions(): void {
   for (const eventID of eventOrder) {
     const opt = document.createElement("option");
     opt.value = eventID;
-    opt.textContent = eventInfo(eventID)!.eventName;
+    opt.textContent = modifiedEventName(eventID);
     if (eventID === initialEventID) {
       opt.setAttribute("selected", "selected");
     }

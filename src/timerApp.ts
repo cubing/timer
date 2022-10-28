@@ -1,15 +1,12 @@
-import PouchDB from "pouchdb"; // TODO: Add a wrapper so we can remove `allowSyntheticDefaultImports`.
-import { EventID, eventOrder } from "./events";
-import { Controller } from "./timer";
-import { Milliseconds } from "./timer";
+import { EventID, eventOrder, modifiedEventName } from "./events";
+import { Controller, Milliseconds } from "./timer";
 // import {ScrambleID} from "./scramble-worker"
-import { Stats } from "./stats";
-import { TimerSession, allDocsResponseToTimes } from "./results/session";
-import { AttemptData, AttemptDataWithIDAndRev } from "./results/attempt";
-import { trForAttempt } from "./results-table";
 import { Alg } from "cubing/alg";
-import { randomScrambleForEvent } from "cubing/dist/types/scramble";
-import { eventInfo } from "cubing/dist/types/puzzles";
+import { randomScrambleForEvent } from "cubing/scramble";
+import { trForAttempt } from "./results-table";
+import { AttemptData, AttemptDataWithIDAndRev } from "./results/attempt";
+import { allDocsResponseToTimes, TimerSession } from "./results/session";
+import { Stats } from "./stats";
 
 const favicons: { [s: string]: string } = {
   blue: "/lib/favicons/favicon_blue.ico",
@@ -336,7 +333,7 @@ class ScrambleView {
     for (var eventID of eventOrder) {
       var optionElement = document.createElement("option");
       optionElement.value = eventID;
-      optionElement.textContent = eventInfo(eventID)!.eventName;
+      optionElement.textContent = modifiedEventName(eventID);
 
       this.optionElementsByEventName[eventID] = optionElement;
       this.eventSelectDropdown.appendChild(optionElement);
