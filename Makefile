@@ -1,10 +1,14 @@
 .PHONY: build
-build: clean-dist
-	npx parcel-bundler build --public-url ./ src/index.html
+build: clean
+	node script/build.js
 
 .PHONY: dev
 dev:
 	node script/dev.js
+
+.PHONY: format
+format:
+	npx rome format --write ./src
 
 SFTP_PATH = "towns.dreamhost.com:~/timer.cubing.net/"
 URL       = "https://timer.cubing.net/"
@@ -14,17 +18,10 @@ deploy: build
 	rsync -avz \
 		--exclude .DS_Store \
 		--exclude .git \
-		./dist/ \
+		./dist/timer.cubing.net/ \
 		${SFTP_PATH}
 	echo "\nDone deploying. Go to ${URL}\n"
 
-.PHONY: format
-format:
-	npx rome format --write ./src
-
 .PHONY: clean
-clean: clean-dist
-
-.PHONY: clean-dist
-clean-dist:
+clean:
 	rm -rf ./dist
