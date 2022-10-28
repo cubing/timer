@@ -1,13 +1,15 @@
 import PouchDB from "pouchdb"; // TODO: Add a wrapper so we can remove `allowSyntheticDefaultImports`.
-import { EventID, eventOrder, eventMetadata } from "./events";
+import { EventID, eventOrder } from "./events";
 import { Controller } from "./timer";
 import { Milliseconds } from "./timer";
 // import {ScrambleID} from "./scramble-worker"
-import { Scramblers, ScrambleString } from "./events";
 import { Stats } from "./stats";
 import { TimerSession, allDocsResponseToTimes } from "./results/session";
 import { AttemptData, AttemptDataWithIDAndRev } from "./results/attempt";
 import { trForAttempt } from "./results-table";
+import { Alg } from "cubing/alg";
+import { randomScrambleForEvent } from "cubing/dist/types/scramble";
+import { eventInfo } from "cubing/dist/types/puzzles";
 
 const favicons: { [s: string]: string } = {
   blue: "/lib/favicons/favicon_blue.ico",
@@ -42,6 +44,11 @@ type FormattedStats = {
 // We detect Safari based on https://stackoverflow.com/a/23522755 so we can do an ugly workaround (manually adding padding using spaces) below.
 const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
 
+const generating = Symbol("generating");
+type ScrambleWithEvent = {
+  eventID: EventID;
+  scramble: Alg | null;
+};
 export class TimerApp {
   private scrambleView: ScrambleView;
   private statsView: StatsView;
@@ -49,8 +56,7 @@ export class TimerApp {
   private currentEvent: EventID;
   private controller: Controller;
   private awaitedScrambleID: ScrambleID;
-  private scramblers: Scramblers = new Scramblers();
-  private currentScramble: Scramble;
+  private currentScramble: ScrambleWithEvent;
   private session = new TimerSession();
   private remoteDB: PouchDB.Database<AttemptData>;
 
@@ -160,7 +166,7 @@ export class TimerApp {
 
     if (
       storedEvent &&
-      storedEvent in eventMetadata &&
+      storedEvent in eventOrder &&
       lastAttemptDateStr &&
       currentDate.getTime() - new Date(lastAttemptDateStr).getTime() <
         STORED_EVENT_TIMEOUT_MS
@@ -174,10 +180,10 @@ export class TimerApp {
   private scrambleCallback(
     eventName: EventID,
     scrambledId: ScrambleID,
-    scramble: ScrambleString,
+    scramble: Alg,
   ) {
     if (scrambledId === this.awaitedScrambleID) {
-      this.currentScramble = { eventName: eventName, scrambleString: scramble };
+      this.currentScramble = { eventID: eventName, scramble };
       this.scrambleView.setScramble(this.currentScramble);
     } else {
       var logInfo = console.info ? console.info.bind(console) : console.log;
@@ -192,21 +198,16 @@ export class TimerApp {
     }
   }
 
-  private startNewAttempt() {
+  private async startNewAttempt() {
     this.awaitedScrambleID =
       typeof this.awaitedScrambleID !== "undefined"
         ? this.awaitedScrambleID + 1
         : 0;
 
     this.scrambleView.clearScramble();
-    this.scramblers.getRandomScramble(
-      this.currentEvent,
-      this.scrambleCallback.bind(
-        this,
-        this.currentEvent,
-        this.awaitedScrambleID,
-      ),
-    );
+    const { currentEvent, awaitedScrambleID } = this;
+    const scramble = randomScrambleForEvent(this.currentEvent);
+    this.scrambleCallback(currentEvent, awaitedScrambleID, await scramble);
   }
 
   setEvent(eventName: EventID, restartShortTermSession: boolean) {
@@ -269,7 +270,7 @@ export class TimerApp {
       totalResultMs: time,
       unixDate: Date.now(),
       event: this.currentEvent,
-      scramble: (this.currentScramble || { scrambleString: "" }).scrambleString,
+      scramble: this.currentScramble.scramble?.toString() ?? "",
     };
     if (localStorage.pouchDBDeviceName) {
       attemptData.device = localStorage.pouchDBDeviceName;
@@ -332,12 +333,12 @@ class ScrambleView {
 
   initializeSelectDropdown() {
     this.optionElementsByEventName = {};
-    for (var eventName of eventOrder) {
+    for (var eventID of eventOrder) {
       var optionElement = document.createElement("option");
-      optionElement.value = eventName;
-      optionElement.textContent = eventMetadata[eventName].name;
+      optionElement.value = eventID;
+      optionElement.textContent = eventInfo(eventID)!.eventName;
 
-      this.optionElementsByEventName[eventName] = optionElement;
+      this.optionElementsByEventName[eventID] = optionElement;
       this.eventSelectDropdown.appendChild(optionElement);
     }
   }
@@ -353,22 +354,25 @@ class ScrambleView {
     this.setScramblePlaceholder(eventName);
   }
 
-  setScramblePlaceholder(eventName: EventID) {
+  setScramblePlaceholder(eventID: EventID) {
     this.setScramble({
-      eventName: eventName,
-      scrambleString: "generating...",
+      eventID,
+      scramble: null,
     });
   }
 
-  setScramble(scramble: Scramble) {
+  setScramble(scrambleWithEvent: ScrambleWithEvent) {
+    const scrambleString =
+      scrambleWithEvent.scramble?.toString() || "generating...";
+
     this.scrambleText.classList.remove("stale");
-    this.scrambleText.textContent = scramble.scrambleString;
+    this.scrambleText.textContent = scrambleString; // TODO: animation
 
     // TODO(lgarron): Use proper layout code. https://github.com/cubing/timer/issues/20
-    if (scramble.eventName === "minx") {
-      this.scrambleText.innerHTML = scramble.scrambleString;
-    } else if (scramble.eventName === "sq1") {
-      this.scrambleText.innerHTML = scramble.scrambleString
+    if (scrambleWithEvent.eventID === "minx") {
+      this.scrambleText.innerHTML = scrambleString;
+    } else if (scrambleWithEvent.eventID === "sq1") {
+      this.scrambleText.innerHTML = scrambleString
         .replace(/, /g, ",&nbsp;")
         .replace(/\) \//g, ")&nbsp;/");
     }
