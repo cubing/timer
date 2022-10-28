@@ -1,9 +1,9 @@
 import PouchDB from "pouchdb"; // TODO: Add a wrapper so we can remove `allowSyntheticDefaultImports`.
-import { EventName, eventOrder, eventMetadata } from "./cubing";
+import { EventID, eventOrder, eventMetadata } from "./events";
 import { Controller } from "./timer";
 import { Milliseconds } from "./timer";
 // import {ScrambleID} from "./scramble-worker"
-import { Scramblers, ScrambleString } from "./cubing";
+import { Scramblers, ScrambleString } from "./events";
 import { Stats } from "./stats";
 import { TimerSession, allDocsResponseToTimes } from "./results/session";
 import { AttemptData, AttemptDataWithIDAndRev } from "./results/attempt";
@@ -24,7 +24,7 @@ const STORED_EVENT_TIMEOUT_MS = 15 * 60 * 1000;
 const LATEST_AMOUNT = 100;
 
 type Scramble = {
-  eventName: EventName;
+  eventName: EventID;
   scrambleString: string;
 };
 
@@ -46,7 +46,7 @@ export class TimerApp {
   private scrambleView: ScrambleView;
   private statsView: StatsView;
   private domElement: HTMLElement;
-  private currentEvent: EventName;
+  private currentEvent: EventID;
   private controller: Controller;
   private awaitedScrambleID: ScrambleID;
   private scramblers: Scramblers = new Scramblers();
@@ -153,7 +153,7 @@ export class TimerApp {
   }
 
   private setInitialEvent() {
-    var storedEvent = localStorage.getItem("current-event") as EventName;
+    var storedEvent = localStorage.getItem("current-event") as EventID;
     var lastAttemptDateStr = localStorage.getItem("last-attempt-date");
 
     var currentDate = new Date();
@@ -172,7 +172,7 @@ export class TimerApp {
   }
 
   private scrambleCallback(
-    eventName: EventName,
+    eventName: EventID,
     scrambledId: ScrambleID,
     scramble: ScrambleString,
   ) {
@@ -209,7 +209,7 @@ export class TimerApp {
     );
   }
 
-  setEvent(eventName: EventName, restartShortTermSession: boolean) {
+  setEvent(eventName: EventID, restartShortTermSession: boolean) {
     localStorage.setItem("current-event", eventName);
     this.currentEvent = eventName;
     this.scrambleView.setEvent(this.currentEvent);
@@ -324,7 +324,7 @@ class ScrambleView {
 
     this.eventSelectDropdown.addEventListener("change", () => {
       this.eventSelectDropdown.blur();
-      this.timerApp.setEvent(this.eventSelectDropdown.value as EventName, true);
+      this.timerApp.setEvent(this.eventSelectDropdown.value as EventID, true);
     });
 
     this.initializeSelectDropdown();
@@ -342,7 +342,7 @@ class ScrambleView {
     }
   }
 
-  setEvent(eventName: EventName) {
+  setEvent(eventName: EventID) {
     Util.removeClassesStartingWith(this.scrambleText, "event-");
     this.scrambleText.classList.add("event-" + eventName);
     Util.removeClassesStartingWith(this.cubingIcon, "icon-");
@@ -353,7 +353,7 @@ class ScrambleView {
     this.setScramblePlaceholder(eventName);
   }
 
-  setScramblePlaceholder(eventName: EventName) {
+  setScramblePlaceholder(eventName: EventID) {
     this.setScramble({
       eventName: eventName,
       scrambleString: "generating...",
@@ -384,7 +384,7 @@ class StatsView {
   private statsDropdown: HTMLSelectElement;
   private elems: { [s: string]: HTMLOptionElement };
   private sidebarElems: { [s: string]: HTMLOptionElement };
-  constructor(private getCurrentEvent: () => EventName) {
+  constructor(private getCurrentEvent: () => EventID) {
     this.statsDropdown = <HTMLSelectElement>(
       document.getElementById("stats-dropdown")
     );

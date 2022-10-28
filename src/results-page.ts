@@ -4,7 +4,8 @@ import { AttemptData, AttemptDataWithIDAndRev } from "./results/attempt";
 import { TimerSession } from "./results/session";
 import { convertToCSTimerFormat } from "./results/compat/cstimer";
 import { convertToQQTimerFormat } from "./results/compat/qqtimer";
-import { eventMetadata, EventName } from "./cubing";
+import { EventID, eventOrder } from "./events";
+import { eventInfo } from "cubing/puzzles";
 
 const EVENT_PARAM_NAME = "event";
 const DEFAULT_EVENT = "333";
@@ -35,9 +36,9 @@ function onSyncChange(
   }
 }
 
-function getEventID(): EventName {
+function getEventID(): EventID {
   return (document.querySelector("#eventID") as HTMLSelectElement)
-    .selectedOptions[0].value as EventName;
+    .selectedOptions[0].value as EventID;
 }
 
 function getRangeSelector(): "most-recent" | "least-recent" | "best" | "worst" {
@@ -66,18 +67,18 @@ async function exportToQQTimer(): Promise<void> {
   downloadFile(`qqtimer Format | ${new Date().toString()}.txt`, strData);
 }
 
-const optByEvent: { [eventName: string]: HTMLOptionElement } = {};
+const optByEvent: { [eventID: string]: HTMLOptionElement } = {};
 
 function addEventIDOptions(): void {
   const select = document.querySelector("#eventID") as HTMLSelectElement;
-  for (const [id, info] of Object.entries(eventMetadata)) {
+  for (const eventID of eventOrder) {
     const opt = document.createElement("option");
-    opt.value = id;
-    opt.textContent = info.name;
-    if (id === initialEventID) {
+    opt.value = eventID;
+    opt.textContent = eventInfo(eventID)!.eventName;
+    if (eventID === initialEventID) {
       opt.setAttribute("selected", "selected");
     }
-    optByEvent[id] = opt;
+    optByEvent[eventID] = opt;
     select.appendChild(opt);
   }
 }
@@ -96,7 +97,7 @@ export async function showData(): Promise<void> {
       unfilteredAttempts = (
         await session.mostRecentAttempts(
           MAX_NUM_RECENT_ATTEMPTS,
-          eventId as EventName,
+          eventId as EventID,
           rangeSelector === "most-recent",
         )
       ).docs;
@@ -108,7 +109,7 @@ export async function showData(): Promise<void> {
       unfilteredAttempts = await session.extremeTimes(
         MAX_NUM_RECENT_ATTEMPTS,
         rangeSelector === "worst",
-        eventId as EventName,
+        eventId as EventID,
       );
       break;
     }

@@ -11,7 +11,7 @@ import { EventName } from "../cubing";
 PouchDB.plugin(PouchDBFind);
 
 export function allDocsResponseToAttemptList(
-  docs: PouchDB.Core.AllDocsResponse<AttemptData>
+  docs: PouchDB.Core.AllDocsResponse<AttemptData>,
 ): AttemptData[] {
   return docs.rows
     .filter((row) => "totalResultMs" in row.doc!)
@@ -19,7 +19,7 @@ export function allDocsResponseToAttemptList(
 }
 
 export function allDocsResponseToTimes(
-  docs: PouchDB.Core.AllDocsResponse<AttemptData>
+  docs: PouchDB.Core.AllDocsResponse<AttemptData>,
 ): number[] {
   return allDocsResponseToAttemptList(docs).map((doc) => doc.totalResultMs);
 }
@@ -35,7 +35,7 @@ export class TimerSession {
   }
 
   startSync(
-    onSyncChange: (change: PouchDB.Replication.SyncResult<AttemptData>) => void
+    onSyncChange: (change: PouchDB.Replication.SyncResult<AttemptData>) => void,
   ): void {
     if (!localStorage.pouchDBUsername || !localStorage.pouchDBPassword) {
       console.info("No CouchDB user!");
@@ -78,7 +78,7 @@ export class TimerSession {
   async extremeTimes(
     limit: number,
     descending: boolean = false,
-    event?: EventName
+    event?: EventName,
   ): Promise<AttemptDataWithIDAndRev[]> {
     return (
       await this.db.find({
@@ -112,7 +112,7 @@ export class TimerSession {
   async mostRecentAttempts(
     limit: number,
     event?: EventName,
-    descending?: boolean
+    descending?: boolean,
   ): Promise<PouchDB.Find.FindResponse<AttemptData>> {
     return await this.db.find({
       selector: {
@@ -127,7 +127,7 @@ export class TimerSession {
   // TODO: this is in reverse order!
   async mostRecentAttemptsForEvent(
     event: EventName,
-    limit: number
+    limit: number,
   ): Promise<PouchDB.Find.FindResponse<AttemptData>> {
     // return (await this.db.allDocs({
     //   limit: limit,
@@ -148,7 +148,7 @@ export class TimerSession {
     return allDocsResponseToAttemptList(
       await this.db.allDocs({
         include_docs: true,
-      })
+      }),
     );
   }
 }
