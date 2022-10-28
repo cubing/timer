@@ -3,7 +3,8 @@ import { AttemptData, AttemptDataWithIDAndRev } from "./results/attempt";
 import { TimerSession } from "./results/session";
 import { Stats } from "./stats";
 import { trashIcon, playIcon } from "./material-icons";
-import { twizzleLink } from "./vendor/twizzle-link";
+import { twizzleLink, twizzleLinkForAttempt } from "./vendor/twizzle-link";
+import { eventOrder, modifiedEventName } from "./events";
 
 export const MAX_NUM_RECENT_ATTEMPTS = 100;
 
@@ -47,26 +48,26 @@ function tdWithContent(content?: string): HTMLTableDataCellElement {
   return td;
 }
 
+// scramble?: Alg, event?: string
 function scrambleTD(
-  scramble: string,
-  event?: string,
+  attemptData: AttemptDataWithIDAndRev,
 ): HTMLTableDataCellElement {
   const scrambleTD = document.createElement("td");
-  if (scramble) {
+  if (attemptData.scramble) {
     let algo: null | Alg = null;
     try {
-      algo = Alg.fromString(scramble);
+      algo = Alg.fromString(attemptData.scramble);
     } catch (e) {
       const button = document.createElement("button");
       button.textContent = "🔀";
       button.addEventListener("click", () => {
-        scrambleTD.textContent = scramble;
+        scrambleTD.textContent = attemptData.scramble ?? ".";
       });
       scrambleTD.appendChild(button);
     }
     if (algo) {
       const scrambleLink = document.createElement("a");
-      scrambleLink.href = twizzleLink(event ?? "333", algo, new Alg());
+      scrambleLink.href = twizzleLinkForAttempt(attemptData);
       scrambleLink.appendChild(playIcon());
       scrambleTD.appendChild(scrambleLink);
     }
@@ -92,11 +93,7 @@ function solutionTD(attemptData: AttemptData): HTMLTableDataCellElement {
     }
     if (attemptData.solution) {
       const scrambleLink = document.createElement("a");
-      scrambleLink.href = algCubingNetLink({
-        setup: parse(attemptData.scramble || ""),
-        alg: parse(attemptData.solution || ""),
-        title,
-      });
+      scrambleLink.href = twizzleLinkForAttempt(attemptData);
       scrambleLink.appendChild(playIcon());
       solutionTD.appendChild(scrambleLink);
       // const node = document.createTextNode(` (${countMoves(attemptData.solution)} ETM)`);
@@ -191,11 +188,11 @@ function formatUnixDate(unixDate: number): string {
 function eventTD(attempt: AttemptDataWithIDAndRev): HTMLTableDataCellElement {
   const td = document.createElement("td");
   const select: HTMLSelectElement = document.createElement("select");
-  for (const [id, info] of Object.entries(eventMetadata)) {
+  for (const eventID of eventOrder) {
     const opt = document.createElement("option");
-    opt.textContent = info.name;
-    opt.value = id;
-    if (id == attempt.event) {
+    opt.textContent = modifiedEventName(eventID);
+    opt.value = eventID;
+    if (eventID === attempt.event) {
       opt.setAttribute("selected", "selected");
     }
     select.appendChild(opt);
@@ -222,13 +219,13 @@ export function trForAttempt(
   const tr = document.createElement("tr");
   tr.appendChild(tdWithContent(Stats.formatTime(attempt.totalResultMs)));
   if (!condensed) {
-    tr.appendChild(scrambleTD(attempt.scramble || "", attempt.event));
+    tr.appendChild(scrambleTD(attempt));
     tr.appendChild(solutionTD(attempt));
   } else {
     if (attempt.solution) {
       tr.appendChild(solutionTD(attempt));
     } else {
-      tr.appendChild(scrambleTD(attempt.scramble || ""));
+      tr.appendChild(scrambleTD(attempt));
     }
   }
   if (!condensed) {

@@ -207,9 +207,10 @@ export class TimerApp {
     this.scrambleCallback(currentEvent, awaitedScrambleID, await scramble);
   }
 
-  setEvent(eventName: EventID, restartShortTermSession: boolean) {
-    localStorage.setItem("current-event", eventName);
-    this.currentEvent = eventName;
+  setEvent(eventID: EventID, restartShortTermSession: boolean) {
+    console.log({ eventID });
+    localStorage.setItem("current-event", eventID);
+    this.currentEvent = eventID;
     this.scrambleView.setEvent(this.currentEvent);
     this.startNewAttempt();
     this.controller.reset();

@@ -8,5 +8,6 @@ barelyServe({
     banner: {
       js: "globalThis.global = globalThis; // Workaround for a `pouch-db` dep. 😕\n",
     },
+    sourcemap: true,
   },
 });

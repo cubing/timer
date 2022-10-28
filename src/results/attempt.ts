@@ -1,13 +1,13 @@
+import { EventID } from "../events";
 import { UUID, newDateUUID } from "./uuid";
 
 type AttemptUUID = UUID;
 type AlgString = string;
-type EventName = string;
 
 type ParityInfo = {
-  permutationParity?: boolean
+  permutationParity?: boolean;
   orientationParity?: boolean;
-}
+};
 
 // Result in milliseconds
 // Special values:
@@ -27,7 +27,7 @@ export interface AttemptData {
   // Ideally, this date represents the end of the solve (the moment when the timer stopped).
   // TODO: Add a revision date?
   unixDate: number;
-  event?: EventName
+  event?: EventID;
   scramble?: AlgString;
 
   // Arbitrary user-provided comment.
@@ -36,8 +36,8 @@ export interface AttemptData {
   // penalties?: Penalty[]; // TODO
 
   // TODO: change this to general tags?
-  parities?: ParityInfo
-  device?: string
+  parities?: ParityInfo;
+  device?: string;
 }
 
 export interface AttemptDataWithID extends AttemptData {
@@ -55,7 +55,7 @@ export interface AttemptDataWithIDAndRev extends AttemptDataWithID {
 export enum PenaltyReason {
   UnknownPenalty = 0,
   Unsolved = 1,
-  Misalignment = 1
+  Misalignment = 1,
 }
 
 export interface Penalty {
