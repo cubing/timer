@@ -1,7 +1,7 @@
 // "use strict";
 
-import { randomScramble } from "./scramble";
-import { algToString } from "alg";
+import { Alg } from "cubing/dist/types/alg";
+import { randomScrambleForEvent } from "cubing/scramble";
 
 // TODO: Rename to `EventID`?
 export type EventName =
@@ -174,7 +174,7 @@ export const eventMetadata: { [e: string]: Event } = {
 //  */
 // Cubing.Scramble;
 
-const randomScramblePrefetch: Record<string, Promise<ScrambleString>> = {};
+const randomScramblePrefetch: Record<string, Promise<Alg>> = {};
 
 export class Scramblers {
   constructor() {
@@ -192,19 +192,16 @@ export class Scramblers {
   //    * @param {!Object} eventName
   //    * @param {function(!Cubing.ScrambleString)} callback
   //    */
-  getRandomScramble(
-    eventName: EventName,
-    callback: (s: ScrambleString) => void
-  ) {
+  getRandomScramble(eventName: EventName, callback: (s: Alg) => void) {
     let promise;
     if (eventName in randomScramblePrefetch) {
       promise = randomScramblePrefetch[eventName];
       delete randomScramblePrefetch[eventName];
     } else {
-      promise = randomScramble(eventName);
+      promise = randomScrambleForEvent(eventName);
     }
     promise.then((s) => {
-      randomScramblePrefetch[eventName] = randomScramble(eventName);
+      randomScramblePrefetch[eventName] = randomScrambleForEvent(eventName);
       callback(s);
     });
     // callback("R U R'");

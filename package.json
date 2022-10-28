@@ -9,14 +9,14 @@
     "url": "https://github.com/cubing/libTemplate.js/issues"
   },
   "main": "./dist/timerApp.js",
+  "type": "module",
   "types": "./dist/index.d.ts",
   "dependencies": {
     "@types/dom-screen-wake-lock": "^1.0.0",
     "@types/pouchdb": "^6.4.0",
-    "alg": "^0.9.8",
     "babel-polyfill": "^6.26.0",
     "comlink": "^4.2.0",
-    "cubing": "^0.9.18",
+    "cubing": "^0.31.1",
     "inspector": "^0.5.0",
     "lib": "^4.0.5",
     "pouchdb": "^7.1.1",
@@ -29,6 +29,7 @@
   "devDependencies": {
     "@types/chai": "^4.1.4",
     "@types/mocha": "^5.2.3",
+    "barely-a-dev-server": "^0.3.4",
     "chai": "^4.1.2",
     "mocha": "^5.2.0",
     "parcel-bundler": "^1.12.4",

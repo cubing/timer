@@ -1,20 +1,20 @@
-import PouchDB from "pouchdb" // TODO: Add a wrapper so we can remove `allowSyntheticDefaultImports`.
-import { EventName, eventOrder, eventMetadata } from "./cubing"
-import { Controller } from "./timer"
-import { Milliseconds } from "./timer"
+import PouchDB from "pouchdb"; // TODO: Add a wrapper so we can remove `allowSyntheticDefaultImports`.
+import { EventName, eventOrder, eventMetadata } from "./cubing";
+import { Controller } from "./timer";
+import { Milliseconds } from "./timer";
 // import {ScrambleID} from "./scramble-worker"
-import { Scramblers, ScrambleString } from "./cubing"
-import { Stats } from "./stats"
-import { TimerSession, allDocsResponseToTimes } from "./results/session"
-import { AttemptData, AttemptDataWithIDAndRev } from "./results/attempt"
-import { trForAttempt } from "./results-table"
+import { Scramblers, ScrambleString } from "./cubing";
+import { Stats } from "./stats";
+import { TimerSession, allDocsResponseToTimes } from "./results/session";
+import { AttemptData, AttemptDataWithIDAndRev } from "./results/attempt";
+import { trForAttempt } from "./results-table";
 
 const favicons: { [s: string]: string } = {
-  "blue": require("./lib/favicons/favicon_blue.ico"),
-  "red": require("./lib/favicons/favicon_red.ico"),
-  "green": require("./lib/favicons/favicon_green.ico"),
-  "orange": require("./lib/favicons/favicon_orange.ico")
-}
+  blue: require("./lib/favicons/favicon_blue.ico"),
+  red: require("./lib/favicons/favicon_red.ico"),
+  green: require("./lib/favicons/favicon_green.ico"),
+  orange: require("./lib/favicons/favicon_orange.ico"),
+};
 
 // TODO: Import this from "./scramble-worker"
 export type ScrambleID = number;
@@ -24,19 +24,19 @@ const STORED_EVENT_TIMEOUT_MS = 15 * 60 * 1000;
 const LATEST_AMOUNT = 100;
 
 type Scramble = {
-  eventName: EventName
-  scrambleString: string
-}
+  eventName: EventName;
+  scrambleString: string;
+};
 
 type FormattedStats = {
-  "avg5": string
-  "avg12": string
-  "avg100": string
-  "mean3": string
-  "best": string
-  "worst": string
-  "numSolves": number
-}
+  avg5: string;
+  avg12: string;
+  avg100: string;
+  mean3: string;
+  best: string;
+  worst: string;
+  numSolves: number;
+};
 
 // WebSafari (WebKit) doesn't center text in `<select>`'s `<option>` tags: https://bugs.webkit.org/show_bug.cgi?id=40216
 // We detect Safari based on https://stackoverflow.com/a/23522755 so we can do an ugly workaround (manually adding padding using spaces) below.
@@ -65,13 +65,16 @@ export class TimerApp {
 
     this.enableOffline();
 
-    this.domElement.querySelector(".stats")!.addEventListener("touchmove", this.onTouchMoveStats.bind(this));
+    this.domElement
+      .querySelector(".stats")!
+      .addEventListener("touchmove", this.onTouchMoveStats.bind(this));
     this.domElement.addEventListener("touchmove", this.onTouchMove.bind(this));
 
     this.controller = new Controller(
       <HTMLElement>document.getElementById("timer"),
       this.solveDone.bind(this),
-      this.attemptDone.bind(this));
+      this.attemptDone.bind(this),
+    );
     this.setRandomThemeColor();
 
     this.updateDisplayStats();
@@ -81,18 +84,20 @@ export class TimerApp {
     // importTimes(this.session);
   }
 
-  async onSyncChange(change: PouchDB.Replication.SyncResult<AttemptData>): Promise<void> {
+  async onSyncChange(
+    change: PouchDB.Replication.SyncResult<AttemptData>,
+  ): Promise<void> {
     console.log("sync change", change);
     // TODO: Calculate if the only changes were at the end.
     this.updateDisplayStats(true);
     console.log(this.domElement.querySelector(".stats a.sync-link"));
     const syncLinks = this.domElement.querySelectorAll(".stats a.sync-link");
     for (const syncLink of [...syncLinks]) {
-      syncLink.classList.add("rotate")
+      syncLink.classList.add("rotate");
     }
     setTimeout(() => {
       for (const syncLink of [...syncLinks]) {
-        syncLink.classList.remove("rotate")
+        syncLink.classList.remove("rotate");
       }
     }, 500);
 
@@ -103,12 +108,15 @@ export class TimerApp {
   }
 
   private async getTimes(): Promise<Milliseconds[]> {
-    const docs0 = await this.session.mostRecentAttemptsForEvent(this.currentEvent, LATEST_AMOUNT);
-    console.log(docs0)
-    const docs = (await this.session.db.allDocs({
+    const docs0 = await this.session.mostRecentAttemptsForEvent(
+      this.currentEvent,
+      LATEST_AMOUNT,
+    );
+    console.log(docs0);
+    const docs = await this.session.db.allDocs({
       // descending: true,
-      include_docs: true
-    }))
+      include_docs: true,
+    });
     return allDocsResponseToTimes(docs);
   }
 
@@ -117,10 +125,9 @@ export class TimerApp {
     e.preventDefault();
   }
 
-
   // Selective enable scrolling the stats element.
   private onTouchMoveStats(e: Event) {
-    e.stopPropagation()
+    e.stopPropagation();
   }
 
   private enableOffline() {
@@ -151,9 +158,12 @@ export class TimerApp {
 
     var currentDate = new Date();
 
-    if (storedEvent && storedEvent in eventMetadata &&
+    if (
+      storedEvent &&
+      storedEvent in eventMetadata &&
       lastAttemptDateStr &&
-      (currentDate.getTime() - new Date(lastAttemptDateStr).getTime() < STORED_EVENT_TIMEOUT_MS)
+      currentDate.getTime() - new Date(lastAttemptDateStr).getTime() <
+        STORED_EVENT_TIMEOUT_MS
     ) {
       this.setEvent(storedEvent, false);
     } else {
@@ -161,21 +171,42 @@ export class TimerApp {
     }
   }
 
-  private scrambleCallback(eventName: EventName, scrambledId: ScrambleID, scramble: ScrambleString) {
+  private scrambleCallback(
+    eventName: EventName,
+    scrambledId: ScrambleID,
+    scramble: ScrambleString,
+  ) {
     if (scrambledId === this.awaitedScrambleID) {
       this.currentScramble = { eventName: eventName, scrambleString: scramble };
       this.scrambleView.setScramble(this.currentScramble);
     } else {
       var logInfo = console.info ? console.info.bind(console) : console.log;
-      logInfo("Scramble came back out of order late (received: ", scrambledId, ", current expected: ", this.awaitedScrambleID, "):", scramble)
+      logInfo(
+        "Scramble came back out of order late (received: ",
+        scrambledId,
+        ", current expected: ",
+        this.awaitedScrambleID,
+        "):",
+        scramble,
+      );
     }
   }
 
   private startNewAttempt() {
-    this.awaitedScrambleID = (typeof this.awaitedScrambleID !== "undefined") ? this.awaitedScrambleID + 1 : 0;
+    this.awaitedScrambleID =
+      typeof this.awaitedScrambleID !== "undefined"
+        ? this.awaitedScrambleID + 1
+        : 0;
 
     this.scrambleView.clearScramble();
-    this.scramblers.getRandomScramble(this.currentEvent, this.scrambleCallback.bind(this, this.currentEvent, this.awaitedScrambleID));
+    this.scramblers.getRandomScramble(
+      this.currentEvent,
+      this.scrambleCallback.bind(
+        this,
+        this.currentEvent,
+        this.awaitedScrambleID,
+      ),
+    );
   }
 
   setEvent(eventName: EventName, restartShortTermSession: boolean) {
@@ -193,25 +224,25 @@ export class TimerApp {
 
   private setRandomThemeColor() {
     type ThemeColor = {
-      name: string
-      value: string
-    }
+      name: string;
+      value: string;
+    };
     var themeColors = [
       { name: "orange", value: "#f95b2a" },
       { name: "green", value: "#0d904f" },
       { name: "red", value: "#ce2e20" },
-      { name: "blue", value: "#4285f4" }
+      { name: "blue", value: "#4285f4" },
     ];
     var randomChoice = Util.randomChoice<ThemeColor>(themeColors);
     this.domElement.classList.add("theme-" + randomChoice.name);
 
     // TODO: Can we remove the following line safely?
-    const head = document.head || document.getElementsByTagName('head')[0];
+    const head = document.head || document.getElementsByTagName("head")[0];
 
-    var favicon = document.createElement('link');
-    var currentFavicon = document.getElementById('favicon');
-    favicon.id = 'favicon';
-    favicon.rel = 'shortcut icon';
+    var favicon = document.createElement("link");
+    var currentFavicon = document.getElementById("favicon");
+    favicon.id = "favicon";
+    favicon.rel = "shortcut icon";
     favicon.href = favicons[randomChoice.name];
     if (currentFavicon) {
       head.removeChild(currentFavicon);
@@ -238,29 +269,34 @@ export class TimerApp {
       totalResultMs: time,
       unixDate: Date.now(),
       event: this.currentEvent,
-      scramble: (this.currentScramble || { scrambleString: "" }).scrambleString
+      scramble: (this.currentScramble || { scrambleString: "" }).scrambleString,
     };
     if (localStorage.pouchDBDeviceName) {
       attemptData.device = localStorage.pouchDBDeviceName;
     }
-    await this.session.addNewAttempt(attemptData)
+    await this.session.addNewAttempt(attemptData);
   }
 
   private async latest(): Promise<AttemptDataWithIDAndRev[]> {
-    return (await this.session.mostRecentAttemptsForEvent(this.currentEvent, LATEST_AMOUNT)).docs.reverse();
+    return (
+      await this.session.mostRecentAttemptsForEvent(
+        this.currentEvent,
+        LATEST_AMOUNT,
+      )
+    ).docs.reverse();
   }
 
   async updateDisplayStats(assumeAttemptAppended: boolean = false) {
     const attempts = await this.latest();
     const times = attempts.map((attempt) => attempt.totalResultMs);
     const formattedStats = {
-      "avg5": Stats.formatTime(Stats.trimmedAverage(Stats.lastN(times, 5))),
-      "avg12": Stats.formatTime(Stats.trimmedAverage(Stats.lastN(times, 12))),
-      "avg100": Stats.formatTime(Stats.trimmedAverage(Stats.lastN(times, 100))),
-      "mean3": Stats.formatTime(Stats.mean(Stats.lastN(times, 3))),
-      "best": times.length > 0 ? Stats.formatTime(Math.min(...times)) : "---",
-      "worst": times.length > 0 ? Stats.formatTime(Math.max(...times)) : "---",
-      "numSolves": (await this.session.db.info()).doc_count - 1 // TODO: exact number
+      avg5: Stats.formatTime(Stats.trimmedAverage(Stats.lastN(times, 5))),
+      avg12: Stats.formatTime(Stats.trimmedAverage(Stats.lastN(times, 12))),
+      avg100: Stats.formatTime(Stats.trimmedAverage(Stats.lastN(times, 100))),
+      mean3: Stats.formatTime(Stats.mean(Stats.lastN(times, 3))),
+      best: times.length > 0 ? Stats.formatTime(Math.min(...times)) : "---",
+      worst: times.length > 0 ? Stats.formatTime(Math.max(...times)) : "---",
+      numSolves: (await this.session.db.info()).doc_count - 1, // TODO: exact number
     };
     this.statsView.setStats(formattedStats, attempts);
   }
@@ -278,12 +314,16 @@ class ScrambleView {
   private optionElementsByEventName: { [s: string]: HTMLOptionElement };
   constructor(private timerApp: TimerApp) {
     this.scrambleElement = <HTMLElement>document.getElementById("scramble-bar");
-    this.eventSelectDropdown = <HTMLSelectElement>document.getElementById("event-select-dropdown");
+    this.eventSelectDropdown = <HTMLSelectElement>(
+      document.getElementById("event-select-dropdown")
+    );
     this.cubingIcon = <HTMLElement>document.getElementById("cubing-icon");
-    this.scrambleText = <HTMLAnchorElement>document.getElementById("scramble-text");
+    this.scrambleText = <HTMLAnchorElement>(
+      document.getElementById("scramble-text")
+    );
 
     this.eventSelectDropdown.addEventListener("change", () => {
-      this.eventSelectDropdown.blur()
+      this.eventSelectDropdown.blur();
       this.timerApp.setEvent(this.eventSelectDropdown.value as EventName, true);
     });
 
@@ -316,7 +356,7 @@ class ScrambleView {
   setScramblePlaceholder(eventName: EventName) {
     this.setScramble({
       eventName: eventName,
-      scrambleString: "generating..."
+      scrambleString: "generating...",
     });
   }
 
@@ -327,9 +367,10 @@ class ScrambleView {
     // TODO(lgarron): Use proper layout code. https://github.com/cubing/timer/issues/20
     if (scramble.eventName === "minx") {
       this.scrambleText.innerHTML = scramble.scrambleString;
-    }
-    else if (scramble.eventName === "sq1") {
-      this.scrambleText.innerHTML = scramble.scrambleString.replace(/, /g, ",&nbsp;").replace(/\) \//g, ")&nbsp;/");
+    } else if (scramble.eventName === "sq1") {
+      this.scrambleText.innerHTML = scramble.scrambleString
+        .replace(/, /g, ",&nbsp;")
+        .replace(/\) \//g, ")&nbsp;/");
     }
   }
 
@@ -344,30 +385,38 @@ class StatsView {
   private elems: { [s: string]: HTMLOptionElement };
   private sidebarElems: { [s: string]: HTMLOptionElement };
   constructor(private getCurrentEvent: () => EventName) {
-    this.statsDropdown = <HTMLSelectElement>document.getElementById("stats-dropdown");
+    this.statsDropdown = <HTMLSelectElement>(
+      document.getElementById("stats-dropdown")
+    );
 
     this.elems = {
-      "avg5": <HTMLOptionElement>document.getElementById("avg5"),
-      "avg12": <HTMLOptionElement>document.getElementById("avg12"),
-      "avg100": <HTMLOptionElement>document.getElementById("avg100"),
-      "mean3": <HTMLOptionElement>document.getElementById("mean3"),
-      "best": <HTMLOptionElement>document.getElementById("best"),
-      "worst": <HTMLOptionElement>document.getElementById("worst"),
+      avg5: <HTMLOptionElement>document.getElementById("avg5"),
+      avg12: <HTMLOptionElement>document.getElementById("avg12"),
+      avg100: <HTMLOptionElement>document.getElementById("avg100"),
+      mean3: <HTMLOptionElement>document.getElementById("mean3"),
+      best: <HTMLOptionElement>document.getElementById("best"),
+      worst: <HTMLOptionElement>document.getElementById("worst"),
       "num-solves": <HTMLOptionElement>document.getElementById("num-solves"),
     };
     this.sidebarElems = {
-      "avg5": <HTMLOptionElement>document.getElementById("stats-current-avg5"),
-      "avg12": <HTMLOptionElement>document.getElementById("stats-current-avg12"),
-      "avg100": <HTMLOptionElement>document.getElementById("stats-current-avg100"),
-      "mean3": <HTMLOptionElement>document.getElementById("stats-current-mean3"),
-      "best": <HTMLOptionElement>document.getElementById("stats-best-time"),
-      "worst": <HTMLOptionElement>document.getElementById("stats-worst-time"),
-      "num-solves": <HTMLOptionElement>document.getElementById("stats-num-times"),
+      avg5: <HTMLOptionElement>document.getElementById("stats-current-avg5"),
+      avg12: <HTMLOptionElement>document.getElementById("stats-current-avg12"),
+      avg100: <HTMLOptionElement>(
+        document.getElementById("stats-current-avg100")
+      ),
+      mean3: <HTMLOptionElement>document.getElementById("stats-current-mean3"),
+      best: <HTMLOptionElement>document.getElementById("stats-best-time"),
+      worst: <HTMLOptionElement>document.getElementById("stats-worst-time"),
+      "num-solves": <HTMLOptionElement>(
+        document.getElementById("stats-num-times")
+      ),
     };
 
     this.initializeDropdown();
 
-    const syncLinks = <NodeListOf<HTMLAnchorElement>>document.querySelectorAll(".sync-link");
+    const syncLinks = <NodeListOf<HTMLAnchorElement>>(
+      document.querySelectorAll(".sync-link")
+    );
     for (const syncLink of [...syncLinks]) {
       syncLink.addEventListener("click", (e: Event) => {
         e.preventDefault();
@@ -375,7 +424,9 @@ class StatsView {
       });
     }
 
-    const resultsLinks = <NodeListOf<HTMLAnchorElement>>document.querySelectorAll(".results-link");
+    const resultsLinks = <NodeListOf<HTMLAnchorElement>>(
+      document.querySelectorAll(".results-link")
+    );
     for (const resultsLink of [...resultsLinks]) {
       resultsLink.addEventListener("click", (e: Event) => {
         e.preventDefault();
@@ -395,28 +446,32 @@ class StatsView {
       this.elems[storedCurrentStat].selected = true;
     }
 
-    this.statsDropdown.addEventListener("change", function () {
-      localStorage.setItem("current-stat", this.statsDropdown.value);
-      this.statsDropdown.blur();
-    }.bind(this));
+    this.statsDropdown.addEventListener(
+      "change",
+      function () {
+        localStorage.setItem("current-stat", this.statsDropdown.value);
+        this.statsDropdown.blur();
+      }.bind(this),
+    );
   }
 
   setStats(stats: FormattedStats, attempts: AttemptDataWithIDAndRev[]) {
-
-    const maxLen = Math.max(...[
-      "⌀5: " + stats.avg5,
-      "⌀12: " + stats.avg12,
-      "⌀100: " + stats.avg100,
-      "μ3: " + stats.mean3,
-      "best: " + stats.best,
-      "worst: " + stats.worst,
-      "#solves: " + stats.numSolves
-    ].map((s) => s.length));
+    const maxLen = Math.max(
+      ...[
+        "⌀5: " + stats.avg5,
+        "⌀12: " + stats.avg12,
+        "⌀100: " + stats.avg100,
+        "μ3: " + stats.mean3,
+        "best: " + stats.best,
+        "worst: " + stats.worst,
+        "#solves: " + stats.numSolves,
+      ].map((s) => s.length),
+    );
     function setStat(elem: HTMLOptionElement, s: string): void {
       let spacing = "";
       if (isSafari) {
         for (var i = 0; i < (maxLen - s.length) * 0.75; i++) {
-          spacing += "&nbsp;"
+          spacing += "&nbsp;";
         }
       }
       elem.innerHTML = spacing;

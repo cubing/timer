@@ -20,7 +20,7 @@ const session = new TimerSession();
 let justRemoved: string;
 
 function onSyncChange(
-  change: PouchDB.Replication.SyncResult<AttemptData>
+  change: PouchDB.Replication.SyncResult<AttemptData>,
 ): void {
   // We've only implemented full table reload (no DOM diffing). This is a hack to avoid doing that if we only removed a doc locally.
   if (
@@ -49,7 +49,7 @@ async function exportTCN(): Promise<void> {
   const jsonData = await session.allAttempts();
   downloadFile(
     `timer.cubing.net Format | ${new Date().toString()}.json`,
-    JSON.stringify(jsonData, null, "  ")
+    JSON.stringify(jsonData, null, "  "),
   );
 }
 
@@ -57,7 +57,7 @@ async function exportToCSTimer(): Promise<void> {
   const jsonData = await convertToCSTimerFormat(session, getEventID());
   downloadFile(
     `csTimer Format | ${new Date().toString()}.txt`,
-    JSON.stringify(jsonData, null, "  ")
+    JSON.stringify(jsonData, null, "  "),
   );
 }
 
@@ -92,29 +92,31 @@ export async function showData(): Promise<void> {
   switch (rangeSelector) {
     case "most-recent":
     // fallthrough
-    case "least-recent":
+    case "least-recent": {
       unfilteredAttempts = (
         await session.mostRecentAttempts(
           MAX_NUM_RECENT_ATTEMPTS,
           eventId as EventName,
-          rangeSelector === "most-recent"
+          rangeSelector === "most-recent",
         )
       ).docs;
       break;
+    }
     case "best":
     // fallthrough
-    case "worst":
+    case "worst": {
       unfilteredAttempts = await session.extremeTimes(
         MAX_NUM_RECENT_ATTEMPTS,
         rangeSelector === "worst",
-        eventId as EventName
+        eventId as EventName,
       );
       break;
+    }
     default:
       throw new Error("unexpected range selector");
   }
   const attempts = unfilteredAttempts.filter(
-    (attempt: AttemptData) => attempt.event === eventId
+    (attempt: AttemptData) => attempt.event === eventId,
   );
   for (const attempt of attempts) {
     if (!attempt.totalResultMs) {
@@ -131,7 +133,7 @@ async function eventChanged(): Promise<void> {
   history.pushState(
     { event: eventID },
     `Results | ${eventID}`,
-    "?" + newURL.searchParams.toString()
+    `?${newURL.searchParams.toString()}`,
   );
   await showData();
 }

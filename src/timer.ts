@@ -1,8 +1,7 @@
-import { Stats } from "./stats"
+import { Stats } from "./stats";
 import * as WakeLock from "./wake-lock";
 
 export type Milliseconds = number;
-
 
 enum State {
   Ready = "ready",
@@ -20,7 +19,7 @@ export class Controller {
   constructor(
     private domElement: HTMLElement,
     private solveDoneCallback: (t: Milliseconds) => void,
-    private attemptDoneCallback: () => void
+    private attemptDoneCallback: () => void,
   ) {
     var timerView = new View(domElement);
     this.timer = new Timer(timerView.displayTime.bind(timerView));
@@ -43,7 +42,7 @@ export class Controller {
 
       document.body.addEventListener(
         "pointerdown",
-        this.downIfRunning.bind(this)
+        this.downIfRunning.bind(this),
       );
       document.body.addEventListener("pointerup", this.upIfStopped.bind(this));
     }
@@ -118,23 +117,27 @@ export class Controller {
 
   private setState(state: State) {
     switch (state) {
-      case State.Ready:
-        if (this.state == State.Stopped) {
+      case State.Ready: {
+        if (this.state === State.Stopped) {
           this.attemptDoneCallback();
         }
         break;
-      case State.HandOnTimer:
+      }
+      case State.HandOnTimer: {
         this.reset();
         break;
-      case State.Running:
+      }
+      case State.Running: {
         WakeLock.enable();
         this.timer.start();
         break;
-      case State.Stopped:
+      }
+      case State.Stopped: {
         WakeLock.disable();
         var time = this.timer.stop();
         this.solveDoneCallback(time);
         break;
+      }
       case State.Ignore:
         return;
       default:
@@ -152,9 +155,15 @@ class View {
   private secRestElement: HTMLElement;
   private decimalDigitsElement: HTMLElement;
   constructor(domElement: HTMLElement) {
-    this.secFirstElement = <HTMLElement>domElement.getElementsByClassName("sec-first")[0];
-    this.secRestElement = <HTMLElement>domElement.getElementsByClassName("sec-rest")[0];
-    this.decimalDigitsElement = <HTMLElement>domElement.getElementsByClassName("decimal-digits")[0];
+    this.secFirstElement = <HTMLElement>(
+      domElement.getElementsByClassName("sec-first")[0]
+    );
+    this.secRestElement = <HTMLElement>(
+      domElement.getElementsByClassName("sec-rest")[0]
+    );
+    this.decimalDigitsElement = <HTMLElement>(
+      domElement.getElementsByClassName("decimal-digits")[0]
+    );
   }
 
   displayTime(time: number) {
@@ -171,7 +180,7 @@ class Timer {
   private startTime: number;
   constructor(private currentTimeCallback: (t: Milliseconds) => void) {
     this.animFrameBound = this.animFrame.bind(this);
-  };
+  }
 
   public isRunning(): boolean {
     return this.running;

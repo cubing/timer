@@ -4,7 +4,7 @@ build: clean-dist
 
 .PHONY: dev
 dev:
-	npx parcel-bundler src/index.html
+	node script/dev.js
 
 SFTP_PATH = "towns.dreamhost.com:~/timer.cubing.net/"
 URL       = "https://timer.cubing.net/"
