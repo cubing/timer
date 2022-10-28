@@ -18,8 +18,7 @@
     "cubing": "^0.31.1",
     "events": "^3.3.0",
     "pouchdb": "^7.3.0",
-    "pouchdb-find": "^7.3.0",
-    "results": "^0.14.1"
+    "pouchdb-find": "^7.3.0"
   },
   "externalsForWebpack": [
     "alg"
