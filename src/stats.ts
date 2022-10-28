@@ -1,13 +1,13 @@
-import { Milliseconds } from "./timer"
-import "./results/db"
+import { Milliseconds } from "./timer";
+import "./results/db";
 // function Stats() {
 
 // };
 
 type TimeParts = {
-  secFirst: string,
-  secRest: string,
-  decimals: string
+  secFirst: string;
+  secRest: string;
+  decimals: string;
 };
 
 export class Stats {
@@ -17,7 +17,7 @@ export class Stats {
 
   static lastN(l: Milliseconds[], N: number): Milliseconds[] | null {
     if (l.length < N) {
-      return null
+      return null;
     }
     return l.slice(l.length - N);
   }
@@ -72,7 +72,7 @@ export class Stats {
     // Each entry is [minimum number of digits if not first, separator before, value]
     var hours = Math.floor(time / (60 * 60 * 1000));
     var minutes = Math.floor(time / (60 * 1000)) % 60;
-    var seconds = Math.floor(time / (1000)) % 60;
+    var seconds = Math.floor(time / 1000) % 60;
 
     function pad(number: number, numDigitsAfterPadding: number) {
       var output = "" + number;
@@ -85,7 +85,8 @@ export class Stats {
     var secFirstString = "";
     var secRestString;
     if (hours > 0) {
-      secRestString = "" + pad(hours, 2) + ":" + pad(minutes, 2) + ":" + pad(seconds, 2);
+      secRestString =
+        "" + pad(hours, 2) + ":" + pad(minutes, 2) + ":" + pad(seconds, 2);
     } else if (minutes > 0) {
       secRestString = "" + minutes + ":" + pad(seconds, 2);
     } else {
@@ -101,13 +102,13 @@ export class Stats {
     return {
       secFirst: secFirstString,
       secRest: secRestString,
-      decimals: "" + pad(centiseconds, 2)
+      decimals: "" + pad(centiseconds, 2),
     };
   }
 
   static formatTime(time: Milliseconds | null): string {
     if (time === null) {
-      return "---"
+      return "---";
     }
 
     var parts = this.timeParts(time);

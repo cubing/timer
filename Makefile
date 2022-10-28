@@ -18,6 +18,9 @@ deploy: build
 		${SFTP_PATH}
 	echo "\nDone deploying. Go to ${URL}\n"
 
+.PHONY: format
+format:
+	npx rome format --write ./src
 
 .PHONY: clean
 clean: clean-dist

@@ -11,11 +11,11 @@
 
 let sentinel: WakeLockSentinel | null = null;
 export async function enable() {
-	if(sentinel) return;
-	sentinel = await navigator.wakeLock?.request('screen');
+  if (sentinel) return;
+  sentinel = await navigator.wakeLock?.request("screen");
 }
 
 export async function disable() {
-	sentinel?.release();
-	sentinel = null;
+  sentinel?.release();
+  sentinel = null;
 }
