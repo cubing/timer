@@ -2,6 +2,7 @@ import { barelyServe } from "barely-a-dev-server";
 
 barelyServe({
   entryRoot: "src",
+  devDomain: "timer.localhost",
   esbuildOptions: {
     external: ["crypto"],
     loader: { ".svg": "copy", ".ico": "copy" },
