@@ -5,6 +5,5 @@ barelyServe({
   esbuildOptions: {
     external: ["crypto"],
     loader: { ".svg": "copy", ".ico": "copy" },
-    target,
   },
 });

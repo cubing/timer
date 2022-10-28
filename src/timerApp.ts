@@ -10,10 +10,10 @@ import { AttemptData, AttemptDataWithIDAndRev } from "./results/attempt";
 import { trForAttempt } from "./results-table";
 
 const favicons: { [s: string]: string } = {
-  blue: require("./lib/favicons/favicon_blue.ico"),
-  red: require("./lib/favicons/favicon_red.ico"),
-  green: require("./lib/favicons/favicon_green.ico"),
-  orange: require("./lib/favicons/favicon_orange.ico"),
+  blue: "/lib/favicons/favicon_blue.ico",
+  red: "/lib/favicons/favicon_red.ico",
+  green: "/lib/favicons/favicon_green.ico",
+  orange: "/lib/favicons/favicon_orange.ico",
 };
 
 // TODO: Import this from "./scramble-worker"
