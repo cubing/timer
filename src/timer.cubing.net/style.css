@@ -183,22 +183,22 @@ a#update-bar.hidden {
   opacity: 0.25;
 }
 
-.scramble-text.event-sq1,
-.scramble-text.event-444,
-.scramble-text.event-444bf,
-.scramble-text.event-fto {
+.scramble-text .event-sq1,
+.scramble-text .event-444,
+.scramble-text .event-444bf,
+.scramble-text .event-fto {
   font-size: var(--main-text-size-smaller);
 }
 
-.scramble-text.event-555,
-.scramble-text.event-555bf,
-.scramble-text.event-clock {
+.scramble-text .event-555,
+.scramble-text .event-555bf,
+.scramble-text .event-clock {
   font-size: var(--main-text-size);
 }
 
-.scramble-text.event-666,
-.scramble-text.event-777,
-.scramble-text.event-minx {
+.scramble-text .event-666,
+.scramble-text .event-777,
+.scramble-text .event-minx {
   font-size: var(--main-text-size-smallest);
 }
 
@@ -462,7 +462,6 @@ a#update-bar.hidden {
   .timer-app.theme-blue .stats {
     background-color: #1C2C4F;
   }
-
 }
 
 .scramble-bar {
@@ -504,13 +503,7 @@ twisty-player {
 
 .stats .side-bar {
   display: none;
-  font-size: 3vw;
-}
-
-@media (min-aspect-ratio: 3/2) {
-  .stats .side-bar {
-    font-size: var(--main-text-size);
-  }
+  font-size: var(--main-text-size-smaller);
 }
 
 .stats-summary {
