@@ -10,14 +10,20 @@
 
 * {
   box-sizing: border-box;
+  --main-text-size: max(min(5vh, 2.5rem), 1vw);
+  --main-text-size-smaller: max(min(4vh, 2rem), 1vw);
+  --main-text-size-smallest: max(min(3vh, 1.5rem), 1vw);
 }
 
-body, div, span {
+body,
+div,
+span {
   margin: 0;
   padding: 0;
 }
 
-html, body {
+html,
+body {
   width: 100%;
   height: 100%;
   overflow: hidden;
@@ -25,7 +31,9 @@ html, body {
 }
 
 @supports (width: 100dvw) {
-  html, body {
+
+  html,
+  body {
     width: 100dvw;
     height: 100dvh;
   }
@@ -61,7 +69,7 @@ a#update-bar {
   background: rgba(0, 0, 0, 0.8);
   color: rgba(255, 255, 255, 0.75);
   width: 100%;
-  font-size: 5vh;
+  font-size: var(--main-text-size);
   font-family: Helvetica, "Tahoma", sans-serif;
   display: flex;
   flex-direction: column;
@@ -82,8 +90,9 @@ a#update-bar.hidden {
   height: 0;
 }
 
-.scramble-bar, .event-select select {
-  font-size: min(5vh, 10vw);
+.scramble-bar,
+.event-select select {
+  font-size: min(var(--main-text-size), 10vw);
   /* Would use Roboto, except that primes (') are easier to read in Helvetica. */
   font-family: Helvetica, "Tahoma", sans-serif;
   color: white;
@@ -100,7 +109,7 @@ a#update-bar.hidden {
   align-items: center;
   justify-content: center;
   white-space: nowrap;
-  box-shadow: 0 0 4px rgba(0,0,0,.14),0 4px 8px rgba(0,0,0,.28);
+  box-shadow: 0 0 4px rgba(0, 0, 0, .14), 0 4px 8px rgba(0, 0, 0, .28);
   flex-wrap: wrap;
   overflow: hidden;
 }
@@ -125,8 +134,8 @@ a#update-bar.hidden {
   background: none;
 
   -webkit-appearance: none;
-  -moz-appearance:    none;
-  appearance:         none;
+  -moz-appearance: none;
+  appearance: none;
 }
 
 .scramble-text {
@@ -136,7 +145,7 @@ a#update-bar.hidden {
   text-align: center;
 }
 
-@supports ( (text-align-last: center) or (-moz-text-align-last: center) ) {
+@supports ((text-align-last: center) or (-moz-text-align-last: center)) {
   .scramble-text {
     text-align: justify;
     text-align-last: center;
@@ -152,19 +161,19 @@ a#update-bar.hidden {
 .scramble-text.event-444,
 .scramble-text.event-444bf,
 .scramble-text.event-fto {
-  font-size: 4vh;
+  font-size: var(--main-text-size-smaller);
 }
 
 .scramble-text.event-555,
 .scramble-text.event-555bf,
 .scramble-text.event-clock {
-  font-size: 5vh;
+  font-size: var(--main-text-size);
 }
 
 .scramble-text.event-666,
 .scramble-text.event-777,
 .scramble-text.event-minx {
-  font-size: 2.5vh;
+  font-size: var(--main-text-size-smallest);
 }
 
 .timer {
@@ -174,7 +183,7 @@ a#update-bar.hidden {
   align-items: center;
   justify-content: center;
   transition: background-color 0s;
-  -webkit-tap-highlight-color: rgba(0,0,0,0);
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 
 /* Slow down transitions into some states. */
@@ -196,14 +205,14 @@ a#update-bar.hidden {
   line-height: 0.75em;
 }
 
-.time > div {
+.time>div {
   flex: auto;
 }
 
 .time {
   font-size: 30vw;
   font-family: digital-7-mono, monospace;
-  margin-top: 5vh;
+  margin-top: var(--main-text-size);
 }
 
 .invisible {
@@ -214,9 +223,11 @@ a#update-bar.hidden {
   .time {
     font-size: min(30vh, 60vw);
   }
+
   .dot {
     display: none;
   }
+
   a#update-bar {
     font-size: 5vw;
   }
@@ -227,6 +238,7 @@ a#update-bar.hidden {
     flex-direction: row;
     align-items: baseline;
   }
+
   .invisible {
     display: none;
   }
@@ -265,7 +277,7 @@ a#update-bar.hidden {
   grid-template-columns: 1fr 3fr 1fr;
 }
 
-.stats .bottom-bar > a {
+.stats .bottom-bar>a {
   height: 100%;
   /* width: 10vh; */
   padding: 0 2vw;
@@ -273,7 +285,7 @@ a#update-bar.hidden {
   place-content: center;
 }
 
-.stats .bottom-bar > a:hover {
+.stats .bottom-bar>a:hover {
   background: #f2f2f2;
 }
 
@@ -295,7 +307,7 @@ a#update-bar.hidden {
 
 .stats select {
   flex: 0 0 auto;
-  font-size: min(5vh, 10vw);
+  font-size: min(var(--main-text-size), 10vw);
   font-family: Roboto, Helvetica, "Tahoma", sans-serif;
   color: white;
 
@@ -308,8 +320,8 @@ a#update-bar.hidden {
   background: none;
 
   -webkit-appearance: none;
-  -moz-appearance:    none;
-  appearance:         none;
+  -moz-appearance: none;
+  appearance: none;
 
   text-align: center;
   text-align-last: center;
@@ -335,7 +347,7 @@ a#update-bar.hidden {
 }
 
 .stats .bottom-bar a {
-  font-size: min(5vh, 10vw);
+  font-size: min(var(--main-text-size), 10vw);
 }
 
 .stats .bottom-bar .sync {
@@ -385,7 +397,8 @@ a#update-bar.hidden {
     "stats";
 }
 
-@media (min-aspect-ratio: 3/2), (min-width: 600px) {
+@media (min-aspect-ratio: 3/2),
+(min-width: 600px) {
   .timer-app {
     grid-template-columns: 2fr minmax(15em, 1fr);
     grid-template-rows: auto 1fr;
@@ -404,7 +417,8 @@ a#update-bar.hidden {
     box-shadow: inset 8px 0 8px -8px rgba(0, 0, 0, 1);
     overflow-x: hidden;
     overflow-y: scroll;
-    -webkit-overflow-scrolling: touch; /* Lets it scroll lazy */
+    -webkit-overflow-scrolling: touch;
+    /* Lets it scroll lazy */
   }
 
   .timer-app .stats .side-bar {
@@ -438,10 +452,11 @@ a#update-bar.hidden {
   grid-area: timer;
 }
 
-.timer.ready-down .time ,
-.timer.ready-up .time{
+.timer.ready-down .time,
+.timer.ready-up .time {
   display: none;
 }
+
 .timer:not(.ready-down):not(.ready-up) #scramble-display {
   display: none;
 }
@@ -473,7 +488,7 @@ twisty-player {
 
 @media (min-aspect-ratio: 3/2) {
   .stats .side-bar {
-    font-size: 5vh;
+    font-size: var(--main-text-size);
   }
 }
 
@@ -558,37 +573,37 @@ table#attempt-list thead {
   opacity: 0.5;
 }
 
-.timer-app.theme-orange > .scramble-bar,
-.timer-app.theme-orange > .timer.handOnTimer,
-.timer-app.theme-orange > .timer.stopped,
-.timer-app.theme-orange > .timer.done,
+.timer-app.theme-orange>.scramble-bar,
+.timer-app.theme-orange>.timer.handOnTimer,
+.timer-app.theme-orange>.timer.stopped,
+.timer-app.theme-orange>.timer.done,
 .timer-app.theme-orange .event-select select option,
 .timer-app.theme-orange .stats.received-data {
   background-color: #f95b2a;
 }
 
-.timer-app.theme-green > .scramble-bar,
-.timer-app.theme-green > .timer.handOnTimer,
-.timer-app.theme-green > .timer.stopped,
-.timer-app.theme-green > .timer.done,
+.timer-app.theme-green>.scramble-bar,
+.timer-app.theme-green>.timer.handOnTimer,
+.timer-app.theme-green>.timer.stopped,
+.timer-app.theme-green>.timer.done,
 .timer-app.theme-green .event-select select option,
 .timer-app.theme-green .stats.received-data {
   background-color: #0d904f;
 }
 
-.timer-app.theme-red > .scramble-bar,
-.timer-app.theme-red > .timer.handOnTimer,
-.timer-app.theme-red > .timer.stopped,
-.timer-app.theme-red > .timer.done,
+.timer-app.theme-red>.scramble-bar,
+.timer-app.theme-red>.timer.handOnTimer,
+.timer-app.theme-red>.timer.stopped,
+.timer-app.theme-red>.timer.done,
 .timer-app.theme-red .event-select select option,
 .timer-app.theme-red .stats.received-data {
   background-color: #ce2e20;
 }
 
-.timer-app.theme-blue > .scramble-bar,
-.timer-app.theme-blue > .timer.handOnTimer,
-.timer-app.theme-blue > .timer.stopped,
-.timer-app.theme-blue > .timer.done,
+.timer-app.theme-blue>.scramble-bar,
+.timer-app.theme-blue>.timer.handOnTimer,
+.timer-app.theme-blue>.timer.stopped,
+.timer-app.theme-blue>.timer.done,
 .timer-app.theme-blue .event-select select option,
 .timer-app.theme-blue .stats.received-data {
   background-color: #4285f4;
