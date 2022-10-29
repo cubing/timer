@@ -163,6 +163,11 @@ a#update-bar.hidden {
   }
 }
 
+.scramble-text {
+  contain: strict;
+  height: 20vh
+}
+
 .scramble-text:not(.show-scramble) twisty-alg-viewer {
   display: none;
 }

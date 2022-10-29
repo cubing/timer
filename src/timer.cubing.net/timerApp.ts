@@ -15,6 +15,7 @@ import {
   initialEventID,
   setURLParam,
 } from "./url-params";
+import { TextFitter } from "./TextFitter";
 
 const favicons: { [s: string]: string } = {
   blue: "/lib/favicons/favicon_blue.ico",
@@ -322,6 +323,7 @@ class ScrambleView {
     "#scramble-display twisty-player",
   ) as TwistyPlayer;
   private optionElementsByEventID: { [s: string]: HTMLOptionElement };
+  private textFitter: TextFitter;
   constructor(private timerApp: TimerApp) {
     this.scrambleElement = <HTMLElement>document.getElementById("scramble-bar");
     this.eventSelectDropdown = <HTMLSelectElement>(
@@ -331,6 +333,11 @@ class ScrambleView {
     this.scrambleTwistyAlgViewer = <HTMLAnchorElement>(
       document.querySelector(".scramble-text twisty-alg-viewer")
     );
+
+    this.textFitter = new TextFitter(this.scrambleTwistyAlgViewer, {
+      verticalRatio: 1.5,
+    });
+    this.textFitter.onResize(true);
 
     this.eventSelectDropdown.addEventListener("change", () => {
       this.eventSelectDropdown.blur();
@@ -393,14 +400,7 @@ class ScrambleView {
       easing: "ease-out",
     });
 
-    // TODO(lgarron): Use proper layout code. https://github.com/cubing/timer/issues/20
-    if (scrambleWithEvent.eventID === "minx") {
-      this.scrambleTwistyAlgViewer.innerHTML = scrambleString;
-    } else if (scrambleWithEvent.eventID === "sq1") {
-      this.scrambleTwistyAlgViewer.innerHTML = scrambleString
-        .replace(/, /g, ",&nbsp;")
-        .replace(/\) \//g, ")&nbsp;/");
-    }
+    this.textFitter.onResize(true);
   }
 
   clearScramble() {
