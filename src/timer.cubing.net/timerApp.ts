@@ -265,9 +265,9 @@ export class TimerApp {
   }
 
   private async solveDone(time: Milliseconds): Promise<void> {
+    this.scrambleView.staleScramble(true);
     await this.persistResult(time);
     await this.updateDisplayStats(true);
-    this.scrambleView.staleScramble(true);
   }
 
   //   /**
@@ -410,7 +410,6 @@ class ScrambleView {
   }
 
   staleScramble(stale: boolean): void {
-    console.log(this.scrambleElement, stale);
     this.scrambleText.classList.toggle("stale", stale);
   }
 }
