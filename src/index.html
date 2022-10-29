@@ -14,27 +14,6 @@
 
   <title>timer.cubing.net (v2)</title>
   <script src="./index.js" href="./index.ts" type="module"></script>
-
-  <!-- <link rel="manifest" href="manifest.json">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-title" content="timer.cubing.net">
-  <link rel="apple-touch-icon" href="lib/favicons/touch-icon.png"/>
-  <meta property="og:image" content="https://timer.cubing.net/screenshot.png" />
-  <link rel="shortcut icon" id="favicon" href="lib/favicons/favicon_blue.ico"/>
-
-  <title>timer.cubing.net</title>
-
-  <script src="lib/fastclick.js" defer></script>
-
-  <link rel="stylesheet" href="lib/cubing-icons/cubing-icons.css"/>
-
-  <script src="lib/MagicWorker.js" defer></script>
-  <script src="lib/scramble-worker.js" defer></script>
-
-  <script src="cubing.js" defer></script>
-  <script src="results.js" defer></script>
-  <script src="timer.js" defer></script>
-  <script src="timerApp.js" defer></script> -->
 </head>
 
 <body>
@@ -48,6 +27,7 @@
       <span class="scramble-text" id="scramble-text">generating...</span>
     </div>
     <div class="timer" id="timer">
+      <twisty-player></twisty-player>
       <div class="time">
         <div class="sec">
           <span class="sec-first"></span><span class="sec-rest">0</span>
