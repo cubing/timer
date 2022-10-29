@@ -353,8 +353,8 @@ class ScrambleView {
   }
 
   setEvent(eventID: EventID) {
-    Util.removeClassesStartingWith(this.scrambleTwistyAlgViewer, "event-");
-    this.scrambleTwistyAlgViewer.classList.add("event-" + eventID);
+    Util.removeClassesStartingWith(this.scrambleText, "event-");
+    this.scrambleText.classList.add("event-" + eventID);
     Util.removeClassesStartingWith(this.cubingIcon, "icon-");
     this.cubingIcon.classList.add("icon-" + eventID);
     if (

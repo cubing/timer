@@ -10,9 +10,9 @@
 
 * {
   box-sizing: border-box;
-  --main-text-size: max(min(5vh, 2.5rem), 1vw);
-  --main-text-size-smaller: max(min(4vh, 2rem), 1vw);
-  --main-text-size-smallest: max(min(3vh, 1.5rem), 1vw);
+  --main-text-size: min(max(min(5vh, 2.5rem), 1vw), 4vh);
+  --main-text-size-smaller: min(max(min(4vh, 2rem), 1vw));
+  --main-text-size-smallest: min(max(min(3vh, 1.5rem), 1vw), 2.5vh);
 }
 
 body,
@@ -92,10 +92,13 @@ a#update-bar.hidden {
 
 .scramble-bar,
 .event-select select {
-  font-size: min(var(--main-text-size), 10vw);
   /* Would use Roboto, except that primes (') are easier to read in Helvetica. */
   font-family: Helvetica, "Tahoma", sans-serif;
   color: white;
+}
+
+.event-select select {
+  font-size: var(--main-text-size);
 }
 
 .scramble-bar {
@@ -163,6 +166,17 @@ a#update-bar.hidden {
   }
 }
 
+.scramble-text {
+  padding-top: 0.25em;
+  padding-bottom: 0.25em;
+  line-height: 1.25em;
+  font-size: var(--main-text-size);
+}
+
+.generating {
+  font-size: var(--main-text-size)
+}
+
 .scramble-text:not(.show-scramble) twisty-alg-viewer {
   display: none;
 }
@@ -183,23 +197,32 @@ a#update-bar.hidden {
   opacity: 0.25;
 }
 
-.scramble-text .event-sq1,
-.scramble-text .event-444,
-.scramble-text .event-444bf,
-.scramble-text .event-fto {
+.scramble-text.event-sq1,
+.scramble-text.event-444,
+.scramble-text.event-444bf,
+.scramble-text.event-fto,
+.scramble-text.event-clock {
   font-size: var(--main-text-size-smaller);
 }
 
-.scramble-text .event-555,
-.scramble-text .event-555bf,
-.scramble-text .event-clock {
-  font-size: var(--main-text-size);
+.scramble-text.event-555,
+.scramble-text.event-555bf {
+  font-size: var(--main-text-size-smaller);
 }
 
-.scramble-text .event-666,
-.scramble-text .event-777,
-.scramble-text .event-minx {
+.scramble-text.event-666,
+.scramble-text.event-777 {
   font-size: var(--main-text-size-smallest);
+}
+
+.scramble-text.event-minx {
+  font-size: min(var(--main-text-size-smallest), 3vw);
+}
+
+.scramble-text.event-minx {
+  font-family: monospace;
+  text-align: start !important;
+  text-align-last: start !important;
 }
 
 .timer {
@@ -328,7 +351,7 @@ a#update-bar.hidden {
 
 .stats select {
   flex: 0 0 auto;
-  font-size: min(var(--main-text-size), 10vw);
+  font-size: var(--main-text-size);
   font-family: Roboto, Helvetica, "Tahoma", sans-serif;
   color: white;
 
