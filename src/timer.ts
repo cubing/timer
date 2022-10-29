@@ -4,7 +4,8 @@ import * as WakeLock from "./wake-lock";
 export type Milliseconds = number;
 
 enum State {
-  Ready = "ready",
+  ReadyDown = "ready-down",
+  ReadyUp = "ready-up",
   HandOnTimer = "handOnTimer",
   Running = "running",
   Stopped = "stopped",
@@ -48,7 +49,7 @@ export class Controller {
       document.body.addEventListener("pointerup", this.upIfStopped.bind(this));
     }
 
-    this.setState(State.Ready);
+    this.setState(State.ReadyUp);
   }
 
   public isRunning(): boolean {
@@ -74,22 +75,24 @@ export class Controller {
 
   private down() {
     var transitionMap: TransitionMap = {
-      ready: State.HandOnTimer,
-      handOnTimer: State.Ignore,
-      running: State.Stopped,
-      stopped: State.Ignore,
-      done: State.Ready,
+      [State.ReadyDown]: State.Ignore,
+      [State.ReadyUp]: State.HandOnTimer,
+      [State.HandOnTimer]: State.Ignore,
+      [State.Running]: State.Stopped,
+      [State.Stopped]: State.Ignore,
+      [State.Done]: State.ReadyDown,
     };
     this.setState(transitionMap[this.state]);
   }
 
   private up() {
     var transitionMap: TransitionMap = {
-      ready: State.Ignore,
-      handOnTimer: State.Running,
-      running: State.Ignore,
-      stopped: State.Done,
-      done: State.Ignore,
+      [State.ReadyDown]: State.ReadyUp,
+      [State.ReadyUp]: State.Ignore,
+      [State.HandOnTimer]: State.Running,
+      [State.Running]: State.Ignore,
+      [State.Stopped]: State.Done,
+      [State.Done]: State.Ignore,
     };
     this.setState(transitionMap[this.state]);
   }
@@ -120,12 +123,14 @@ export class Controller {
 
   private setState(state: State) {
     switch (state) {
-      case State.Ready: {
+      case State.ReadyDown: {
         if (this.state === State.Done) {
           this.startNewAttemptCallback();
         }
         break;
       }
+      case State.ReadyUp:
+        break;
       case State.HandOnTimer: {
         this.reset();
         break;
