@@ -15,6 +15,9 @@ import {
   initialEventID,
   setURLParam,
 } from "./url-params";
+import { ScrambleView, ScrambleWithEvent } from "./ScrambleView";
+import { nonsecureRandomChoice } from "./util";
+import { StatsView } from "./StatsView";
 
 const favicons: { [s: string]: string } = {
   blue: "/lib/favicons/favicon_blue.ico",
@@ -29,29 +32,6 @@ export type ScrambleID = number;
 const STORED_EVENT_TIMEOUT_MS = 15 * 60 * 1000;
 const LATEST_AMOUNT = 100;
 
-type Scramble = {
-  eventID: EventID;
-  scrambleString: string;
-};
-
-type FormattedStats = {
-  avg5: string;
-  avg12: string;
-  avg100: string;
-  mean3: string;
-  best: string;
-  worst: string;
-  numSolves: number;
-};
-
-// WebSafari (WebKit) doesn't center text in `<select>`'s `<option>` tags: https://bugs.webkit.org/show_bug.cgi?id=40216
-// We detect Safari based on https://stackoverflow.com/a/23522755 so we can do an ugly workaround (manually adding padding using spaces) below.
-const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
-
-type ScrambleWithEvent = {
-  eventID: EventID;
-  scramble: Alg | null;
-};
 export class TimerApp {
   private scrambleView: ScrambleView;
   private statsView: StatsView;
@@ -239,7 +219,7 @@ export class TimerApp {
       { name: "red", value: "#ce2e20" },
       { name: "blue", value: "#4285f4" },
     ];
-    var randomChoice = Util.randomChoice<ThemeColor>(themeColors);
+    var randomChoice = nonsecureRandomChoice<ThemeColor>(themeColors);
     this.domElement.classList.add("theme-" + randomChoice.name);
 
     // TODO: Can we remove the following line safely?
@@ -306,247 +286,5 @@ export class TimerApp {
       numSolves: (await this.session.db.info()).doc_count - 1, // TODO: exact number
     };
     this.statsView.setStats(formattedStats, attempts);
-  }
-}
-
-class ScrambleView {
-  private scrambleElement: HTMLElement;
-  private eventSelectDropdown: HTMLSelectElement;
-  private cubingIcon: HTMLElement;
-  private scrambleText = document.querySelector(
-    ".scramble-text",
-  ) as HTMLElement;
-  private scrambleTwistyAlgViewer: HTMLElement;
-  private scrambleDisplay = document.querySelector(
-    "#scramble-display twisty-player",
-  ) as TwistyPlayer;
-  private optionElementsByEventID: { [s: string]: HTMLOptionElement };
-  constructor(private timerApp: TimerApp) {
-    this.scrambleElement = <HTMLElement>document.getElementById("scramble-bar");
-    this.eventSelectDropdown = <HTMLSelectElement>(
-      document.getElementById("event-select-dropdown")
-    );
-    this.cubingIcon = <HTMLElement>document.getElementById("cubing-icon");
-    this.scrambleTwistyAlgViewer = <HTMLAnchorElement>(
-      document.querySelector(".scramble-text twisty-alg-viewer")
-    );
-
-    this.eventSelectDropdown.addEventListener("change", () => {
-      this.eventSelectDropdown.blur();
-      this.timerApp.setEvent(this.eventSelectDropdown.value as EventID, true);
-    });
-
-    this.initializeSelectDropdown();
-  }
-
-  initializeSelectDropdown() {
-    this.optionElementsByEventID = {};
-    for (var eventID of eventOrder) {
-      var optionElement = document.createElement("option");
-      optionElement.value = eventID;
-      optionElement.textContent = modifiedEventName(eventID);
-
-      this.optionElementsByEventID[eventID] = optionElement;
-      this.eventSelectDropdown.appendChild(optionElement);
-    }
-  }
-
-  setEvent(eventID: EventID) {
-    Util.removeClassesStartingWith(this.scrambleText, "event-");
-    this.scrambleText.classList.add("event-" + eventID);
-    Util.removeClassesStartingWith(this.cubingIcon, "icon-");
-    this.cubingIcon.classList.add("icon-" + eventID);
-    if (
-      this.eventSelectDropdown.value !== eventID &&
-      this.optionElementsByEventID[eventID]
-    ) {
-      this.optionElementsByEventID[eventID].selected = true;
-    }
-    this.setScramblePlaceholder(eventID);
-  }
-
-  setScramblePlaceholder(eventID: EventID) {
-    this.setScramble({
-      eventID,
-      scramble: null,
-    });
-  }
-
-  setScramble(scrambleWithEvent: ScrambleWithEvent) {
-    const { scramble } = scrambleWithEvent;
-    if (!scramble) {
-      this.scrambleText.classList.remove("show-scramble");
-      return;
-    }
-    this.scrambleText.classList.add("show-scramble");
-    const scrambleString = scramble.toString();
-
-    this.scrambleTwistyAlgViewer.classList.remove("stale");
-    this.scrambleTwistyAlgViewer.textContent = scrambleString; // TODO: animation
-
-    this.scrambleDisplay.puzzle = eventInfo(scrambleWithEvent.eventID)
-      ?.puzzleID!;
-    this.scrambleDisplay.alg = scrambleWithEvent.scramble ?? new Alg();
-    this.scrambleDisplay.animate([{ opacity: 0.25 }, { opacity: 1 }], {
-      duration: 1000,
-      easing: "ease-out",
-    });
-
-    // TODO(lgarron): Use proper layout code. https://github.com/cubing/timer/issues/20
-    if (scrambleWithEvent.eventID === "minx") {
-      this.scrambleTwistyAlgViewer.innerHTML = scrambleString;
-    } else if (scrambleWithEvent.eventID === "sq1") {
-      this.scrambleTwistyAlgViewer.innerHTML = scrambleString
-        .replace(/, /g, ",&nbsp;")
-        .replace(/\) \//g, ")&nbsp;/");
-    }
-  }
-
-  clearScramble() {
-    this.staleScramble(false);
-  }
-
-  staleScramble(stale: boolean): void {
-    this.scrambleText.classList.toggle("stale", stale);
-  }
-}
-
-class StatsView {
-  private statsDropdown: HTMLSelectElement;
-  private elems: { [s: string]: HTMLOptionElement };
-  private sidebarElems: { [s: string]: HTMLOptionElement };
-  constructor(private getCurrentEvent: () => EventID) {
-    this.statsDropdown = <HTMLSelectElement>(
-      document.getElementById("stats-dropdown")
-    );
-
-    this.elems = {
-      avg5: <HTMLOptionElement>document.getElementById("avg5"),
-      avg12: <HTMLOptionElement>document.getElementById("avg12"),
-      avg100: <HTMLOptionElement>document.getElementById("avg100"),
-      mean3: <HTMLOptionElement>document.getElementById("mean3"),
-      best: <HTMLOptionElement>document.getElementById("best"),
-      worst: <HTMLOptionElement>document.getElementById("worst"),
-      "num-solves": <HTMLOptionElement>document.getElementById("num-solves"),
-    };
-    this.sidebarElems = {
-      avg5: <HTMLOptionElement>document.getElementById("stats-current-avg5"),
-      avg12: <HTMLOptionElement>document.getElementById("stats-current-avg12"),
-      avg100: <HTMLOptionElement>(
-        document.getElementById("stats-current-avg100")
-      ),
-      mean3: <HTMLOptionElement>document.getElementById("stats-current-mean3"),
-      best: <HTMLOptionElement>document.getElementById("stats-best-time"),
-      worst: <HTMLOptionElement>document.getElementById("stats-worst-time"),
-      "num-solves": <HTMLOptionElement>(
-        document.getElementById("stats-num-times")
-      ),
-    };
-
-    this.initializeDropdown();
-
-    const syncLinks = <NodeListOf<HTMLAnchorElement>>(
-      document.querySelectorAll(".sync-link")
-    );
-    for (const syncLink of [...syncLinks]) {
-      syncLink.addEventListener("click", (e: Event) => {
-        e.preventDefault();
-        window.location.href = syncLink.href;
-      });
-    }
-
-    const resultsLinks = <NodeListOf<HTMLAnchorElement>>(
-      document.querySelectorAll(".results-link")
-    );
-    for (const resultsLink of [...resultsLinks]) {
-      resultsLink.addEventListener("click", (e: Event) => {
-        e.preventDefault();
-        window.location.href = resultsLink.href;
-        // Don't set event for now.
-        // const url = new URL(resultsLink.href);
-        // url.searchParams.set("event", getCurrentEvent())
-        // window.location.href = url.toString();
-      });
-    }
-  }
-
-  initializeDropdown() {
-    var storedCurrentStat = localStorage.getItem("current-stat");
-
-    if (storedCurrentStat && storedCurrentStat in this.elems) {
-      this.elems[storedCurrentStat].selected = true;
-    }
-
-    this.statsDropdown.addEventListener(
-      "change",
-      function () {
-        localStorage.setItem("current-stat", this.statsDropdown.value);
-        this.statsDropdown.blur();
-      }.bind(this),
-    );
-  }
-
-  setStats(stats: FormattedStats, attempts: AttemptDataWithIDAndRev[]) {
-    const maxLen = Math.max(
-      ...[
-        "⌀5: " + stats.avg5,
-        "⌀12: " + stats.avg12,
-        "⌀100: " + stats.avg100,
-        "μ3: " + stats.mean3,
-        "best: " + stats.best,
-        "worst: " + stats.worst,
-        "#solves: " + stats.numSolves,
-      ].map((s) => s.length),
-    );
-    function setStat(elem: HTMLOptionElement, s: string): void {
-      let spacing = "";
-      if (isSafari) {
-        for (var i = 0; i < (maxLen - s.length) * 0.75; i++) {
-          spacing += "&nbsp;";
-        }
-      }
-      elem.innerHTML = spacing;
-      elem.appendChild(document.createTextNode(s));
-    }
-
-    setStat(this.elems["avg5"], "⌀5: " + stats.avg5);
-    this.sidebarElems["avg5"].textContent = stats.avg5;
-    setStat(this.elems["avg12"], "⌀12: " + stats.avg12);
-    this.sidebarElems["avg12"].textContent = stats.avg12;
-    setStat(this.elems["avg100"], "⌀100: " + stats.avg100);
-    this.sidebarElems["avg100"].textContent = stats.avg100;
-    setStat(this.elems["mean3"], "μ3: " + stats.mean3);
-    this.sidebarElems["mean3"].textContent = stats.mean3;
-    setStat(this.elems["best"], "best: " + stats.best);
-    this.sidebarElems["best"].textContent = stats.best;
-    setStat(this.elems["worst"], "worst: " + stats.worst);
-    this.sidebarElems["worst"].textContent = stats.worst;
-    this.elems["num-solves"].textContent = "#solves: " + stats.numSolves;
-    this.sidebarElems["num-solves"].textContent = stats.numSolves.toString();
-    this.updateAttemptList(attempts);
-  }
-
-  updateAttemptList(attempts: AttemptDataWithIDAndRev[]): void {
-    const tbody = document.querySelector("#attempt-list tbody")!;
-    tbody.textContent = "";
-    for (const attempt of attempts.reverse()) {
-      tbody.appendChild(trForAttempt(attempt, true));
-    }
-  }
-}
-
-class Util {
-  static removeClassesStartingWith(element: HTMLElement, prefix: string): void {
-    var classes = Array.prototype.slice.call(element.classList);
-    for (var i in classes) {
-      var className = classes[i];
-      if (className.startsWith(prefix)) {
-        element.classList.remove(className);
-      }
-    }
-  }
-
-  static randomChoice<T>(list: T[]): T {
-    return list[Math.floor(Math.random() * list.length)];
   }
 }
