@@ -201,6 +201,24 @@ a#update-bar.hidden {
   opacity: 0.25;
 }
 
+twisty-player.dim {
+  animation: pulse-dimmer 1s infinite;
+}
+
+@keyframes pulse-dimmer {
+  0% {
+    opacity: 0.3;
+  }
+
+  75% {
+    opacity: 0.5
+  }
+
+  100% {
+    opacity: 0.3
+  }
+}
+
 .scramble-text.event-sq1,
 .scramble-text.event-444,
 .scramble-text.event-444bf,

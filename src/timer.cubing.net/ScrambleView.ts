@@ -19,7 +19,7 @@ export class ScrambleView {
     ".scramble-text",
   ) as HTMLElement;
   private scrambleTwistyAlgViewer: HTMLElement;
-  private scrambleDisplay = document.querySelector(
+  private twistyPlayer = document.querySelector(
     "#scramble-display twisty-player",
   ) as TwistyPlayer;
   private optionElementsByEventID: { [s: string]: HTMLOptionElement };
@@ -65,6 +65,7 @@ export class ScrambleView {
       this.optionElementsByEventID[eventID].selected = true;
     }
     this.setScramblePlaceholder(eventID);
+    this.twistyPlayer.puzzle = eventInfo(eventID)!.puzzleID;
   }
 
   setScramblePlaceholder(eventID: EventID) {
@@ -78,19 +79,21 @@ export class ScrambleView {
     const { scramble } = scrambleWithEvent;
     if (!scramble) {
       this.scrambleText.classList.remove("show-scramble");
+      this.twistyPlayer.classList.add("dim");
+      this.twistyPlayer.alg = "";
       return;
     }
     this.scrambleText.classList.add("show-scramble");
     const scrambleString = scramble.toString();
 
     this.scrambleTwistyAlgViewer.classList.remove("stale");
+    this.twistyPlayer.classList.remove("dim");
     this.scrambleTwistyAlgViewer.textContent = scrambleString; // TODO: animation
 
-    this.scrambleDisplay.puzzle = eventInfo(scrambleWithEvent.eventID)
-      ?.puzzleID!;
-    this.scrambleDisplay.alg = scrambleWithEvent.scramble ?? new Alg();
-    this.scrambleDisplay.timestamp = "end";
-    this.scrambleDisplay.animate([{ opacity: 0.25 }, { opacity: 1 }], {
+    this.twistyPlayer.puzzle = eventInfo(scrambleWithEvent.eventID)?.puzzleID!;
+    this.twistyPlayer.alg = scrambleWithEvent.scramble ?? new Alg();
+    this.twistyPlayer.timestamp = "end";
+    this.twistyPlayer.animate([{ opacity: 0.25 }, { opacity: 1 }], {
       duration: 1000,
       easing: "ease-out",
     });
