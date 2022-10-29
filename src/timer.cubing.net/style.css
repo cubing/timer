@@ -276,7 +276,8 @@ a#update-bar.hidden {
   }
 }
 
-.time .sec-first {
+.time .sec-first,
+.time .sec-rest {
   font-family: digital-7;
 }
 
