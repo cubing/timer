@@ -217,12 +217,6 @@ a#update-bar.hidden {
   transition: background-color 0.5s, color 0.5s;
 }
 
-.timer.handOnTimer,
-.timer.stopped,
-.timer.done {
-  color: white;
-}
-
 .time {
   display: flex;
   flex-direction: column;
@@ -634,4 +628,16 @@ table#attempt-list thead {
 .timer-app.theme-blue .event-select select option,
 .timer-app.theme-blue .stats.received-data {
   background-color: #4285f4;
+}
+
+.timer.handOnTimer,
+.timer.stopped,
+.timer.done {
+  color: white;
+}
+
+.timer.handOnTimer .time .decimals,
+.timer.stopped .time .decimals,
+.timer.done .time .decimals {
+  opacity: 0.4
 }
