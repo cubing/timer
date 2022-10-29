@@ -310,7 +310,9 @@ class ScrambleView {
   private eventSelectDropdown: HTMLSelectElement;
   private cubingIcon: HTMLElement;
   private scrambleText: HTMLElement;
-  private scrambleDisplay = document.querySelector("#scramble-display twisty-player") as TwistyPlayer;
+  private scrambleDisplay = document.querySelector(
+    "#scramble-display twisty-player",
+  ) as TwistyPlayer;
   private optionElementsByEventName: { [s: string]: HTMLOptionElement };
   constructor(private timerApp: TimerApp) {
     this.scrambleElement = <HTMLElement>document.getElementById("scramble-bar");
@@ -367,13 +369,14 @@ class ScrambleView {
     this.scrambleText.classList.remove("stale");
     this.scrambleText.textContent = scrambleString; // TODO: animation
 
-    console.log(scrambleWithEvent, eventInfo(scrambleWithEvent.eventID))
-    this.scrambleDisplay.puzzle = eventInfo(scrambleWithEvent.eventID)?.puzzleID!
-    this.scrambleDisplay.alg = scrambleWithEvent.scramble ?? new Alg()
+    console.log(scrambleWithEvent, eventInfo(scrambleWithEvent.eventID));
+    this.scrambleDisplay.puzzle = eventInfo(scrambleWithEvent.eventID)
+      ?.puzzleID!;
+    this.scrambleDisplay.alg = scrambleWithEvent.scramble ?? new Alg();
     this.scrambleDisplay.animate([{ opacity: 0.25 }, { opacity: 1 }], {
       duration: 1000,
       easing: "ease-out",
-    })
+    });
 
     // TODO(lgarron): Use proper layout code. https://github.com/cubing/timer/issues/20
     if (scrambleWithEvent.eventID === "minx") {
@@ -391,8 +394,8 @@ class ScrambleView {
   }
 
   dimScramble(dim: boolean): void {
-    console.log(this.scrambleElement)
-    this.scrambleText.classList.toggle("dim", dim)
+    console.log(this.scrambleElement);
+    this.scrambleText.classList.toggle("dim", dim);
   }
 }
 
