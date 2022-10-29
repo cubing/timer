@@ -257,7 +257,7 @@ a#update-bar.hidden {
 }
 
 .time {
-  font-size: 30vw;
+  font-size: 25vw;
   font-family: digital-7-mono, monospace;
   margin-top: var(--main-text-size);
 }
@@ -300,6 +300,11 @@ a#update-bar.hidden {
 .time .sec-first,
 .time .sec-rest {
   font-family: digital-7;
+}
+
+.time .spacer {
+  width: 0.1em;
+  display: inline-block;
 }
 
 .time .decimals {

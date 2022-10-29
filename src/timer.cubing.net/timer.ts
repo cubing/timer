@@ -3,6 +3,8 @@ import * as WakeLock from "./wake-lock";
 
 export type Milliseconds = number;
 
+const THIN_CHARS = "1:";
+
 enum State {
   ReadyDown = "ready-down",
   ReadyUp = "ready-up",
@@ -180,8 +182,27 @@ class View {
 
   displayTime(time: number) {
     var parts = Stats.timeParts(time);
-    this.secFirstElement.textContent = parts.secFirst;
-    this.secRestElement.textContent = parts.secRest;
+    this.secFirstElement.textContent = "";
+    this.secRestElement.textContent = "";
+    const secContainer = this.secRestElement;
+    let lastChar: null | string = null;
+    for (const char of `${parts.secFirst}${parts.secRest}`) {
+      if (
+        lastChar &&
+        (THIN_CHARS.includes(char) || THIN_CHARS.includes(lastChar))
+      ) {
+        secContainer
+          .appendChild(document.createElement("span"))
+          .classList.add("spacer");
+      }
+      if (lastChar && "1" === char && "1" === lastChar) {
+        secContainer
+          .appendChild(document.createElement("span"))
+          .classList.add("spacer");
+      }
+      secContainer.append(char);
+      lastChar = char;
+    }
     this.decimalDigitsElement.textContent = parts.decimals;
   }
 }
