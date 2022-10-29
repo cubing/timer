@@ -183,7 +183,8 @@ a#update-bar.hidden {
 }
 
 .timer.handOnTimer,
-.timer.stopped {
+.timer.stopped,
+.timer.done {
   color: white;
 }
 
@@ -456,6 +457,7 @@ a#update-bar.hidden {
 }
 
 twisty-player {
+  contain: size;
   width: 100%;
   height: 100%;
 }
@@ -555,6 +557,7 @@ table#attempt-list thead {
 .timer-app.theme-orange > .scramble-bar,
 .timer-app.theme-orange > .timer.handOnTimer,
 .timer-app.theme-orange > .timer.stopped,
+.timer-app.theme-orange > .timer.done,
 .timer-app.theme-orange .event-select select option,
 .timer-app.theme-orange .stats.received-data {
   background-color: #f95b2a;
@@ -563,6 +566,7 @@ table#attempt-list thead {
 .timer-app.theme-green > .scramble-bar,
 .timer-app.theme-green > .timer.handOnTimer,
 .timer-app.theme-green > .timer.stopped,
+.timer-app.theme-green > .timer.done,
 .timer-app.theme-green .event-select select option,
 .timer-app.theme-green .stats.received-data {
   background-color: #0d904f;
@@ -571,6 +575,7 @@ table#attempt-list thead {
 .timer-app.theme-red > .scramble-bar,
 .timer-app.theme-red > .timer.handOnTimer,
 .timer-app.theme-red > .timer.stopped,
+.timer-app.theme-red > .timer.done,
 .timer-app.theme-red .event-select select option,
 .timer-app.theme-red .stats.received-data {
   background-color: #ce2e20;
@@ -579,6 +584,7 @@ table#attempt-list thead {
 .timer-app.theme-blue > .scramble-bar,
 .timer-app.theme-blue > .timer.handOnTimer,
 .timer-app.theme-blue > .timer.stopped,
+.timer-app.theme-blue > .timer.done,
 .timer-app.theme-blue .event-select select option,
 .timer-app.theme-blue .stats.received-data {
   background-color: #4285f4;
