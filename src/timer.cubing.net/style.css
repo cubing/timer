@@ -8,6 +8,11 @@
   src: url("lib/digital-7.ttf") format("truetype");
 }
 
+@font-face {
+  font-family: "Ubuntu";
+  src: url("vendor/fonts/ubuntu/Ubuntu-Regular.ttf");
+}
+
 * {
   box-sizing: border-box;
   --main-text-size: min(max(min(5vh, 2.5rem), 1vw), 4vh);
@@ -27,7 +32,7 @@ body {
   width: 100%;
   height: 100%;
   overflow: hidden;
-  font-family: Roboto, Helvetica, "Tahoma", sans-serif;
+  font-family: Ubuntu, Roboto, Helvetica, Tahoma, sans-serif;
 }
 
 @supports (width: 100dvw) {
@@ -70,7 +75,6 @@ a#update-bar {
   color: rgba(255, 255, 255, 0.75);
   width: 100%;
   font-size: var(--main-text-size);
-  font-family: Helvetica, "Tahoma", sans-serif;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -93,7 +97,6 @@ a#update-bar.hidden {
 .scramble-bar,
 .event-select select {
   /* Would use Roboto, except that primes (') are easier to read in Helvetica. */
-  font-family: Helvetica, "Tahoma", sans-serif;
   color: white;
 }
 
@@ -310,7 +313,6 @@ a#update-bar.hidden {
   border-top: 1px solid rgba(0, 0, 0, 0.25);
   color: black;
   width: 100%;
-  font-family: Roboto, Helvetica, "Tahoma", sans-serif;
 }
 
 .stats .side-bar {
@@ -353,7 +355,6 @@ a#update-bar.hidden {
 .stats select {
   flex: 0 0 auto;
   font-size: var(--main-text-size);
-  font-family: Roboto, Helvetica, "Tahoma", sans-serif;
   color: white;
 
   vertical-align: middle;
