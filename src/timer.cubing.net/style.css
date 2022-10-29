@@ -135,6 +135,7 @@ a#update-bar.hidden {
   border: 0px solid white;
   cursor: pointer;
   background: none;
+  text-align: center;
 
   -webkit-appearance: none;
   -moz-appearance: none;
