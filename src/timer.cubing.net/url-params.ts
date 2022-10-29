@@ -1,4 +1,4 @@
-export const EVENT_PARAM_NAME = "event-id";
+export const EVENT_PARAM_NAME = "event";
 export const DEFAULT_EVENT = "333";
 
 function getURLParam(name: string, defaultValue: string): string {
