@@ -11,7 +11,9 @@
 
 let sentinel: WakeLockSentinel | null = null;
 export async function enable() {
-  if (sentinel) return;
+  if (sentinel) {
+    return;
+  }
   sentinel = await navigator.wakeLock?.request("screen");
 }
 

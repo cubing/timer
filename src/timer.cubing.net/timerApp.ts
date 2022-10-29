@@ -121,43 +121,10 @@ export class TimerApp {
 
   private enableOffline() {
     const infoBar = document.getElementById("update-bar");
-
-    // TODO
-    // if ("serviceWorker" in navigator) {
-    //   navigator.serviceWorker.getRegistration().then(function(r) {
-    //     console.log(r);
-    //     if (!r) {
-    //       navigator.serviceWorker.register("./service-worker.js").then(function(registration) {
-    //         console.log("Registered service worker with scope: ", registration.scope);
-    //       }, function(err) {
-    //         console.error(err);
-    //       });
-    //     } else {
-    //       console.log("Service worker already registered.");
-    //     }
-    //   }, function(err) {
-    //     console.error("Could not enable offline support.");
-    //   });
-    // }
   }
 
   private setInitialEvent() {
-    // var storedEvent = localStorage.getItem("current-event") as EventID;
-    // var lastAttemptDateStr = localStorage.getItem("last-attempt-date");
-
-    // var currentDate = new Date();
-
-    // if (
-    //   storedEvent &&
-    //   storedEvent in eventOrder &&
-    //   lastAttemptDateStr &&
-    //   currentDate.getTime() - new Date(lastAttemptDateStr).getTime() <
-    //     STORED_EVENT_TIMEOUT_MS
-    // ) {
-    //   this.setEvent(storedEvent, false);
-    // } else {
     this.setEvent(initialEventID, false);
-    // }
   }
 
   private scrambleCallback(
@@ -248,9 +215,6 @@ export class TimerApp {
     await this.updateDisplayStats(true);
   }
 
-  //   /**
-  //    * @param {!TimerApp.Timer.Milliseconds} time
-  //    */
   private async persistResult(time: Milliseconds): Promise<void> {
     const attemptData: AttemptData = {
       totalResultMs: time,

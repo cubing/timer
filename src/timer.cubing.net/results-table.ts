@@ -8,37 +8,6 @@ import { eventOrder, modifiedEventName } from "./events";
 
 export const MAX_NUM_RECENT_ATTEMPTS = 100;
 
-// class CountMoves extends TraversalUp<number> {
-//   public traverseSequence(sequence: Sequence): number {
-//     let total = 0;
-//     for (const part of sequence.nestedUnits) {
-//       total += this.traverse(part);
-//     }
-//     return total;
-//   }
-//   public traverseGroup(group: Group): number {
-//     return this.traverseSequence(group.nestedSequence);
-//   }
-//   public traverseBlockMove(blockMove: BlockMove): number {
-//     return 1;
-//   }
-//   public traverseCommutator(commutator: Commutator): number {
-//     return 2 * (this.traverseSequence(commutator.A) + this.traverseSequence(commutator.B));
-//   }
-//   public traverseConjugate(conjugate: Conjugate): number {
-//     return 2 * (this.traverseSequence(conjugate.A)) + this.traverseSequence(conjugate.B);
-//   }
-//   public traversePause(pause: Pause): number { return 0; }
-//   public traverseNewLine(newLine: NewLine): number { return 0; }
-//   public traverseCommentShort(commentShort: CommentShort): number { return 0; }
-//   public traverseCommentLong(commentLong: CommentLong): number { return 0; }
-// }
-
-// (window as any).CM = CountMoves
-
-// // const countMovesInstance = new CountMoves();
-// // const countMoves = countMovesInstance.traverse.bind(countMovesInstance);
-
 const session = new TimerSession();
 let justRemoved: string;
 
