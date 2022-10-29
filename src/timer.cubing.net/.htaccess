@@ -1,0 +1,2 @@
+ExpiresActive off
+Header always set Cache-Control "max-age=60; must-revalidate"
