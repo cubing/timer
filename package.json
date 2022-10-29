@@ -28,9 +28,13 @@
     "@types/mocha": "^5.2.3",
     "barely-a-dev-server": "^0.3.6",
     "chai": "^4.1.2",
+    "esbuild": "^0.15.12",
     "lib": "^4.3.3",
     "mocha": "^10.1.0",
-    "rome": "^0.10.1-next.e8dd9b4"
+    "rome": "^0.10.1-next.e8dd9b4",
+    "workbox": "^0.0.0",
+    "workbox-build": "^6.5.4",
+    "workbox-precaching": "^6.5.4"
   },
   "scripts": {
     "prepublishOnly": "make dist"

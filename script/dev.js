@@ -1,7 +1,7 @@
 import { barelyServe } from "barely-a-dev-server";
 
 barelyServe({
-  entryRoot: "src",
+  entryRoot: "src/timer.cubing.net",
   devDomain: "timer.localhost",
   esbuildOptions: {
     external: ["crypto"],
