@@ -30,7 +30,7 @@ const STORED_EVENT_TIMEOUT_MS = 15 * 60 * 1000;
 const LATEST_AMOUNT = 100;
 
 type Scramble = {
-  eventName: EventID;
+  eventID: EventID;
   scrambleString: string;
 };
 
@@ -182,12 +182,12 @@ export class TimerApp {
   }
 
   private scrambleCallback(
-    eventName: EventID,
+    eventID: EventID,
     scrambledId: ScrambleID,
     scramble: Alg,
   ) {
     if (scrambledId === this.awaitedScrambleID) {
-      this.currentScramble = { eventID: eventName, scramble };
+      this.currentScramble = { eventID, scramble };
       this.scrambleView.setScramble(this.currentScramble);
       this.scrambleView.dimScramble(false);
     } else {
@@ -319,7 +319,7 @@ class ScrambleView {
   private scrambleDisplay = document.querySelector(
     "#scramble-display twisty-player",
   ) as TwistyPlayer;
-  private optionElementsByEventName: { [s: string]: HTMLOptionElement };
+  private optionElementsByEventID: { [s: string]: HTMLOptionElement };
   constructor(private timerApp: TimerApp) {
     this.scrambleElement = <HTMLElement>document.getElementById("scramble-bar");
     this.eventSelectDropdown = <HTMLSelectElement>(
@@ -339,13 +339,13 @@ class ScrambleView {
   }
 
   initializeSelectDropdown() {
-    this.optionElementsByEventName = {};
+    this.optionElementsByEventID = {};
     for (var eventID of eventOrder) {
       var optionElement = document.createElement("option");
       optionElement.value = eventID;
       optionElement.textContent = modifiedEventName(eventID);
 
-      this.optionElementsByEventName[eventID] = optionElement;
+      this.optionElementsByEventID[eventID] = optionElement;
       this.eventSelectDropdown.appendChild(optionElement);
     }
   }
@@ -357,9 +357,9 @@ class ScrambleView {
     this.cubingIcon.classList.add("icon-" + eventID);
     if (
       this.eventSelectDropdown.value !== eventID &&
-      this.optionElementsByEventName[eventID]
+      this.optionElementsByEventID[eventID]
     ) {
-      this.optionElementsByEventName[eventID].selected = true;
+      this.optionElementsByEventID[eventID].selected = true;
     }
     this.setScramblePlaceholder(eventID);
   }
