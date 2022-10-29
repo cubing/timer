@@ -1,23 +1,20 @@
-import { EventID, eventOrder, modifiedEventName } from "./events";
+import { EventID } from "./events";
 import { Controller, Milliseconds } from "./timer";
 // import {ScrambleID} from "./scramble-worker"
 import { Alg } from "cubing/alg";
 import { randomScrambleForEvent } from "cubing/scramble";
-import { trForAttempt } from "./results-table";
 import { AttemptData, AttemptDataWithIDAndRev } from "./results/attempt";
 import { allDocsResponseToTimes, TimerSession } from "./results/session";
+import { ScrambleView, ScrambleWithEvent } from "./ScrambleView";
 import { Stats } from "./stats";
-import type { TwistyPlayer } from "cubing/twisty";
-import { eventInfo } from "cubing/puzzles";
+import { StatsView } from "./StatsView";
 import {
   DEFAULT_EVENT,
   EVENT_PARAM_NAME,
   initialEventID,
   setURLParam,
 } from "./url-params";
-import { ScrambleView, ScrambleWithEvent } from "./ScrambleView";
 import { nonsecureRandomChoice } from "./util";
-import { StatsView } from "./StatsView";
 
 const favicons: { [s: string]: string } = {
   blue: "/lib/favicons/favicon_blue.ico",
