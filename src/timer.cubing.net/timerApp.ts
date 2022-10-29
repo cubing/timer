@@ -216,7 +216,6 @@ export class TimerApp {
   }
 
   setEvent(eventID: EventID, restartShortTermSession: boolean) {
-    console.log("setting", eventID);
     setURLParam(EVENT_PARAM_NAME, eventID, DEFAULT_EVENT);
     localStorage.setItem("current-event", eventID);
     this.currentEvent = eventID;
@@ -386,7 +385,6 @@ class ScrambleView {
     this.scrambleTwistyAlgViewer.classList.remove("stale");
     this.scrambleTwistyAlgViewer.textContent = scrambleString; // TODO: animation
 
-    console.log(scrambleWithEvent, eventInfo(scrambleWithEvent.eventID));
     this.scrambleDisplay.puzzle = eventInfo(scrambleWithEvent.eventID)
       ?.puzzleID!;
     this.scrambleDisplay.alg = scrambleWithEvent.scramble ?? new Alg();
