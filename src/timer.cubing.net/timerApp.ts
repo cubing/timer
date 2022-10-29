@@ -48,7 +48,6 @@ type FormattedStats = {
 // We detect Safari based on https://stackoverflow.com/a/23522755 so we can do an ugly workaround (manually adding padding using spaces) below.
 const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
 
-const generating = Symbol("generating");
 type ScrambleWithEvent = {
   eventID: EventID;
   scramble: Alg | null;
