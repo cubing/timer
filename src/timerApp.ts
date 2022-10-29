@@ -9,6 +9,12 @@ import { allDocsResponseToTimes, TimerSession } from "./results/session";
 import { Stats } from "./stats";
 import type { TwistyPlayer } from "cubing/twisty";
 import { eventInfo } from "cubing/puzzles";
+import {
+  DEFAULT_EVENT,
+  EVENT_PARAM_NAME,
+  initialEventID,
+  setURLParam,
+} from "./url-params";
 
 const favicons: { [s: string]: string } = {
   blue: "/lib/favicons/favicon_blue.ico",
@@ -20,7 +26,6 @@ const favicons: { [s: string]: string } = {
 // TODO: Import this from "./scramble-worker"
 export type ScrambleID = number;
 
-const DEFAULT_EVENT = "333";
 const STORED_EVENT_TIMEOUT_MS = 15 * 60 * 1000;
 const LATEST_AMOUNT = 100;
 
@@ -158,22 +163,22 @@ export class TimerApp {
   }
 
   private setInitialEvent() {
-    var storedEvent = localStorage.getItem("current-event") as EventID;
-    var lastAttemptDateStr = localStorage.getItem("last-attempt-date");
+    // var storedEvent = localStorage.getItem("current-event") as EventID;
+    // var lastAttemptDateStr = localStorage.getItem("last-attempt-date");
 
-    var currentDate = new Date();
+    // var currentDate = new Date();
 
-    if (
-      storedEvent &&
-      storedEvent in eventOrder &&
-      lastAttemptDateStr &&
-      currentDate.getTime() - new Date(lastAttemptDateStr).getTime() <
-        STORED_EVENT_TIMEOUT_MS
-    ) {
-      this.setEvent(storedEvent, false);
-    } else {
-      this.setEvent(DEFAULT_EVENT, false);
-    }
+    // if (
+    //   storedEvent &&
+    //   storedEvent in eventOrder &&
+    //   lastAttemptDateStr &&
+    //   currentDate.getTime() - new Date(lastAttemptDateStr).getTime() <
+    //     STORED_EVENT_TIMEOUT_MS
+    // ) {
+    //   this.setEvent(storedEvent, false);
+    // } else {
+    this.setEvent(initialEventID, false);
+    // }
   }
 
   private scrambleCallback(
@@ -211,7 +216,8 @@ export class TimerApp {
   }
 
   setEvent(eventID: EventID, restartShortTermSession: boolean) {
-    console.log({ eventID });
+    console.log("setting", eventID);
+    setURLParam(EVENT_PARAM_NAME, eventID, DEFAULT_EVENT);
     localStorage.setItem("current-event", eventID);
     this.currentEvent = eventID;
     this.scrambleView.setEvent(this.currentEvent);
@@ -344,15 +350,18 @@ class ScrambleView {
     }
   }
 
-  setEvent(eventName: EventID) {
+  setEvent(eventID: EventID) {
     Util.removeClassesStartingWith(this.scrambleText, "event-");
-    this.scrambleText.classList.add("event-" + eventName);
+    this.scrambleText.classList.add("event-" + eventID);
     Util.removeClassesStartingWith(this.cubingIcon, "icon-");
-    this.cubingIcon.classList.add("icon-" + eventName);
-    if (this.eventSelectDropdown.value !== eventName) {
-      this.optionElementsByEventName[eventName].selected = true;
+    this.cubingIcon.classList.add("icon-" + eventID);
+    if (
+      this.eventSelectDropdown.value !== eventID &&
+      this.optionElementsByEventName[eventID]
+    ) {
+      this.optionElementsByEventName[eventID].selected = true;
     }
-    this.setScramblePlaceholder(eventName);
+    this.setScramblePlaceholder(eventID);
   }
 
   setScramblePlaceholder(eventID: EventID) {

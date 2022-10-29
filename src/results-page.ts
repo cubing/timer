@@ -5,17 +5,7 @@ import { TimerSession } from "./results/session";
 import { convertToCSTimerFormat } from "./results/compat/cstimer";
 import { convertToQQTimerFormat } from "./results/compat/qqtimer";
 import { EventID, eventOrder, modifiedEventName } from "./events";
-import { eventInfo } from "cubing/puzzles";
-
-const EVENT_PARAM_NAME = "event";
-const DEFAULT_EVENT = "333";
-
-function getURLParam(name: string, defaultValue: string): string {
-  const url = new URL(location.href);
-  return url.searchParams.get(name) ?? defaultValue;
-}
-
-const initialEventID = getURLParam(EVENT_PARAM_NAME, DEFAULT_EVENT);
+import { DEFAULT_EVENT, EVENT_PARAM_NAME, initialEventID } from "./url-params";
 
 const session = new TimerSession();
 let justRemoved: string;

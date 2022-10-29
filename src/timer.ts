@@ -119,6 +119,7 @@ export class Controller {
   reset() {
     this.clearDocumentSelection();
     this.timer.reset();
+    this.setState(State.ReadyUp);
   }
 
   private setState(state: State) {
