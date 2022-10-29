@@ -27,7 +27,15 @@
       <span class="scramble-text" id="scramble-text">generating...</span>
     </div>
     <div class="timer" id="timer">
-      <twisty-player></twisty-player>
+      <div id="scramble-display">
+        <twisty-player
+          class="scramble-display"
+          data-background="none"
+          control-panel="none"
+          tempo-scale=30
+          visualization="2D"
+        ></twisty-player>
+      </div>
       <div class="time">
         <div class="sec">
           <span class="sec-first"></span><span class="sec-rest">0</span>

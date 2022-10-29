@@ -8,6 +8,7 @@ enum State {
   HandOnTimer = "handOnTimer",
   Running = "running",
   Stopped = "stopped",
+  Done = "done",
   Ignore = "ignore",
 }
 
@@ -19,7 +20,7 @@ export class Controller {
   constructor(
     private domElement: HTMLElement,
     private solveDoneCallback: (t: Milliseconds) => void,
-    private attemptDoneCallback: () => void,
+    private startNewAttemptCallback: () => void,
   ) {
     var timerView = new View(domElement);
     this.timer = new Timer(timerView.displayTime.bind(timerView));
@@ -77,6 +78,7 @@ export class Controller {
       handOnTimer: State.Ignore,
       running: State.Stopped,
       stopped: State.Ignore,
+      done: State.Ready,
     };
     this.setState(transitionMap[this.state]);
   }
@@ -86,7 +88,8 @@ export class Controller {
       ready: State.Ignore,
       handOnTimer: State.Running,
       running: State.Ignore,
-      stopped: State.Ready,
+      stopped: State.Done,
+      done: State.Ignore,
     };
     this.setState(transitionMap[this.state]);
   }
@@ -118,8 +121,8 @@ export class Controller {
   private setState(state: State) {
     switch (state) {
       case State.Ready: {
-        if (this.state === State.Stopped) {
-          this.attemptDoneCallback();
+        if (this.state === State.Done) {
+          this.startNewAttemptCallback();
         }
         break;
       }
@@ -136,6 +139,9 @@ export class Controller {
         WakeLock.disable();
         var time = this.timer.stop();
         this.solveDoneCallback(time);
+        break;
+      }
+      case State.Done: {
         break;
       }
       case State.Ignore:

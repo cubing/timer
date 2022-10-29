@@ -7,6 +7,8 @@ import { trForAttempt } from "./results-table";
 import { AttemptData, AttemptDataWithIDAndRev } from "./results/attempt";
 import { allDocsResponseToTimes, TimerSession } from "./results/session";
 import { Stats } from "./stats";
+import type { TwistyPlayer } from "cubing/twisty";
+import { eventInfo } from "cubing/puzzles";
 
 const favicons: { [s: string]: string } = {
   blue: "/lib/favicons/favicon_blue.ico",
@@ -76,7 +78,7 @@ export class TimerApp {
     this.controller = new Controller(
       <HTMLElement>document.getElementById("timer"),
       this.solveDone.bind(this),
-      this.attemptDone.bind(this),
+      this.startNewAttempt.bind(this),
     );
     this.setRandomThemeColor();
 
@@ -299,10 +301,6 @@ export class TimerApp {
     };
     this.statsView.setStats(formattedStats, attempts);
   }
-
-  private attemptDone(): void {
-    this.startNewAttempt();
-  }
 }
 
 class ScrambleView {
@@ -310,6 +308,7 @@ class ScrambleView {
   private eventSelectDropdown: HTMLSelectElement;
   private cubingIcon: HTMLElement;
   private scrambleText: HTMLElement;
+  private scrambleDisplay = document.querySelector("#scramble-display twisty-player") as TwistyPlayer;
   private optionElementsByEventName: { [s: string]: HTMLOptionElement };
   constructor(private timerApp: TimerApp) {
     this.scrambleElement = <HTMLElement>document.getElementById("scramble-bar");
@@ -365,6 +364,14 @@ class ScrambleView {
 
     this.scrambleText.classList.remove("stale");
     this.scrambleText.textContent = scrambleString; // TODO: animation
+
+    console.log(scrambleWithEvent, eventInfo(scrambleWithEvent.eventID))
+    this.scrambleDisplay.puzzle = eventInfo(scrambleWithEvent.eventID)?.puzzleID!
+    this.scrambleDisplay.alg = scrambleWithEvent.scramble ?? new Alg()
+    this.scrambleDisplay.animate([{ opacity: 0.25 }, { opacity: 1 }], {
+      duration: 1000,
+      easing: "ease-out",
+    })
 
     // TODO(lgarron): Use proper layout code. https://github.com/cubing/timer/issues/20
     if (scrambleWithEvent.eventID === "minx") {

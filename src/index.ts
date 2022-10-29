@@ -1,4 +1,5 @@
 import { TimerApp } from "./timerApp";
+import "cubing/twisty"
 
 const SW_CACHE_FILE = "./sw.js";
 
