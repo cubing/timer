@@ -554,6 +554,10 @@ table#attempt-list thead {
   text-align: center;
 }
 
+.scramble-text.dim {
+  opacity: 0.5;
+}
+
 .timer-app.theme-orange > .scramble-bar,
 .timer-app.theme-orange > .timer.handOnTimer,
 .timer-app.theme-orange > .timer.stopped,

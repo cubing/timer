@@ -184,6 +184,7 @@ export class TimerApp {
     if (scrambledId === this.awaitedScrambleID) {
       this.currentScramble = { eventID: eventName, scramble };
       this.scrambleView.setScramble(this.currentScramble);
+      this.scrambleView.dimScramble(false);
     } else {
       var logInfo = console.info ? console.info.bind(console) : console.log;
       logInfo(
@@ -260,6 +261,7 @@ export class TimerApp {
   private async solveDone(time: Milliseconds): Promise<void> {
     await this.persistResult(time);
     await this.updateDisplayStats(true);
+    this.scrambleView.dimScramble(true);
   }
 
   //   /**
@@ -386,6 +388,11 @@ class ScrambleView {
   clearScramble() {
     // this.scrambleText.href = ""; // TODO
     this.scrambleText.classList.add("stale");
+  }
+
+  dimScramble(dim: boolean): void {
+    console.log(this.scrambleElement)
+    this.scrambleText.classList.toggle("dim", dim)
   }
 }
 
