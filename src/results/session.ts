@@ -1,12 +1,12 @@
 import PouchDB from "pouchdb"; // TODO: Add a wrapper so we can remove `allowSyntheticDefaultImports`.
 import PouchDBFind from "pouchdb-find"; // TODO: Add a wrapper so we can remove `allowSyntheticDefaultImports`.
+import { EventID } from "../events";
 import {
   AttemptData,
   AttemptDataWithID,
   AttemptDataWithIDAndRev,
 } from "./attempt";
 import { newDateUUID } from "./uuid";
-import { EventName } from "../cubing";
 
 PouchDB.plugin(PouchDBFind);
 
@@ -78,7 +78,7 @@ export class TimerSession {
   async extremeTimes(
     limit: number,
     descending: boolean = false,
-    event?: EventName,
+    event?: EventID,
   ): Promise<AttemptDataWithIDAndRev[]> {
     return (
       await this.db.find({
@@ -111,7 +111,7 @@ export class TimerSession {
   // TODO: this is in reverse order!
   async mostRecentAttempts(
     limit: number,
-    event?: EventName,
+    event?: EventID,
     descending?: boolean,
   ): Promise<PouchDB.Find.FindResponse<AttemptData>> {
     return await this.db.find({
@@ -126,7 +126,7 @@ export class TimerSession {
 
   // TODO: this is in reverse order!
   async mostRecentAttemptsForEvent(
-    event: EventName,
+    event: EventID,
     limit: number,
   ): Promise<PouchDB.Find.FindResponse<AttemptData>> {
     // return (await this.db.allDocs({
