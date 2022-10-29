@@ -145,6 +145,32 @@ a#update-bar.hidden {
   text-align: center;
 }
 
+.generating {
+  animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 0.3;
+  }
+
+  75% {
+    opacity: 1
+  }
+
+  100% {
+    opacity: 0.3
+  }
+}
+
+.scramble-text:not(.show-scramble) twisty-alg-viewer {
+  display: none;
+}
+
+.scramble-text.show-scramble .generating {
+  display: none;
+}
+
 @supports ((text-align-last: center) or (-moz-text-align-last: center)) {
   .scramble-text {
     text-align: justify;

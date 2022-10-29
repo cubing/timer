@@ -278,7 +278,7 @@ export class TimerApp {
       totalResultMs: time,
       unixDate: Date.now(),
       event: this.currentEvent,
-      scramble: this.currentScramble.scramble?.toString() ?? "",
+      scramble: this.currentScramble?.scramble?.toString() ?? "",
     };
     if (localStorage.pouchDBDeviceName) {
       attemptData.device = localStorage.pouchDBDeviceName;
@@ -315,7 +315,10 @@ class ScrambleView {
   private scrambleElement: HTMLElement;
   private eventSelectDropdown: HTMLSelectElement;
   private cubingIcon: HTMLElement;
-  private scrambleText: HTMLElement;
+  private scrambleText = document.querySelector(
+    ".scramble-text",
+  ) as HTMLElement;
+  private scrambleTwistyAlgViewer: HTMLElement;
   private scrambleDisplay = document.querySelector(
     "#scramble-display twisty-player",
   ) as TwistyPlayer;
@@ -326,8 +329,8 @@ class ScrambleView {
       document.getElementById("event-select-dropdown")
     );
     this.cubingIcon = <HTMLElement>document.getElementById("cubing-icon");
-    this.scrambleText = <HTMLAnchorElement>(
-      document.getElementById("scramble-text")
+    this.scrambleTwistyAlgViewer = <HTMLAnchorElement>(
+      document.querySelector(".scramble-text twisty-alg-viewer")
     );
 
     this.eventSelectDropdown.addEventListener("change", () => {
@@ -351,8 +354,8 @@ class ScrambleView {
   }
 
   setEvent(eventID: EventID) {
-    Util.removeClassesStartingWith(this.scrambleText, "event-");
-    this.scrambleText.classList.add("event-" + eventID);
+    Util.removeClassesStartingWith(this.scrambleTwistyAlgViewer, "event-");
+    this.scrambleTwistyAlgViewer.classList.add("event-" + eventID);
     Util.removeClassesStartingWith(this.cubingIcon, "icon-");
     this.cubingIcon.classList.add("icon-" + eventID);
     if (
@@ -372,11 +375,16 @@ class ScrambleView {
   }
 
   setScramble(scrambleWithEvent: ScrambleWithEvent) {
-    const scrambleString =
-      scrambleWithEvent.scramble?.toString() || "generating...";
+    const { scramble } = scrambleWithEvent;
+    if (!scramble) {
+      this.scrambleText.classList.remove("show-scramble");
+      return;
+    }
+    this.scrambleText.classList.add("show-scramble");
+    const scrambleString = scramble.toString();
 
-    this.scrambleText.classList.remove("stale");
-    this.scrambleText.textContent = scrambleString; // TODO: animation
+    this.scrambleTwistyAlgViewer.classList.remove("stale");
+    this.scrambleTwistyAlgViewer.textContent = scrambleString; // TODO: animation
 
     console.log(scrambleWithEvent, eventInfo(scrambleWithEvent.eventID));
     this.scrambleDisplay.puzzle = eventInfo(scrambleWithEvent.eventID)
@@ -389,9 +397,9 @@ class ScrambleView {
 
     // TODO(lgarron): Use proper layout code. https://github.com/cubing/timer/issues/20
     if (scrambleWithEvent.eventID === "minx") {
-      this.scrambleText.innerHTML = scrambleString;
+      this.scrambleTwistyAlgViewer.innerHTML = scrambleString;
     } else if (scrambleWithEvent.eventID === "sq1") {
-      this.scrambleText.innerHTML = scrambleString
+      this.scrambleTwistyAlgViewer.innerHTML = scrambleString
         .replace(/, /g, ",&nbsp;")
         .replace(/\) \//g, ")&nbsp;/");
     }
@@ -399,12 +407,12 @@ class ScrambleView {
 
   clearScramble() {
     // this.scrambleText.href = ""; // TODO
-    this.scrambleText.classList.add("stale");
+    this.scrambleTwistyAlgViewer.classList.add("stale");
   }
 
   dimScramble(dim: boolean): void {
-    console.log(this.scrambleElement);
-    this.scrambleText.classList.toggle("dim", dim);
+    console.log(this.scrambleElement, dim);
+    this.scrambleTwistyAlgViewer.classList.toggle("dim", dim);
   }
 }
 

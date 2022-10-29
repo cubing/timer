@@ -24,20 +24,19 @@
         <select id="event-select-dropdown">
         </select>
       </div>
-      <span class="scramble-text" id="scramble-text">generating...</span>
+      <span class="scramble-text" id="scramble-text">
+        <twisty-alg-viewer for="scramble-display-player">
+        </twisty-alg-viewer>
+        <span class="generating">Generating scramble…</span>
+      </span>
     </div>
     <div class="timer ready-up" id="timer">
       <div id="scramble-display">
         <noscript style="display: grid; place-content: center; font-size: 2em; text-align: center;">
           To use timer.cubing.net,<br>please ensure JavaScript is enabled.
         </noscript>
-        <twisty-player
-          class="scramble-display"
-          data-background="none"
-          control-panel="none"
-          tempo-scale=30
-          visualization="2D"
-        ></twisty-player>
+        <twisty-player id="scramble-display-player" data-background="none" control-panel="none" tempo-scale=30
+          visualization="2D"></twisty-player>
       </div>
       <div class="time">
         <div class="sec">
