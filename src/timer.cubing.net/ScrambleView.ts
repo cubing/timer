@@ -89,6 +89,7 @@ export class ScrambleView {
     this.scrambleDisplay.puzzle = eventInfo(scrambleWithEvent.eventID)
       ?.puzzleID!;
     this.scrambleDisplay.alg = scrambleWithEvent.scramble ?? new Alg();
+    this.scrambleDisplay.timestamp = "end";
     this.scrambleDisplay.animate([{ opacity: 0.25 }, { opacity: 1 }], {
       duration: 1000,
       easing: "ease-out",
