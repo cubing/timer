@@ -3,7 +3,7 @@ import { EventID, eventOrder, modifiedEventName } from "./events";
 import { Alg } from "cubing/alg";
 import { eventInfo } from "cubing/puzzles";
 import type { TwistyPlayer } from "cubing/twisty";
-import { TimerApp } from "./untimerApp";
+import { TimerApp } from "./TimerApp";
 import { removeClassesStartingWith } from "./util";
 
 export type ScrambleWithEvent = {
