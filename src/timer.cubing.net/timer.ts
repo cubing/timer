@@ -198,7 +198,7 @@ class View {
       if (lastChar && "1" === char && "1" === lastChar) {
         secContainer
           .appendChild(document.createElement("span"))
-          .classList.add("spacer");
+          .classList.add("extra-spacer");
       }
       secContainer.append(char);
       lastChar = char;

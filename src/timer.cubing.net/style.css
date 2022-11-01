@@ -321,6 +321,11 @@ twisty-player.dim {
 }
 
 .time .spacer {
+  width: 0.05em;
+  display: inline-block;
+}
+
+.time .extra-spacer {
   width: 0.1em;
   display: inline-block;
 }
