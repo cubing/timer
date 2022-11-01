@@ -97,15 +97,6 @@ export class ScrambleView {
       duration: 1000,
       easing: "ease-out",
     });
-
-    // TODO(lgarron): Use proper layout code. https://github.com/cubing/timer/issues/20
-    if (scrambleWithEvent.eventID === "minx") {
-      this.scrambleTwistyAlgViewer.innerHTML = scrambleString;
-    } else if (scrambleWithEvent.eventID === "sq1") {
-      this.scrambleTwistyAlgViewer.innerHTML = scrambleString
-        .replace(/, /g, ",&nbsp;")
-        .replace(/\) \//g, ")&nbsp;/");
-    }
   }
 
   clearScramble() {
