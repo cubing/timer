@@ -1,10 +1,10 @@
 import { Alg } from "cubing/alg";
-import { AttemptData, AttemptDataWithIDAndRev } from "./results/attempt";
-import { TimerSession } from "./results/session";
-import { Stats } from "./stats";
+import { AttemptData, AttemptDataWithIDAndRev } from "../results/attempt";
+import { TimerSession } from "../results/session";
+import { Stats } from "../stats";
 import { trashIcon, playIcon } from "./material-icons";
-import { twizzleLink, twizzleLinkForAttempt } from "./vendor/twizzle-link";
-import { eventOrder, modifiedEventName } from "./events";
+import { twizzleLink, twizzleLinkForAttempt } from "../vendor/twizzle-link";
+import { eventOrder, modifiedEventName } from "../events";
 
 export const MAX_NUM_RECENT_ATTEMPTS = 100;
 

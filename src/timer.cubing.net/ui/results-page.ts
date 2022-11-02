@@ -1,11 +1,11 @@
 import { trForAttempt, MAX_NUM_RECENT_ATTEMPTS } from "./results-table";
-import { downloadFile } from "./results/compat/download";
-import { AttemptData, AttemptDataWithIDAndRev } from "./results/attempt";
-import { TimerSession } from "./results/session";
-import { convertToCSTimerFormat } from "./results/compat/cstimer";
-import { convertToQQTimerFormat } from "./results/compat/qqtimer";
-import { EventID, eventOrder, modifiedEventName } from "./events";
-import { DEFAULT_EVENT, EVENT_PARAM_NAME, initialEventID } from "./url-params";
+import { downloadFile } from "../results/compat/download";
+import { AttemptData, AttemptDataWithIDAndRev } from "../results/attempt";
+import { TimerSession } from "../results/session";
+import { convertToCSTimerFormat } from "../results/compat/cstimer";
+import { convertToQQTimerFormat } from "../results/compat/qqtimer";
+import { EventID, eventOrder, modifiedEventName } from "../events";
+import { DEFAULT_EVENT, EVENT_PARAM_NAME, initialEventID } from "../url-params";
 
 const session = new TimerSession();
 let justRemoved: string;

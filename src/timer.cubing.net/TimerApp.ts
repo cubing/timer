@@ -4,7 +4,7 @@ import { Alg } from "cubing/alg";
 import { randomScrambleForEvent } from "cubing/scramble";
 import { AttemptData, AttemptDataWithIDAndRev } from "./results/attempt";
 import { allDocsResponseToTimes, TimerSession } from "./results/session";
-import { ScrambleView, ScrambleWithEvent } from "./ScrambleView";
+import { ScrambleView, ScrambleWithEvent } from "./ui/ScrambleView";
 import { Stats } from "./stats";
 import { StatsView } from "./StatsView";
 import {

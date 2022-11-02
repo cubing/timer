@@ -1,10 +1,10 @@
-import { EventID, eventOrder, modifiedEventName } from "./events";
+import { EventID, eventOrder, modifiedEventName } from "../events";
 // import {ScrambleID} from "./scramble-worker"
 import { Alg } from "cubing/alg";
 import { eventInfo } from "cubing/puzzles";
 import type { TwistyPlayer } from "cubing/twisty";
-import { TimerApp } from "./TimerApp";
-import { removeClassesStartingWith } from "./util";
+import { TimerApp } from "../TimerApp";
+import { removeClassesStartingWith } from "../util";
 
 export type ScrambleWithEvent = {
   eventID: EventID;

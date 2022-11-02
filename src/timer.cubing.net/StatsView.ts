@@ -1,6 +1,6 @@
 import { EventID } from "./events";
 // import {ScrambleID} from "./scramble-worker"
-import { trForAttempt } from "./results-table";
+import { trForAttempt } from "./ui/results-table";
 import { AttemptDataWithIDAndRev } from "./results/attempt";
 
 // WebSafari (WebKit) doesn't center text in `<select>`'s `<option>` tags: https://bugs.webkit.org/show_bug.cgi?id=40216
