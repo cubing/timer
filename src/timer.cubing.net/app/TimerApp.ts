@@ -18,10 +18,10 @@ import { Milliseconds } from "../timing/Timer";
 import { Controller } from "../timing/Controller";
 
 const favicons: { [s: string]: string } = {
-  blue: "/resources/favicons/favicon_blue.ico",
-  red: "/resources/favicons/favicon_red.ico",
-  green: "/resources/favicons/favicon_green.ico",
-  orange: "/resources/favicons/favicon_orange.ico",
+  blue: new URL("../resources/favicons/favicon_blue.ico", import.meta.url).href,
+  red: new URL("../resources/favicons/favicon_red.ico", import.meta.url).href,
+  green: new URL("../resources/favicons/favicon_green.ico", import.meta.url).href,
+  orange: new URL("../resources/favicons/favicon_orange.ico", import.meta.url).href,
 };
 
 // TODO: Import this from "./scramble-worker"

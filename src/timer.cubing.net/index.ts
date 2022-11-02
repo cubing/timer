@@ -10,7 +10,7 @@ const SW_CACHE_FILE = "./sw.js";
 // TODO: Avoid trying to run for local dev?
 if (location.hostname.split(".").slice(-1)[0] !== "localhost") {
   window.addEventListener("load", () => {
-    const wb = new Workbox("/sw.js");
+    const wb = new Workbox(new URL("./sw.js", import.meta.url).href);
     wb.addEventListener("waiting", (event) => {
       wb.messageSkipWaiting();
     });
