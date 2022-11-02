@@ -9,10 +9,10 @@ function materialIcon(path: string, altText: string): () => HTMLImageElement {
 }
 
 export const trashIcon = materialIcon(
-  "/vendor/material-icons/delete-24px-white.svg",
+  "/resources/vendor/material-icons/delete-24px-white.svg",
   "Delete",
 );
 export const playIcon = materialIcon(
-  "/vendor/material-icons/play_arrow-24px-white.svg",
+  "/resources/vendor/material-icons/play_arrow-24px-white.svg",
   "Play",
 );

@@ -1,16 +1,16 @@
 @font-face {
   font-family: digital-7-mono;
-  src: url("lib/digital-7-mono.ttf") format("truetype");
+  src: url("/resources/digital-7-mono.ttf") format("truetype");
 }
 
 @font-face {
   font-family: digital-7;
-  src: url("lib/digital-7.ttf") format("truetype");
+  src: url("/resources/digital-7.ttf") format("truetype");
 }
 
 @font-face {
   font-family: "Ubuntu";
-  src: url("vendor/fonts/ubuntu/Ubuntu-Regular.ttf");
+  src: url("/resources/vendor/fonts/ubuntu/Ubuntu-Regular.ttf");
 }
 
 * {
