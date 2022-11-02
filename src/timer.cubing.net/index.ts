@@ -1,4 +1,4 @@
-import { TimerApp } from "./TimerApp";
+import { TimerApp } from "./app/TimerApp";
 import "cubing/twisty";
 
 import { Workbox } from "workbox-window";

@@ -1,6 +1,6 @@
 import PouchDB from "pouchdb"; // TODO: Add a wrapper so we can remove `allowSyntheticDefaultImports`.
 import PouchDBFind from "pouchdb-find"; // TODO: Add a wrapper so we can remove `allowSyntheticDefaultImports`.
-import { EventID } from "../events";
+import { EventID } from "../app/events";
 import {
   AttemptData,
   AttemptDataWithID,

@@ -1,4 +1,4 @@
-import { EventID } from "../events";
+import { EventID } from "../app/events";
 // import {ScrambleID} from "./scramble-worker"
 import { trForAttempt } from "./results-table";
 import { AttemptDataWithIDAndRev } from "../results/attempt";

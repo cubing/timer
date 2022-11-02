@@ -4,8 +4,8 @@ import { AttemptData, AttemptDataWithIDAndRev } from "../results/attempt";
 import { TimerSession } from "../results/session";
 import { convertToCSTimerFormat } from "../results/compat/cstimer";
 import { convertToQQTimerFormat } from "../results/compat/qqtimer";
-import { EventID, eventOrder, modifiedEventName } from "../events";
-import { DEFAULT_EVENT, EVENT_PARAM_NAME, initialEventID } from "../url-params";
+import { EventID, eventOrder, modifiedEventName } from "../app/events";
+import { DEFAULT_EVENT, EVENT_PARAM_NAME, initialEventID } from "../app/url-params";
 
 const session = new TimerSession();
 let justRemoved: string;

@@ -2,20 +2,20 @@ import { EventID } from "./events";
 // import {ScrambleID} from "./scramble-worker"
 import { Alg } from "cubing/alg";
 import { randomScrambleForEvent } from "cubing/scramble";
-import { AttemptData, AttemptDataWithIDAndRev } from "./results/attempt";
-import { allDocsResponseToTimes, TimerSession } from "./results/session";
-import { ScrambleView, ScrambleWithEvent } from "./ui/ScrambleView";
-import { Stats } from "./stats";
-import { StatsView } from "./ui/StatsView";
+import { AttemptData, AttemptDataWithIDAndRev } from "../results/attempt";
+import { allDocsResponseToTimes, TimerSession } from "../results/session";
+import { ScrambleView, ScrambleWithEvent } from "../ui/ScrambleView";
+import { Stats } from "../results/stats";
+import { StatsView } from "../ui/StatsView";
 import {
   DEFAULT_EVENT,
   EVENT_PARAM_NAME,
   initialEventID,
   setURLParam,
 } from "./url-params";
-import { nonsecureRandomChoice } from "./util";
-import { Milliseconds } from "./Timer";
-import { Controller } from "./Controller";
+import { nonsecureRandomChoice } from "../ui/util";
+import { Milliseconds } from "../timing/Timer";
+import { Controller } from "../timing/Controller";
 
 const favicons: { [s: string]: string } = {
   blue: "/lib/favicons/favicon_blue.ico",

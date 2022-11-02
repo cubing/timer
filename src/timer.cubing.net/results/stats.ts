@@ -1,5 +1,5 @@
-import "./results/db";
-import { Milliseconds } from "./Timer";
+import "./db";
+import { Milliseconds } from "../timing/Timer";
 // function Stats() {
 
 // };

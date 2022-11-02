@@ -1,4 +1,4 @@
-import { EventID } from "../events";
+import { EventID } from "../app/events";
 import { UUID, newDateUUID } from "./uuid";
 
 type AttemptUUID = UUID;
