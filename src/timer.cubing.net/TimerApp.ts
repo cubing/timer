@@ -15,7 +15,7 @@ import {
   setURLParam,
 } from "./url-params";
 import { nonsecureRandomChoice } from "./util";
-import { Milliseconds } from "./Timer-new";
+import { Milliseconds } from "./Timer";
 
 const favicons: { [s: string]: string } = {
   blue: "/lib/favicons/favicon_blue.ico",

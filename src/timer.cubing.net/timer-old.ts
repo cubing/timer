@@ -1,5 +1,5 @@
 import { Stats } from "./stats";
-import { Milliseconds } from "./Timer-new";
+import { Milliseconds } from "./Timer";
 import * as WakeLock from "./wake-lock";
 
 const THIN_CHARS = "1:";
