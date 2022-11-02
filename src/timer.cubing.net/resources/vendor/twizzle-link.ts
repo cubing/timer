@@ -1,6 +1,6 @@
 import { Alg } from "cubing/alg";
 import { eventInfo } from "cubing/puzzles";
-import { AttemptData } from "../../results/attempt";
+import { AttemptData } from "../../results/AttemptData";
 import { Stats } from "../../results/Stats";
 
 export function twizzleLink(

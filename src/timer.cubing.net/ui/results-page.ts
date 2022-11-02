@@ -1,7 +1,7 @@
 import { trForAttempt, MAX_NUM_RECENT_ATTEMPTS } from "./results-table";
 import { downloadFile } from "../results/compat/download";
-import { AttemptData, AttemptDataWithIDAndRev } from "../results/attempt";
-import { TimerSession } from "../results/session";
+import { AttemptData, AttemptDataWithIDAndRev } from "../results/AttemptData";
+import { TimerSession } from "../results/TimerSession";
 import { convertToCSTimerFormat } from "../results/compat/cstimer";
 import { convertToQQTimerFormat } from "../results/compat/qqtimer";
 import { EventID, eventOrder, modifiedEventName } from "../app/events";

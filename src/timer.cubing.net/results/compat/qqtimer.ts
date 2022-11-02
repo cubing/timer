@@ -1,5 +1,5 @@
-import { TimerSession } from "../session";
-import { AttemptData } from "../attempt";
+import { TimerSession } from "../TimerSession";
+import { AttemptData } from "../AttemptData";
 
 export async function convertToQQTimerFormat(
   session: TimerSession,

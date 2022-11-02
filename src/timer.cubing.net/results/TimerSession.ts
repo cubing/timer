@@ -5,7 +5,7 @@ import {
   AttemptData,
   AttemptDataWithID,
   AttemptDataWithIDAndRev,
-} from "./attempt";
+} from "./AttemptData";
 import { newDateUUID } from "./uuid";
 
 PouchDB.plugin(PouchDBFind);

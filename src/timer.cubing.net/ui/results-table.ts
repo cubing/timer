@@ -1,6 +1,6 @@
 import { Alg } from "cubing/alg";
-import { AttemptData, AttemptDataWithIDAndRev } from "../results/attempt";
-import { TimerSession } from "../results/session";
+import { AttemptData, AttemptDataWithIDAndRev } from "../results/AttemptData";
+import { TimerSession } from "../results/TimerSession";
 import { Stats } from "../results/Stats";
 import { trashIcon, playIcon } from "./material-icons";
 import { twizzleLink, twizzleLinkForAttempt } from "../resources/vendor/twizzle-link";

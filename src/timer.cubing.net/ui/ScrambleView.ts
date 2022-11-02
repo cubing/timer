@@ -4,7 +4,7 @@ import { Alg } from "cubing/alg";
 import { eventInfo } from "cubing/puzzles";
 import type { TwistyPlayer } from "cubing/twisty";
 import { TimerApp } from "../app/TimerApp";
-import { removeClassesStartingWith } from "./util";
+import { removeClassesStartingWith } from "./ui-util";
 
 export type ScrambleWithEvent = {
   eventID: EventID;

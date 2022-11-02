@@ -1,5 +1,5 @@
-import { AttemptData } from "../attempt";
-import { TimerSession } from "../session";
+import { AttemptData } from "../AttemptData";
+import { TimerSession } from "../TimerSession";
 import { data } from "./cstimer-data";
 
 export type CSTimerAttempt = [[number, number], string, string, number];
