@@ -16,11 +16,10 @@ barelyServe({
   },
 });
 
-// 😕 Can't use module worker yet.
 await build({
-  entryPoints: ["src/sw.ts"],
+  entryPoints: ["src/service-worker/sw.ts"],
   bundle: true,
-  format: "cjs",
+  format: "cjs", // 😕 Can't use module worker in Firefox yet.
   outfile: "dist/timer.cubing.net/sw.js",
 });
 
