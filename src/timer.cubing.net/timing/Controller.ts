@@ -1,7 +1,6 @@
-import { Stats } from "../results/stats";
-import { Milliseconds, Timer } from "./Timer";
-import { View } from "../ui/View";
+import { View } from "../ui/TimeView";
 import * as WakeLock from "../ui/wake-lock";
+import { Milliseconds, Timer } from "./Timer";
 
 enum State {
   ReadyDown = "ready-down",
