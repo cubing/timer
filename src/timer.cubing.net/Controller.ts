@@ -1,8 +1,7 @@
 import { Stats } from "./stats";
-import { Milliseconds } from "./Timer";
+import { Milliseconds, Timer } from "./Timer";
+import { View } from "./View";
 import * as WakeLock from "./wake-lock";
-
-const THIN_CHARS = "1:";
 
 enum State {
   ReadyDown = "ready-down",
@@ -160,92 +159,5 @@ export class Controller {
     this.domElement.classList.remove(this.state);
     this.state = state;
     this.domElement.classList.add(this.state);
-  }
-}
-
-class View {
-  private secFirstElement: HTMLElement;
-  private secRestElement: HTMLElement;
-  private decimalDigitsElement: HTMLElement;
-  constructor(domElement: HTMLElement) {
-    this.secFirstElement = <HTMLElement>(
-      domElement.getElementsByClassName("sec-first")[0]
-    );
-    this.secRestElement = <HTMLElement>(
-      domElement.getElementsByClassName("sec-rest")[0]
-    );
-    this.decimalDigitsElement = <HTMLElement>(
-      domElement.getElementsByClassName("decimal-digits")[0]
-    );
-  }
-
-  displayTime(time: number) {
-    var parts = Stats.timeParts(time);
-    this.secFirstElement.textContent = "";
-    this.secRestElement.textContent = "";
-    const secContainer = this.secRestElement;
-    let lastChar: null | string = null;
-    for (const char of `${parts.secFirst}${parts.secRest}`) {
-      if (
-        lastChar &&
-        (THIN_CHARS.includes(char) || THIN_CHARS.includes(lastChar))
-      ) {
-        secContainer
-          .appendChild(document.createElement("span"))
-          .classList.add("spacer");
-      }
-      if (lastChar && "1" === char && "1" === lastChar) {
-        secContainer
-          .appendChild(document.createElement("span"))
-          .classList.add("extra-spacer");
-      }
-      secContainer.append(char);
-      lastChar = char;
-    }
-    this.decimalDigitsElement.textContent = parts.decimals;
-  }
-}
-
-class Timer {
-  private running: boolean = false;
-  private animFrameBound: () => void;
-  private startTime: number;
-  constructor(private currentTimeCallback: (t: Milliseconds) => void) {
-    this.animFrameBound = this.animFrame.bind(this);
-  }
-
-  public isRunning(): boolean {
-    return this.running;
-  }
-
-  start() {
-    this.startTime = Math.floor(performance.now());
-    this.currentTimeCallback(0);
-    this.running = true;
-    requestAnimationFrame(this.animFrameBound);
-  }
-
-  stop() {
-    this.running = false;
-    // cancelAnimationFrame(this.animFrameBound); // TODO: BUG
-    var time = this.elapsed();
-    this.currentTimeCallback(time);
-    return time;
-  }
-
-  reset() {
-    this.currentTimeCallback(0);
-  }
-
-  private animFrame() {
-    if (!this.running) {
-      return;
-    }
-    this.currentTimeCallback(this.elapsed());
-    requestAnimationFrame(this.animFrameBound);
-  }
-
-  private elapsed() {
-    return Math.floor(performance.now()) - this.startTime;
   }
 }
