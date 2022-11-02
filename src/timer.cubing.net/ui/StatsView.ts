@@ -1,7 +1,7 @@
-import { EventID } from "./events";
+import { EventID } from "../events";
 // import {ScrambleID} from "./scramble-worker"
-import { trForAttempt } from "./ui/results-table";
-import { AttemptDataWithIDAndRev } from "./results/attempt";
+import { trForAttempt } from "./results-table";
+import { AttemptDataWithIDAndRev } from "../results/attempt";
 
 // WebSafari (WebKit) doesn't center text in `<select>`'s `<option>` tags: https://bugs.webkit.org/show_bug.cgi?id=40216
 // We detect Safari based on https://stackoverflow.com/a/23522755 so we can do an ugly workaround (manually adding padding using spaces) below.

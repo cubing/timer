@@ -6,7 +6,7 @@ import { AttemptData, AttemptDataWithIDAndRev } from "./results/attempt";
 import { allDocsResponseToTimes, TimerSession } from "./results/session";
 import { ScrambleView, ScrambleWithEvent } from "./ui/ScrambleView";
 import { Stats } from "./stats";
-import { StatsView } from "./StatsView";
+import { StatsView } from "./ui/StatsView";
 import {
   DEFAULT_EVENT,
   EVENT_PARAM_NAME,

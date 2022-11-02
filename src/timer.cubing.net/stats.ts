@@ -1,5 +1,5 @@
-import { Milliseconds } from "./Controller";
 import "./results/db";
+import { Milliseconds } from "./Timer";
 // function Stats() {
 
 // };
