@@ -1,7 +1,7 @@
 import { Alg } from "cubing/alg";
 import { eventInfo } from "cubing/puzzles";
 import { AttemptData } from "../../results/attempt";
-import { Stats } from "../../results/stats-1";
+import { Stats } from "../../results/Stats";
 
 export function twizzleLink(
   event: string | undefined,

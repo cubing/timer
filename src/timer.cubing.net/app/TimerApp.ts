@@ -5,7 +5,7 @@ import { randomScrambleForEvent } from "cubing/scramble";
 import { AttemptData, AttemptDataWithIDAndRev } from "../results/attempt";
 import { allDocsResponseToTimes, TimerSession } from "../results/session";
 import { ScrambleView, ScrambleWithEvent } from "../ui/ScrambleView";
-import { Stats } from "../results/stats-1";
+import { Stats } from "../results/Stats";
 import { StatsView } from "../ui/StatsView";
 import {
   DEFAULT_EVENT,
