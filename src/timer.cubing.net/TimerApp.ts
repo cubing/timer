@@ -1,5 +1,5 @@
 import { EventID } from "./events";
-import { Controller, Milliseconds } from "./timer";
+import { Controller } from "./timer-old";
 // import {ScrambleID} from "./scramble-worker"
 import { Alg } from "cubing/alg";
 import { randomScrambleForEvent } from "cubing/scramble";
@@ -15,6 +15,7 @@ import {
   setURLParam,
 } from "./url-params";
 import { nonsecureRandomChoice } from "./util";
+import { Milliseconds } from "./Timer-new";
 
 const favicons: { [s: string]: string } = {
   blue: "/lib/favicons/favicon_blue.ico",

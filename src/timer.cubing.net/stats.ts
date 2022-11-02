@@ -1,4 +1,4 @@
-import { Milliseconds } from "./timer";
+import { Milliseconds } from "./timer-old";
 import "./results/db";
 // function Stats() {
 

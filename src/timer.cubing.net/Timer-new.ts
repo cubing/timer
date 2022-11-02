@@ -1,3 +1,4 @@
+export type Milliseconds = number;
 
 export class Timer {
   private running: boolean = false;
