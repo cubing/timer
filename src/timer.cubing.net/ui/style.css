@@ -33,6 +33,7 @@ body {
   height: 100%;
   overflow: hidden;
   font-family: Ubuntu, Roboto, Helvetica, Tahoma, sans-serif;
+  background-color: black;
 }
 
 @supports (width: 100dvw) {
@@ -44,7 +45,7 @@ body {
   }
 }
 
-body {
+.timer-app {
   /* display: flex; */
   background: #f2f2f2;
 }
