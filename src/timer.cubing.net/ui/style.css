@@ -525,11 +525,12 @@ twisty-player.dim {
   grid-area: timer;
 }
 
-.timer.ready-down .time,
-.timer.ready-up .time {
+.timer-app:not(.hide-scramble-display) .timer.ready-down .time,
+.timer-app:not(.hide-scramble-display) .timer.ready-up .time {
   display: none;
 }
 
+.timer-app.hide-scramble-display #scramble-display,
 .timer:not(.ready-down):not(.ready-up) #scramble-display {
   display: none;
 }

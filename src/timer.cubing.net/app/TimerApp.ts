@@ -3,19 +3,20 @@ import { EventID } from "./events";
 import { Alg } from "cubing/alg";
 import { randomScrambleForEvent } from "cubing/scramble";
 import { AttemptData, AttemptDataWithIDAndRev } from "../results/AttemptData";
-import { allDocsResponseToTimes, TimerSession } from "../results/TimerSession";
-import { ScrambleView, ScrambleWithEvent } from "../ui/ScrambleView";
 import { Stats } from "../results/Stats";
+import { allDocsResponseToTimes, TimerSession } from "../results/TimerSession";
+import { Controller } from "../timing/Controller";
+import { Milliseconds } from "../timing/Timer";
+import { ScrambleView, ScrambleWithEvent } from "../ui/ScrambleView";
 import { StatsView } from "../ui/StatsView";
+import { nonsecureRandomChoice } from "../ui/ui-util";
+import { hideScrambleDisplay } from "./localStorageSettings";
 import {
   DEFAULT_EVENT,
   EVENT_PARAM_NAME,
   initialEventID,
-  setURLParam,
+  setURLParam
 } from "./url-params";
-import { nonsecureRandomChoice } from "../ui/ui-util";
-import { Milliseconds } from "../timing/Timer";
-import { Controller } from "../timing/Controller";
 
 const favicons: { [s: string]: string } = {
   blue: new URL("../resources/favicons/favicon_blue.ico", import.meta.url).href,
@@ -188,6 +189,7 @@ export class TimerApp {
     ];
     var randomChoice = nonsecureRandomChoice<ThemeColor>(themeColors);
     this.domElement.classList.add(`theme-${randomChoice.name}`);
+    this.domElement.classList.toggle("hide-scramble-display", hideScrambleDisplay())
 
     // TODO: Can we remove the following line safely?
     const head = document.head || document.getElementsByTagName("head")[0];
