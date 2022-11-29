@@ -10,6 +10,10 @@ dev:
 format:
 	npx rome format --write ./src
 
+.PHONY: lint
+lint:
+	npx rome check ./src
+
 SFTP_PATH = "towns.dreamhost.com:~/timer.cubing.net/"
 URL       = "https://timer.cubing.net/"
 

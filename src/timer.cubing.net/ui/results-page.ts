@@ -5,7 +5,11 @@ import { TimerSession } from "../results/TimerSession";
 import { convertToCSTimerFormat } from "../results/compat/cstimer";
 import { convertToQQTimerFormat } from "../results/compat/qqtimer";
 import { EventID, eventOrder, modifiedEventName } from "../app/events";
-import { DEFAULT_EVENT, EVENT_PARAM_NAME, initialEventID } from "../app/url-params";
+import {
+  DEFAULT_EVENT,
+  EVENT_PARAM_NAME,
+  initialEventID,
+} from "../app/url-params";
 
 const session = new TimerSession();
 let justRemoved: string;

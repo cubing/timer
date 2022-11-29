@@ -20,8 +20,10 @@ import { Controller } from "../timing/Controller";
 const favicons: { [s: string]: string } = {
   blue: new URL("../resources/favicons/favicon_blue.ico", import.meta.url).href,
   red: new URL("../resources/favicons/favicon_red.ico", import.meta.url).href,
-  green: new URL("../resources/favicons/favicon_green.ico", import.meta.url).href,
-  orange: new URL("../resources/favicons/favicon_orange.ico", import.meta.url).href,
+  green: new URL("../resources/favicons/favicon_green.ico", import.meta.url)
+    .href,
+  orange: new URL("../resources/favicons/favicon_orange.ico", import.meta.url)
+    .href,
 };
 
 // TODO: Import this from "./scramble-worker"
@@ -185,7 +187,7 @@ export class TimerApp {
       { name: "blue", value: "#4285f4" },
     ];
     var randomChoice = nonsecureRandomChoice<ThemeColor>(themeColors);
-    this.domElement.classList.add("theme-" + randomChoice.name);
+    this.domElement.classList.add(`theme-${randomChoice.name}`);
 
     // TODO: Can we remove the following line safely?
     const head = document.head || document.getElementsByTagName("head")[0];

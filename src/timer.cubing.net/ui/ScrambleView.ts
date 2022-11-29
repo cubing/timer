@@ -55,9 +55,9 @@ export class ScrambleView {
 
   setEvent(eventID: EventID) {
     removeClassesStartingWith(this.scrambleText, "event-");
-    this.scrambleText.classList.add("event-" + eventID);
+    this.scrambleText.classList.add(`event-${eventID}`);
     removeClassesStartingWith(this.cubingIcon, "icon-");
-    this.cubingIcon.classList.add("icon-" + eventID);
+    this.cubingIcon.classList.add(`icon-${eventID}`);
     if (
       this.eventSelectDropdown.value !== eventID &&
       this.optionElementsByEventID[eventID]

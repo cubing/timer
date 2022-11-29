@@ -3,7 +3,10 @@ import { AttemptData, AttemptDataWithIDAndRev } from "../results/AttemptData";
 import { TimerSession } from "../results/TimerSession";
 import { Stats } from "../results/Stats";
 import { trashIcon, playIcon } from "./material-icons";
-import { twizzleLink, twizzleLinkForAttempt } from "../resources/vendor/twizzle-link";
+import {
+  twizzleLink,
+  twizzleLinkForAttempt,
+} from "../resources/vendor/twizzle-link";
 import { eventOrder, modifiedEventName } from "../app/events";
 
 export const MAX_NUM_RECENT_ATTEMPTS = 100;
