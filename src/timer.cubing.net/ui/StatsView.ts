@@ -123,7 +123,7 @@ export class StatsView {
         "ℏ100: " + stats.rate100,
         "best: " + stats.best,
         "worst: " + stats.worst,
-        "count: " + stats.numAttempts,
+        "DB size: " + stats.numAttempts,
       ].map((s) => s.length),
     );
     function setStat(elem: HTMLOptionElement, s: string): void {
