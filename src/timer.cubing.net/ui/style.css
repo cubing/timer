@@ -685,3 +685,20 @@ table#attempt-list thead {
 .timer.done .time .decimals {
   opacity: 0.4
 }
+
+.timer-app:not(.prefer-harmonic-mean) .harmonic {
+  display: none;
+}
+
+.timer-app.prefer-harmonic-mean .non-harmonic {
+  line-height: 0.75em;
+  display: none;
+}
+
+.h-bar {
+  line-height: 0.5em;
+}
+
+.stats-summary .partial {
+  color: unset !important;
+}

@@ -10,12 +10,15 @@ import { Milliseconds } from "../timing/Timer";
 import { ScrambleView, ScrambleWithEvent } from "../ui/ScrambleView";
 import { StatsView } from "../ui/StatsView";
 import { nonsecureRandomChoice } from "../ui/ui-util";
-import { hideScrambleDisplay } from "./localStorageSettings";
+import {
+  hideScrambleDisplay,
+  preferHarmonicMean,
+} from "./localStorageSettings";
 import {
   DEFAULT_EVENT,
   EVENT_PARAM_NAME,
   initialEventID,
-  setURLParam
+  setURLParam,
 } from "./url-params";
 
 const favicons: { [s: string]: string } = {
@@ -189,7 +192,14 @@ export class TimerApp {
     ];
     var randomChoice = nonsecureRandomChoice<ThemeColor>(themeColors);
     this.domElement.classList.add(`theme-${randomChoice.name}`);
-    this.domElement.classList.toggle("hide-scramble-display", hideScrambleDisplay())
+    this.domElement.classList.toggle(
+      "hide-scramble-display",
+      hideScrambleDisplay(),
+    );
+    this.domElement.classList.toggle(
+      "prefer-harmonic-mean",
+      preferHarmonicMean(),
+    );
 
     // TODO: Can we remove the following line safely?
     const head = document.head || document.getElementsByTagName("head")[0];
@@ -242,14 +252,34 @@ export class TimerApp {
   async updateDisplayStats(assumeAttemptAppended: boolean = false) {
     const attempts = await this.latest();
     const times = attempts.map((attempt) => attempt.totalResultMs);
+    const numAttempts = (await this.session.db.info()).doc_count - 1;
     const formattedStats = {
+      mean3: Stats.formatTime(Stats.mean(Stats.lastN(times, 3))),
       avg5: Stats.formatTime(Stats.trimmedAverage(Stats.lastN(times, 5))),
       avg12: Stats.formatTime(Stats.trimmedAverage(Stats.lastN(times, 12))),
       avg100: Stats.formatTime(Stats.trimmedAverage(Stats.lastN(times, 100))),
-      mean3: Stats.formatTime(Stats.mean(Stats.lastN(times, 3))),
+      rate3: Stats.formatTime(
+        Stats.harmonicMean(Stats.lastN(times, 3, { allowPartial: true }), 3),
+        { partial: numAttempts < 3 },
+      ), // TODO: avoid duplicate work
+      rate5: Stats.formatTime(
+        Stats.harmonicMean(Stats.lastN(times, 5, { allowPartial: true }), 5),
+        { partial: numAttempts < 5 },
+      ), // TODO: avoid duplicate work
+      rate12: Stats.formatTime(
+        Stats.harmonicMean(Stats.lastN(times, 12, { allowPartial: true }), 12),
+        { partial: numAttempts < 12 },
+      ), // TODO: avoid duplicate work
+      rate100: Stats.formatTime(
+        Stats.harmonicMean(
+          Stats.lastN(times, 100, { allowPartial: true }),
+          100,
+        ),
+        { partial: numAttempts < 100 },
+      ), // TODO: avoid duplicate work
       best: times.length > 0 ? Stats.formatTime(Math.min(...times)) : "---",
       worst: times.length > 0 ? Stats.formatTime(Math.max(...times)) : "---",
-      numSolves: (await this.session.db.info()).doc_count - 1, // TODO: exact number
+      numAttempts: numAttempts, // TODO: exact number
     };
     this.statsView.setStats(formattedStats, attempts);
   }

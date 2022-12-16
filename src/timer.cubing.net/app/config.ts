@@ -49,6 +49,7 @@ function setupCheckbox(identifier: string) {
 }
 
 setupCheckbox("hideScrambleDisplay");
+setupCheckbox("preferHarmonicMean");
 
 const clearServiceWorkersButton = document.querySelector(
 	"#force-update-app",

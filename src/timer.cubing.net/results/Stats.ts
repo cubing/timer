@@ -15,11 +15,30 @@ export class Stats {
     return a - b;
   }
 
-  static lastN(l: Milliseconds[], N: number): Milliseconds[] | null {
+  static lastN(
+    l: Milliseconds[],
+    N: number,
+    options?: { allowPartial: boolean },
+  ): Milliseconds[] | null {
     if (l.length < N) {
-      return null;
+      return options?.allowPartial ? l : null;
     }
     return l.slice(l.length - N);
+  }
+
+  static harmonicMean(
+    l: Milliseconds[] | null,
+    n: number,
+  ): Milliseconds | null {
+    if (l == null) {
+      return null;
+    }
+
+    var total = 0;
+    for (var i = 0; i < l.length - 0; i++) {
+      total += 1 / l[i];
+    }
+    return Math.round(n / total);
   }
 
   static mean(l: Milliseconds[] | null): Milliseconds | null {
@@ -106,12 +125,19 @@ export class Stats {
     };
   }
 
-  static formatTime(time: Milliseconds | null): string {
+  static formatTime(
+    time: Milliseconds | null,
+    options?: { partial: boolean },
+  ): string {
     if (time === null) {
       return "---";
     }
 
     var parts = this.timeParts(time);
-    return parts.secFirst + parts.secRest + "." + parts.decimals;
+    let result = parts.secFirst + parts.secRest + "." + parts.decimals;
+    if (options?.partial) {
+      result = `(${result})`;
+    }
+    return result;
   }
 }
