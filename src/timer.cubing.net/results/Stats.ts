@@ -130,7 +130,7 @@ export class Stats {
     options?: { partial: boolean },
   ): string {
     if (time === null) {
-      return "---";
+      return "—";
     }
 
     var parts = this.timeParts(time);
