@@ -678,7 +678,6 @@ table#attempt-list thead {
 .timer.stopped,
 .timer.done {
   color: white;
-  background-color: #ff00ff
 }
 
 .timer.handOnTimer .time .decimals,
