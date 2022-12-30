@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=0.75">
-  <link rel="stylesheet" href="./ui/style.css" />
+  <link rel="stylesheet" href="./ui/style.css" id="main-css-import"/>
 
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-title" content="Timer ⏱">
@@ -155,7 +155,35 @@
         </table>
       </div>
     </div>
+    <button id="dark">toggle dark</button>
   </div>
+  <script>
+    window.isdark = false
+    
+    function  dark() {
+      document.getElementById("scramble-bar").style.background = "#6A6A6A"
+      document.getElementsByClassName("time")[0].style.color = "#FFFFFF"
+      document.getElementById("timer").style.background = "#000000"
+      document.getElementById("dark").style.background = "#000000"
+      document.getElementById("dark").style.color = "#FFFFFF"
+    
+      document.getElementsByClassName("stats")[0].style.background = "#010101"
+      window.isdark = true
+    }
+    function undark() {
+      window.location.reload()
+    }
+
+    function toggle_dark() {
+      if(!window.isdark){
+        dark()
+      }
+      else{
+        undark()
+      }
+    }
+    document.getElementById("dark").addEventListener("click",toggle_dark)
+  </script>
 </body>
 
 </html>
