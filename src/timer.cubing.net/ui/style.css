@@ -678,6 +678,7 @@ table#attempt-list thead {
 .timer.stopped,
 .timer.done {
   color: white;
+  background-color: #ff00ff
 }
 
 .timer.handOnTimer .time .decimals,
@@ -701,4 +702,11 @@ table#attempt-list thead {
 
 .stats-summary .partial {
   color: unset !important;
+}
+
+#dark{
+  width:100px;
+  height:50px;
+  background:white;
+  color:black;
 }
