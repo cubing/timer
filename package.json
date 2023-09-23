@@ -12,29 +12,29 @@
   "type": "module",
   "types": "./dist/index.d.ts",
   "dependencies": {
-    "@types/dom-screen-wake-lock": "^1.0.0",
+    "@types/dom-screen-wake-lock": "^1.0.1",
     "@types/pouchdb": "^6.4.0",
-    "comlink": "^4.2.0",
-    "cubing": "^0.42.0",
+    "comlink": "^4.4.1",
+    "cubing": "^0.43.4",
     "events": "^3.3.0",
-    "pouchdb": "^7.3.0",
-    "pouchdb-find": "^7.3.0"
+    "pouchdb": "^8.0.1",
+    "pouchdb-find": "^8.0.1"
   },
   "externalsForWebpack": [
     "alg"
   ],
   "devDependencies": {
-    "@types/chai": "^4.1.4",
-    "@types/mocha": "^5.2.3",
-    "barely-a-dev-server": "^0.3.6",
-    "chai": "^4.1.2",
-    "esbuild": "^0.15.12",
-    "lib": "^4.3.3",
-    "mocha": "^10.1.0",
-    "rome": "^0.10.1-next.e8dd9b4",
+    "@types/chai": "^4.3.6",
+    "@types/mocha": "^10.0.1",
+    "barely-a-dev-server": "^0.6.0",
+    "chai": "^4.3.8",
+    "esbuild": "^0.19.3",
+    "lib": "^5.1.0",
+    "mocha": "^10.2.0",
+    "rome": "^12.1.3",
     "workbox": "^0.0.0",
-    "workbox-build": "^6.5.4",
-    "workbox-precaching": "^6.5.4"
+    "workbox-build": "^7.0.0",
+    "workbox-precaching": "^7.0.0"
   },
   "scripts": {
     "prepublishOnly": "make dist"
