@@ -50,8 +50,9 @@ body {
 
   --theme-background-color: #f2f2f2;
 
-  --text-color: white;
-  color: var(--text-color);
+  --light-on-dark-color: white;
+  --dark-on-light-color: black;
+  color: var(--light-on-dark-color);
 }
 
 .timer-app>.scramble-bar,
@@ -79,10 +80,24 @@ body {
   --theme-main-color: var(--theme-blue);
 }
 
+.time {
+  color: color-mix(in oklab, var(--theme-main-color) 25%, black);
+}
+
+.timer.handOnTimer .time,
+.timer.stopped .time,
+.timer.done .time {
+  color: var(--light-on-dark-color);
+}
+
 @media (prefers-color-scheme: dark) {
   .timer-app {
     --theme-bright-color: color-mix(in oklab, var(--theme-main-color) 60%, black);
     --theme-background-color: color-mix(in oklab, var(--theme-main-color) 10%, #222);
+  }
+
+  .time {
+    color: var(--light-on-dark-color);
   }
 }
 
@@ -317,7 +332,6 @@ twisty-player.dim {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  line-height: 0.75em;
 }
 
 .time>div {
@@ -447,7 +461,7 @@ twisty-player.dim {
 
   text-align: center;
   text-align-last: center;
-  color: color-mix(in oklab, var(--text-color) 80%, var(--theme-bright-color));
+  color: color-mix(in oklab, var(--light-on-dark-color) 80%, var(--theme-bright-color));
 
   transition: background-color 0.5s;
 }
@@ -461,11 +475,11 @@ twisty-player.dim {
 }
 
 .stats.received-data select {
-  color: var(--text-color);
+  color: var(--light-on-dark-color);
 }
 
 .stats a {
-  color: var(--text-color);
+  color: var(--light-on-dark-color);
 }
 
 .stats .bottom-bar a {
@@ -671,12 +685,6 @@ table#attempt-list td:first-child {
 
 table#attempt-list thead {
   text-align: center;
-}
-
-.timer.handOnTimer,
-.timer.stopped,
-.timer.done {
-  color: white;
 }
 
 .timer.handOnTimer .time .decimals,
