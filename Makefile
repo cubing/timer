@@ -1,10 +1,10 @@
 .PHONY: build
 build: clean
-	node script/build.js
+	bun run script/build.ts
 
 .PHONY: dev
 dev:
-	node script/dev.js
+	bun run script/dev.ts
 
 .PHONY: format
 format:

@@ -12,6 +12,9 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: latest
       - name: Use `node` v${{ matrix.node-version }}
         uses: actions/setup-node@v3
         with:
