@@ -1,6 +1,6 @@
 {
   "name": "@cubing/timer",
-  "version": "4.0.1",
+  "version": "4.0.2",
   "description": "Template for interacting with cubing JS libraries.",
   "author": "Lucas Garron <code@garron.net> (https://garron.net/)",
   "license": "GPL-3.0-or-later",
