@@ -1,7 +1,7 @@
 import { EventID } from "../app/events";
+import { AttemptDataWithIDAndRev } from "../results/AttemptData";
 // import {ScrambleID} from "./scramble-worker"
 import { trForAttempt } from "./results-table";
-import { AttemptDataWithIDAndRev } from "../results/AttemptData";
 
 // WebSafari (WebKit) doesn't center text in `<select>`'s `<option>` tags: https://bugs.webkit.org/show_bug.cgi?id=40216
 // We detect Safari based on https://stackoverflow.com/a/23522755 so we can do an ugly workaround (manually adding padding using spaces) below.
@@ -95,7 +95,7 @@ export class StatsView {
   }
 
   initializeDropdown() {
-    var storedCurrentStat = localStorage.getItem("current-stat");
+    const storedCurrentStat = localStorage.getItem("current-stat");
 
     if (storedCurrentStat && storedCurrentStat in this.elems) {
       this.elems[storedCurrentStat].selected = true;
@@ -113,23 +113,23 @@ export class StatsView {
   setStats(stats: FormattedStats, attempts: AttemptDataWithIDAndRev[]) {
     const maxLen = Math.max(
       ...[
-        "μ3: " + stats.mean3,
-        "⌀5: " + stats.avg5,
-        "⌀12: " + stats.avg12,
-        "⌀100: " + stats.avg100,
-        "ℏ3: " + stats.rate3,
-        "ℏ5: " + stats.rate5,
-        "ℏ12: " + stats.rate12,
-        "ℏ100: " + stats.rate100,
-        "best: " + stats.best,
-        "worst: " + stats.worst,
-        "DB size: " + stats.numAttempts,
+        `μ3: ${stats.mean3}`,
+        `⌀5: ${stats.avg5}`,
+        `⌀12: ${stats.avg12}`,
+        `⌀100: ${stats.avg100}`,
+        `ℏ3: ${stats.rate3}`,
+        `ℏ5: ${stats.rate5}`,
+        `ℏ12: ${stats.rate12}`,
+        `ℏ100: ${stats.rate100}`,
+        `best: ${stats.best}`,
+        `worst: ${stats.worst}`,
+        `DB size: ${stats.numAttempts}`,
       ].map((s) => s.length),
     );
     function setStat(elem: HTMLOptionElement, s: string): void {
       let spacing = "";
       if (isSafari) {
-        for (var i = 0; i < (maxLen - s.length) * 0.75; i++) {
+        for (let i = 0; i < (maxLen - s.length) * 0.75; i++) {
           spacing += "&nbsp;";
         }
       }
@@ -137,43 +137,43 @@ export class StatsView {
       elem.appendChild(document.createTextNode(s));
     }
 
-    setStat(this.elems["mean3"], "μ3: " + stats.mean3);
+    setStat(this.elems["mean3"], `μ3: ${stats.mean3}`);
     this.sidebarElems["mean3"].textContent = stats.mean3;
-    setStat(this.elems["avg5"], "⌀5: " + stats.avg5);
+    setStat(this.elems["avg5"], `⌀5: ${stats.avg5}`);
     this.sidebarElems["avg5"].textContent = stats.avg5;
-    setStat(this.elems["avg12"], "⌀12: " + stats.avg12);
+    setStat(this.elems["avg12"], `⌀12: ${stats.avg12}`);
     this.sidebarElems["avg12"].textContent = stats.avg12;
-    setStat(this.elems["avg100"], "⌀100: " + stats.avg100);
+    setStat(this.elems["avg100"], `⌀100: ${stats.avg100}`);
     this.sidebarElems["avg100"].textContent = stats.avg100;
-    setStat(this.elems["rate3"], "ℏ3: " + stats.rate3);
+    setStat(this.elems["rate3"], `ℏ3: ${stats.rate3}`);
     this.sidebarElems["rate3"].textContent = stats.rate3;
     this.sidebarElems["rate3"].classList.toggle(
       "partial",
       stats.numAttempts < 3,
     );
-    setStat(this.elems["rate5"], "ℏ5: " + stats.rate5);
+    setStat(this.elems["rate5"], `ℏ5: ${stats.rate5}`);
     this.sidebarElems["rate5"].textContent = stats.rate5;
     this.sidebarElems["rate5"].classList.toggle(
       "partial",
       stats.numAttempts < 5,
     );
-    setStat(this.elems["rate12"], "ℏ12: " + stats.rate12);
+    setStat(this.elems["rate12"], `ℏ12: ${stats.rate12}`);
     this.sidebarElems["rate12"].textContent = stats.rate12;
     this.sidebarElems["rate12"].classList.toggle(
       "partial",
       stats.numAttempts < 12,
     );
-    setStat(this.elems["rate100"], "ℏ100: " + stats.rate100);
+    setStat(this.elems["rate100"], `ℏ100: ${stats.rate100}`);
     this.sidebarElems["rate100"].textContent = stats.rate100;
     this.sidebarElems["rate100"].classList.toggle(
       "partial",
       stats.numAttempts < 100,
     );
-    setStat(this.elems["best"], "best: " + stats.best);
+    setStat(this.elems["best"], `best: ${stats.best}`);
     this.sidebarElems["best"].textContent = stats.best;
-    setStat(this.elems["worst"], "worst: " + stats.worst);
+    setStat(this.elems["worst"], `worst: ${stats.worst}`);
     this.sidebarElems["worst"].textContent = stats.worst;
-    this.elems["num-attempts"].textContent = "count: " + stats.numAttempts;
+    this.elems["num-attempts"].textContent = `count: ${stats.numAttempts}`;
     this.sidebarElems["num-attempts"].textContent =
       stats.numAttempts.toString();
     this.updateAttemptList(attempts);

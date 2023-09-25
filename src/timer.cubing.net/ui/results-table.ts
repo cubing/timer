@@ -1,13 +1,13 @@
 import { Alg } from "cubing/alg";
-import { AttemptData, AttemptDataWithIDAndRev } from "../results/AttemptData";
-import { TimerSession } from "../results/TimerSession";
-import { Stats } from "../results/Stats";
-import { trashIcon, playIcon } from "./material-icons";
+import { eventOrder, modifiedEventName } from "../app/events";
 import {
   twizzleLink,
   twizzleLinkForAttempt,
 } from "../resources/vendor/twizzle-link";
-import { eventOrder, modifiedEventName } from "../app/events";
+import { AttemptData, AttemptDataWithIDAndRev } from "../results/AttemptData";
+import { Stats } from "../results/Stats";
+import { TimerSession } from "../results/TimerSession";
+import { playIcon, trashIcon } from "./material-icons";
 
 export const MAX_NUM_RECENT_ATTEMPTS = 100;
 
@@ -100,8 +100,9 @@ function solutionTD(attemptData: AttemptData): HTMLTableDataCellElement {
     } else if (!("permutationParity" in attemptData.parities)) {
       button.textContent = "Parity: ?";
     } else {
-      button.textContent =
-        "Parity: " + (attemptData.parities.permutationParity ? "☹️" : "😎");
+      button.textContent = `Parity: ${
+        attemptData.parities.permutationParity ? "☹️" : "😎"
+      }`;
     }
     button.addEventListener("click", () => {
       if (
@@ -138,23 +139,19 @@ function trashTD(attempt: AttemptDataWithIDAndRev): HTMLTableDataCellElement {
 }
 
 function pad(s: number): string {
-  return ("0" + s).slice(-2);
+  return `0${s}`.slice(-2);
 }
 
 function formatUnixTime(unixDate: number): string {
   const date = new Date(unixDate);
-  return date.getHours() + ":" + pad(date.getMinutes());
+  return `${date.getHours()}:${pad(date.getMinutes())}`;
 }
 
 function formatUnixDate(unixDate: number): string {
   const date = new Date(unixDate);
-  return (
-    date.getFullYear() +
-    "-" +
-    pad(date.getMonth() + 1) +
-    "-" +
-    pad(date.getDate() + 1)
-  );
+  return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(
+    date.getDate() + 1,
+  )}`;
 }
 
 function eventTD(attempt: AttemptDataWithIDAndRev): HTMLTableDataCellElement {
@@ -204,9 +201,9 @@ export function trForAttempt(
     tr.appendChild(eventTD(attempt));
     tr.appendChild(
       tdWithContent(
-        formatUnixTime(attempt.unixDate) +
-          " | " +
-          formatUnixDate(attempt.unixDate),
+        `${formatUnixTime(attempt.unixDate)} | ${formatUnixDate(
+          attempt.unixDate,
+        )}`,
       ),
     );
     tr.appendChild(deviceTD(attempt));
@@ -219,7 +216,7 @@ export function trForAttempt(
       formattedDate = "(old)";
     }
     const td = tdWithContent(formattedDate);
-    td.title = formattedTimeOfDay + " | " + formattedDateStamp;
+    td.title = `${formattedTimeOfDay} | ${formattedDateStamp}`;
     tr.appendChild(td);
   }
   tr.appendChild(trashTD(attempt));

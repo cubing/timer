@@ -18,7 +18,7 @@ export class View {
   }
 
   displayTime(time: number) {
-    var parts = Stats.timeParts(time);
+    const parts = Stats.timeParts(time);
     this.secFirstElement.textContent = "";
     this.secRestElement.textContent = "";
     const secContainer = this.secRestElement;

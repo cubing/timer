@@ -9,7 +9,9 @@ export function twizzleLink(
   alg: Alg | string | undefined,
   title?: string,
 ) {
+  // biome-ignore lint/style/noParameterAssign: Old code pattern
   setup = new Alg(setup);
+  // biome-ignore lint/style/noParameterAssign: Old code pattern
   alg = new Alg(alg);
   const url = new URL("https://alpha.twizzle.net/edit/");
 

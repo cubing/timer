@@ -2,9 +2,9 @@ export function removeClassesStartingWith(
   element: HTMLElement,
   prefix: string,
 ): void {
-  var classes = Array.prototype.slice.call(element.classList);
-  for (var i in classes) {
-    var className = classes[i];
+  const classes = Array.prototype.slice.call(element.classList);
+  for (const i in classes) {
+    const className = classes[i];
     if (className.startsWith(prefix)) {
       element.classList.remove(className);
     }

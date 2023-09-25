@@ -12,7 +12,7 @@ enum State {
   Ignore = "ignore",
 }
 
-type TransitionMap = any; // TODO: Type
+type TransitionMap = Partial<Record<State, State>>;
 
 export class Controller {
   private timer: Timer;
@@ -22,7 +22,7 @@ export class Controller {
     private solveDoneCallback: (t: Milliseconds) => void,
     private startNewAttemptCallback: () => void,
   ) {
-    var timerView = new View(domElement);
+    const timerView = new View(domElement);
     this.timer = new Timer(timerView.displayTime.bind(timerView));
 
     document.body.addEventListener("keydown", this.keyDown.bind(this));
@@ -73,7 +73,7 @@ export class Controller {
   }
 
   private down() {
-    var transitionMap: TransitionMap = {
+    const transitionMap: TransitionMap = {
       [State.ReadyDown]: State.Ignore,
       [State.ReadyUp]: State.HandOnTimer,
       [State.HandOnTimer]: State.Ignore,
@@ -85,7 +85,7 @@ export class Controller {
   }
 
   private up() {
-    var transitionMap: TransitionMap = {
+    const transitionMap: TransitionMap = {
       [State.ReadyDown]: State.ReadyUp,
       [State.ReadyUp]: State.Ignore,
       [State.HandOnTimer]: State.Running,
@@ -121,7 +121,10 @@ export class Controller {
     this.setState(State.ReadyUp);
   }
 
-  private setState(state: State) {
+  private setState(state: State | undefined) {
+    if (typeof state === "undefined") {
+      throw new Error("Invalid state.");
+    }
     switch (state) {
       case State.ReadyDown: {
         if (this.state === State.Done) {
@@ -142,7 +145,7 @@ export class Controller {
       }
       case State.Stopped: {
         WakeLock.disable();
-        var time = this.timer.stop();
+        const time = this.timer.stop();
         this.solveDoneCallback(time);
         break;
       }

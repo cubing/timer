@@ -22,7 +22,7 @@ export class Timer {
   stop() {
     this.running = false;
     // cancelAnimationFrame(this.animFrameBound); // TODO: BUG
-    var time = this.elapsed();
+    const time = this.elapsed();
     this.currentTimeCallback(time);
     return time;
   }

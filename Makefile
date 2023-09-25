@@ -8,11 +8,11 @@ dev:
 
 .PHONY: format
 format:
-	npx rome format --write ./src
+	npx @biomejs/biome format --write ./script ./src
 
 .PHONY: lint
 lint:
-	npx rome check ./src
+	npx @biomejs/biome check ./script ./src
 
 SFTP_PATH = "towns.dreamhost.com:~/timer.cubing.net/"
 URL       = "https://timer.cubing.net/"

@@ -1,5 +1,5 @@
-import { build } from "esbuild";
 import { barelyServe } from "barely-a-dev-server";
+import { build } from "esbuild";
 import { injectManifest } from "workbox-build";
 
 barelyServe({

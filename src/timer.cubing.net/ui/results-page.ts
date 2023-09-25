@@ -1,15 +1,15 @@
-import { trForAttempt, MAX_NUM_RECENT_ATTEMPTS } from "./results-table";
-import { downloadFile } from "../results/compat/download";
-import { AttemptData, AttemptDataWithIDAndRev } from "../results/AttemptData";
-import { TimerSession } from "../results/TimerSession";
-import { convertToCSTimerFormat } from "../results/compat/cstimer";
-import { convertToQQTimerFormat } from "../results/compat/qqtimer";
 import { EventID, eventOrder, modifiedEventName } from "../app/events";
 import {
   DEFAULT_EVENT,
   EVENT_PARAM_NAME,
   initialEventID,
 } from "../app/url-params";
+import { AttemptData, AttemptDataWithIDAndRev } from "../results/AttemptData";
+import { TimerSession } from "../results/TimerSession";
+import { convertToCSTimerFormat } from "../results/compat/cstimer";
+import { downloadFile } from "../results/compat/download";
+import { convertToQQTimerFormat } from "../results/compat/qqtimer";
+import { MAX_NUM_RECENT_ATTEMPTS, trForAttempt } from "./results-table";
 
 const session = new TimerSession();
 let justRemoved: string;
@@ -35,9 +35,11 @@ function getEventID(): EventID {
     .selectedOptions[0].value as EventID;
 }
 
-function getRangeSelector(): "most-recent" | "least-recent" | "best" | "worst" {
+type RangeSelectorValue = "most-recent" | "least-recent" | "best" | "worst";
+
+function getRangeSelector(): RangeSelectorValue {
   return (document.querySelector("#rangeSelector") as HTMLSelectElement)
-    .selectedOptions[0].value as any;
+    .selectedOptions[0].value as RangeSelectorValue;
 }
 
 async function exportTCN(): Promise<void> {
@@ -67,12 +69,12 @@ function addEventIDOptions(): void {
   const select = document.querySelector("#eventID") as HTMLSelectElement;
   for (const eventID of eventOrder) {
     const opt = document.createElement("option");
-    opt.value = eventID;
+    opt.value = eventID as string;
     opt.textContent = modifiedEventName(eventID);
     if (eventID === initialEventID) {
       opt.setAttribute("selected", "selected");
     }
-    optByEvent[eventID] = opt;
+    optByEvent[eventID as string] = opt;
     select.appendChild(opt);
   }
 }
@@ -124,10 +126,10 @@ export async function showData(): Promise<void> {
 async function eventChanged(): Promise<void> {
   const eventID = getEventID();
   const newURL = new URL(location.href);
-  newURL.searchParams.set(EVENT_PARAM_NAME, eventID);
+  newURL.searchParams.set(EVENT_PARAM_NAME, eventID as string);
   history.pushState(
     { event: eventID },
-    `Results | ${eventID}`,
+    `Results | ${eventID as string}`,
     `?${newURL.searchParams.toString()}`,
   );
   await showData();

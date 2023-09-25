@@ -1,15 +1,15 @@
-import { EventID } from "./events";
 // import {ScrambleID} from "./scramble-worker"
 import { Alg } from "cubing/alg";
 import { randomScrambleForEvent } from "cubing/scramble";
 import { AttemptData, AttemptDataWithIDAndRev } from "../results/AttemptData";
 import { Stats } from "../results/Stats";
-import { allDocsResponseToTimes, TimerSession } from "../results/TimerSession";
+import { TimerSession, allDocsResponseToTimes } from "../results/TimerSession";
 import { Controller } from "../timing/Controller";
 import { Milliseconds } from "../timing/Timer";
 import { ScrambleView, ScrambleWithEvent } from "../ui/ScrambleView";
 import { StatsView } from "../ui/StatsView";
 import { nonsecureRandomChoice } from "../ui/ui-util";
+import { EventID } from "./events";
 import {
   hideScrambleDisplay,
   preferHarmonicMean,
@@ -141,7 +141,7 @@ export class TimerApp {
       this.scrambleView.setScramble(this.currentScramble);
       this.scrambleView.staleScramble(false);
     } else {
-      var logInfo = console.info ? console.info.bind(console) : console.log;
+      const logInfo = console.info ? console.info.bind(console) : console.log;
       logInfo(
         "Scramble came back out of order late (received: ",
         scrambledId,
@@ -184,13 +184,13 @@ export class TimerApp {
       name: string;
       value: string;
     };
-    var themeColors = [
+    const themeColors = [
       { name: "orange", value: "#f95b2a" },
       { name: "green", value: "#0d904f" },
       { name: "red", value: "#ce2e20" },
       { name: "blue", value: "#4285f4" },
     ];
-    var randomChoice = nonsecureRandomChoice<ThemeColor>(themeColors);
+    const randomChoice = nonsecureRandomChoice<ThemeColor>(themeColors);
     this.domElement.classList.add(`theme-${randomChoice.name}`);
     this.domElement.classList.toggle(
       "hide-scramble-display",
@@ -204,8 +204,8 @@ export class TimerApp {
     // TODO: Can we remove the following line safely?
     const head = document.head || document.getElementsByTagName("head")[0];
 
-    var favicon = document.createElement("link");
-    var currentFavicon = document.getElementById("favicon");
+    const favicon = document.createElement("link");
+    const currentFavicon = document.getElementById("favicon");
     favicon.id = "favicon";
     favicon.rel = "shortcut icon";
     favicon.href = favicons[randomChoice.name];
@@ -214,7 +214,7 @@ export class TimerApp {
     }
     head.appendChild(favicon);
 
-    var meta = document.createElement("meta");
+    const meta = document.createElement("meta");
     meta.name = "theme-color";
     meta.id = "theme-color";
     meta.content = randomChoice.value;

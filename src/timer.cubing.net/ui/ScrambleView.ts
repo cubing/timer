@@ -1,9 +1,9 @@
-import { EventID, eventOrder, modifiedEventName } from "../app/events";
 // import {ScrambleID} from "./scramble-worker"
 import { Alg } from "cubing/alg";
 import { eventInfo } from "cubing/puzzles";
 import type { TwistyPlayer } from "cubing/twisty";
 import { TimerApp } from "../app/TimerApp";
+import { EventID, eventOrder, modifiedEventName } from "../app/events";
 import { removeClassesStartingWith } from "./ui-util";
 
 export type ScrambleWithEvent = {
@@ -43,8 +43,8 @@ export class ScrambleView {
 
   initializeSelectDropdown() {
     this.optionElementsByEventID = {};
-    for (var eventID of eventOrder) {
-      var optionElement = document.createElement("option");
+    for (const eventID of eventOrder) {
+      const optionElement = document.createElement("option");
       optionElement.value = eventID;
       optionElement.textContent = modifiedEventName(eventID);
 

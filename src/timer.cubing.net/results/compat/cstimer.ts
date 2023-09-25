@@ -1,3 +1,4 @@
+import { EventID } from "../../app/events";
 import { AttemptData } from "../AttemptData";
 import { TimerSession } from "../TimerSession";
 import { data } from "./cstimer-data";
@@ -32,7 +33,7 @@ function attemptToCSTimerFormat(attempt: AttemptData): CSTimerAttempt {
 
 export async function convertToCSTimerFormat(
   session: TimerSession,
-  eventId: string,
+  eventId: EventID,
 ): Promise<CSTimerData> {
   return {
     session1: (await session.allAttempts())

@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
-    "moduleResolution": "node",
-    "target": "es2020",
-    "module": "es2020",
+    "moduleResolution": "bundler",
+    "target": "es2022",
+    "module": "es2022",
     "rootDir": "src",
     "outDir": "",
     "declaration": true,
