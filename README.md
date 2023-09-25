@@ -23,7 +23,7 @@ A simple cubing timer.
 Ensure `node`, `npm`, and `bun` are installed. Then run:
 
     git clone https://github.com/cubing/timer && cd timer
-    npm install
+    make setup
     make dev
 
 ## License

@@ -14,6 +14,10 @@ format:
 lint:
 	npx @biomejs/biome check ./script ./src
 
+.PHONY: setup
+setup:
+	npm install
+
 SFTP_PATH = "towns.dreamhost.com:~/timer.cubing.net/"
 URL       = "https://timer.cubing.net/"
 
