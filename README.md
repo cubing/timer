@@ -20,8 +20,9 @@ A simple cubing timer.
 
 ## How to Develop
 
-    git clone https://github.com/cubing/timer
-    cd timer
+Ensure `node`, `npm`, and `bun` are installed. Then run:
+
+    git clone https://github.com/cubing/timer && cd timer
     npm install
     make dev
 
