@@ -160,6 +160,7 @@ export class TimerApp {
         : 0;
 
     this.scrambleView.clearScramble();
+    this.controller.reset();
     const { currentEvent, awaitedScrambleID } = this;
     const scramble = randomScrambleForEvent(this.currentEvent);
     this.scrambleCallback(currentEvent, awaitedScrambleID, await scramble);
