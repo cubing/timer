@@ -20,7 +20,7 @@ A simple cubing timer.
 
 ## How to Develop
 
-Ensure `node`, `npm`, and `bun` are installed. Then run:
+Ensure [`bun`](https://bun.sh/) is installed. Then run:
 
     git clone https://github.com/cubing/timer && cd timer
     make setup

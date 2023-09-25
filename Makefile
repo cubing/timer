@@ -8,15 +8,15 @@ dev:
 
 .PHONY: format
 format:
-	npx @biomejs/biome format --write ./script ./src
+	bun x @biomejs/biome format --write ./script ./src
 
 .PHONY: lint
 lint:
-	npx @biomejs/biome check ./script ./src
+	bun x @biomejs/biome check ./script ./src
 
 .PHONY: setup
 setup:
-	npm install
+	bun install
 
 SFTP_PATH = "towns.dreamhost.com:~/timer.cubing.net/"
 URL       = "https://timer.cubing.net/"
