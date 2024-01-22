@@ -43,3 +43,23 @@ export function twizzleLinkForAttempt(attemptData: AttemptData): string {
       : undefined,
   );
 }
+
+// TODO: Include title
+export function liveReconstructionLinkForAttempt(
+  attemptData: AttemptData,
+): string {
+  const url = new URL(
+    "https://experiments.cubing.net/cubing.js/live-reconstruction/",
+  );
+  url.searchParams.set("setup", attemptData.scramble ?? "");
+  return url.toString();
+}
+
+// TODO: Include title
+export function linkForAttempt(attemptData: AttemptData): string {
+  return attemptData.event &&
+    eventInfo(attemptData.event)?.puzzleID === "3x3x3" &&
+    !attemptData.solution
+    ? liveReconstructionLinkForAttempt(attemptData)
+    : twizzleLinkForAttempt(attemptData);
+}

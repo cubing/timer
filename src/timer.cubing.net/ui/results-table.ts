@@ -1,9 +1,6 @@
 import { Alg } from "cubing/alg";
 import { eventOrder, modifiedEventName } from "../app/events";
-import {
-  twizzleLink,
-  twizzleLinkForAttempt,
-} from "../resources/vendor/twizzle-link";
+import { linkForAttempt } from "../resources/vendor/twizzle-link";
 import { AttemptData, AttemptDataWithIDAndRev } from "../results/AttemptData";
 import { Stats } from "../results/Stats";
 import { TimerSession } from "../results/TimerSession";
@@ -39,7 +36,7 @@ function scrambleTD(
     }
     if (algo) {
       const scrambleLink = document.createElement("a");
-      scrambleLink.href = twizzleLinkForAttempt(attemptData);
+      scrambleLink.href = linkForAttempt(attemptData);
       scrambleLink.appendChild(playIcon());
       scrambleTD.appendChild(scrambleLink);
     }
@@ -65,7 +62,7 @@ function solutionTD(attemptData: AttemptData): HTMLTableDataCellElement {
     }
     if (attemptData.solution) {
       const scrambleLink = document.createElement("a");
-      scrambleLink.href = twizzleLinkForAttempt(attemptData);
+      scrambleLink.href = linkForAttempt(attemptData);
       scrambleLink.appendChild(playIcon());
       solutionTD.appendChild(scrambleLink);
       // const node = document.createTextNode(` (${countMoves(attemptData.solution)} ETM)`);
