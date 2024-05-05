@@ -18,7 +18,7 @@ lint:
 setup:
 	bun install
 
-SFTP_PATH = "towns.dreamhost.com:~/timer.cubing.net/"
+SFTP_PATH = "timer.cubing.net:~/timer.cubing.net/"
 URL       = "https://timer.cubing.net/"
 
 .PHONY: deploy
