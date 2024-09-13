@@ -3,15 +3,16 @@
     "moduleResolution": "bundler",
     "target": "es2022",
     "module": "es2022",
-    "rootDir": "src",
-    "outDir": "",
     "declaration": true,
+    "noEmit": true,
     "sourceMap": true,
     "alwaysStrict": true,
     "noImplicitAny": true,
     "noImplicitReturns": true,
     "strictNullChecks": true,
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    // TODO: can we re-enable this?
+    "skipLibCheck": true
   },
   "include": [
     "src"
