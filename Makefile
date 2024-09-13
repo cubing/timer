@@ -32,4 +32,4 @@ deploy: build
 
 .PHONY: clean
 clean:
-	rm -rf ./dist
+	rm -rf ./dist ./package-lock.json
