@@ -1,6 +1,6 @@
-import { EventID } from "../../app/events";
-import { AttemptData } from "../AttemptData";
-import { TimerSession } from "../TimerSession";
+import type { EventID } from "../../app/events";
+import type { AttemptData } from "../AttemptData";
+import type { TimerSession } from "../TimerSession";
 import { data } from "./cstimer-data";
 
 export type CSTimerAttempt = [[number, number], string, string, number];

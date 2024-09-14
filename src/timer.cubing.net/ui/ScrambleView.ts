@@ -2,8 +2,8 @@
 import { Alg } from "cubing/alg";
 import { eventInfo } from "cubing/puzzles";
 import type { TwistyPlayer } from "cubing/twisty";
-import { TimerApp } from "../app/TimerApp";
-import { EventID, eventOrder, modifiedEventName } from "../app/events";
+import type { TimerApp } from "../app/TimerApp";
+import { type EventID, eventOrder, modifiedEventName } from "../app/events";
 import { removeClassesStartingWith } from "./ui-util";
 
 export type ScrambleWithEvent = {

@@ -1,10 +1,13 @@
-import { EventID, eventOrder, modifiedEventName } from "../app/events";
+import { type EventID, eventOrder, modifiedEventName } from "../app/events";
 import {
   DEFAULT_EVENT,
   EVENT_PARAM_NAME,
   initialEventID,
 } from "../app/url-params";
-import { AttemptData, AttemptDataWithIDAndRev } from "../results/AttemptData";
+import type {
+  AttemptData,
+  AttemptDataWithIDAndRev,
+} from "../results/AttemptData";
 import { TimerSession } from "../results/TimerSession";
 import { convertToCSTimerFormat } from "../results/compat/cstimer";
 import { downloadFile } from "../results/compat/download";

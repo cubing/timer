@@ -1,6 +1,6 @@
 // "use strict";
 
-import { eventInfo, puzzles } from "cubing/puzzles";
+import { eventInfo, type puzzles } from "cubing/puzzles";
 
 export type EventID = keyof typeof puzzles;
 

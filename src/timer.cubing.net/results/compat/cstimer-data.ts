@@ -1,4 +1,4 @@
-import { CSTimerData } from "./cstimer";
+import type { CSTimerData } from "./cstimer";
 
 export const data: CSTimerData = {
   session1: [

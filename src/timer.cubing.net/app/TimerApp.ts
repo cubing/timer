@@ -1,15 +1,18 @@
 // import {ScrambleID} from "./scramble-worker"
-import { Alg } from "cubing/alg";
+import type { Alg } from "cubing/alg";
 import { randomScrambleForEvent } from "cubing/scramble";
-import { AttemptData, AttemptDataWithIDAndRev } from "../results/AttemptData";
+import type {
+  AttemptData,
+  AttemptDataWithIDAndRev,
+} from "../results/AttemptData";
 import { Stats } from "../results/Stats";
 import { TimerSession, allDocsResponseToTimes } from "../results/TimerSession";
 import { Controller } from "../timing/Controller";
-import { Milliseconds } from "../timing/Timer";
-import { ScrambleView, ScrambleWithEvent } from "../ui/ScrambleView";
+import type { Milliseconds } from "../timing/Timer";
+import { ScrambleView, type ScrambleWithEvent } from "../ui/ScrambleView";
 import { StatsView } from "../ui/StatsView";
 import { nonsecureRandomChoice } from "../ui/ui-util";
-import { EventID } from "./events";
+import type { EventID } from "./events";
 import {
   hideScrambleDisplay,
   preferHarmonicMean,

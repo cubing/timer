@@ -1,5 +1,5 @@
-import { EventID } from "../app/events";
-import { AttemptDataWithIDAndRev } from "../results/AttemptData";
+import type { EventID } from "../app/events";
+import type { AttemptDataWithIDAndRev } from "../results/AttemptData";
 // import {ScrambleID} from "./scramble-worker"
 import { trForAttempt } from "./results-table";
 

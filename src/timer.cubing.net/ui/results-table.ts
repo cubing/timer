@@ -1,7 +1,10 @@
 import { Alg } from "cubing/alg";
 import { eventOrder, modifiedEventName } from "../app/events";
 import { linkForAttempt } from "../resources/vendor/twizzle-link";
-import { AttemptData, AttemptDataWithIDAndRev } from "../results/AttemptData";
+import type {
+  AttemptData,
+  AttemptDataWithIDAndRev,
+} from "../results/AttemptData";
 import { Stats } from "../results/Stats";
 import { TimerSession } from "../results/TimerSession";
 import { playIcon, trashIcon } from "./material-icons";

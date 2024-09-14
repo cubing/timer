@@ -1,5 +1,5 @@
 function materialIcon(path: string, altText: string): () => HTMLImageElement {
-  return function () {
+  return () => {
     const img = document.createElement("img");
     img.src = path;
     img.classList.add("material-icon");

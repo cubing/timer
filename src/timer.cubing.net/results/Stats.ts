@@ -1,4 +1,4 @@
-import { Milliseconds } from "../timing/Timer";
+import type { Milliseconds } from "../timing/Timer";
 import "./db";
 // function Stats() {
 
@@ -63,7 +63,7 @@ export class Stats {
       return null;
     }
 
-    const sorted = l.sort(this.compareNumbers);
+    const sorted = l.sort(Stats.compareNumbers);
     const len = sorted.length;
     const trimFromEachEnd = Math.ceil(len / 20);
 
@@ -78,14 +78,16 @@ export class Stats {
     if (l == null || l.length === 0) {
       return null;
     }
-    return Math.min.apply(this, l);
+
+    return Math.min.apply(Stats, l);
   }
 
   static worst(l: Milliseconds[] | null): Milliseconds | null {
     if (l == null || l.length === 0) {
       return null;
     }
-    return Math.max.apply(this, l);
+
+    return Math.max.apply(Stats, l);
   }
 
   static timeParts(time: Milliseconds): TimeParts {
@@ -103,7 +105,7 @@ export class Stats {
     }
 
     let secFirstString = "";
-    let secRestString;
+    let secRestString: string | undefined;
     if (hours > 0) {
       secRestString = `${pad(hours, 2)}:${pad(minutes, 2)}:${pad(seconds, 2)}`;
     } else if (minutes > 0) {
@@ -133,7 +135,7 @@ export class Stats {
       return "—";
     }
 
-    const parts = this.timeParts(time);
+    const parts = Stats.timeParts(time);
     let result = `${parts.secFirst + parts.secRest}.${parts.decimals}`;
     if (options?.partial) {
       result = `(${result})`;

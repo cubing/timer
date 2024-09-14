@@ -1,11 +1,13 @@
 @font-face {
   font-family: digital-7-mono;
-  src: url("../resources/vendor/fonts/digital-7/digital-7-mono.ttf") format("truetype");
+  src: url("../resources/vendor/fonts/digital-7/digital-7-mono.ttf")
+    format("truetype");
 }
 
 @font-face {
   font-family: digital-7;
-  src: url("../resources/vendor/fonts/digital-7/digital-7.ttf") format("truetype");
+  src: url("../resources/vendor/fonts/digital-7/digital-7.ttf")
+    format("truetype");
 }
 
 @font-face {
@@ -55,10 +57,10 @@ body {
   color: var(--light-on-dark-color);
 }
 
-.timer-app>.scramble-bar,
-.timer-app>.timer.handOnTimer,
-.timer-app>.timer.stopped,
-.timer-app>.timer.done,
+.timer-app > .scramble-bar,
+.timer-app > .timer.handOnTimer,
+.timer-app > .timer.stopped,
+.timer-app > .timer.done,
 .timer-app .event-select select option,
 .timer-app .stats.received-data {
   background-color: var(--theme-bright-color);
@@ -92,8 +94,16 @@ body {
 
 @media (prefers-color-scheme: dark) {
   .timer-app {
-    --theme-bright-color: color-mix(in oklab, var(--theme-main-color) 60%, black);
-    --theme-background-color: color-mix(in oklab, var(--theme-main-color) 10%, #222);
+    --theme-bright-color: color-mix(
+      in oklab,
+      var(--theme-main-color) 60%,
+      black
+    );
+    --theme-background-color: color-mix(
+      in oklab,
+      var(--theme-main-color) 10%,
+      #222
+    );
   }
 
   .time {
@@ -102,7 +112,6 @@ body {
 }
 
 @supports (width: 100dvw) {
-
   html,
   body {
     width: 100dvw;
@@ -118,12 +127,10 @@ body {
 .timer {
   -webkit-touch-callout: none;
   -webkit-user-select: none;
-  -khtml-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
 }
-
 
 .timer-app {
   /* flex: 3; */
@@ -180,7 +187,7 @@ a#update-bar.hidden {
   align-items: center;
   justify-content: center;
   white-space: nowrap;
-  box-shadow: 0 0 4px rgba(0, 0, 0, .14), 0 4px 8px rgba(0, 0, 0, .28);
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.14), 0 4px 8px rgba(0, 0, 0, 0.28);
   flex-wrap: wrap;
   overflow: hidden;
 }
@@ -190,7 +197,7 @@ a#update-bar.hidden {
   border: 1px solid rgba(0, 0, 0, 0.25);
   padding: 0 0.3em;
   margin: 0.25em 1em;
-  background: rgba(255, 255, 255, .25);
+  background: rgba(255, 255, 255, 0.25);
 }
 
 .event-select .cubing-icon {
@@ -227,11 +234,11 @@ a#update-bar.hidden {
   }
 
   75% {
-    opacity: 1
+    opacity: 1;
   }
 
   100% {
-    opacity: 0.3
+    opacity: 0.3;
   }
 }
 
@@ -243,7 +250,7 @@ a#update-bar.hidden {
 }
 
 .generating {
-  font-size: var(--main-text-size)
+  font-size: var(--main-text-size);
 }
 
 .scramble-text:not(.show-scramble) twisty-alg-viewer {
@@ -276,11 +283,11 @@ twisty-player.dim {
   }
 
   75% {
-    opacity: 0.5
+    opacity: 0.5;
   }
 
   100% {
-    opacity: 0.3
+    opacity: 0.3;
   }
 }
 
@@ -334,7 +341,7 @@ twisty-player.dim {
   justify-content: center;
 }
 
-.time>div {
+.time > div {
   flex: auto;
 }
 
@@ -348,7 +355,7 @@ twisty-player.dim {
   opacity: 0;
 }
 
-@media (max-aspect-ratio: 1/1) {
+@media (max-aspect-ratio: 1 / 1) {
   .time {
     font-size: min(30vh, 60vw);
   }
@@ -362,7 +369,7 @@ twisty-player.dim {
   }
 }
 
-@media (min-aspect-ratio: 1/1) {
+@media (min-aspect-ratio: 1 / 1) {
   .time {
     flex-direction: row;
     align-items: baseline;
@@ -373,7 +380,7 @@ twisty-player.dim {
   }
 }
 
-@media (min-aspect-ratio: 2/1) {
+@media (min-aspect-ratio: 2 / 1) {
   .time {
     font-size: 50vh;
   }
@@ -381,7 +388,7 @@ twisty-player.dim {
 
 .time .sec-first,
 .time .sec-rest {
-  font-family: digital-7;
+  font-family: digital-7 monospace;
 }
 
 .time .spacer {
@@ -415,7 +422,7 @@ twisty-player.dim {
   grid-template-columns: 1fr 3fr 1fr;
 }
 
-.stats .bottom-bar>a {
+.stats .bottom-bar > a {
   height: 100%;
   /* width: 10vh; */
   padding: 0 2vw;
@@ -423,7 +430,7 @@ twisty-player.dim {
   place-content: center;
 }
 
-.stats .bottom-bar>a:hover {
+.stats .bottom-bar > a:hover {
   background: color-mix(in oklab, var(--theme-bright-color) 80%, white);
 }
 
@@ -461,7 +468,11 @@ twisty-player.dim {
 
   text-align: center;
   text-align-last: center;
-  color: color-mix(in oklab, var(--light-on-dark-color) 80%, var(--theme-bright-color));
+  color: color-mix(
+    in oklab,
+    var(--light-on-dark-color) 80%,
+    var(--theme-bright-color)
+  );
 
   transition: background-color 0.5s;
 }
@@ -533,8 +544,7 @@ twisty-player.dim {
     "stats";
 }
 
-@media (min-aspect-ratio: 3/2),
-(min-width: 600px) {
+@media (min-aspect-ratio: 3 / 2), (min-width: 600px) {
   .timer-app {
     grid-template-columns: 2fr minmax(15em, 1fr);
     grid-template-rows: auto 1fr;
@@ -678,7 +688,6 @@ table#attempt-list tbody .material-icon:hover {
   /* box-shadow: 0 0 0.25em 0.25em rgba(255, 255, 255, 0.25); */
 }
 
-
 table#attempt-list td:first-child {
   text-align: right;
 }
@@ -690,7 +699,7 @@ table#attempt-list thead {
 .timer.handOnTimer .time .decimals,
 .timer.stopped .time .decimals,
 .timer.done .time .decimals {
-  opacity: 0.4
+  opacity: 0.4;
 }
 
 .timer-app:not(.prefer-harmonic-mean) .harmonic {

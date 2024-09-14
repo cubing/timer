@@ -1,7 +1,10 @@
 {
   "formatter": {
     "indentStyle": "space",
-    "indentSize": 2
+    "indentWidth": 2,
+    "ignore": [
+      "./src/timer.cubing.net/resources/vendor/cubing-icons/cubing-icons.css"
+    ]
   },
   "linter": {
     "enabled": true,
@@ -17,6 +20,9 @@
         "noNonNullAssertion": "off",
         "noInferrableTypes": "off"
       }
-    }
+    },
+    "ignore": [
+      "./src/timer.cubing.net/resources/vendor/cubing-icons/cubing-icons.css"
+    ]
   }
 }
