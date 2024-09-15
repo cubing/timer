@@ -388,7 +388,7 @@ twisty-player.dim {
 
 .time .sec-first,
 .time .sec-rest {
-  font-family: digital-7 monospace;
+  font-family: digital-7, monospace;
 }
 
 .time .spacer {
