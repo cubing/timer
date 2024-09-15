@@ -1,6 +1,6 @@
 import { View } from "../ui/TimeView";
 import * as WakeLock from "../ui/wake-lock";
-import type { Milliseconds, Timer } from "./Timer";
+import { type Milliseconds, Timer } from "./Timer";
 
 enum State {
   ReadyDown = "ready-down",
