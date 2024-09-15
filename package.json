@@ -22,7 +22,7 @@
     "typescript": "^5.6.2"
   },
   "devDependencies": {
-    "@biomejs/biome": "^1.2.2",
+    "@biomejs/biome": "^1.9.0",
     "@types/chai": "^4.3.6",
     "@types/mocha": "^10.0.1",
     "barely-a-dev-server": "^0.6.0",
