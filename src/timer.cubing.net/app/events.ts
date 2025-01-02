@@ -25,12 +25,15 @@ export const eventOrder: EventID[] = [
   "master_tetraminx",
   "kilominx",
   "redi_cube",
+  "baby_fto",
 ];
 
 export function modifiedEventName(eventID: EventID): string {
   switch (eventID) {
     case "fto":
       return "Face-Turning Octa";
+    case "baby_fto":
+      return "Baby FTO";
     case "master_tetraminx":
       return "Master Tetra";
   }
