@@ -19,8 +19,7 @@ setup:
 	bun install --no-save
 
 .PHONY: test
-test:
-	lint
+test: lint
 
 .PHONY: prepublishOnly
 prepublishOnly: clean test
