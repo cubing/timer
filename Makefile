@@ -1,5 +1,5 @@
 .PHONY: build
-build: clean
+build: clean setup
 	bun run script/build.ts
 
 .PHONY: dev
@@ -32,3 +32,7 @@ deploy: build
 .PHONY: clean
 clean:
 	rm -rf ./dist ./package-lock.json
+
+.PHONY: reset
+reset: clean
+	rm -rf ./node_modules

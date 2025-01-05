@@ -165,14 +165,13 @@ a#update-bar.hidden {
   height: 0;
 }
 
-.scramble-bar,
-.event-select select {
-  /* Would use Roboto, except that primes (') are easier to read in Helvetica. */
-  color: var(--light-on-dark-color);
+.event-select {
+  font-size: var(--main-text-size);
 }
 
-.event-select select {
-  font-size: var(--main-text-size);
+select {
+  font-size: inherit;
+  color: inherit;
 }
 
 .scramble-bar {
