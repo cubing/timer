@@ -12,6 +12,8 @@
   "type": "module",
   "types": "./dist/index.d.ts",
   "dependencies": {
+    "@cubing/icons": "^2.1.0-pre.4",
+    "@fontsource/ubuntu": "^5.1.1",
     "@types/dom-screen-wake-lock": "^1.0.1",
     "@types/pouchdb": "^6.4.0",
     "comlink": "^4.4.1",
@@ -23,9 +25,10 @@
   },
   "devDependencies": {
     "@biomejs/biome": "^1.9.0",
+    "@cubing/deploy": "^0.1.8",
     "@types/chai": "^4.3.6",
     "@types/mocha": "^10.0.1",
-    "barely-a-dev-server": "^0.6.0",
+    "barely-a-dev-server": "^0.7.0",
     "chai": "^4.3.8",
     "esbuild": "^0.19.3",
     "lib": "^5.1.0",
@@ -35,16 +38,11 @@
     "workbox-precaching": "^7.0.0"
   },
   "scripts": {
-    "prepublishOnly": "make dist",
-    "lint": "npx @biomejs/biome check ./script ./src",
-    "format": "npx @biomejs/biome format --write ./script ./src"
+    "build": "make build",
+    "dev": "make dev",
+    "prepublishOnly": "make prepublishOnly"
   },
-  "cache": {
-    "globPatterns": [
-      "**/*.{html,js,css,jpg,png,ttf,ico}"
-    ],
-    "ignoreURLParametersMatching": [
-      ".*"
-    ]
+  "@cubing/deploy": {
+    "https://timer.cubing.net/": {}
   }
 }

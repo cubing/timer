@@ -1,15 +1,8 @@
 import { barelyServe } from "barely-a-dev-server";
+import { barelyServeCommonOptions } from "./barelyServeCommonOptions";
 
-barelyServe({
-  entryRoot: "src/timer.cubing.net",
+await barelyServe({
+  ...barelyServeCommonOptions,
   devDomain: "timer.localhost",
   port: 3334,
-  esbuildOptions: {
-    external: ["crypto"],
-    loader: { ".svg": "copy", ".ico": "copy" },
-    banner: {
-      js: "globalThis.global = globalThis; // Workaround for a `pouch-db` dep. 😕\n",
-    },
-    sourcemap: true,
-  },
 });

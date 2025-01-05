@@ -1,3 +1,6 @@
+@import "@cubing/icons/css";
+@import "@fontsource/ubuntu";
+
 @font-face {
   font-family: digital-7-mono;
   src: url("../resources/vendor/fonts/digital-7/digital-7-mono.ttf")
@@ -8,11 +11,6 @@
   font-family: digital-7;
   src: url("../resources/vendor/fonts/digital-7/digital-7.ttf")
     format("truetype");
-}
-
-@font-face {
-  font-family: "Ubuntu";
-  src: url("../resources/vendor/fonts/ubuntu/Ubuntu-Regular.ttf");
 }
 
 * {

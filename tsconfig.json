@@ -14,7 +14,5 @@
     // TODO: can we re-enable this?
     "skipLibCheck": true
   },
-  "include": [
-    "src"
-  ]
+  "include": ["src"]
 }

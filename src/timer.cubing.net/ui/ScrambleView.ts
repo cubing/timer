@@ -56,8 +56,17 @@ export class ScrambleView {
   setEvent(eventID: EventID) {
     removeClassesStartingWith(this.scrambleText, "event-");
     this.scrambleText.classList.add(`event-${eventID}`);
-    removeClassesStartingWith(this.cubingIcon, "icon-");
-    this.cubingIcon.classList.add(`icon-${eventID}`);
+
+    const iconEventID =
+      {
+        master_tetraminx: "mtetram", // TOOD
+        redi_cube: "redi", // TOOD
+        baby_fto: "pyramorphix", // similar image for now
+      }[eventID] ?? eventID;
+    removeClassesStartingWith(this.cubingIcon, "event-");
+    removeClassesStartingWith(this.cubingIcon, "unofficial-");
+    this.cubingIcon.classList.add(`event-${iconEventID}`);
+    this.cubingIcon.classList.add(`unofficial-${iconEventID}`);
     if (
       this.eventSelectDropdown.value !== eventID &&
       this.optionElementsByEventID[eventID]
