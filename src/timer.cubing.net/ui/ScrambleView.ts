@@ -61,7 +61,6 @@ export class ScrambleView {
       {
         master_tetraminx: "mtetram", // TOOD
         redi_cube: "redi", // TOOD
-        baby_fto: "pyramorphix", // similar image for now
       }[eventID] ?? eventID;
     removeClassesStartingWith(this.cubingIcon, "event-");
     removeClassesStartingWith(this.cubingIcon, "unofficial-");

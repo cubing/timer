@@ -12,7 +12,7 @@
   "type": "module",
   "types": "./dist/index.d.ts",
   "dependencies": {
-    "@cubing/icons": "^2.1.0-pre.4",
+    "@cubing/icons": "link:@cubing/icons",
     "@fontsource/ubuntu": "^5.1.1",
     "@types/dom-screen-wake-lock": "^1.0.1",
     "@types/pouchdb": "^6.4.0",
