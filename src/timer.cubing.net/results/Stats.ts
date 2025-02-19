@@ -107,7 +107,7 @@ export class Stats {
     let secFirstString = "";
     let secRestString: string | undefined;
     if (hours > 0) {
-      secRestString = `${pad(hours, 2)}:${pad(minutes, 2)}:${pad(seconds, 2)}`;
+      secRestString = `${hours}:${pad(minutes, 2)}:${pad(seconds, 2)}`;
     } else if (minutes > 0) {
       secRestString = `${minutes}:${pad(seconds, 2)}`;
     } else {
