@@ -17,7 +17,7 @@
     "@types/dom-screen-wake-lock": "^1.0.1",
     "@types/pouchdb": "^6.4.0",
     "comlink": "^4.4.1",
-    "cubing": "v0.54.1",
+    "cubing": "v0.54.3",
     "events": "^3.3.0",
     "pouchdb": "^8.0.1",
     "pouchdb-find": "^8.0.1",
