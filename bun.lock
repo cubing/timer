@@ -9,7 +9,7 @@
         "@types/dom-screen-wake-lock": "^1.0.1",
         "@types/pouchdb": "^6.4.0",
         "comlink": "^4.4.1",
-        "cubing": "v0.54.3",
+        "cubing": "^0.57.4",
         "events": "^3.3.0",
         "pouchdb": "^8.0.1",
         "pouchdb-find": "^8.0.1",
@@ -510,7 +510,7 @@
 
     "crypto-random-string": ["crypto-random-string@2.0.0", "", {}, "sha512-v1plID3y9r/lPhviJ1wrXpLeyUIGAZ2SHNYTEapm7/8A9nLPoyvVp3RK/EPFqn5kEznyWgYZNsRtYYIWbuG8KA=="],
 
-    "cubing": ["cubing@0.54.3", "", { "dependencies": { "@types/three": "^0.169.0", "@types/web-bluetooth": "^0.0.20", "cmd-ts-too": "^0.15.3", "comlink": "^4.4.1", "random-uint-below": "v3.3.0", "three": "^0.170.0" }, "bin": { "scramble": "dist/bin/scramble.js" } }, "sha512-hXtchE2R/JyTn9cPqsLqdiinQlSgB/9Mz6EoRn7eSAKLicX+iS5DYom9315j1jhSfCkyRgWgCWvmpLf/IIyrng=="],
+    "cubing": ["cubing@0.57.4", "", { "dependencies": { "@types/three": "^0.169.0", "@types/web-bluetooth": "^0.0.20", "cmd-ts-too": "^0.15.3", "comlink": "^4.4.1", "random-uint-below": "v3.3.0", "three": "^0.170.0" }, "bin": { "scramble": "dist/bin/scramble.js" } }, "sha512-0l7xNjNIFeqVnTvoej0JIWRk9jQvhWt+Ukz33jEHTkRivkyye0wqK0Xyid4BvTHKnTcbSxQHNuJ2GAnkja7U0Q=="],
 
     "debug": ["debug@4.3.4", "", { "dependencies": { "ms": "2.1.2" } }, "sha512-PRWFHuSU3eDtQJPvnNY7Jcket1j0t5OuOsFzPPzsekD52Zl8qUfFIPEiswXqIvHWGVHOgX+7G/vCNNhehwxfkQ=="],
 
