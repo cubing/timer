@@ -12,7 +12,7 @@ enum State {
   Ignore = "ignore",
 }
 
-type TransitionMap = Partial<Record<State, State>>;
+type TransitionMap = Record<State, State>;
 
 export class Controller {
   private timer: Timer;
@@ -81,6 +81,7 @@ export class Controller {
       [State.Running]: State.Stopped,
       [State.Stopped]: State.Ignore,
       [State.Done]: State.ReadyDown,
+      [State.Ignore]: State.Ignore,
     };
     this.setState(transitionMap[this.state]);
   }
@@ -93,6 +94,7 @@ export class Controller {
       [State.Running]: State.Ignore,
       [State.Stopped]: State.Done,
       [State.Done]: State.Ignore,
+      [State.Ignore]: State.Ignore,
     };
     this.setState(transitionMap[this.state]);
   }
