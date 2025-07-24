@@ -3,10 +3,6 @@ import type { AttemptDataWithIDAndRev } from "../results/AttemptData";
 // import {ScrambleID} from "./scramble-worker"
 import { trForAttempt } from "./results-table";
 
-// WebSafari (WebKit) doesn't center text in `<select>`'s `<option>` tags: https://bugs.webkit.org/show_bug.cgi?id=40216
-// We detect Safari based on https://stackoverflow.com/a/23522755 so we can do an ugly workaround (manually adding padding using spaces) below.
-const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
-
 type FormattedStats = {
   mean3: string;
   avg5: string;
@@ -127,13 +123,7 @@ export class StatsView {
       ].map((s) => s.length),
     );
     function setStat(elem: HTMLOptionElement, s: string): void {
-      let spacing = "";
-      if (isSafari) {
-        for (let i = 0; i < (maxLen - s.length) * 0.75; i++) {
-          spacing += "&nbsp;";
-        }
-      }
-      elem.innerHTML = spacing;
+      elem.textContent = "";
       elem.appendChild(document.createTextNode(s));
     }
 
