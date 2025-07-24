@@ -16,7 +16,7 @@ type TransitionMap = Record<State, State>;
 
 export class Controller {
   private timer: Timer;
-  // @ts-ignore: This is initialized but TypeScript is not powerful enough to tell.
+  // @ts-ignore: This is initialized unconditionally by the constructor but TypeScript is not powerful enough to tell.
   private state: State;
   constructor(
     private domElement: HTMLElement,
