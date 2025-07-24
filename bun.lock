@@ -18,6 +18,7 @@
       "devDependencies": {
         "@biomejs/biome": "^2.1.2",
         "@cubing/deploy": "^0.2.2",
+        "@cubing/dev-config": "^0.3.6",
         "@types/chai": "^5.2.2",
         "@types/mocha": "^10.0.10",
         "barely-a-dev-server": "^0.8.1",

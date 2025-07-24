@@ -1,5 +1,5 @@
 import type { EventID } from "../app/events";
-import type { UUID, newDateUUID } from "./uuid";
+import type { UUID } from "./uuid";
 
 type AttemptUUID = UUID;
 type AlgString = string;

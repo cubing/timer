@@ -1,9 +1,7 @@
 import "cubing/twisty";
-import { TimerApp } from "./app/TimerApp";
 
 import { Workbox } from "workbox-window";
-
-const SW_CACHE_FILE = "./sw.js";
+import { TimerApp } from "./app/TimerApp";
 
 // biome-ignore lint/suspicious/noExplicitAny: Just a quick global assignment.
 (window as any).app = new TimerApp();
@@ -12,7 +10,7 @@ const SW_CACHE_FILE = "./sw.js";
 if (location.hostname.split(".").slice(-1)[0] !== "localhost") {
   window.addEventListener("load", () => {
     const wb = new Workbox(new URL("./sw.js", import.meta.url).href);
-    wb.addEventListener("waiting", (event) => {
+    wb.addEventListener("waiting", (_event) => {
       wb.messageSkipWaiting();
     });
     wb.register();

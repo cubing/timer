@@ -26,7 +26,7 @@ export function allDocsResponseToTimes(
 
 export class TimerSession {
   public db: PouchDB.Database<AttemptData>;
-  public remoteDB: PouchDB.Database<AttemptData>;
+  public remoteDB: PouchDB.Database<AttemptData> | undefined;
   constructor(name: string = "session") {
     this.db = new PouchDB(`session_${name}`);
     this.db.createIndex({
@@ -37,7 +37,7 @@ export class TimerSession {
   startSync(
     onSyncChange: (change: PouchDB.Replication.SyncResult<AttemptData>) => void,
   ): void {
-    if (!localStorage.pouchDBUsername || !localStorage.pouchDBPassword) {
+    if (!localStorage["pouchDBUsername"] || !localStorage["pouchDBPassword"]) {
       console.info("No CouchDB user!");
       return;
     }
@@ -48,9 +48,9 @@ export class TimerSession {
     // - Validate username/password.
     // - auth using e.g. cookies
     const url = new URL("https://couchdb.api.cubing.net/");
-    url.username = localStorage.pouchDBUsername;
-    url.password = localStorage.pouchDBPassword;
-    url.pathname = `results-${localStorage.pouchDBUsername}`;
+    url.username = localStorage["pouchDBUsername"];
+    url.password = localStorage["pouchDBPassword"];
+    url.pathname = `results-${localStorage["pouchDBUsername"]}`;
 
     this.remoteDB = new PouchDB(url.toString());
     this.db

@@ -12,6 +12,8 @@ import { playIcon, trashIcon } from "./material-icons";
 export const MAX_NUM_RECENT_ATTEMPTS = 100;
 
 const session = new TimerSession();
+// @ts-ignore
+// biome-ignore lint/correctness/noUnusedVariables: TODO: this assignment is meant to be shared with a different file.
 let justRemoved: string;
 
 function tdWithContent(content?: string): HTMLTableDataCellElement {
@@ -29,7 +31,7 @@ function scrambleTD(
     let algo: null | Alg = null;
     try {
       algo = Alg.fromString(attemptData.scramble);
-    } catch (e) {
+    } catch {
       const button = document.createElement("button");
       button.textContent = "🔀";
       button.addEventListener("click", () => {
@@ -52,17 +54,18 @@ function scrambleTD(
 function solutionTD(attemptData: AttemptData): HTMLTableDataCellElement {
   const solutionTD = document.createElement("td");
   try {
-    let title = `${Stats.formatTime(attemptData.totalResultMs)}s`;
-    if (attemptData.event) {
-      // TODO: Use `eventMetadata[attemptData.event].name` once scaping works properly.
-      title += `\n${attemptData.event}`;
-    }
-    if (localStorage.pouchDBUsername) {
-      title += `\n${localStorage.pouchDBUsername}`;
-    }
-    if (attemptData.unixDate) {
-      title += `\n${formatUnixDate(attemptData.unixDate)}`;
-    }
+    // TODO: use `title`
+    // let title = `${Stats.formatTime(attemptData.totalResultMs)}s`;
+    // if (attemptData.event) {
+    //   // TODO: Use `eventMetadata[attemptData.event].name` once scaping works properly.
+    //   title += `\n${attemptData.event}`;
+    // }
+    // if (localStorage.pouchDBUsername) {
+    //   title += `\n${localStorage.pouchDBUsername}`;
+    // }
+    // if (attemptData.unixDate) {
+    //   title += `\n${formatUnixDate(attemptData.unixDate)}`;
+    // }
     if (attemptData.solution) {
       const scrambleLink = document.createElement("a");
       scrambleLink.href = linkForAttempt(attemptData);

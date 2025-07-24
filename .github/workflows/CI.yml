@@ -24,5 +24,6 @@ jobs:
         with:
           bun-version: latest
       - run: make setup
-      - run: make test
+      - run: make lint-biome
+      - run: make lint-tsc
       - run: make clean

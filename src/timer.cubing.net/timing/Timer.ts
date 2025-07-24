@@ -3,7 +3,7 @@ export type Milliseconds = number;
 export class Timer {
   private running: boolean = false;
   private animFrameBound: () => void;
-  private startTime: number;
+  private startTime: number = Math.floor(performance.now());
   constructor(private currentTimeCallback: (t: Milliseconds) => void) {
     this.animFrameBound = this.animFrame.bind(this);
   }

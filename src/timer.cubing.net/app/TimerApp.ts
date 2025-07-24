@@ -6,7 +6,7 @@ import type {
   AttemptDataWithIDAndRev,
 } from "../results/AttemptData";
 import { Stats } from "../results/Stats";
-import { TimerSession, allDocsResponseToTimes } from "../results/TimerSession";
+import { TimerSession } from "../results/TimerSession";
 import { Controller } from "../timing/Controller";
 import type { Milliseconds } from "../timing/Timer";
 import { ScrambleView, type ScrambleWithEvent } from "../ui/ScrambleView";
@@ -36,27 +36,24 @@ const favicons: { [s: string]: string } = {
 // TODO: Import this from "./scramble-worker"
 export type ScrambleID = number;
 
-const STORED_EVENT_TIMEOUT_MS = 15 * 60 * 1000;
 const LATEST_AMOUNT = 100;
 
 export class TimerApp {
   private scrambleView: ScrambleView;
   private statsView: StatsView;
   private domElement: HTMLElement;
-  private currentEvent: EventID;
+  private currentEvent: EventID = "333"; // TODO: are there any issues with a default value here?
   private controller: Controller;
-  private awaitedScrambleID: ScrambleID;
-  private currentScramble: ScrambleWithEvent;
+  private awaitedScrambleID: ScrambleID | undefined;
+  private currentScramble: ScrambleWithEvent | undefined;
   private session = new TimerSession();
-  private remoteDB: PouchDB.Database<AttemptData>;
+  // private remoteDB: PouchDB.Database<AttemptData>;
 
-  private cachedBest: number | null = null;
-  private cachedWorst: number | null = null;
   constructor() {
     this.session.startSync(this.onSyncChange.bind(this));
 
     this.scrambleView = new ScrambleView(this);
-    this.statsView = new StatsView(() => this.currentEvent);
+    this.statsView = new StatsView();
     this.domElement = <HTMLElement>document.getElementById("timer-app");
 
     this.enableOffline();
@@ -103,18 +100,21 @@ export class TimerApp {
     // }, 750);
   }
 
-  private async getTimes(): Promise<Milliseconds[]> {
-    const docs0 = await this.session.mostRecentAttemptsForEvent(
-      this.currentEvent,
-      LATEST_AMOUNT,
-    );
-    console.log(docs0);
-    const docs = await this.session.db.allDocs({
-      // descending: true,
-      include_docs: true,
-    });
-    return allDocsResponseToTimes(docs);
-  }
+  // private async getTimes(): Promise<Milliseconds[]> {
+  //   if (!this.currentEvent) {
+  //     return [];
+  //   }
+  //   const docs0 = await this.session.mostRecentAttemptsForEvent(
+  //     this.currentEvent,
+  //     LATEST_AMOUNT,
+  //   );
+  //   console.log(docs0);
+  //   const docs = await this.session.db.allDocs({
+  //     // descending: true,
+  //     include_docs: true,
+  //   });
+  //   return allDocsResponseToTimes(docs);
+  // }
 
   // Prevent a timer tap from scrolling the whole page on touch screens.
   private onTouchMove(e: Event) {
@@ -127,7 +127,7 @@ export class TimerApp {
   }
 
   private enableOffline() {
-    const infoBar = document.getElementById("update-bar");
+    // const infoBar = document.getElementById("update-bar");
   }
 
   private setInitialEvent() {
@@ -238,8 +238,8 @@ export class TimerApp {
       event: this.currentEvent,
       scramble: this.currentScramble?.scramble?.toString() ?? "",
     };
-    if (localStorage.pouchDBDeviceName) {
-      attemptData.device = localStorage.pouchDBDeviceName;
+    if (localStorage["pouchDBDeviceName"]) {
+      attemptData.device = localStorage["pouchDBDeviceName"];
     }
     await this.session.addNewAttempt(attemptData);
   }
@@ -253,7 +253,7 @@ export class TimerApp {
     ).docs.reverse();
   }
 
-  async updateDisplayStats(assumeAttemptAppended: boolean = false) {
+  async updateDisplayStats(_assumeAttemptAppended: boolean = false) {
     const attempts = await this.latest();
     const times = attempts.map((attempt) => attempt.totalResultMs);
     const numAttempts = (await this.session.db.info()).doc_count - 1;

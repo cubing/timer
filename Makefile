@@ -11,8 +11,15 @@ format: setup
 	bun x @biomejs/biome check --write
 
 .PHONY: lint
-lint: setup
+lint: lint-biome lint-tsc
+
+.PHONY: lint-biome
+lint-biome: setup
 	bun x @biomejs/biome check
+
+.PHONY: lint-tsc
+lint-tsc: setup
+	bun x tsc --noEmit --project .
 
 .PHONY: setup
 setup:

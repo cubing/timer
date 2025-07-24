@@ -2,8 +2,8 @@
 import { Alg } from "cubing/alg";
 import { eventInfo } from "cubing/puzzles";
 import type { TwistyPlayer } from "cubing/twisty";
-import type { TimerApp } from "../app/TimerApp";
 import { type EventID, eventOrder, modifiedEventName } from "../app/events";
+import type { TimerApp } from "../app/TimerApp";
 import { removeClassesStartingWith } from "./ui-util";
 
 export type ScrambleWithEvent = {
@@ -12,7 +12,6 @@ export type ScrambleWithEvent = {
 };
 
 export class ScrambleView {
-  private scrambleElement: HTMLElement;
   private eventSelectDropdown: HTMLSelectElement;
   private cubingIcon: HTMLElement;
   private scrambleText = document.querySelector(
@@ -22,9 +21,10 @@ export class ScrambleView {
   private twistyPlayer = document.querySelector(
     "#scramble-display twisty-player",
   ) as TwistyPlayer;
-  private optionElementsByEventID: { [s: string]: HTMLOptionElement };
+  private optionElementsByEventID:
+    | { [s: string]: HTMLOptionElement }
+    | undefined;
   constructor(private timerApp: TimerApp) {
-    this.scrambleElement = <HTMLElement>document.getElementById("scramble-bar");
     this.eventSelectDropdown = <HTMLSelectElement>(
       document.getElementById("event-select-dropdown")
     );
@@ -68,7 +68,7 @@ export class ScrambleView {
     this.cubingIcon.classList.add(`unofficial-${iconEventID}`);
     if (
       this.eventSelectDropdown.value !== eventID &&
-      this.optionElementsByEventID[eventID]
+      this.optionElementsByEventID?.[eventID]
     ) {
       this.optionElementsByEventID[eventID].selected = true;
     }

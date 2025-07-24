@@ -1,4 +1,5 @@
 import { Stats } from "../results/Stats";
+
 const THIN_CHARS = "1:";
 
 export class View {

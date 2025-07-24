@@ -8,29 +8,29 @@ import type {
   AttemptData,
   AttemptDataWithIDAndRev,
 } from "../results/AttemptData";
-import { TimerSession } from "../results/TimerSession";
 import { convertToCSTimerFormat } from "../results/compat/cstimer";
 import { downloadFile } from "../results/compat/download";
 import { convertToQQTimerFormat } from "../results/compat/qqtimer";
+import { TimerSession } from "../results/TimerSession";
 import { MAX_NUM_RECENT_ATTEMPTS, trForAttempt } from "./results-table";
 
 const session = new TimerSession();
-let justRemoved: string;
 
 function onSyncChange(
-  change: PouchDB.Replication.SyncResult<AttemptData>,
+  _change: PouchDB.Replication.SyncResult<AttemptData>,
 ): void {
   // We've only implemented full table reload (no DOM diffing). This is a hack to avoid doing that if we only removed a doc locally.
-  if (
-    !(
-      change.change.docs.length === 1 &&
-      change.change.docs[0]._id === justRemoved
-    )
-  ) {
-    showData();
-  } else {
-    ("known!");
-  }
+  // TODO: fix this.
+  // if (
+  //   !(
+  //     // TODO
+  //     (change.change.docs.length === 1)
+  //   )
+  // ) {
+  showData();
+  // } else {
+  //   ("known!");
+  // }
 }
 
 function getEventID(): EventID {

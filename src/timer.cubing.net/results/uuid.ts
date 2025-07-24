@@ -1,6 +1,6 @@
 export type UUID = string;
 
-function bufferToHex(buffer: ArrayBuffer): string {
+function bufferToHex(buffer: ArrayBuffer | Uint8Array): string {
   const uint8Array = new Uint8Array(buffer);
   return Array.prototype.slice
     .call(uint8Array)

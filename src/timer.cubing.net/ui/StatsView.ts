@@ -1,4 +1,5 @@
-import type { EventID } from "../app/events";
+/** biome-ignore-all lint/complexity/useLiteralKeys: Known Biome limitation. */
+
 import type { AttemptDataWithIDAndRev } from "../results/AttemptData";
 // import {ScrambleID} from "./scramble-worker"
 import { trForAttempt } from "./results-table";
@@ -21,7 +22,7 @@ export class StatsView {
   private statsDropdown: HTMLSelectElement;
   private elems: { [s: string]: HTMLOptionElement };
   private sidebarElems: { [s: string]: HTMLOptionElement };
-  constructor(private getCurrentEvent: () => EventID) {
+  constructor() {
     this.statsDropdown = <HTMLSelectElement>(
       document.getElementById("stats-dropdown")
     );
@@ -97,31 +98,28 @@ export class StatsView {
       this.elems[storedCurrentStat].selected = true;
     }
 
-    this.statsDropdown.addEventListener(
-      "change",
-      function () {
-        localStorage.setItem("current-stat", this.statsDropdown.value);
-        this.statsDropdown.blur();
-      }.bind(this),
-    );
+    this.statsDropdown.addEventListener("change", () => {
+      localStorage.setItem("current-stat", this.statsDropdown.value);
+      this.statsDropdown.blur();
+    });
   }
 
   setStats(stats: FormattedStats, attempts: AttemptDataWithIDAndRev[]) {
-    const maxLen = Math.max(
-      ...[
-        `μ3: ${stats.mean3}`,
-        `⌀5: ${stats.avg5}`,
-        `⌀12: ${stats.avg12}`,
-        `⌀100: ${stats.avg100}`,
-        `ℏ3: ${stats.rate3}`,
-        `ℏ5: ${stats.rate5}`,
-        `ℏ12: ${stats.rate12}`,
-        `ℏ100: ${stats.rate100}`,
-        `best: ${stats.best}`,
-        `worst: ${stats.worst}`,
-        `DB size: ${stats.numAttempts}`,
-      ].map((s) => s.length),
-    );
+    // const maxLen = Math.max(
+    //   ...[
+    //     `μ3: ${stats.mean3}`,
+    //     `⌀5: ${stats.avg5}`,
+    //     `⌀12: ${stats.avg12}`,
+    //     `⌀100: ${stats.avg100}`,
+    //     `ℏ3: ${stats.rate3}`,
+    //     `ℏ5: ${stats.rate5}`,
+    //     `ℏ12: ${stats.rate12}`,
+    //     `ℏ100: ${stats.rate100}`,
+    //     `best: ${stats.best}`,
+    //     `worst: ${stats.worst}`,
+    //     `DB size: ${stats.numAttempts}`,
+    //   ].map((s) => s.length),
+    // );
     function setStat(elem: HTMLOptionElement, s: string): void {
       elem.textContent = "";
       elem.appendChild(document.createTextNode(s));
