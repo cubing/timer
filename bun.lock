@@ -9,7 +9,7 @@
         "@types/dom-screen-wake-lock": "^1.0.3",
         "@types/pouchdb": "^6.4.2",
         "comlink": "^4.4.2",
-        "cubing": "^0.57.4",
+        "cubing": "^0.58.1",
         "events": "^3.3.0",
         "pouchdb": "^9.0.0",
         "pouchdb-find": "^9.0.0",
@@ -523,7 +523,7 @@
 
     "csstype": ["csstype@3.1.3", "", {}, "sha512-M1uQkMl8rQK/szD0LNhtqxIPLpimGm8sOBwU7lLnCpSbTyY3yeU1Vc7l4KT5zT4s/yOxHH5O7tIuuLOCnLADRw=="],
 
-    "cubing": ["cubing@0.57.4", "", { "dependencies": { "@types/three": "^0.169.0", "@types/web-bluetooth": "^0.0.20", "cmd-ts-too": "^0.15.3", "comlink": "^4.4.1", "random-uint-below": "v3.3.0", "three": "^0.170.0" }, "bin": { "scramble": "dist/bin/scramble.js" } }, "sha512-0l7xNjNIFeqVnTvoej0JIWRk9jQvhWt+Ukz33jEHTkRivkyye0wqK0Xyid4BvTHKnTcbSxQHNuJ2GAnkja7U0Q=="],
+    "cubing": ["cubing@0.58.1", "", { "dependencies": { "@types/three": "^0.169.0", "@types/web-bluetooth": "^0.0.20", "cmd-ts-too": "^0.15.3", "comlink": "^4.4.1", "random-uint-below": "v3.3.0", "three": "^0.170.0" }, "bin": { "scramble": "dist/bin/scramble.js" } }, "sha512-PNU+27eI61cWpe6uDOnhhKXD6R/MgDb8Mjk09tAPNBD78ckC2e4KKRVU30oM+0irifS71r2KSdgxCxod22ulog=="],
 
     "debug": ["debug@4.4.0", "", { "dependencies": { "ms": "^2.1.3" } }, "sha512-6WTZ/IxCY/T6BALoZHaE4ctp9xm+Z5kY/pzYaCHRFeyVhojxlrm+46y68HA6hr0TcwEssoxNiDEUJQjfPZ/RYA=="],
 
@@ -1158,8 +1158,6 @@
     "cmd-ts-too/chalk": ["chalk@5.4.1", "", {}, "sha512-zgVZuo2WcZgfUEmsn6eO3kINexW8RAE4maiQ8QNs8CtpPCSyMiYsULR3HQYkm3w8FIA3SberyMJMSldGsW+U3w=="],
 
     "core-js-compat/browserslist": ["browserslist@4.21.11", "", { "dependencies": { "caniuse-lite": "^1.0.30001538", "electron-to-chromium": "^1.4.526", "node-releases": "^2.0.13", "update-browserslist-db": "^1.0.13" }, "bin": { "browserslist": "cli.js" } }, "sha512-xn1UXOKUz7DjdGlg9RrUr0GGiWzI97UQJnugHtH0OLDfJB7jMgoIkYvRIEO1l9EeEERVqeqLYOcFBW9ldjypbQ=="],
-
-    "cubing/comlink": ["comlink@4.4.1", "", {}, "sha512-+1dlx0aY5Jo1vHy/tSsIGpSkN4tS9rZSW8FIhG0JH/crs9wwweswIo/POr451r7bZww3hFbPAKnTpimzL/mm4Q=="],
 
     "deferred-leveldown/abstract-leveldown": ["abstract-leveldown@6.2.3", "", { "dependencies": { "buffer": "^5.5.0", "immediate": "^3.2.3", "level-concat-iterator": "~2.0.0", "level-supports": "~1.0.0", "xtend": "~4.0.0" } }, "sha512-BsLm5vFMRUrrLeCcRc+G0t2qOaTzpoJQLOubq2XM72eNpjF5UdU5o/5NvlNhx95XHcAvcl8OMXr4mlg/fRgUXQ=="],
 
