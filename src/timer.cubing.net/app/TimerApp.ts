@@ -231,7 +231,7 @@ export class TimerApp {
     await this.updateDisplayStats(true);
   }
 
-  // biome-ignore lint/correctness/noUnusedPrivateClassMembers: Used to deduplicate
+  // biome-ignore lint/correctness/noUnusedPrivateClassMembers: False positive: https://github.com/biomejs/biome/issues/7192
   #persistenceRequest: Promise<boolean> | undefined;
   private async persistResult(time: Milliseconds): Promise<void> {
     const attemptData: AttemptData = {
@@ -244,6 +244,10 @@ export class TimerApp {
       attemptData.device = localStorage["pouchDBDeviceName"];
     }
     await this.session.addNewAttempt(attemptData);
+    // This is probably the clearest time that we can signal to the browser that
+    // persistent storage is warranted. Note that this may or may not result in
+    // a request shown to the user, and may or may not be granted in either
+    // case.
     this.#persistenceRequest ??= navigator.storage.persist();
   }
 
