@@ -231,6 +231,8 @@ export class TimerApp {
     await this.updateDisplayStats(true);
   }
 
+  // biome-ignore lint/correctness/noUnusedPrivateClassMembers: Used to deduplicate
+  #persistenceRequest: Promise<boolean> | undefined;
   private async persistResult(time: Milliseconds): Promise<void> {
     const attemptData: AttemptData = {
       totalResultMs: time,
@@ -242,6 +244,7 @@ export class TimerApp {
       attemptData.device = localStorage["pouchDBDeviceName"];
     }
     await this.session.addNewAttempt(attemptData);
+    this.#persistenceRequest ??= navigator.storage.persist();
   }
 
   private async latest(): Promise<AttemptDataWithIDAndRev[]> {
