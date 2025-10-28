@@ -1,3 +1,7 @@
+import { setSearchDebug } from "cubing/search";
+
+setSearchDebug({ prioritizeEsbuildWorkaroundForWorkerInstantiation: true });
+
 import "cubing/twisty";
 
 import { Workbox } from "workbox-window";
