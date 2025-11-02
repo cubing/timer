@@ -12,9 +12,7 @@ import { playIcon, trashIcon } from "./material-icons";
 export const MAX_NUM_RECENT_ATTEMPTS = 100;
 
 const session = new TimerSession();
-// @ts-ignore
-// biome-ignore lint/correctness/noUnusedVariables: TODO: this assignment is meant to be shared with a different file.
-let justRemoved: string;
+// let justRemoved: string;
 
 function tdWithContent(content?: string): HTMLTableDataCellElement {
   const td = document.createElement("td");
@@ -135,7 +133,7 @@ function trashTD(attempt: AttemptDataWithIDAndRev): HTMLTableDataCellElement {
     trashButton.parentNode!.parentNode!.parentNode!.removeChild(
       trashButton.parentNode!.parentNode!,
     );
-    justRemoved = attempt._id;
+    // justRemoved = attempt._id;
   });
   scrambleTD.appendChild(trashButton);
   return scrambleTD;

@@ -314,8 +314,8 @@ twisty-player.dim {
 
 .scramble-text.event-minx {
   font-family: monospace;
-  text-align: start !important;
-  text-align-last: start !important;
+  text-align: start;
+  text-align-last: start;
 }
 
 .timer {
@@ -630,6 +630,10 @@ twisty-player {
 
 .stats-summary table td:nth-child(2) {
   color: white;
+
+  &.partial {
+    color: unset;
+  }
 }
 
 .stats-summary table {
@@ -714,8 +718,4 @@ table#attempt-list thead {
 
 .h-bar {
   line-height: 0.5em;
-}
-
-.stats-summary .partial {
-  color: unset !important;
 }

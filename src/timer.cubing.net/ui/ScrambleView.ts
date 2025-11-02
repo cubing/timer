@@ -98,7 +98,7 @@ export class ScrambleView {
     this.twistyPlayer.classList.remove("dim");
     this.scrambleTwistyAlgViewer.textContent = scrambleString; // TODO: animation
 
-    this.twistyPlayer.puzzle = eventInfo(scrambleWithEvent.eventID)?.puzzleID!;
+    this.twistyPlayer.puzzle = eventInfo(scrambleWithEvent.eventID)!.puzzleID;
     this.twistyPlayer.alg = scrambleWithEvent.scramble ?? new Alg();
     this.twistyPlayer.timestamp = "end";
     this.twistyPlayer.animate([{ opacity: 0.25 }, { opacity: 1 }], {
