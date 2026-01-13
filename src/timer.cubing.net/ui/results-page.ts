@@ -82,8 +82,16 @@ function addEventIDOptions(): void {
   }
 }
 
+function backURL(event: EventID): URL {
+  const url = new URL("../", import.meta.url);
+  url.searchParams.set("event", event);
+  return url;
+}
+
 export async function showData(): Promise<void> {
-  const eventId = getEventID();
+  const eventID = getEventID();
+  document.querySelector<HTMLAnchorElement>("#back-to-timer")!.href =
+    backURL(eventID).toString();
   const rangeSelector = getRangeSelector();
 
   const tableBody = document.querySelector("#results tbody") as HTMLBodyElement;
@@ -96,7 +104,7 @@ export async function showData(): Promise<void> {
       unfilteredAttempts = (
         await session.mostRecentAttempts(
           MAX_NUM_RECENT_ATTEMPTS,
-          eventId as EventID,
+          eventID as EventID,
           rangeSelector === "most-recent",
         )
       ).docs;
@@ -108,7 +116,7 @@ export async function showData(): Promise<void> {
       unfilteredAttempts = await session.extremeTimes(
         MAX_NUM_RECENT_ATTEMPTS,
         rangeSelector === "worst",
-        eventId as EventID,
+        eventID as EventID,
       );
       break;
     }
@@ -116,7 +124,7 @@ export async function showData(): Promise<void> {
       throw new Error("unexpected range selector");
   }
   const attempts = unfilteredAttempts.filter(
-    (attempt: AttemptData) => attempt.event === eventId,
+    (attempt: AttemptData) => attempt.event === eventID,
   );
   for (const attempt of attempts) {
     if (!attempt.totalResultMs) {

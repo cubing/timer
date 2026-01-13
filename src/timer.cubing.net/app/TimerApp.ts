@@ -53,7 +53,7 @@ export class TimerApp {
     this.session.startSync(this.onSyncChange.bind(this));
 
     this.scrambleView = new ScrambleView(this);
-    this.statsView = new StatsView();
+    this.statsView = new StatsView(() => this.currentEvent);
     this.domElement = <HTMLElement>document.getElementById("timer-app");
 
     this.enableOffline();

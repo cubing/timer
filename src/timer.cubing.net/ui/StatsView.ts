@@ -1,5 +1,6 @@
 /** biome-ignore-all lint/complexity/useLiteralKeys: Known Biome limitation. */
 
+import type { EventID } from "../app/events";
 import type { AttemptDataWithIDAndRev } from "../results/AttemptData";
 // import {ScrambleID} from "./scramble-worker"
 import { trForAttempt } from "./results-table";
@@ -22,7 +23,7 @@ export class StatsView {
   private statsDropdown: HTMLSelectElement;
   private elems: { [s: string]: HTMLOptionElement };
   private sidebarElems: { [s: string]: HTMLOptionElement };
-  constructor() {
+  constructor(getCurrentEvent: () => EventID) {
     this.statsDropdown = <HTMLSelectElement>(
       document.getElementById("stats-dropdown")
     );
@@ -81,12 +82,10 @@ export class StatsView {
     );
     for (const resultsLink of [...resultsLinks]) {
       resultsLink.addEventListener("click", (e: Event) => {
+        const url = new URL(resultsLink.href);
+        url.searchParams.set("event", getCurrentEvent());
+        window.location.href = url.toString();
         e.preventDefault();
-        window.location.href = resultsLink.href;
-        // Don't set event for now.
-        // const url = new URL(resultsLink.href);
-        // url.searchParams.set("event", getCurrentEvent())
-        // window.location.href = url.toString();
       });
     }
   }
