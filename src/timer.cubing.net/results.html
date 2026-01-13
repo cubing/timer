@@ -6,7 +6,27 @@
 
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-title" content="Timer 🛠 | Results">
-  <meta name="viewport" content="initial-scale=0.75">
+  <!-- From: https://github.com/lgarron/minimal-html-style (v1.0.0) -->
+  <style>
+    :root {
+      color-scheme: light dark;
+    }
+
+    html {
+      font-family: -apple-system, Roboto, Ubuntu, Tahoma, sans-serif;
+      font-size: 1.25rem;
+      padding: 2em;
+      display: grid;
+      justify-content: center;
+    }
+
+    body {
+      width: 100%;
+      max-width: 40em;
+      margin: 0;
+      overflow: scroll;
+    }
+  </style>
   <title>Timer 🛠 | Results</title>
   <script src="./ui/results-page.js" href="./ui/results-page.ts" type="module"></script>
   <style>
