@@ -10,7 +10,7 @@
         "@types/dom-screen-wake-lock": "^1.0.3",
         "@types/pouchdb": "^6.4.2",
         "comlink": "^4.4.2",
-        "cubing": ">=0.62.2",
+        "cubing": ">=0.63.0",
         "events": "^3.3.0",
         "pouchdb": "^9.0.0",
         "pouchdb-find": "^9.0.0",
@@ -527,7 +527,7 @@
 
     "csstype": ["csstype@3.1.3", "", {}, "sha512-M1uQkMl8rQK/szD0LNhtqxIPLpimGm8sOBwU7lLnCpSbTyY3yeU1Vc7l4KT5zT4s/yOxHH5O7tIuuLOCnLADRw=="],
 
-    "cubing": ["cubing@0.62.2", "", { "dependencies": { "@optique/core": "v0.9.0-dev.187", "@optique/run": "v0.9.0-dev.187", "@types/three": "^0.169.0", "@types/web-bluetooth": "^0.0.20", "comlink": "^4.4.1", "random-uint-below": "v3.3.0", "three": "^0.170.0", "type-fest": "^5.2.0" }, "bin": { "scramble": "dist/bin/scramble.js" } }, "sha512-zt69sFFFWl8YyNqy97fNqXoXrDzxfb7HktcGFoLzvbyp8TZeq1GsXHsr7kYLPOtED9ES7YlWxJmK5XYzNHxsfA=="],
+    "cubing": ["cubing@0.63.0", "", { "dependencies": { "@optique/core": "v0.9.0-dev.187", "@optique/run": "v0.9.0-dev.187", "@types/three": "^0.169.0", "@types/web-bluetooth": "^0.0.20", "random-uint-below": "v3.3.0", "three": "^0.170.0", "type-fest": "^5.2.0" }, "bin": { "scramble": "dist/bin/scramble.js" } }, "sha512-TbtZKVRcy6H4u6/wKAOa3thdJsU5vv08xJrag7QUPrl0FE0CtOyMvZkxMK/v93g8WpOVGV8+kdKgD1PM54ysVw=="],
 
     "debug": ["debug@4.4.0", "", { "dependencies": { "ms": "^2.1.3" } }, "sha512-6WTZ/IxCY/T6BALoZHaE4ctp9xm+Z5kY/pzYaCHRFeyVhojxlrm+46y68HA6hr0TcwEssoxNiDEUJQjfPZ/RYA=="],
 
