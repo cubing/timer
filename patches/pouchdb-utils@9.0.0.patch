@@ -1,0 +1,14 @@
+diff --git a/package.json b/package.json
+index 243eec55602b0d90e408a39a79601f9418597bed..c54a869f39b224a758e6e7149d466cc131b6283a 100644
+--- a/package.json
++++ b/package.json
+@@ -19,7 +19,8 @@
+   "dependencies": {
+     "pouchdb-errors": "9.0.0",
+     "pouchdb-md5": "9.0.0",
+-    "uuid": "8.3.2"
++    "uuid": "8.3.2",
++    "events": "*"
+   },
+   "files": [
+     "lib",

@@ -46,5 +46,8 @@
   },
   "@cubing/deploy": {
     "https://timer.cubing.net/": {}
+  },
+  "patchedDependencies": {
+    "pouchdb-utils@9.0.0": "patches/pouchdb-utils@9.0.0.patch"
   }
 }
