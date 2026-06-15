@@ -23,7 +23,7 @@ lint-tsc: setup
 
 .PHONY: setup
 setup:
-	bun install --no-save
+	bun install --frozen-lockfile
 
 .PHONY: test
 test: lint
