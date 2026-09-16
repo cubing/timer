@@ -2,6 +2,9 @@
 build: clean setup
 	bun run script/build.ts
 
+.PHONY: check
+check: lint build
+
 .PHONY: dev
 dev: setup
 	bun run script/dev.ts
