@@ -31,6 +31,7 @@
     "@types/chai": "^5.2.2",
     "@types/mocha": "^10.0.10",
     "barely-a-dev-server": "^0.8.1",
+    "bun-dx": "^0.1.4",
     "chai": "^5.2.1",
     "esbuild": "^0.25.8",
     "lib": "^5.1.0",
