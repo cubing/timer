@@ -55,7 +55,7 @@ export interface AttemptDataWithIDAndRev extends AttemptDataWithID {
 export enum PenaltyReason {
   UnknownPenalty = 0,
   Unsolved = 1,
-  Misalignment = 1,
+  Misalignment = 2,
 }
 
 export interface Penalty {

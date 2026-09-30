@@ -10,6 +10,10 @@
   },
   "linter": {
     "rules": {
+      "a11y": {
+        "useButtonType": "off",
+        "noSvgWithoutTitle": "off"
+      },
       "complexity": {
         "useLiteralKeys": "off"
       },

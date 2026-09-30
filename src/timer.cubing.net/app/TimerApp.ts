@@ -56,8 +56,6 @@ export class TimerApp {
     this.statsView = new StatsView(() => this.currentEvent);
     this.domElement = <HTMLElement>document.getElementById("timer-app");
 
-    this.enableOffline();
-
     this.domElement
       .querySelector(".stats")!
       .addEventListener("touchmove", this.onTouchMoveStats.bind(this));
@@ -124,10 +122,6 @@ export class TimerApp {
   // Selective enable scrolling the stats element.
   private onTouchMoveStats(e: Event) {
     e.stopPropagation();
-  }
-
-  private enableOffline() {
-    // const infoBar = document.getElementById("update-bar");
   }
 
   private setInitialEvent() {
@@ -231,7 +225,6 @@ export class TimerApp {
     await this.updateDisplayStats(true);
   }
 
-  // biome-ignore lint/correctness/noUnusedPrivateClassMembers: False positive: https://github.com/biomejs/biome/issues/7192
   #persistenceRequest: Promise<boolean> | undefined;
   private async persistResult(time: Milliseconds): Promise<void> {
     const attemptData: AttemptData = {
