@@ -11,8 +11,8 @@
   "linter": {
     "rules": {
       "a11y": {
-        "useButtonType": "off",
-        "noSvgWithoutTitle": "off"
+        "noSvgWithoutTitle": "off",
+        "useButtonType": "off"
       },
       "complexity": {
         "useLiteralKeys": "off"
